@@ -1,0 +1,78 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    content: null,
+    position: 'top',
+    style: 'base',
+    size: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    position: {
+        top: '-top-1 left-1/2 -translate-x-1/2 -translate-y-full',
+        right: 'top-1/2 -right-1 translate-x-full -translate-y-1/2',
+        bottom: '-bottom-1 left-1/2 -translate-x-1/2 translate-y-full',
+        left: 'top-1/2 -left-1 -translate-x-full -translate-y-1/2'
+    },
+    style: {
+        base: 'bg-zinc-900 text-white rounded w-[max-content]'
+    },
+    size: {
+        base: 'p-2 text-xs'
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        'inline-block relative',
+        params.class
+    ],
+    button: [
+        'cursor-pointer'
+    ],
+    content: [
+        'motion-safe:transition absolute w-[max-content]',
+        options.style[params.style],
+        options.size[params.size],
+        options.position[params.position]
+    ]
+} %}
+
+{# Output #}
+
+{% if params.content %}
+
+    <div x-data="{ visible: false }" class="{{ classes.wrapper|join(' ')|trim }}">
+        <div 
+            type="{{ classes.button|join(' ')|trim }}" 
+            aria-label="Tooltip" 
+            class="cursor-pointer" 
+            x-on:mouseover="visible = true" 
+            x-on:mouseleave="visible = false"
+        >
+            {% block button %}
+            {% endblock %}
+        </div>
+        <div 
+            class="{{ classes.content|join(' ')|trim }}" 
+            role="tooltip" 
+            x-cloak
+            x-bind:class="{ 
+                'opacity-0 pointer-events-none': !visible,
+                'opacity-100 pointer-events-auto': visible
+            }"
+        >
+            {{ params.content }}
+        </div>
+    </div>
+
+{% endif %}

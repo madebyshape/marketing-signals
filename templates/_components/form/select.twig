@@ -1,0 +1,114 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: 'select-' ~ random(1000, 9999),
+    name: null,
+    label: null,
+    required: false,    
+    value: null,
+    options: [],
+    disabled: false,
+    multiple: false,
+    instructions: null,
+    attributes: null,
+    colour: 'base',
+    size: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: {
+            field: 'bg-white text-zinc-900 border-zinc-400 placeholder-zinc-300 disabled:opacity-50 pointer-fine:hover:border-zinc-600 focus:border-zinc-900 focus:ring-zinc-200',
+            arrow: 'border-zinc-500',
+            label: 'base',
+            instructions: 'base'
+        }
+    },
+    size: {
+        base: {
+            field: 'text-base ring-3 px-3 py-3',
+            arrow: 'w-2 h-2 mr-6',
+            label: 'base'
+        }
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        'w-full'
+    ],
+    field: [
+        'appearance-none motion-safe:transition w-full block shadow-none outline-none border-1 rounded ring-transparent focus:ring-opacity-100',
+        options.colour[params.colour].field,
+        options.size[params.size].field,
+        params.class
+    ],
+    fieldWrapper: [
+        'relative'
+    ],
+    arrow: [
+        'absolute border-b border-l border-solid right-0 pointer-events-none top-1/2 transform -rotate-45 -mt-0.5 -translate-y-1/2 z-20',
+        options.colour[params.colour].arrow,
+        options.size[params.size].arrow
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+
+    {% include '_components/form/label' with {
+        params: {
+            id: params.id,
+            label: params.label,
+            colour: options.colour[params.colour].label,
+            size: options.size[params.size].label,
+            required: params.required
+        }
+    } only %}
+
+    <div class="{{ classes.fieldWrapper|join(' ')|trim }}">
+
+        {% if not params.multiple %}
+            <span class="{{ classes.arrow|join(' ')|trim }}"></span>
+        {% endif %}
+
+        <select
+            name="{{ params.name }}"
+            id="{{ params.id }}"
+            class="{{ classes.field|join(' ')|trim }}"
+            {{ params.required ? 'required' }}
+            {{ params.disabled ? 'disabled' }}
+            {{ params.multiple ? 'multiple' }}
+            {{ params.attributes|raw }}
+        >
+            {% for option in params.options %}
+                <option 
+                    value="{{ option.value is defined ? option.value : option.label }}"
+                    {{ option.default is defined ? 'disabled' }}
+                    {{ option.selected is defined or option.default is defined or option.value in params.value ? 'selected' }}
+                >
+                    {{- option.label -}}
+                </option>
+            {% endfor %}
+        </select>
+
+    </div>
+
+    {% include '_components/form/instructions' with {
+        params: {
+            instructions: params.instructions,
+            colour: options.colour[params.colour].instructions
+        }
+    } only %}
+
+</div>

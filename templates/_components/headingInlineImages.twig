@@ -1,0 +1,121 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    tag: 'h2',
+    heading: null,
+    images: [],
+    colour: 'base',
+    style: 'sans',
+    alignment: 'center',
+    size: '7xl',
+    imageSize: 'base',
+    class: null,
+    margin: 'none',
+    marginSize: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: 'text-black',
+    },
+    size: {
+        '2xl': 'text-2xl',
+        '3xl': 'text-3xl',
+        '4xl': 'text-4xl',
+        '5xl': 'text-5xl',
+        '6xl': 'text-6xl',
+        '7xl': 'text-7xl'
+    },
+    imageSize: {
+        base: 'w-32'
+    },
+    style: {
+        sans: 'font-sans-primary',
+        serif: 'font-serif-primary'
+    },
+    alignment: {
+        left: 'text-left justify-start',
+        center: 'text-center justify-center',
+    },
+    margin: {
+        base: {
+            none: 'm-0',
+            top: 'mt-10',
+            bottom: 'mb-10',
+            topBottom: 'my-10',
+        }
+    },
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    heading: [
+        'flex flex-wrap items-center',
+        options.alignment[params.alignment],
+        options.colour[params.colour],
+        options.size[params.size],
+        options.style[params.style],
+        options.margin[params.marginSize][params.margin],
+        params.class
+    ],
+    word: [
+        'inline mx-1.5',
+    ],
+    imageWrapper: [
+        'inline flex-shrink-0 relative p-1.5',
+        options.imageSize[params.imageSize],
+    ],
+    image: [
+        'w-full h-full overflow-hidden relative rounded-xl bg-zinc-100',
+    ],
+    picture: [
+        'w-full h-full object-cover object-center',
+    ]
+} %}
+
+{# Output #}
+
+{% apply spaceless %}
+
+    <{{ params.tag }} class="{{ classes.heading|join(' ')|trim }}">
+
+        {% for word in params.heading|split(' ') %}
+
+            <div class="{{ classes.word|join(' ')|trim }}">
+                {{ word|raw }}
+            </div>
+
+            {% for item in params.images|filter(item => item.image|length and item.position == loop.index) %}
+
+                <div class="{{ classes.imageWrapper|join(' ')|trim }}">
+
+                    <div class="{{ classes.image|join(' ')|trim }}">
+
+                        {% include '_components/picture' with {
+                            params: {
+                                image: item.image,
+                                transform: 'noRatio',
+                                ratio: false,
+                                imgClass: classes.picture|join(' ')|trim
+                            }
+                        } %}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% endfor %}
+
+    </{{ params.tag }}>
+
+{% endapply %}

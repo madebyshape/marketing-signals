@@ -1,0 +1,38 @@
+{# Block Defaults #}
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Options #}
+{% set blockOptions = {} %}
+
+{% embed '_components/section'
+	with {
+		params: params|merge({
+			paddingY: params.padding,
+		})
+	}
+%}
+	{% block sectionContent %}
+		{# Output #}
+		<div x-data="{{ params.handle }}">
+		</div>
+	{% endblock %}
+{% endembed %}
+
+{# prettier-ignore-start #}
+{% js %}
+	document.addEventListener('alpine:init', () => {
+		Alpine.data('{{ params.handle }}', () => ({
+			variable: false,
+			init() {
+				this.variable = true
+			}
+		}))
+	})
+{% endjs %}
+{# prettier-ignore-end #}

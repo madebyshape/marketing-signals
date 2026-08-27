@@ -1,0 +1,48 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    text: null,
+    colour: 'base',
+    margin: 'none',
+    marginSize: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: 'text-black',
+    },
+    margin: {
+        base: {
+            none: 'm-0',
+            top: 'mt-10',
+            bottom: 'mb-10',
+            topBottom: 'my-10',
+        }
+    },
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        options.margin[params.marginSize][params.margin] ?: '',
+        params.class ?: ''
+    ],
+    eyebrow: [
+        'relative text-sm pl-3 after:absolute after:left-0 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:rounded-full after:bg-current',
+        options.colour[params.colour] ?: '',
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+    <div class="{{ classes.eyebrow|join(' ')|trim }}">{{ params.text }}</div>
+</div>

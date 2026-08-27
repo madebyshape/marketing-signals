@@ -1,0 +1,266 @@
+{# Default Params #}
+
+{% set defaultParams = {
+	component: 'video',
+	id: null,
+	videoUrl: null,
+	aspectRatio: '16x9',
+	class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+	aspectRatio: {
+		'16x9': 'aspect-[16/9]',
+		'4x3': 'aspect-[4/3]',
+		'1x1': 'aspect-[1/1]',
+	},
+} %}
+
+{# Classes #}
+
+{% set classes = {
+	wrapper: [
+		'w-full relative grid group',
+		params.class
+	],
+	cta: [
+		'col-start-1 row-start-1 z-20 flex items-center justify-center transition duration-1000',
+	],
+	video: [
+		'col-start-1 row-start-1 flex w-full rounded-3xl overflow-hidden bg-zinc-100',
+		options.aspectRatio[params.aspectRatio],
+	],
+	iframe: [
+		'w-full h-full inset-0 pointer-events-none | js-video',
+		"js-video-#{params.id}"
+	],
+	controlsWrapper: [
+		'opacity-0 pointer-events-none w-full absolute bottom-0 left-0 z-30 flex items-end p-3 transition duration-1000',
+	],
+	controlsInner: [
+		'w-full bg-black/20 backdrop-blur-md rounded-2xl flex items-center justify-between p-4 gap-x-5',
+	],
+	control: [
+		'inline-flex justify-center w-5 flex-shrink-0 text-white | pointer-fine:hover:text-white/50',
+	],
+	progressWrapper: [
+		'flex-1 h-px bg-white/40 relative ml-3',
+	],
+	progress: [
+		'absolute top-0 left-0 h-full bg-white',
+	],
+} %}
+
+{% set vimeoId = params.videoUrl|split('/') %}
+{% set vimeoId = vimeoId[vimeoId|length - 1] %}
+
+{# Output #}
+
+{% if params.id|length %}
+
+	<div
+		class="{{ classes.wrapper|join(' ')|trim }}"
+		x-data="{{ params.component }}"
+		x-init="init({{ params.id }})"
+	>
+
+		{# CTA #}
+
+		<a
+			href="#"
+			class="{{ classes.cta|join(' ')|trim }}"
+			x-on:click.prevent="playing = !playing"
+			x-bind:class="{
+				'opacity-0': playing,
+			}"
+		>
+
+			<span class="text-white text-2xl" aria-hidden="true">
+				<i class="fa-sharp fa-solid fa-play"></i>
+			</span>
+
+		</a>
+
+		{# Video #}
+
+		<div class="{{ classes.video|join(' ')|trim }}">
+
+			<iframe
+				src="https://player.vimeo.com/video/{{ vimeoId }}?background=1"
+				frameborder="0"
+				allowfullscreen
+				allow="autoplay; fullscreen; picture-in-picture"
+				class="{{ classes.iframe|join(' ')|trim }}"
+			>
+			</iframe>
+
+		</div>
+
+		{# Controls #}
+
+		<div
+			class="{{ classes.controlsWrapper|join(' ')|trim }}"
+			x-bind:class="{
+				'opacity-0 pointer-events-none': !playing,
+			}"
+		>
+
+			<div class="{{ classes.controlsInner|join(' ')|trim }}">
+
+				{# Controls #}
+
+				{% for control in [
+					{
+						attributes: 'x-on:click.prevent="paused = !paused"',
+						icon: 'fa-solid fa-sharp fa-pause',
+						iconAttributes: '
+							x-bind:class="{
+								\'fa-solid fa-sharp fa-pause\' : !paused,
+								\'fa-solid fa-sharp fa-play\' : paused,
+							}"
+						'
+					},
+					{
+						attributes: 'x-on:click.prevent="muted = !muted"',
+						icon: 'fa-solid fa-sharp fa-volume-xmark',
+						iconAttributes: '
+							x-bind:class="{
+								\'fa-solid fa-sharp fa-volume-xmark\' : muted,
+								\'fa-solid fa-sharp fa-volume-high\' : !muted,
+							}"
+						'
+					},
+				] %}
+
+					<a
+						href="#"
+						class="{{ classes.control|join(' ')|trim }}"
+						{{ control.attributes|raw }}
+					>
+						<i
+							class="{{ control.icon }}"
+							{{ control.iconAttributes|raw }}
+						></i>
+
+					</a>
+
+				{% endfor %}
+
+				{# Progress #}
+
+				<div class="{{ classes.progressWrapper|join(' ')|trim }}">
+					<div class="{{ classes.progress|join(' ')|trim }}" x-ref="videoProgress"></div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	{% js 'https://player.vimeo.com/api/player.js' %}
+
+	{% js %}
+
+		document.addEventListener('alpine:init', () => {
+			Alpine.data('{{ params.component }}', () => ({
+				playing: false,
+				paused: false,
+				muted: true,
+				init(id) {
+
+					const _self = this;
+
+					// Toggle Pause State
+
+					_self.$watch('paused', (value) => {
+
+						const video = document.querySelector(`.js-video-${id}`);
+						const player = new Vimeo.Player(video);
+
+						if (value) {
+							player.pause();
+						} else {
+							player.play();
+						}
+
+					});
+
+					// Toggle Volume State
+
+					_self.$watch('muted', (value) => {
+
+						const video = document.querySelector(`.js-video-${id}`);
+						const player = new Vimeo.Player(video);
+
+						if (value) {
+							player.setVolume(0);
+						} else {
+							player.setVolume(1);
+						}
+
+					});
+
+					_self.$watch('playing', (value) => {
+
+						const video = document.querySelector(`.js-video-${id}`);
+						const player = new Vimeo.Player(video);
+
+						if (value) {
+
+							player.setVolume(1);
+							player.setCurrentTime(0);
+							player.play();
+
+							_self.playing = true;
+							_self.muted = false;
+
+							// Update Progress Bar
+
+							player.on('timeupdate', function(data) {
+
+								const progress = _self.$refs.videoProgress;
+								const percent = (data.percent * 100) + '%';
+
+								progress.style.width = percent;
+
+							});
+
+							player.on('ended', function() {
+
+								player.setVolume(0);
+								player.setCurrentTime(0);
+								player.pause();
+
+								_self.active = false;
+								_self.playing = false;
+								_self.muted = true;
+
+							})
+
+
+						} else {
+
+							_self.paused = false;
+
+							player.setVolume(0);
+							player.play();
+
+						}
+
+					});
+
+
+				}
+			}))
+		})
+
+	{% endjs %}
+
+{% endif %}

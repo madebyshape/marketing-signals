@@ -1,0 +1,93 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    items: null,
+    visibleIndex: 0,
+    class: null,
+    style: 'base'
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    style: {
+        base: {
+            nav: 'bg-zinc-100',
+            tab: '',
+            tabActive: 'bg-zinc-900 text-white',
+            tabInactive: 'bg-zinc-100 text-zinc-900 pointer-fine:hover:bg-zinc-200',
+            content: 'border-b border-zinc-200'
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    nav: [
+        'flex items-center space-x-1 p-1 rounded-lg',
+        options.style[params.style].nav
+    ],
+    tab: [
+        'motion-safe: cursor-pointer py-1 px-2 rounded-md',
+        options.style[params.style].tab
+    ],
+    tabActive: [
+        options.style[params.style].tabActive
+    ],
+    tabInactive: [
+        options.style[params.style].tabInactive
+    ],
+    content: [
+        'px-1 py-4',
+        options.style[params.style].content
+    ]
+} %}
+
+{# Output #}
+
+{% if params.items|length %}
+
+    <div x-data="{ visible: '{{ params.items[params.visibleIndex].label|kebab }}' }"  class="">
+        <nav class="{{ classes.nav|join(' ')|trim }}" aria-label="Tabs" role="tablist" aria-orientation="horizontal">
+            {% for item in params.items %}
+                {% set itemId = item.label|kebab %}
+                <button 
+                    id="tab-{{ itemId }}"
+                    class="{{ classes.tab|join(' ')|trim }}" 
+                    role="tab" 
+                    aria-controls="content-{{ itemId}}" 
+                    x-on:click="visible = '{{ itemId }}'" 
+                    x-bind:aria-selected="visible === '{{ itemId }}'"
+                    x-bind:class="{ 
+                        '{{- classes.tabActive|join(' ')|trim -}}': visible === '{{ itemId }}',
+                        '{{- classes.tabInactive|join(' ')|trim -}}': visible !== '{{ itemId }}'
+                    }"
+                >
+                    {{ item.label }}
+                </button>
+            {% endfor %}
+        </nav>
+        <div class="">
+            {% for item in params.items %}
+                {% set itemId = item.label|kebab %}
+                <div 
+                    id="content-{{ itemId}}"
+                    class="{{ classes.content|join(' ')|trim }}" 
+                    role="tabpanel"
+                    aria-labelledby="tab-{{ itemId}}" 
+                    x-bind:aria-hidden="visible !== '{{ itemId }}'"
+                    x-show="visible === '{{ itemId }}'" 
+                    x-cloak
+                >
+                    {{ item.content }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endif %}

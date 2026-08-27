@@ -1,0 +1,62 @@
+{# Default Params #}
+
+{% set defaultParams = {
+	badge: null,
+	colour: 'base',
+	size: 'base',
+	prefix: null,
+	suffix: null,
+	class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+	colour: {
+		base: {
+			text: 'text-white',
+			bg: 'bg-black',
+			border: 'border-black'
+		}
+	},
+	size: {
+		base: {
+			text: 'text-xs lg:text-sm',
+			gap: 'gap-x-1.5 lg:gap-x-2.5',
+			padding: 'px-2 py-1 lg:py-2 lg:px-2.5',
+			border: 'border'
+		}
+	}
+} %}
+
+{# Classes #}
+
+{% set classes = {
+   badge: [
+		'inline-flex items-center font-sans-primary font-normal leading-none rounded-full',
+		options.size[params.size].text,
+		options.size[params.size].gap,
+		options.size[params.size].padding,
+		options.size[params.size].border,
+		options.colour[params.colour].text,
+		options.colour[params.colour].bg,
+		options.colour[params.colour].border,
+		params.class
+   ]
+} %}
+
+{# Output #}
+
+{% if params.badge|length %}
+	<div class="{{ classes.badge|join(' ')|trim }}">
+		{{ params.prefix|raw }}
+		<div>
+			{{ params.badge }}
+		</div>
+		{{ params.suffix|raw }}
+	</div>
+{% endif %}

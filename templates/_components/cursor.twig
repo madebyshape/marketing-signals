@@ -1,0 +1,120 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    component: 'cursor',
+    icon: 'fa-regular fa-sharp',
+    colour: 'base',
+    size: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: 'bg-zinc-900 text-white',
+    },
+    size: {
+        base: 'w-20 h-20 text-2xl',
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    cursor: [
+        'hidden pointer-events-none fixed z-50 isolate overflow-hidden rounded-full transition scale-0 items-center justify-center pointer-fine:flex',
+        options.colour[params.colour],
+        options.size[params.size],
+        params.class
+    ],
+} %}
+
+{# Output #}
+
+<div
+    x-data="{{ params.component }}"
+    @component-cursor.window="
+
+        active = false;
+        text = false;
+
+        if ($event.detail.active) {
+            active = $event.detail.active;
+        }
+
+        if ($event.detail.icon) {
+            icon = $event.detail.icon;
+        }
+
+    "
+>
+
+    <div
+        class="{{ classes.cursor|join(' ')|trim }}"
+        x-ref="cursor"
+        x-bind:class="{
+            'scale-100': active,
+            'scale-0': !active
+        }"
+    >
+
+        <i
+            class="{{ params.icon }}"
+            x-show="icon"
+            x-bind:class="icon"
+        >
+        </i>
+
+    </div>
+
+</div>
+
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ params.component }}', () => ({
+            active: false,
+            text: false,
+            icon: false,
+            init() {
+
+                const _self = this;
+                const cursor = _self.$refs.cursor;
+
+                document.addEventListener('pointermove', (e) => {
+
+                    const left = e.clientX - cursor.clientWidth / 2;
+                    const top = e.clientY - cursor.clientHeight / 2;
+
+                    cursor.style.left = `${left}px`;
+                    cursor.style.top = `${top}px`;
+
+                });
+
+                _self.$watch('icon', value => {
+
+                    value ? _self.icon = value : _self.icon = false;
+                });
+
+                _self.$watch('active', value => {
+
+                    value ? _self.active = true : _self.active = false;
+
+                    if (_self.active) {
+                        document.body.style.cursor = 'none';
+                    } else {
+                        document.body.style.cursor = 'default';
+                    }
+
+                });
+
+            }
+        }));
+    });
+
+{% endjs %}

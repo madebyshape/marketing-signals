@@ -1,0 +1,27 @@
+{% if craft.app.config.env == 'dev' %}
+    <div class="fixed top-0 left-0 w-fill h-screen z-50">
+        <div class="absolute bottom-0 left-0 py-2 px-4 bg-black font-sans-primary text-white tracking-tight leading-tight text-sm rounded-xl m-2 z-50">
+            <span class="md:hidden">
+                Small
+            </span>
+            <span class="hidden md:block | lg:hidden">
+                Medium
+            </span>
+            <span class="hidden lg:block | xl:hidden">
+                Large
+            </span>
+            <span class="hidden xl:block | 2xl:hidden">
+                XLarge
+            </span>
+            <span class="hidden 2xl:block | 3xl:hidden">
+                XXLarge
+            </span>
+            <span class="hidden 3xl:block | 4xl:hidden">
+                XXXLarge
+            </span>
+            <span class="hidden 4xl:block">
+                XXXXLarge
+            </span>
+        </div>
+    </div>
+{% endif %}

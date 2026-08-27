@@ -1,0 +1,36 @@
+{# Default Params #}
+
+{% set defaultParams = {
+   content: null,
+   size: 'base',
+   class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+   size: {
+      sm: 'w-8',
+      base: 'w-10',
+      lg: 'w-12'
+   }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+   wrapper: [
+      options.size[params.size],
+      params.class
+   ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+   {{ content }}
+</div>

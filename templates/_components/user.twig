@@ -1,0 +1,94 @@
+{# Default Params #}
+
+{% set defaultParams = {
+	image: null,
+	preHeading: null,
+	heading: null,
+	subHeading: null,
+	colour: 'base',
+	size: 'base',
+	class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+	colour: {
+		base: {
+			preHeading: 'text-zinc-500',
+			heading: 'text-zinc-900',
+			subHeading: 'text-zinc-900',
+			avatar: 'base'
+		}
+	},
+	size: {
+		base: {
+			preHeading: 'text-xs',
+			heading: 'text-base',
+			subHeading: 'text-sm',
+			avatar: 'base'
+		}
+	}
+} %}
+
+{# Classes #}
+
+{% set classes = {
+	wrapper: [
+        'flex items-center gap-3',
+        params.class
+    ],
+	headings: [
+        'flex flex-col items-start leading-tight tracking-tight'
+    ],
+	preHeading: [
+        options.size[params.size].preHeading,
+        options.colour[params.colour].preHeading
+    ],
+	heading: [
+		'font-medium',
+        options.size[params.size].heading,
+        options.colour[params.colour].heading
+    ],
+	subHeading: [
+        options.size[params.size].subHeading,
+        options.colour[params.colour].subHeading
+	]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+	{% include '_components/avatar' with {
+		params: {
+			image: params.image,
+			name: params.heading,
+			size: options.size[params.size].avatar,
+			colour: options.colour[params.colour].avatar
+		}
+	} only %}
+
+	<div class="{{ classes.headings|join(' ')|trim }}">
+		{% if params.preHeading|length %}
+			<div class="{{ classes.preHeading|join(' ')|trim }}">
+				{{ params.preHeading }}
+			</div>
+		{% endif %}
+
+		{% if params.heading|length %}
+			<div class="{{ classes.heading|join(' ')|trim }}">
+				{{ params.heading }}
+			</div>
+		{% endif %}
+
+		{% if params.subHeading|length %}
+			<div class="{{ classes.subHeading|join(' ')|trim }}">
+				{{ params.subHeading }}
+			</div>
+		{% endif %}
+	</div>
+</div>

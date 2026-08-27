@@ -1,0 +1,87 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: 'textarea-' ~ random(1000, 9999),
+    name: null,
+    label: null,
+    required: false,    
+    value: null,
+    placeholder: null,
+    disabled: false,
+    instructions: null,
+    attributes: null,
+    colour: 'base',
+    size: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: {
+            field: 'bg-white text-zinc-900 border-zinc-400 placeholder-zinc-300 disabled:opacity-50 pointer-fine:hover:border-zinc-600 focus:border-zinc-900 focus:ring-zinc-200',
+            label: 'base',
+            instructions: 'base'
+        }
+    },
+    size: {
+        base: {
+            field: 'text-base ring-3 px-3 py-3',
+            label: 'base'
+        }
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        'w-full'
+    ],
+    field: [
+        'appearance-none motion-safe:transition w-full block shadow-none outline-none border-1 rounded ring-transparent min-h-32 focus:ring-opacity-100',
+        options.colour[params.colour].field,
+        options.size[params.size].field,
+        params.class
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+
+    {% include '_components/form/label' with {
+        params: {
+            id: params.id,
+            label: params.label,
+            colour: options.colour[params.colour].label,
+            size: options.size[params.size].label,
+            required: params.required
+        }
+    } only %}
+
+    <textarea
+        name="{{ params.name }}"
+        id="{{ params.id }}"
+        class="{{ classes.field|join(' ')|trim }}"
+        {{ params.required ? 'required' }}
+        {{ params.disabled ? 'disabled' }}
+        {{ params.placeholder ? ('placeholder="' ~ params.placeholder ~ '"')|raw }}
+        {{ params.attributes|raw }}
+    >
+        {{- params.value -}}
+    </textarea>
+
+    {% include '_components/form/instructions' with {
+        params: {
+            instructions: params.instructions,
+            colour: options.colour[params.colour].instructions
+        }
+    } only %}
+
+</div>

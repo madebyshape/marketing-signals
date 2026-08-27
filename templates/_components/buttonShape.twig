@@ -1,0 +1,73 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    type: 'a',
+    button: null,
+    colour: 'base',
+    size: 'base',
+    icon: null,
+    text: null,
+    class: null,
+    attributes: null  
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: {
+            button: 'bg-black ring-black/50 pointer-fine:hover:bg-zinc-600',
+            icon: 'text-white'
+        }
+    },
+    size: {
+        base: 'w-10 h-10',
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    button: [
+        'group relative cursor-pointer flex-shrink-0 inline-flex justify-center items-center rounded-full border gap-x-3 duration-300 motion-safe:transition focus:outline-none focus:ring-3',
+        options.size[params.size] ?: '',
+        options.colour[params.colour].button ?: '',
+        params.class ?: ''
+    ],
+    icon: [
+        'inline-block text-base align-middle motion-safe:transition',
+        options.colour[params.colour].icon ?: ''
+    ]
+} %}
+
+{# Output #}
+
+{% if params.button|length %}
+    <{{ params.type }}
+        {% if params.type == 'a' %}
+            href="{{ params.button.value }}"
+            {% if params.button.target is defined %}
+                target="{{ params.button.target }}"
+                {% if params.button.target == '_blank' %}
+                    rel="noopener noreferrer"
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        class="{{ classes.button|join(' ')|trim }}"
+        {{ params.attributes|raw }}
+    >
+        {% if params.icon %}
+            <span class="{{ classes.icon|join(' ')|trim }}" aria-hidden="true">
+                <i class="{{ params.icon }}"></i>
+            </span>
+        {% endif %}
+        {% if params.text %}
+            <span class="{{ classes.icon|join(' ')|trim }}">{{ params.text }}</span>
+        {% endif %}
+    </{{ params.type }}>
+{% endif %}
+

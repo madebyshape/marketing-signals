@@ -1,0 +1,64 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: null,
+    class: null,
+    attributes: null,
+    paddingY: 'topBottom',
+    paddingYSize: 'base',
+    paddingX: 'leftRight'
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    paddingY: {
+        base: {
+            top: 'pt-20',
+            bottom: 'pb-20',
+            topBottom: 'py-20',
+            none: 'py-0'
+        }
+    },
+    paddingX: {
+        leftRight: vars is defined ? vars.class.siteMargin.x : 'px-10',
+        left: vars is defined ? vars.class.siteMargin.l : 'pl-10',
+        right: vars is defined ? vars.class.siteMargin.r : 'pr-10',
+        none: 'px-0'
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    section: [
+        'w-full',
+        options.paddingY[params.paddingYSize][params.paddingY],
+        params.class
+    ],
+    content: [
+        'w-full',
+        options.paddingX[params.paddingX]
+    ]
+} %}
+
+{# Output #}
+
+<section
+    class="{{ classes.section|join(' ')|trim }}"
+    {{ params.id|length ? 'id="' ~ params.id ~ '"' }}
+    {{ params.attributes|raw }}
+>
+
+    <div class="{{ classes.content|join(' ')|trim }}">
+
+        {% block sectionContent %}
+        {% endblock %}
+
+    </div>
+
+</section>

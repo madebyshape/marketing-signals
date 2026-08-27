@@ -1,0 +1,56 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: 'label-' ~ random(1000, 9999),
+    label: null,
+    required: false,
+    colour: 'base',
+    size: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: {
+            label: 'text-zinc-800',
+            required: 'text-zinc-500'
+        }
+    },
+    size: {
+        base: {
+            label: 'text-base font-medium mb-1',
+            required: 'text-sm'
+        }
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    label: [
+        'inline-block w-full',
+        options.colour[params.colour].label,
+        options.size[params.size].label
+    ],
+    required: [
+        options.colour[params.colour].required,
+        options.size[params.size].required
+    ]
+} %}
+
+{# Output #}
+
+{% if params.label %}
+
+    <label class="{{ classes.label|join(' ')|trim }}" for="{{ params.id }}">
+        {{ params.label }}
+        {% if params.required %}<span class="{{ classes.required|join(' ')|trim }}">*</span>{% endif %}
+    </label>
+
+{% endif %}

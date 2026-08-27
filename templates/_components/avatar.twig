@@ -1,0 +1,73 @@
+{# Default Params #}
+
+{% set defaultParams = {
+	image: null,
+	name: null,
+	colour: 'base',
+	size: 'base',
+	class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+	colour: {
+		base: {
+			image: 'bg-zinc-200',
+			name: 'text-zinc-900'
+		}
+	},
+	size: {
+		base: {
+			image: 'w-14 h-14',
+			name: 'text-xl'
+		}
+	}
+} %}
+
+{# Classes #}
+
+{% set classes = {
+	wrapper: [
+		'flex items-center justify-center flex-shrink-0 relative overflow-hidden rounded-full',
+		options.colour[params.colour].image,
+        options.size[params.size].image,
+        params.class
+	],
+	image: [
+		'w-full h-full object-cover absolute inset-0'
+	],
+	name: [
+        'font-medium',
+        options.size[params.size].name,
+        options.colour[params.colour].name
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+	{% if params.image|length %}
+		{% include '_components/picture' with {
+			params: {
+				image: params.image,
+				transform: '1x1',
+				ratio: false,
+				imgClass: params.image
+			}
+		} %}
+	{% else %}
+		<div class="{{ classes.name|join(' ')|trim }}">
+			{% set nameParts = params.name|split(' ') %}
+            {% if (nameParts|length) > 1 %}
+                {{ nameParts[0]|slice(0, 1) }}{{ nameParts|last|slice(0, 1) }}
+            {% else %}
+                {{ params.name|slice(0, 1) }}
+            {% endif %}
+		</div>
+	{% endif %}
+</div>

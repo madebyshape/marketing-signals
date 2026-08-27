@@ -1,0 +1,113 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: null,
+    items: null,
+    ease: 'smooth',
+    props: null,
+    class: null,
+    innerClass: null,
+    slideClass: null,
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    ease: {
+        smooth: 'ease-out!',
+        linear: 'ease-linear!',
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'w-full relative',
+        params.class
+    ],
+    swiper: [
+        'swiper w-full relative z-0',
+        'js-carousel-' ~ params.id
+    ],
+    inner: [
+        'swiper-wrapper',
+        options.ease[params.ease],
+        params.innerClass
+    ],
+    slide: [
+        'swiper-slide flex! h-auto!',
+        params.slideClass
+    ]
+} %}
+
+{# Output #}
+
+{% if params.items and params.id %}
+
+    <div
+        class="{{ classes.wrapper|join(' ')|trim }}"
+        x-data="carousel"
+        x-init='build("{{ params.id }}", {{ params.props|json_encode|raw }})'
+    >
+
+        {% block beforeContent %}{% endblock %}
+
+        <div class="{{ classes.swiper|join(' ')|trim }}">
+
+            <div class="{{ classes.inner|join(' ')|trim }}">
+
+                {% for item in params.items %}
+
+                    <div class="{{ classes.slide|join(' ')|trim }}">
+                        {% block slideContent %}{% endblock %}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        {% block afterContent %}{% endblock %}
+
+    </div>
+
+{% endif %}
+
+
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('carousel', () => ({
+            activeIndex: 0,
+            build(id, props) {
+
+                const _self = this;
+
+                const prevButton = document.querySelector(`.js-carousel-prev-${id}`);
+                const nextButton = document.querySelector(`.js-carousel-next-${id}`);
+
+                const swiper = new Swiper(`.js-carousel-${id}`, {
+                    ...props,
+                    ...(prevButton && nextButton ? {
+                        navigation: {
+                            prevEl: prevButton,
+                            nextEl: nextButton,
+                        },
+                    } : {}),
+                });
+
+                swiper.on('slideChange', () => {
+                    _self.activeIndex = swiper.realIndex;
+                });
+
+            },
+        }));
+    });
+
+{% endjs %}

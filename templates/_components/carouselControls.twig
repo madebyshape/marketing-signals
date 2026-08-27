@@ -1,0 +1,51 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: null,
+    colour: 'base',
+    class: null,
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'inline-flex items-center gap-x-2',
+        params.class
+    ]
+} %}
+
+{# Output #}
+
+{% if params.id %}
+
+    <div class="{{ classes.wrapper|join(' ')|trim }}">
+
+        {% for control in [
+            { direction: 'prev', icon: 'fa-sharp fa-regular fa-arrow-left' },
+            { direction: 'next', icon: 'fa-sharp fa-regular fa-arrow-right' }
+        ] %}
+
+            {% include '_components/buttonShape' with {
+                params: {
+                    type: 'button',
+                    button: { value: '#' },
+                    icon: control.icon,
+                    colour: params.colour,
+                    class: 'js-carousel-' ~ control.direction ~ '-' ~ params.id,
+                }
+            } %}
+
+        {% endfor %}
+
+    </div>
+
+{% endif %}

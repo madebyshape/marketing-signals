@@ -1,0 +1,96 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    type: 'a',
+    button: {},
+    colour: 'base',
+    size: 'base',
+    icon: 'fa-sharp fa-regular fa-arrow-right',
+    iconPosition: 'after',
+    class: '',
+    attributes: ''
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: 'bg-black text-white ring-black/50 pointer-fine:hover:bg-zinc-600',
+    },
+    size: {
+        base: 'text-md px-5 py-3 rounded-md'
+    },
+    iconPosition: {
+        before: {
+            button: 'flex-row-reverse',
+            label: 'pointer-fine:group-hover:-translate-x-6',
+            left: 'inline-flex items-center scale-100 pointer-fine:group-hover:scale-0',
+            right: 'absolute right-5 inset-y-0 flex items-center scale-0 pointer-fine:group-hover:scale-100'
+        },
+        after: {
+            button: 'flex-row',
+            label: 'pointer-fine:group-hover:translate-x-6',
+            left: 'absolute left-5 inset-y-0 flex items-center scale-0 pointer-fine:group-hover:scale-100',
+            right: 'inline-flex items-center scale-100 pointer-fine:group-hover:scale-0'
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    button: [
+        'group inline-flex flex-shrink-0 items-center relative gap-x-2 leading-none overflow-hidden border border-transparent cursor-pointer motion-safe:transition focus:outline-none focus:ring-3',
+        options.size[params.size],
+        options.colour[params.colour],
+        params.icon ? options.iconPosition[params.iconPosition].button : '',
+        params.class
+    ],
+    label: [
+        'relative motion-safe:transition duration-300',
+        params.icon ? options.iconPosition[params.iconPosition].label : ''
+    ],
+    left: [
+        'motion-safe:transition duration-300',
+        options.iconPosition[params.iconPosition].left
+    ],
+    right: [
+        'motion-safe:transition duration-300',
+        options.iconPosition[params.iconPosition].right
+    ]
+} %}
+
+{# Output #}
+
+{% if params.button|length %}
+
+    <{{ params.type }}
+        {% if params.type == 'a' %}
+            href="{{ params.button.value }}"
+            {% if params.button.target is defined %}
+                target="{{ params.button.target }}"
+                {% if params.button.target == '_blank' %}
+                    rel="noopener noreferrer"
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        class="{{ classes.button|join(' ')|trim }}"
+        {{ params.attributes|raw }}
+    >
+        <span class="{{ classes.label|join(' ')|trim }}">{{ params.button.label }}</span>
+
+        {% if params.icon %}
+            <span class="{{ classes.right|join(' ')|trim }}" aria-hidden="true">
+                <i class="{{ params.icon }}"></i>
+            </span>
+            <span class="{{ classes.left|join(' ')|trim }}" aria-hidden="true">
+                <i class="{{ params.icon }}"></i>
+            </span>
+        {% endif %}
+    </{{ params.type }}>
+
+{% endif %}

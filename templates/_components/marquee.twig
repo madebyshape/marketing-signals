@@ -1,0 +1,107 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    component: 'marquee',
+    id: '1',
+    items: null,
+    props: {
+        reversed: false,
+        repeat: -1,
+        speed: 1,
+        pauseOnHover: false
+    },
+    class: null,
+    attributes: null,
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Merge Props #}
+
+{% set params = params|merge({
+    props: defaultParams.props|merge(params.props ?? {})
+}) %}
+
+{# Options #}
+
+{% set options = {
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        'w-full flex overflow-x-hidden relative',
+        params.class
+    ]
+} %}
+
+{# Output #}
+
+    <div 
+        class="{{ classes.wrapper|join(' ')|trim }}"
+        x-data="{{ params.component }}"
+        x-init='init("{{ params.component }}", {{ params.props|json_encode|raw }})'
+        {{ params.attributes|raw }}
+    >
+        {% for i in 0..1 %}
+            <div class="{{ params.component }} flex items-center flex-shrink-0 gap-x-8 last:!mr-8">
+                {% block marqueeContent %}
+                {% endblock %}
+            </div>
+        {% endfor %}
+    </div>
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ params.component }}', () => ({
+            init(component, props) { 
+
+                // Ensure props is an object with defaults
+                props = props || {};
+                const config = {
+                    reversed: props.reversed ?? false,
+                    repeat: props.repeat ?? -1,
+                    speed: props.speed ?? 1,
+                    pauseOnHover: props.pauseOnHover ?? false
+                };
+
+                // Scope selector to current component instance
+                const wrapper = this.$el;
+                const marquee = wrapper.querySelectorAll('.' + component);
+
+                // If no marquee elements are found, return
+                if (!marquee || marquee.length === 0) {
+                    return;
+                }
+        
+                // Create the marquee loop
+                const marqueeLoop = gsapHorizontalLoop(marquee, {
+                    reversed: config.reversed,
+                    repeat: config.repeat,
+                    speed: config.speed
+                });
+
+                // Block for custom JS content
+                {% block jsContent %}
+                {% endblock %}
+
+                // Pause on hover
+                if (config.pauseOnHover) {
+                    marquee.forEach(link => {
+                        link.addEventListener('mouseenter', () => gsap.to(marqueeLoop, { timeScale: 0, overwrite: true }));
+                        link.addEventListener('mouseleave', () => gsap.to(marqueeLoop, { timeScale: 1, overwrite: true }));
+                    });
+                }
+
+            }
+
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}

@@ -1,0 +1,75 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: null,
+    colour: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: {
+            track: 'bg-zinc-200',
+            bar: 'bg-zinc-900',
+        }
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    track: [
+        'w-full h-2',
+        params.class,
+        options.colour[params.colour].track
+    ],
+    bar: [
+        'h-2',
+        options.colour[params.colour].bar
+    ]
+} %}
+
+{# Output #}
+
+<div
+    x-data="scrollProgress"
+    x-init="init('{{ params.id }}')" 
+    class="{{ classes.track|join(' ')|trim }}"
+>
+    <div class="{{ classes.bar|join(' ')|trim }}" style="width: 0%"></div>
+</div>
+
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('scrollProgress', () => ({
+            init(id) {
+
+                const container = document.querySelector('#' + id);
+                const progress = this.$el.firstElementChild;
+
+                ScrollTrigger.create({
+                    trigger: container,
+                    scrub: true,
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    onUpdate: self => {
+                        gsap.to(progress, {
+                            width: self.progress * 100 + '%',
+                            duration: 0.4,
+                            ease: 'power1.out'
+                        });
+                    }
+                });
+
+            }
+        }))
+    })
+
+{% endjs %}

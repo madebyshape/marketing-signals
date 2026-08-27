@@ -1,0 +1,85 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    links: [],
+    colour: 'base',
+    size: 'base',
+    direction: 'horizontal',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    icons: {
+        twitter: 'fa-x-twitter',
+        x: 'fa-x-twitter',
+        facebook: 'fa-facebook-f',
+        instagram: 'fa-instagram',
+        linkedin: 'fa-linkedin-in',
+        youtube: 'fa-youtube',
+        tiktok: 'fa-tiktok',
+        github: 'fa-github',
+        behance: 'fa-behance',
+        vimeo: 'fa-vimeo-v',
+        pinterest: 'fa-pinterest-p',
+        reddit: 'fa-reddit-alien'
+    },
+    colour: {
+        base: 'bg-zinc-100 hover:bg-zinc-900 hover:text-white'
+    },
+    size: {
+        base: 'w-9 h-9 text-sm'
+    },
+    direction: {
+        horizontal: 'flex flex-row space-x-1',
+        vertical: 'flex flex-col space-y-1'
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        options.direction[params.direction],
+        params.class
+    ],
+    link: [
+        'transition-all block flex items-center justify-center rounded-full',
+        options.colour[params.colour],
+        options.size[params.size]
+    ]
+} %}
+
+{# Output #}
+
+<nav x-data aria-label="Social links">    
+
+    <ul class="{{ classes.wrapper|join(' ')|trim }}">
+
+        {% for link in params.links %}
+
+            <li>
+            
+                <a 
+                    href="{{ link.url }}" 
+                    class="{{ classes.link|join(' ')|trim }}"
+                    aria-label="{{ link.title }}"
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                >
+                    <i class="fa-brands {{ options.icons[link.handle] }}" aria-hidden="true"></i>
+                    <span class="sr-only">{{ link.title }}</span>
+                </a>
+
+            </li>
+
+        {% endfor %}    
+
+    </ul>
+
+</nav>

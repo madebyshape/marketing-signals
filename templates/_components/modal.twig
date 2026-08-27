@@ -1,0 +1,115 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: null,
+    style: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    style: {
+        base: {
+            overlay: 'bg-zinc-900/85',
+            closeButton: 'text-zinc-500 hover:text-zinc-900',
+            panel: 'text-black bg-white'
+        },
+        dark: {
+            overlay: 'bg-zinc-900/85',
+            closeButton: 'text-zinc-100 hover:text-zinc-300',
+            panel: 'text-white bg-zinc-950'
+        }
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        'isolate motion-safe:transition fixed top-0 left-0 z-50 w-screen h-dvh flex justify-center-safe items-center-safe overflow-scroll',
+        params.class
+    ],
+    overlay: [
+        'fixed top-0 left-0 w-full h-full z-0',
+        options.style[params.style].overlay
+    ],
+    panel: [
+        'relative z-10 p-10 rounded-lg max-w-xl max-h-[80vh] overflow-y-scroll m-5 shadow-xl',
+        options.style[params.style].panel
+    ],
+    closeButton: [
+        'motion-safe:transition cursor-pointer absolute top-0 right-0 z-10 p-3 text-xl/[0.5]',
+        options.style[params.style].closeButton
+    ],
+    content: [
+        'overflow-y-scroll'
+    ]
+} %}
+
+{# Output #}
+
+{% if params.id %}
+
+    <div 
+        x-data="modal"
+        x-on:keydown.escape.window="close"
+        x-bind:class="{
+            'opacity-0 pointer-events-none' : !visible,
+            'opacity-100 pointer-events-auto' : visible
+        }"
+        x-cloak
+        x-bind:aria-hidden="!visible"
+        @component-modal.window="if ($event.detail.id == '{{ params.id }}') visible = $event.detail.visible;"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-heading-{{ params.id }}"
+        aria-describedby="modal-content-{{ params.id }}"
+        class="{{ classes.wrapper|join(' ')|trim }}"
+    >
+
+        <div class="{{ classes.overlay|join(' ')|trim }}" x-on:click.prevent="close" aria-hidden="true"></div>
+
+        <div class="{{ classes.panel|join(' ')|trim }}" role="document">
+
+            <button class="{{ classes.closeButton|join(' ')|trim }}" x-on:click="close" aria-label="Close modal">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <div id="modal-content-{{ params.id }}" class="{{ classes.content|join(' ')|trim }}" tabindex="0">
+                {% block content %}
+                {% endblock %}
+            </div>
+            
+        </div>
+
+    </div>
+
+    {% js %}
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('modal', () => ({
+                visible: false,
+                init() {
+                    this.$watch('visible',  function(value) { 
+                        if (value) { 
+                            document.body.classList.add('overflow-hidden');
+                        }
+                        else {
+                            document.body.classList.remove('overflow-hidden');
+                        }
+                    });
+                },
+                close() { 
+                    this.visible = false;                
+                }
+            }))
+        })
+
+    {% endjs %}
+
+{% endif %}

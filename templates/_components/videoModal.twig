@@ -1,0 +1,86 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: null,
+    image: null,
+    videoUrl: null,
+    aspectRatio: '16x9',
+    modalStyle: 'dark',
+    triggerClass: null,
+    class: null,
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {} %}
+
+{# Classes #}
+
+{% set classes = {
+    trigger: [
+        'group relative block w-full cursor-pointer overflow-hidden rounded-3xl',
+        params.triggerClass,
+        params.class
+    ],
+    icon: [
+        'absolute inset-0 z-10 flex items-center justify-center text-white text-2xl motion-safe:transition pointer-fine:group-hover:scale-110'
+    ]
+} %}
+
+{# Output #}
+
+{% if params.id and params.videoUrl %}
+
+    {# Trigger #}
+
+    <button
+        type="button"
+        x-data
+        x-on:click="$dispatch('component-modal', { id: '{{ params.id }}', visible: true })"
+        class="{{ classes.trigger|join(' ')|trim }}"
+        aria-label="Play video"
+    >
+
+        {% if params.image %}
+
+            {% include '_components/picture' with {
+                params: {
+                    image: params.image,
+                    transform: params.aspectRatio,
+                }
+            } %}
+
+        {% endif %}
+
+        <span class="{{ classes.icon|join(' ')|trim }}" aria-hidden="true">
+            <i class="fa-sharp fa-solid fa-play"></i>
+        </span>
+
+    </button>
+
+    {# Modal #}
+
+    {% embed '_components/modal' with {
+        params: {
+            id: params.id,
+            style: params.modalStyle,
+        }
+    } %}
+        {% block content %}
+
+            {% include '_components/video' with {
+                params: {
+                    id: params.id ~ '-video',
+                    videoUrl: params.videoUrl,
+                    aspectRatio: params.aspectRatio,
+                }
+            } %}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

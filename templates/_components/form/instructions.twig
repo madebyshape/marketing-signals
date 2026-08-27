@@ -1,0 +1,43 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    instructions: null,
+    colour: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: {
+            wrapper: 'text-zinc-400'
+        }
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        'w-full text-xs mt-1.5',
+        options.colour[params.colour].wrapper,
+        params.class
+    ]
+} %}
+
+{# Output #}
+
+{% if params.instructions %}
+
+    <div class="{{ classes.wrapper|join(' ')|trim }}">
+        <p>
+            {{ params.instructions }}
+        </p>
+    </div>
+
+{% endif %}

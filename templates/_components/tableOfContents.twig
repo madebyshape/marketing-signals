@@ -1,0 +1,120 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: null,
+    colour: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: {
+            wrapper: 'bg-zinc-900',
+            links: 'text-zinc-900',
+            link: 'text-white',
+            linkActive: 'text-blue-500'
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'w-full p-5 rounded-xl',
+        options.colour[params.colour].wrapper,
+        params.class
+    ],
+    links: [
+        'leading-7',
+        options.colour[params.colour].links
+    ],
+    link: [
+        options.colour[params.colour].link
+    ],
+    linkActive: [
+        'underline',
+        options.colour[params.colour].linkActive
+    ]
+} %}
+
+{# Output #}
+
+<div 
+    class="{{ classes.wrapper|join(' ')|trim }}"
+    x-data="tableOfContents"
+    x-init="init('{{ params.id }}')"
+>
+
+    <div class="{{ classes.links|join(' ')|trim  }}">
+    </div>
+
+</div>
+
+{% js %}
+
+   document.addEventListener('alpine:init', () => {
+      Alpine.data('tableOfContents', () => ({
+         init(id) { 
+
+            const tocContent = document.querySelector('#' + id);
+            const tocNav = this.$el.firstElementChild;
+            const tocHeadings = tocContent.querySelectorAll('h2, h3');
+            const tocList = document.createElement('ul');
+
+            const linkClass = '{{ classes.link|join(' ')|trim }}';
+            const linkActiveClass = '{{ classes.linkActive|join(' ')|trim }}';
+
+            for (i = 0; i <= tocHeadings.length - 1; i++) {
+
+                let title = tocHeadings[i].innerHTML;
+                let id = title.toLowerCase().replace(/ /g, '-');
+
+                if (title.includes('<a')) {
+                    title = title.replace(/<a.*?>|<\/a>/g, '');
+                }
+
+                tocHeadings[i].setAttribute('id', id);
+
+                tocList.insertAdjacentHTML('beforeend', `
+                    <li>
+                        <a href="#${id}" class="${linkClass}">
+                            ${title}
+                        </a>
+                    </li>
+                `);
+                
+            }
+
+            tocNav.appendChild(tocList);            
+
+            window.addEventListener('scroll', () => {
+                tocHeadings.forEach(heading => {
+                    if (heading.getBoundingClientRect().top < (window.innerHeight / 1.5)) {
+
+                        const links = tocNav.querySelectorAll('a');
+
+                        const activeClasses = linkActiveClass.split(' ');
+
+                        links.forEach(link => {
+                            link.classList.remove(...activeClasses);
+                        });
+                    
+                        let current = tocNav.querySelector(`a[href='#${heading.id}']`);
+                        current.classList.add(...activeClasses);
+
+                    }
+                }); 
+            });
+            
+         }
+      }))
+   })
+   
+{% endjs %}

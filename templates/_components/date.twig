@@ -1,0 +1,96 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    date: null,
+    dateEnd: null,
+    relative: false,
+    format: 'j F, Y',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {} %}
+
+{# Classes #} 
+
+{% set classes = {
+    date: [
+        params.class
+    ]
+} %}
+
+{# Output #}
+
+{% set dateFormatted = '' %}
+{% set dateEndFormatted = '' %}
+
+{% set date = date(params.date) %}
+
+{% if params.relative and params.dateEnd == null %}
+
+    {% set dateDifference = date.diff(now) %}
+
+    {% set dateHuman = dateDifference|duration(false) %}
+    {% set dateHumanSplit = ',' in dateHuman ? dateHuman|split(',') : dateHuman|split('and') %}
+
+    {% if dateDifference.days > 7 %}
+
+        {% set dateFormatted = date|date(params.format) %}
+
+    {% else %}
+
+        {% if dateDifference.invert %}
+
+            {% set dateFormatted = 'In ' ~ dateHumanSplit[0] %}
+
+        {% else %}
+
+            {% set dateFormatted = dateHumanSplit[0] ~ ' ago' %}
+
+        {% endif %}
+
+    {% endif %}
+
+{% elseif params.dateEnd|length %}
+
+    {% set dateEnd = date(params.dateEnd) %}
+
+    {% if date|date('m Y') == dateEnd|date('m Y') %}
+
+        {% set dateFormatted = date|date('j') %}
+        {% set dateEndFormatted = dateEnd|date('j F, Y') %}
+
+    {% elseif date|date('Y') == dateEnd|date('Y') %}
+
+        {% set dateFormatted = date|date('j F') %}
+        {% set dateEndFormatted = dateEnd|date('j F, Y') %}
+
+    {% else %}
+
+        {% set dateFormatted = date|date(params.format) %}
+        {% set dateEndFormatted = dateEnd|date(params.format) %}
+
+    {% endif %}
+
+{% else %}
+
+    {% set dateFormatted = date|date(params.format) %}
+    
+{% endif %}
+
+<div class="{{ classes.date|join(' ')|trim }}">
+
+    <time datetime="{{ params.date|date('c') }}">{{ dateFormatted }}</time>
+
+    {% if dateEndFormatted|length %}
+
+        &mdash; <time datetime="{{ params.dateEnd|date('c') }}">{{ dateEndFormatted }}</time>
+
+    {% endif %}
+
+</div>

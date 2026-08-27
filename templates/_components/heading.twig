@@ -1,0 +1,77 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    tag: 'h2',
+    heading: null,
+    colour: 'base',
+    size: '5xl',
+    style: 'sans',
+    class: null,
+    attributes: null,
+    margin: 'none',
+    marginSize: 'base'
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: 'text-black',
+    },
+    size: {
+        'xs': 'text-xs',
+        'sm': 'text-sm',
+        'base': 'text-base',
+        'md': 'text-md',        
+        'lg': 'text-lg',
+        'xl': 'text-xl',
+        '2xl': 'text-2xl',
+        '3xl': 'text-3xl',
+        '4xl': 'text-4xl',
+        '5xl': 'text-5xl',
+        '6xl': 'text-6xl',
+        '7xl': 'text-7xl'
+    },
+    style: {
+        sans: 'font-sans-primary',
+        serif: 'font-serif-primary'
+    },
+    margin: {
+        base: {
+            none: 'm-0',
+            top: 'mt-10',
+            bottom: 'mb-10',
+            topBottom: 'my-10',
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    heading: [
+        'text-pretty',
+        options.colour[params.colour],
+        options.size[params.size],
+        options.style[params.style],
+        options.margin[params.marginSize][params.margin],
+        params.class
+    ]
+} %}
+
+{# Output #}
+
+{% if params.heading|length %}
+
+    <{{ params.tag }} 
+        class="{{ classes.heading|join(' ')|trim }}"
+        {{ params.attributes|raw }}
+    >
+        {{ params.heading }}
+    </{{ params.tag }}>
+
+{% endif %}

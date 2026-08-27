@@ -1,0 +1,61 @@
+{# Block Defaults #}
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+	paddingX: 'none',
+	class: 'relative',
+} %}
+
+{# Merge Defaults #}
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Options #}
+{% set blockOptions = {
+	topBackgroundColour: 'bg-creme-300',
+	bottomBackgroundColour: 'bg-creme-100',
+} %}
+
+{% embed '_components/section'
+	with {
+		params: params|merge({
+			paddingY: params.padding,
+		})
+	}
+%}
+	{% block sectionContent %}
+		{# Output #}
+		<div class="w-full flex flex-wrap overflow-x-hidden relative py-14">
+			{% for i in 0..1 %}
+				<div class="w-full relative overflow-x-hidden pointer-events-none py-10 scale-105 {{ loop.first ? blockOptions.topBackgroundColour : blockOptions.bottomBackgroundColour }} {{ loop.first ? 'rotate-2 z-10' : '-rotate-2 -mt-14' }}">
+					{% embed '_components/marquee' with {
+						params: {
+							component: 'marqueeText' ~ loop.index,
+							props: {
+								reversed: loop.first ? false : true,
+								speed: loop.first ? 0.3 : 0.2,
+								repeat: -1,
+								pauseOnHover: true,
+							}
+						}
+					} %}
+						{% block marqueeContent %}
+							<div class="w-full flex overflow-hidden">
+								{% for i in 0..3 %}
+									{% include '_components/heading' with {
+										params: {
+											heading: 'Fred again & again & again & again & again & again & again...',
+											size: '7xl',
+											colour: 'base',
+											class: 'font-medium leading-tight !mb-0 mx-6',
+											tag: 'p'
+										}
+									} only %}
+								{% endfor %}
+							</div>
+						{% endblock %}
+					{% endembed %}
+				</div>
+			{% endfor %}
+		</div>
+	{% endblock %}
+{% endembed %}

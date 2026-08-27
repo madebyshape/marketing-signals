@@ -1,0 +1,78 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    content: '',
+    colour: 'base',
+    class: null,
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: {
+            heading: 'text-zinc-900',
+            link: 'text-indigo-800 decoration-indigo-300 hover:decoration-indigo-900',
+            paragraph: 'text-zinc-700',
+            list: 'text-zinc-700 marker:text-indigo-500',
+            blockquote: 'bg-zinc-100 text-zinc-900'
+        }
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        'w-full',
+        params.class
+    ],
+    heading: [
+        'font-semibold text-balance mb-4',
+        options.colour[params.colour].heading
+    ],
+    link: [
+        'font-medium break-words transition-all underline decoration-1.5 underline-offset-2',
+        options.colour[params.colour].link
+    ],
+    paragraph: [
+        'text-base leading-relaxed text-pretty mb-5',
+        options.colour[params.colour].paragraph
+    ],
+    list: [
+        'list-outside leading-relaxed pl-4 mb-5',
+        options.colour[params.colour].list
+    ],
+    blockquote: [
+        'relative text-2xl text-pretty font-light rounded-lg py-10 px-7 mb-5',
+        options.colour[params.colour].blockquote
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+	{{ params.content|retcon([
+        ['attr', ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'], { class: classes.heading|join(' ')|trim }, false],
+        ['attr', 'h1', { class: 'text-5xl' }, false],
+        ['attr', 'h2', { class: 'text-4xl' }, false],
+        ['attr', 'h3', { class: 'text-3xl' }, false],
+        ['attr', 'h4', { class: 'text-2xl' }, false],
+        ['attr', 'h5', { class: 'text-xl' }, false],
+        ['attr', 'h6', { class: 'text-lg' }, false],
+        ['attr', 'a', { class: classes.link|join(' ')|trim }],
+        ['attr', 'p', { class: classes.paragraph|join(' ')|trim }, false],
+        ['attr', ['ul', 'ol'], { class: classes.list|join(' ')|trim }],
+        ['attr', 'ul li', { class: 'list-disc' }],
+        ['attr', 'ol li', { class: 'list-decimal' }],
+        ['attr', ['p:last-of-type'], { class: '!mb-0' }, false],
+        ['attr', 'strong', { class: 'font-semibold' }],
+        ['attr', 'img', { class: 'w-full h-auto rounded-lg mb-5', loading: 'lazy' }],
+        ['attr', 'blockquote', { class: classes.blockquote|join(' ')|trim }]
+    ]) }}
+</div>
+

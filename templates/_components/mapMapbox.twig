@@ -1,0 +1,112 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    lng: null,
+    lat: null,
+    zoom: 8,
+    markers: [],
+    style: 'base',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    style: {
+        base: {
+            map: 'mapbox://styles/mapbox/dark-v11',
+            wrapper: 'bg-zinc-950',
+            marker: 'bg-zinc-300/50 border-zinc-400'
+        },
+        light: {
+            map: 'mapbox://styles/mapbox/light-v11',
+            wrapper: 'bg-zinc-100',
+            marker: 'bg-zinc-700/50 border-zinc-800'
+        }
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        'w-96 h-96',
+        options.style[params.style].wrapper,
+        params.class
+    ],
+    marker: [
+        'w-7 h-7 border-4 rounded-full',
+        options.style[params.style].marker
+    ]
+} %}
+
+{# Output #}
+
+<div 
+    x-data="mapMapbox" 
+    x-init="
+        render(
+            '{{ params.lng }}', 
+            '{{ params.lat }}', 
+            '{{ params.markers|json_encode|raw|replace('"', '\\"') }}', 
+            '{{ params.zoom }}',
+            '{{ options.style[params.style].map }}',
+            '{{ classes.marker|join(' ')|trim }}'
+        )
+    " 
+    class="{{ classes.wrapper|join(' ')|trim }}"
+>
+</div>
+
+{% js 'https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.js' %}
+{% css 'https://api.mapbox.com/mapbox-gl-js/v3.11.0/mapbox-gl.css' %}
+
+{% js %}
+
+   document.addEventListener('alpine:init', () => {
+      Alpine.data('mapMapbox', () => ({
+         render(lng, lat, markers, zoom, style, markerClass) { 
+
+            mapboxgl.accessToken = '{{ getenv('MAPBOX_TOKEN') }}';
+
+            container = this.$el;
+
+            markers = JSON.parse(markers);
+
+            var map = new mapboxgl.Map({
+                container: container,
+                center: [lng, lat],
+                style: style,
+                zoom: zoom,
+                scrollZoom: false,
+                dragPan: true,
+                attributionControl: false
+            });
+
+
+            map.addControl(new mapboxgl.NavigationControl());
+            map.addControl(new mapboxgl.FullscreenControl());
+
+            markers.forEach(
+                function(marker) {
+
+                    var el = document.createElement('div');
+                    el.className = markerClass;
+
+                    new mapboxgl.Marker(el)
+                        .setLngLat([marker.lng, marker.lat])
+                        .addTo(map);
+
+                }
+
+            );
+
+         }
+      }))
+   })
+   
+{% endjs %}

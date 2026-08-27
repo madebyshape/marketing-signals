@@ -1,0 +1,201 @@
+{# Usage #}
+
+{#
+    @component Statistic
+    
+    @description A reusable statistic component
+
+    @param {string} id - The component ID
+    @param {string} statistic - The statistic text
+    @param {string} size - The statistic size
+    @param {string} style - The statistic style
+    @param {string} delay - The statistic delay
+    @param {string} class - Additional CSS classes
+    @param {array} characterArray - The character array
+    @param {string} startingCharacter - The starting character
+    @param {boolean} animate - Whether to animate the statistic
+
+    @example
+    {% include '_components/statistic' with {
+        params: {
+            id: 'statistic-id',
+            statistic: '1000',
+            size: '9xl',
+            style: 'base',
+            delay: random(0, 0.9),
+            class: null,
+            characterArray: ['1','2','3','4','5','6','7','8','9','0',':','%','.','+',',','£','M','B','K'],
+            startingCharacter: '-',
+            animate: true
+        }
+    } %}
+
+#}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    id: null,
+    statistic: null,
+    size: '9xl',
+    style: 'base',
+    delay: random(0, 0.9),
+    class: null,
+    characterArray: ['1','2','3','4','5','6','7','8','9','0',':','%','.','+',',','£','M','B','K'],
+    startingCharacter: '-',
+    animate: true
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    size: {
+        'xs': 'text-xs',
+        'sm': 'text-sm',
+        'base': 'text-base',
+        'md': 'text-md',        
+        'lg': 'text-md | md:text-lg',
+        'xl': 'text-lg | md:text-xl',
+        '2xl': 'text-xl | md:text-2xl',
+        '3xl': 'text-xl | md:text-3xl',
+        '4xl': 'text-3xl | md:text-4xl',
+        '5xl': 'text-2xl sm:text-3xl | md:text-5xl',
+        '6xl': 'text-4xl | md:text-6xl',
+        '7xl': 'text-4xl | md:text-5xl | lg:text-7xl',
+        '8xl': 'text-4xl sm:text-5xl | md:text-8xl',
+        '9xl': 'text-4xl sm:text-5xl | md:text-9xl',
+    },
+    style: {
+        base: {
+            text: 'text-zinc-900',
+            font: 'font-sans-primary font-medium',
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'flex flex-row'
+    ],
+    heading:[
+        'inline-flex flex-col items-start relative overflow-hidden',
+        options.size[params.size],
+        options.style[params.style].text,
+        options.style[params.style].font,
+        params.class
+    ],
+    character: [
+        'opacity-0 relative'
+    ],
+    characterInner: [
+        'absolute top-0 left-0 flex flex-col items-start'
+    ],
+    characterText: [
+        'text-transparent'
+    ]
+} %}
+
+{# Output #}
+
+{% if params.animate %}
+    <div 
+        x-data="{
+            countUp(id) {
+                const statistics = document.querySelectorAll(`.js-statistic-${id}`);
+
+                const updateStatistics = () => {
+                    statistics.forEach(statistic => {
+                        const character = statistic.dataset.character;
+                        const delay = statistic.dataset.delay;
+
+                        let goToCharacterPosition = statistic.querySelector(`.js-statistic-${id}-character[data-character='${character}']`).offsetTop;
+                        let goToCharacterWidth = statistic.querySelector(`.js-statistic-${id}-character[data-character='${character}']`).offsetWidth + 1;
+
+                        this.animate(id, statistic, goToCharacterWidth, goToCharacterPosition);
+                    });
+                };
+
+                // Initial update after a brief delay to ensure proper rendering
+                setTimeout(updateStatistics, 100);
+
+                let resizeTimer;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(updateStatistics, 250);
+                });
+            },
+            animate(id, statistic, goToCharacterWidth, goToCharacterPosition) {
+                gsap.to(statistic.querySelectorAll(`.js-statistic-${id}-characters > div`), {
+                    duration: 1.5,
+                    y: -goToCharacterPosition,
+                    ease: 'power4.inOut',
+                    scrollTrigger: {
+                        trigger: statistic,
+                        start: 'top 90%',
+                    }
+                });
+
+                gsap.to(statistic, {
+                    duration: 0.5,
+                    width: goToCharacterWidth,
+                    ease: 'power1.out',
+                    scrollTrigger: {
+                        trigger: statistic,
+                        start: 'top 90%',
+                    }
+                });
+            }
+        }"
+        x-init="countUp('{{ params.id }}')"
+    >
+        <div class="{{ classes.wrapper|join(' ')|trim }}">
+            
+            {% for character in 0..(params.statistic|length - 1) %}
+
+                <div 
+                    class="{{ classes.heading|join(' ')|trim }} js-statistic-{{ params.id }}" 
+                    data-character="{{ params.statistic|slice(character, 1)|upper }}"
+                    data-delay="{{ params.delay }}"
+                >
+
+                    <div class="{{ classes.character|join(' ')|trim }}">
+                        {{ params.startingCharacter|upper }}
+                    </div>
+                    
+                    <div class="{{ classes.characterInner|join(' ')|trim }} js-statistic-{{ params.id }}-characters">
+
+                        <div class="{{ classes.characterText|join(' ')|trim }}">
+                            {{ params.startingCharacter|upper }}
+                        </div>
+                        
+                        {% for i in params.characterArray %}     
+
+                            <div class="js-statistic-{{ params.id }}-character" data-character="{{ i|upper }}">
+                                {{ i|upper }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+{% else %}
+
+    <div class="{{ classes.heading }}">
+        {{ params.statistic }}
+    </div>
+
+{% endif %}

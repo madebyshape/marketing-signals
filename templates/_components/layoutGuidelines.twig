@@ -1,0 +1,36 @@
+{% if craft.app.config.env == 'dev' %}
+    {% set block = 'layoutGuidelines' %}
+    <div 
+        x-data="{{ block }}"
+        x-show="show"
+        x-cloak
+        class="fixed top-0 left-0 w-full h-screen z-50 pointer-events-none"
+    >
+        <div class="{{ vars.class.siteMargin.x }} w-full h-full grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-5">
+            {% for i in 1..12 %}
+                <div class="col-span-1 {{ i >= 6 ? 'hidden lg:block' : '' }} {{ i >= 5 and i <= 6 ? 'hidden md:block' : '' }}">
+                    <div class="w-full h-full bg-creme-500/10"></div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ block }}', () => ({
+            show: false,
+            init(){
+                document.addEventListener('keydown', (e) => {
+                    // Shift+G
+                    if (e.shiftKey && (e.key === 'G' || e.key === 'g')) {
+                        e.preventDefault();
+                        this.show = !this.show;
+                    }
+                });
+            }
+        }))
+    })
+{% endjs %}
+{# prettier-ignore-end #}

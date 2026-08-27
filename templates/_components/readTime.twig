@@ -1,0 +1,34 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    text: null,
+    class: null,
+    wordsPerMinute: 265
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        params.class
+    ]
+} %}
+
+{# Output #}
+
+{% set words = params.text|striptags|replace({'â€”': ' ', 'â€“': ' ', '-': ' ', '\n': ' '})|split(' ') %}
+{% set minutes = ceil(words|length / params.wordsPerMinute) %}
+{% set seconds = minutes * 60 %}
+{% set formatter = create({ class: 'craft\\i18n\\Formatter' }) %}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+    {{ formatter.asDuration(seconds) }} read
+</div>

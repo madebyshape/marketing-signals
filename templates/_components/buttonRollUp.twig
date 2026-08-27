@@ -1,0 +1,90 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    type: 'a',
+    button: null,
+    colour: 'base',
+    size: 'base',
+    icon: null,
+    iconPosition: 'before',
+    class: null,
+    attributes: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: 'bg-black text-white ring-black/50 pointer-fine:hover:bg-zinc-600',
+    },
+    size: {
+        base: 'text-md px-5 py-3 rounded-md'
+    },
+    iconPosition: {
+        before: 'flex-row',
+        after: 'flex-row-reverse'
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    button: [
+        'group inline-flex flex-shrink-0 justify-center gap-x-2 items-center relative leading-none overflow-hidden border border-transparent cursor-pointer motion-safe:transition focus:outline-none focus:ring-3',
+        options.size[params.size],
+        options.colour[params.colour],
+        options.iconPosition[params.iconPosition],
+        params.class
+    ],
+    icon: [
+        'inline-block align-middle motion-safe:transition'
+    ],
+    labelWrapper: [
+        'relative overflow-hidden',
+    ],
+    labelBefore: [
+        'relative transition-all inline-block py-0.5 pointer-fine:group-hover:-translate-y-full',
+    ],
+    labelAfter: [
+        'absolute left-0 top-0 transition-all inline-block py-0.5 translate-y-full pointer-fine:group-hover:translate-y-0',
+    ],
+} %}
+
+{# Output #}
+
+{% if params.button|length %}
+
+    <{{ params.type }}
+        {% if params.type == 'a' %}
+            href="{{ params.button.value }}"
+            {% if params.button.target is defined %}
+                target="{{ params.button.target }}"
+                {% if params.button.target == '_blank' %}
+                    rel="noopener noreferrer"
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        class="{{ classes.button|join(' ')|trim }}"
+        {{ params.attributes|raw }}
+    >
+        {% if params.icon %}
+            <span class="{{ classes.icon|join(' ')|trim }}" aria-hidden="true">
+                <i class="{{ params.icon }}"></i>
+            </span>
+        {% endif %}
+
+        <span class="{{ classes.labelWrapper|join(' ')|trim }}">
+            <span class="{{ classes.labelBefore|join(' ')|trim }}">
+                {{ params.button.label }}
+            </span>
+            <span class="{{ classes.labelAfter|join(' ')|trim }}">
+                {{ params.button.label }}
+            </span>
+        </span>
+    </{{ params.type }}>
+
+{% endif %}

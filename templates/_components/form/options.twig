@@ -1,0 +1,141 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    id: 'options-' ~ random(1000, 9999),
+    type: 'checkbox',
+    name: null,
+    label: null,
+    required: false,
+    value: null,
+    options: [],
+    disabled: false,
+    instructions: null,
+    attributes: null,
+    colour: 'base',
+    size: 'base',
+    orientation: 'vertical',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        base: {
+            field: 'border-zinc-400 bg-zinc-100 group-hover:border-zinc-600 focus:border-zinc-900 focus:ring-zinc-200 checked:bg-zinc-800 checked:border-zinc-800',
+            fieldLabel: 'text-zinc-500 group-hover:text-zinc-700 group-has-checked:text-zinc-950',
+            fieldLabelRequired: 'text-zinc-500',
+            label: 'base',
+            instructions: 'base'
+        }
+    },
+    size: {
+        base: {
+            field: 'border ring-3 w-5 h-5 before:w-3 before:h-3',
+            fieldLabel: 'text-sm',
+            fieldLabelRequired: 'text-sm',
+            fieldGroup: ' gap-2.5',
+            label: 'base'
+        }
+    },
+    type: {
+        checkbox: {
+            field: 'rounded before:bg-[url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSIyMCA2IDkgMTcgNCAxMiI+PC9wb2x5bGluZT48L3N2Zz4=)]'
+        },
+        radio: {
+            field: 'rounded-full before:rounded-full before:bg-zinc-50'
+        }
+    },
+    orientation: {
+        horizontal: {
+            fieldGroup: 'flex-row'
+        },
+        vertical: {
+            fieldGroup: 'flex-col'
+        }
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        'w-full'
+    ],
+    fieldWrapper: [
+        'group flex items-center relative gap-1.5',
+        params.class
+    ],
+    field: [
+        'peer cursor-pointer relative shadow-none outline-none motion-safe:transition flex-shrink-0 appearance-none ring-transparent focus:ring-opacity-100 before:motion-safe:transition-all before:opacity-0 before:content-[""] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-1/2 before:bg-contain checked:before:opacity-100 disabled:cursor-not-allowed disabled:opacity-50',
+        options.colour[params.colour].field,
+        options.size[params.size].field,
+        options.type[params.type].field,
+    ],
+    fieldLabel: [
+        'cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-50',
+        options.colour[params.colour].fieldLabel,
+        options.size[params.size].fieldLabel
+    ],
+    fieldLabelRequired: [
+        options.colour[params.colour].fieldLabelRequired,
+        options.size[params.size].fieldLabelRequired
+    ],
+    fieldGroup: [
+        'flex flex-col flex-wrap',
+        options.size[params.size].fieldGroup,
+        options.orientation[params.orientation].fieldGroup
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+
+    {% include '_components/form/label' with {
+        params: {
+            id: params.id,
+            label: params.label,
+            colour: options.colour[params.colour].label,
+            size: options.size[params.size].label,
+            required: params.required
+        }
+    } only %}
+
+    <div class="{{ classes.fieldGroup|join(' ')|trim }}">
+        {% for option in params.options %}
+            {% set optionId = params.name|kebab ~ '-' ~ option.label|kebab %}
+            <div class="{{ classes.fieldWrapper|join(' ')|trim }}">
+                <input
+                    type="{{ params.type }}"
+                    name="{{ params.name }}"
+                    id="{{ optionId }}"
+                    class="{{ classes.field|join(' ')|trim }}"
+                    {{ params.required ? 'required' }}
+                    {{ option.disabled is defined ? 'disabled' }}
+                    {{ option.checked is defined or option.value in params.value ? 'checked' }}
+                    {{ option.value is defined ? ('value="' ~ option.value ~ '"')|raw }}
+                    {{ params.attributes|raw }}
+                >
+                <label class="{{ classes.fieldLabel|join(' ')|trim }}" for="{{ optionId }}">
+                    {{ option.label }}
+                    {% if params.required and params.label is null %}
+                        <span class="{{ classes.fieldLabelRequired|join(' ')|trim }}">*</span>
+                    {% endif %}
+                </label>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% include '_components/form/instructions' with {
+        params: {
+            instructions: params.instructions,
+            colour: options.colour[params.colour].instructions
+        }
+    } only %}
+
+</div>

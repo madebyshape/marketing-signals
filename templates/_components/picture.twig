@@ -1,0 +1,147 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    image: null,
+    alt: null,
+    transform: '4x3',
+    lazy: true,
+    priority: false,
+    ratio: true,
+    focalPoint: false,
+    sizes: '100vw',
+    wrapperClass: null,
+    imgClass: null,
+    pictureClass: null,
+    transformableExtensions: ['jpg', 'jpeg', 'png', 'webp', 'avif']
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'relative overflow-hidden w-full',
+        (params.focalPoint and not params.ratio) ? 'h-full',
+        (params.ratio and 'x' in params.transform) ? 'aspect-(--aspect-ratio)',
+        params.wrapperClass
+    ],
+    picture: [
+        params.ratio ? 'absolute top-0 left-0 w-full h-full',
+        params.pictureClass
+    ],
+    img: [
+        params.focalPoint ? 'absolute z-0 top-0 left-0 w-full h-full object-cover',
+        params.lazy ? 'transition-opacity opacity-0',
+        params.imgClass
+    ]
+} %}
+
+{# Output #}
+
+{% if params.focalPoint and params.image['hasFocalPoint'] is defined %}
+    {% set focalPointPosition = 'object-position: ' ~ (params.image.hasFocalPoint ? params.image.getFocalPoint()|first * 100 : '50') ~ '% ' ~ (params.image.hasFocalPoint ? params.image.getFocalPoint()|last * 100 : '50') ~ '%' %}
+{% endif %}
+
+{% if params.ratio or params.focalPoint %}
+
+    <div 
+        class="{{ classes.wrapper|join(' ')|trim }}"
+        style="--aspect-ratio: {{ params.transform|replace({'x': '/'}) }}"
+    >
+
+{% endif %}
+
+{% if params.image['extension'] is defined and params.image.extension in params.transformableExtensions %}
+
+    {% set pictureTransform = craft.imager.transformImage(
+        params.image,
+        params.transform
+    ) %}
+
+    {% if pictureTransform|length %}
+
+        {% set isDev = craft.app.config.general.devMode %}
+        {% set supportsAvif = craft.imager.serverSupportsAvif() and not isDev %}
+        {% set supportsWebp = craft.imager.serverSupportsWebp() and not isDev %}
+
+        <picture class="{{ classes.picture|join(' ')|trim }}">
+
+            {% if supportsAvif %}
+
+                {% set pictureTransformAvif = craft.imager.transformImage(
+                    params.image,
+                    params.transform,
+                    {
+                        format: 'avif'
+                    }
+                ) %}
+
+                <source
+                    type="image/avif"
+                    srcset="{{ craft.imager.srcset(pictureTransformAvif) }}"
+                    sizes="{{ params.sizes }}"
+                >
+
+            {% endif %}
+
+            {% if supportsWebp %}
+
+                {% set pictureTransformWebp = craft.imager.transformImage(
+                    params.image,
+                    params.transform,
+                    {
+                        format: 'webp'
+                    }
+                ) %}
+
+                <source
+                    type="image/webp"
+                    srcset="{{ craft.imager.srcset(pictureTransformWebp) }}"
+                    sizes="{{ params.sizes }}"
+                >
+
+            {% endif %}
+
+            <img
+                src="{{ pictureTransform|last }}"
+                srcset="{{ craft.imager.srcset(pictureTransform) }}"
+                sizes="{{ params.sizes }}"
+                alt="{{ params.alt|length ? params.alt : (params.image.title is defined ? params.image.title : '') }}"
+                width="{{ pictureTransform[0].width }}"
+                height="{{ pictureTransform[0].height }}"
+                class="{{ classes.img|join(' ')|trim }}"
+                {% if params.priority %}fetchpriority="high" loading="eager" decoding="sync"{% endif %}
+                {% if params.focalPoint and focalPointPosition is defined %}style="{{ focalPointPosition }}"{% endif %}
+                {% if params.lazy %}fetchpriority="low" loading="lazy" onload="this.style.opacity='1';"{% endif %}
+            >
+
+        </picture>
+    
+    {% endif %}
+
+{% else %}
+
+    <img
+        src="{{ params.image['extension'] is defined ? params.image.url : params.image }}"
+        alt="{{ params.alt|length ? params.alt : (params.image.title is defined ? params.image.title : '') }}"
+        class="{{ classes.img|join(' ')|trim }}"
+        {% if params.image.width is defined and params.image.height is defined %}width="{{ params.image.width }}" height="{{ params.image.height }}"{% endif %}
+        {% if params.priority %}fetchpriority="high" loading="eager" decoding="sync"{% endif %}
+        {% if params.focalPoint and focalPointPosition is defined %}style="{{ focalPointPosition }}"{% endif %}
+        {% if params.lazy %}fetchpriority="low" loading="lazy" onload="this.style.opacity='1';"{% endif %}
+    >
+
+{% endif %}
+
+{% if params.ratio or params.focalPoint %}
+
+    </div>
+
+{% endif %}

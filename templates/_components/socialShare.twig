@@ -1,0 +1,122 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    links: ['linkedin', 'x', 'facebook', 'threads', 'whatsapp', 'messenger', 'email'],
+    url: craft.app.request.absoluteUrl,
+    text: '',
+    colour: 'base',
+    size: 'base',
+    direction: 'horizontal',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    links: [
+        {
+            handle: 'linkedin',
+            title: 'Share on LinkedIn',
+            url: 'https://www.linkedin.com/sharing/share-offsite/?url=' ~ params.url|url_encode,
+            icon: 'fa-brands fa-linkedin-in'
+        },
+        {
+            handle: 'x',
+            title: 'Share on X / Twitter',
+            url: 'https://x.com/intent/tweet?text=' ~ params.text ~ ' - ' ~ params.url|url_encode,
+            icon: 'fa-brands fa-x-twitter'
+        },
+        {
+            handle: 'facebook',
+            title: 'Share on Facebook',
+            url: 'https://www.facebook.com/sharer/sharer.php?u=' ~ params.url|url_encode,
+            icon: 'fa-brands fa-facebook-f'
+        },
+        {
+            handle: 'threads',
+            title: 'Share on Threads',
+            url: 'https://threads.net/intent/post?text=' ~ params.text ~ ' - ' ~ params.url|url_encode,
+            icon: 'fa-brands fa-threads'
+        },
+        {
+            handle: 'whatsapp',
+            title: 'Share on WhatsApp',
+            url: 'https://api.whatsapp.com/send?text=' ~ params.text ~ ' - ' ~ params.url|url_encode,
+            icon: 'fa-brands fa-whatsapp'
+        },
+        {
+            handle: 'messenger',
+            title: 'Share on Messenger',
+            url: 'fb-messenger://share/?link=' ~ params.url|url_encode,
+            icon: 'fa-brands fa-facebook-messenger'
+        },
+        {
+            handle: 'email',
+            title: 'Share on Email',
+            url: 'mailto:?subject=' ~ params.text ~ '&body=' ~ params.url|url_encode,
+            icon: 'fa-solid fa-envelope',
+            popup: false
+        }
+    ],
+    colour: {
+        base: 'text-white bg-zinc-900 hover:bg-zinc-700'
+    },
+    size: {
+        base: 'w-9 h-9 text-sm'
+    },
+    direction: {
+        horizontal: 'flex flex-row space-x-1',
+        vertical: 'flex flex-col space-y-1'
+    }
+} %}
+
+{# Classes #} 
+
+{% set classes = {
+    wrapper: [
+        options.direction[params.direction],
+        params.class
+    ],
+    link: [
+        'transition-all block flex items-center justify-center rounded-full',
+        options.colour[params.colour],
+        options.size[params.size]
+    ]
+} %}
+
+{# Output #}
+
+<nav x-data aria-label="Social sharing">    
+
+    <ul class="{{ classes.wrapper|join(' ')|trim }}">
+
+        {% for link in options.links|filter(link => link.handle in params.links) %}
+
+            <li>
+            
+                <a 
+                    href="{{ link.url }}" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="{{ classes.link|join(' ')|trim }}"
+                    aria-label="{{ link.title }}"
+                    {% if link.popup is not defined or link.popup is defined and link.popup == true %}
+                        x-on:click.prevent="window.open('{{ link.url }}', 'Share', 'width=600,height=400')"
+                        role="button"
+                    {% endif %}
+                >
+                    <i class="{{ link.icon }}" aria-hidden="true"></i>
+                    <span class="sr-only">{{ link.title }}</span>
+                </a>
+
+            </li>
+
+        {% endfor %}    
+
+    </ul>
+
+</nav>

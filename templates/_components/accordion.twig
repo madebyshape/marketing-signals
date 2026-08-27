@@ -1,0 +1,103 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    items: null,
+    visibleIndex: null,
+    class: null,
+    style: 'base'
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    style: {
+        base: {
+            wrapper: '',
+            item: 'border-zinc-200',
+            heading: 'font-medium text-lg py-2 px-3',
+            content: 'text-zinc-600 px-3 pt-3 pb-5',
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'w-full',
+        options.style[params.style].wrapper,
+        params.class
+    ],
+    item: [
+        'first:border-t first:border-b last:border-b',
+        options.style[params.style].item
+    ],
+    heading: [
+        'motion-safe:transition w-full flex items-center cursor-pointer pointer-fine:hover:bg-zinc-100',
+        options.style[params.style].heading
+    ],
+    content: [
+        'motion-safe:transition',
+        options.style[params.style].content
+    ]
+} %}
+
+{# Output #}
+
+{% if params.items|length %}
+
+    <div 
+        x-data="{ visible: '{{ params.visibleIndex|length ? params.items[params.visibleIndex].heading|kebab : null }}' }" 
+        x-on:click.away="visible = false"
+        class="{{ classes.wrapper|join(' ')|trim }}"
+    >
+
+        {% for item in params.items %}
+
+            {% set itemId = item.heading|kebab %}
+            {% set itemHeadingId = 'heading-' ~ itemId %}
+            {% set itemContentId = 'content-' ~ itemId %}
+
+            <div class="{{ classes.item|join(' ')|trim }}">
+            
+                <summary 
+                    id="{{ itemHeadingId }}"
+                    class="{{ classes.heading|join(' ')|trim }}"
+                    x-on:click="visible = visible == '{{ itemId }}' ? false : '{{ itemId }}'"
+                    x-bind:aria-expanded="visible == '{{ itemId }}' ? 'true' : 'false'"
+                    x-bind:aria-controls="'{{ itemContentId }}'"
+                >
+                
+                    <span>{{ item.heading }}</span>
+
+                    <span class="ml-auto" x-bind:class="{ 'transform rotate-180': visible == '{{ itemId }}' }" aria-hidden="true">
+                        <i class="fas fa-chevron-down"></i>
+                    </span>
+
+                </summary>
+
+                <div 
+                    id="{{ itemContentId }}"
+                    aria-labelledby="{{ itemHeadingId }}"
+                    role="region"
+                    class="{{ classes.content|join(' ')|trim }}"
+                    x-show="visible == '{{ itemId }}'"
+                    x-collapse
+                    x-cloak
+                >
+                
+                    <p>{{ item.content }}</p>
+
+                </div>
+
+            </div>
+            
+        {% endfor %}
+
+    </div>
+
+{% endif %}
