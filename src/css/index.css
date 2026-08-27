@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@source '../../templates/**/*.twig';
+@source '../../templates/**/*.html';
+@source '../../templates/**/*.css';
+
+@theme {
+
+  --breakpoint-*: initial;
+  --breakpoint-xs: 375px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 1600px;
+  --breakpoint-4xl: 1920px;
+
+  --color-black: #0E0A10;
+  --color-white: #FFFFFF;
+  --color-primary: #745CF6;
+  --color-secondary: #AFAFFF;
+  --color-fluro: #DBFE87;
+  --color-creme-100: #F3F0E8;
+  --color-creme-200: #E9E6DE;
+  --color-creme-300: #DDDAD1;
+  --color-creme-400: #D3D0C5;
+  --color-creme-500: #7F7C72;
+
+  --color-brands-facebook: #1877f2;
+  --color-brands-twitter: #1da1f2;
+  --color-brands-x: #14171a;
+  --color-brands-instagram: #405de6;
+  --color-brands-linkedin: #0a66c2;
+  --color-brands-youtube: #ff0000;
+  --color-brands-vimeo: #1ab7ea;
+  --color-brands-pinterest: #e60023;
+  --color-brands-tiktok: #ff0050;
+
+  /* Font size · px · weight · leading · tracking */
+  --text-2xs: 0.6875rem;      /* 11px  · 400             · leading-1.33 · tracking-tight   */
+  --text-xs: 0.875rem;        /* 14px  · 400 / 500       · leading-1.33 · tracking-tight   */
+  --text-sm: 0.9375rem;       /* 15px  · 400 / 500 / 600 · leading-1.33 · tracking-normal  */
+  --text-base: 1rem;          /* 16px  · 400 / 500       · leading-1.33 · tracking-normal  */
+  --text-md: 1.125rem;        /* 18px  · 400 / 500       · leading-1.33 · tracking-normal  */
+  --text-lg: 1.3125rem;       /* 21px  · 500             · leading-1.2  · tracking-tighter */
+  --text-xl: 1.4375rem;       /* 23px  · 500             · leading-1.33 · tracking-tighter */
+  --text-2xl: 1.5625rem;      /* 25px  · 500 / 600       · leading-1.2  · tracking-tighter */
+  --text-3xl: 1.875rem;       /* 30px  · 500             · leading-1.2  · tracking-tighter */
+  --text-4xl: 2.5rem;         /* 40px  · 500             · leading-1.2  · tracking-tighter */
+  --text-5xl: 2.875rem;       /* 46px  · 600             · leading-0.97 · tracking-tighter */
+  --text-6xl: 3.4375rem;      /* 55px  · 600             · leading-0.97 · tracking-tighter */
+  --text-7xl: 3.875rem;       /* 62px  · 600             · leading-0.97 · tracking-tighter */
+  --text-8xl: 4.375rem;       /* 70px  · 600             · leading-0.97 · tracking-tighter */
+  --text-9xl: 4.6875rem;      /* 75px  · 600             · leading-0.97 · tracking-tighter */
+  --text-10xl: 5.125rem;      /* 82px  · 600             · leading-0.97 · tracking-tighter */
+  --text-11xl: 5.75rem;       /* 92px  · 600             · leading-0.97 · tracking-tighter */
+  --text-12xl: 7.5rem;        /* 120px · 600             · leading-0.92 · tracking-tighter */
+  --text-13xl: 10rem;         /* 160px · 600             · leading-0.92 · tracking-tighter */
+  --text-14xl: 25rem;         /* 400px · 600             · leading-0.92 · tracking-tighter */
+
+  --leading-0.92: 0.92;
+  --leading-0.97: 0.97;
+  --leading-1.2: 1.2;
+  --leading-1.33: 1.33;
+
+  --tracking-tight: -0.02em;
+  --tracking-tighter: -0.04em;
+
+  /* Noi Grotesk · Regular 400 / Medium 500 / Semibold 600 */
+  --font-sans-primary:
+    'Noi Grotesk',
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+
+}

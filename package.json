@@ -1,0 +1,35 @@
+{
+  "name": "craft-cms",
+  "private": true,
+  "version": "5.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000 --force",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "alpinejs": "^3.13.8",
+    "rollup-plugin-copy": "^3.5.0",
+    "sharp": "^0.34.5",
+    "svgo": "^4.0.1",
+    "esbuild": "^0.27.4",
+    "tailwindcss": "^4.2.2",
+    "vite": "8.0.5",
+    "vite-plugin-favicons": "^0.1.7",
+    "vite-plugin-image-optimizer": "^2.0.3",
+    "vite-plugin-restart": "^0.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madebyshape/craft-cms.git"
+  },
+  "author": "Jason Mayo (@bymayo)",
+  "authorUrl": "https://madebyshape.co.uk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/madebyshape/craft-cms/issues"
+  },
+  "homepage": "https://github.com/madebyshape/craft-cms#readme"
+}
