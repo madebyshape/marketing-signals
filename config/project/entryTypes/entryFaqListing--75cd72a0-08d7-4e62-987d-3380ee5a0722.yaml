@@ -2,7 +2,7 @@ allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
-  71660a2a-5e9c-456e-9584-e81e70baf6f2:
+  69e0f3f8-d55a-44bb-8f64-fc0e11b7daab:
     cardThumbAlignment: end
     tabs:
       -
@@ -13,7 +13,7 @@ fieldLayouts:
             autocomplete: false
             autocorrect: true
             class: null
-            dateAdded: '2025-11-18T16:32:16+00:00'
+            dateAdded: '2026-08-28T12:01:32+00:00'
             disabled: false
             elementCondition: null
             id: null
@@ -32,12 +32,12 @@ fieldLayouts:
             tip: null
             title: null
             type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 0cf026d5-6d08-4e27-8a1f-ab30bca41c98
+            uid: 12a925a8-6748-4607-8ecd-3fd5fea4c9d8
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -48,12 +48,33 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: e47be9d2-9a8c-4a76-a8cc-b8f874549e35
+            uid: 0990afe5-d51e-4c5b-b433-bef5d5361d50
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-04-07T10:41:01+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 119cd0e1-4007-46c4-959f-a3a15db9bf54
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            dismissible: false
+            elementCondition: null
+            style: tip
+            tip: 'FAQ Entries will automatically pull through here'
+            type: craft\fieldlayoutelements\Tip
+            uid: ecdc89fe-b77e-4bbf-87b0-7732849a68e3
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: d5f35aa0-5f20-4271-8d6b-26c261dd4c6c
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -64,18 +85,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: b5b892ab-0a60-49af-bb9b-361bfb3a55fd
+            uid: ea8e7b78-bc9f-4b58-a77f-483028f8243a
             userCondition: null
             warning: null
             width: 100
         name: Content
-        uid: 0102572d-d127-40b1-b9c0-704387cc932f
+        uid: f99e3736-7ae1-4d1b-973a-14d3ff571f0a
         userCondition: null
       -
         elementCondition: null
         elements:
           -
-            dateAdded: '2026-08-28T11:22:38+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -86,18 +107,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 9d7455a8-f32f-4921-9bba-9df7c207cb09
+            uid: 3932ba01-e93e-4b29-a0f6-f7ef7415b97e
             userCondition: null
             warning: null
             width: 100
         name: SEO
-        uid: c88435ac-5f15-47dc-858b-68512efabbed
+        uid: a4670592-bd30-475e-991d-0c093f1e4f89
         userCondition: null
     thumbFieldKey: null
-handle: entryBlocks
+handle: entryFaqListing
 hasTitleField: true
 icon: file
-name: 'Entry - Blocks'
+name: 'Entry - FAQ Listing'
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null

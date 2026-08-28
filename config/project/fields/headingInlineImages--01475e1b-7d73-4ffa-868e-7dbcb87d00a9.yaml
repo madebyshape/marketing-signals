@@ -1,0 +1,99 @@
+columnSuffix: null
+handle: headingInlineImages
+instructions: null
+name: 'Heading - Inline Images'
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - 22accb12-1db7-43f7-b235-290c93943477
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    1:
+                      - uid
+                      - e9e6d325-1583-41c3-9999-1303e4ace924
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-08-28T12:28:52+00:00'
+                            9:
+                              - uid
+                              - 05949221-4154-4b62-88fa-f7ff7a635312
+                            12:
+                              - fieldUid
+                              - d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - wordCount
+                            2:
+                              - label
+                              - 'Word Count'
+                            3:
+                              - instructions
+                              - 'The images will appear after this many words'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 50
+                            8:
+                              - dateAdded
+                              - '2026-08-28T12:28:52+00:00'
+                            9:
+                              - uid
+                              - 4c6c62ad-77fe-488e-a41b-c2958bb3e72b
+                            12:
+                              - fieldUid
+                              - f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 50
+                            8:
+                              - dateAdded
+                              - '2026-08-28T12:28:52+00:00'
+                            9:
+                              - uid
+                              - 45b5eef4-a1b7-4dec-94fa-6e530a8cc358
+                            12:
+                              - fieldUid
+                              - 5cbe08b7-b4bd-4a6b-be41-de9647b5eb19 # Images
+            4:
+              - cardThumbAlignment
+              - end
+  viewMode: grouped
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock

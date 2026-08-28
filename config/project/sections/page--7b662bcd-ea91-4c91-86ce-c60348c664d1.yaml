@@ -3,6 +3,26 @@ enableVersioning: true
 entryTypes:
   -
     uid: bdf6317d-0df7-449f-a937-a1a274ffb106 # Entry - Blocks
+  -
+    uid: 77b77dda-5b66-418a-8f88-158a1830c6cd # Entry - Blog Listing
+  -
+    uid: eebfd246-f9aa-4d59-99e5-d4aaba54acba # Entry - Brand Guidelines
+  -
+    uid: ce59fcb1-fb86-46a3-81a4-f7d745761454 # Entry - Case Study Listing
+  -
+    uid: 9db15396-a721-4413-a2c2-72e509359139 # Entry - Contact
+  -
+    uid: 75cd72a0-08d7-4e62-987d-3380ee5a0722 # Entry - FAQ Listing
+  -
+    uid: 6b543e86-8407-40c1-a8c3-f313ed625200 # Entry - Form Success
+  -
+    uid: c019bbe6-8d43-4e78-9158-eb2c865818e9 # Entry - Playbook Listing
+  -
+    uid: 868256be-34c2-4060-9427-94a7d25d97a2 # Entry - Service Listing
+  -
+    uid: 6f7c5bc5-e419-4241-8b4e-4598a736cafd # Entry - Team Listing
+  -
+    uid: e746909c-3d0f-4818-9497-14651dc6ee16 # Entry - Text
 handle: page
 maxAuthors: 1
 minAuthors: 0

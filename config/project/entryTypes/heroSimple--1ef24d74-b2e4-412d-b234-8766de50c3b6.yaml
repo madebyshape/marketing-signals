@@ -1,105 +1,93 @@
 allowLineBreaksInTitles: false
-color: null
+color: blue
 description: null
 fieldLayouts:
-  71660a2a-5e9c-456e-9584-e81e70baf6f2:
+  e2b895eb-9633-4685-8b17-bcb962b4ad5c:
     cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
         elements:
           -
-            autocapitalize: true
-            autocomplete: false
-            autocorrect: true
-            class: null
-            dateAdded: '2025-11-18T16:32:16+00:00'
-            disabled: false
-            elementCondition: null
-            id: null
-            inputType: null
-            instructions: null
-            label: null
-            max: null
-            min: null
-            name: null
-            orientation: null
-            placeholder: null
-            readonly: false
-            required: true
-            size: null
-            step: null
-            tip: null
-            title: null
-            type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 0cf026d5-6d08-4e27-8a1f-ab30bca41c98
-            userCondition: null
-            warning: null
-            width: 100
-          -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-08-28T11:29:36+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: ab214509-2da1-4b0b-b7a3-33dac1c86ce9 # Hero
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
             handle: null
             instructions: null
             label: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: e47be9d2-9a8c-4a76-a8cc-b8f874549e35
+            uid: ba8f87e5-4953-4893-a391-c6c1393f9d05
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-04-07T10:41:01+00:00'
+            dateAdded: '2026-08-28T11:29:36+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 6b2462c2-66b9-45fe-9504-0bce4d4cd1df # Blocks
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
             handle: null
             instructions: null
             label: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: b5b892ab-0a60-49af-bb9b-361bfb3a55fd
+            uid: 9dff1b26-9c97-40ec-a050-b79668992661
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-08-28T11:29:36+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4c3a6312-688c-4bfd-97fb-1307d1013b6b
             userCondition: null
             warning: null
             width: 100
         name: Content
-        uid: 0102572d-d127-40b1-b9c0-704387cc932f
+        uid: 08922261-cfaa-431c-a0f8-9e0daafc5855
         userCondition: null
       -
         elementCondition: null
         elements:
           -
-            dateAdded: '2026-08-28T11:22:38+00:00'
+            dateAdded: '2026-08-28T11:29:36+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 453f9294-407d-405a-b73b-d5b63aec2eaa # SEO
-            handle: null
+            fieldUid: 9c2880cd-7d0d-494f-aeeb-4c0b30575fb5 # Padding - Hero
+            handle: padding
             instructions: null
-            label: null
+            label: Padding
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 9d7455a8-f32f-4921-9bba-9df7c207cb09
+            uid: 5926cc89-9e18-405e-895c-223d8403eebc
             userCondition: null
             warning: null
             width: 100
-        name: SEO
-        uid: c88435ac-5f15-47dc-858b-68512efabbed
+        name: Settings
+        uid: abae0d7e-7a1f-481d-a058-9329482fed5b
         userCondition: null
     thumbFieldKey: null
-handle: entryBlocks
-hasTitleField: true
-icon: file
-name: 'Entry - Blocks'
-showSlugField: true
-showStatusField: true
+handle: heroSimple
+hasTitleField: false
+icon: heading
+name: 'Hero - Simple'
+showSlugField: false
+showStatusField: false
 slugTranslationKeyFormat: null
 slugTranslationMethod: site
 titleFormat: null

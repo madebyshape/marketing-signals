@@ -2,7 +2,7 @@ allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
-  71660a2a-5e9c-456e-9584-e81e70baf6f2:
+  971fdba9-055c-48d8-aa82-c3452a7aff1b:
     cardThumbAlignment: end
     tabs:
       -
@@ -13,7 +13,7 @@ fieldLayouts:
             autocomplete: false
             autocorrect: true
             class: null
-            dateAdded: '2025-11-18T16:32:16+00:00'
+            dateAdded: '2026-08-28T12:01:32+00:00'
             disabled: false
             elementCondition: null
             id: null
@@ -32,12 +32,12 @@ fieldLayouts:
             tip: null
             title: null
             type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 0cf026d5-6d08-4e27-8a1f-ab30bca41c98
+            uid: 9a27fd80-66d8-4ccf-8423-faaf3826b407
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -48,12 +48,33 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: e47be9d2-9a8c-4a76-a8cc-b8f874549e35
+            uid: 0e418f3c-9aed-42bf-a829-6c65fdc79be0
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-04-07T10:41:01+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 814aa3b0-3be9-40de-bc3f-cd416a87284a
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            dismissible: false
+            elementCondition: null
+            style: tip
+            tip: 'Case Study Entries will automatically pull through here'
+            type: craft\fieldlayoutelements\Tip
+            uid: 42a7d034-a021-4a83-871a-dfaa4de5a526
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 74fe7858-364e-48f2-8810-7ba9a1c1515a
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -64,18 +85,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: b5b892ab-0a60-49af-bb9b-361bfb3a55fd
+            uid: c0bc5702-35f2-4078-be99-1f213a1ef8b4
             userCondition: null
             warning: null
             width: 100
         name: Content
-        uid: 0102572d-d127-40b1-b9c0-704387cc932f
+        uid: 259f5534-5e25-459a-9287-d11ce5ecf8eb
         userCondition: null
       -
         elementCondition: null
         elements:
           -
-            dateAdded: '2026-08-28T11:22:38+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -86,18 +107,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 9d7455a8-f32f-4921-9bba-9df7c207cb09
+            uid: dcd5fcb4-7fc7-41c1-8ea7-9dc12968183e
             userCondition: null
             warning: null
             width: 100
         name: SEO
-        uid: c88435ac-5f15-47dc-858b-68512efabbed
+        uid: cd9a8d6a-245d-4eac-9288-2f9984a28efd
         userCondition: null
     thumbFieldKey: null
-handle: entryBlocks
+handle: entryCaseStudyListing
 hasTitleField: true
 icon: file
-name: 'Entry - Blocks'
+name: 'Entry - Case Study Listing'
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null

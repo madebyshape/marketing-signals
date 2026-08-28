@@ -1,4 +1,4 @@
-dateModified: 1787916169
+dateModified: 1787923186
 email:
   fromEmail: $CRAFT_SYSTEM_EMAIL
   fromName: $CRAFT_SITE_NAME
@@ -46,6 +46,7 @@ meta:
   __names__:
     0b199c11-0b79-4e4b-b931-f9c85e23a667: Button # Button
     1e8bf0d4-be2b-4c71-8c62-e6cbe9bc401d: Email # Email
+    1ef24d74-b2e4-412d-b234-8766de50c3b6: 'Hero - Simple' # Hero - Simple
     1fca19db-a5b4-4b81-addd-5d2fa40bb83d: 'Button - No Label' # Button - No Label
     2a539981-3459-4d5f-8713-9d29353feafe: 'Longform Video' # Longform Video
     2cc195a7-75c4-4cb5-baba-42a69362e622: 'Dropdown - Video Display Type' # Dropdown - Video Display Type
@@ -54,37 +55,51 @@ meta:
     5e0a0379-473d-48fa-b3f0-4230ddc449a6: 'Lightswitch - Off' # Lightswitch - Off
     5e4babbb-3468-4302-9765-12fa4e367fe4: 'Longform Image Columns' # Longform Image Columns
     5edf3cb2-e081-444a-a9c1-bdab388c26f3: 'Dropdown - Aspect Ratio' # Dropdown - Aspect Ratio
+    6b543e86-8407-40c1-a8c3-f313ed625200: 'Entry - Form Success' # Entry - Form Success
     6b2462c2-66b9-45fe-9504-0bce4d4cd1df: Blocks # Blocks
     6d792fe4-471d-48ed-bc45-5fe112ba7e46: Image # Image
+    6f7c5bc5-e419-4241-8b4e-4598a736cafd: 'Entry - Team Listing' # Entry - Team Listing
     7b662bcd-ea91-4c91-86ce-c60348c664d1: Page # Page
     7bf65ac5-9169-4bf8-8825-65fadd566946: New # New
     7da91603-5ded-43ca-b8c9-692b445e049e: 'Rich Text - Longform' # Rich Text - Longform
     7f0dd947-99d8-4456-93f3-4ce4f6162a3f: 'Rich Text - Simple' # Rich Text - Simple
     8a84de3a-19bd-4528-a47b-1d207eda9858: Heading # Heading
     08c386f4-5a41-4c9f-8282-f6785af06bfc: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
+    9c2880cd-7d0d-494f-aeeb-4c0b30575fb5: 'Padding - Hero' # Padding - Hero
+    9db15396-a721-4413-a2c2-72e509359139: 'Entry - Contact' # Entry - Contact
     19d6d897-1cde-4d59-914a-2bf8a23e7916: 'Public Schema' # Public Schema
     42eea3c2-2f84-43d8-a495-647d4994a8d5: 'Text - Multiline' # Text - Multiline
     74eb57f4-3401-46b7-a35b-e2a75fee9c63: Button # Button
+    75cd72a0-08d7-4e62-987d-3380ee5a0722: 'Entry - FAQ Listing' # Entry - FAQ Listing
+    77b77dda-5b66-418a-8f88-158a1830c6cd: 'Entry - Blog Listing' # Entry - Blog Listing
     298fa7b6-abc0-4c80-a004-8fa35a30bf35: 'Button Group' # Button Group
     453f9294-407d-405a-b73b-d5b63aec2eaa: SEO # SEO
     502c0610-e74d-4359-8524-5652307ada64: Padding # Padding
+    01475e1b-7d73-4ffa-868e-7dbcb87d00a9: 'Heading - Inline Images' # Heading - Inline Images
     3731f571-53b0-4cf2-a89a-dbc6a4adc351: 'Longform Image' # Longform Image
     4580bc09-b5c8-40a2-bff5-95f715403f50: Video # Video
     6708a79d-c929-45c4-82f1-b440db7d759d: 'Dropdown - Video Type' # Dropdown - Video Type
     13116ff7-bb9e-4f5b-989d-48a287e4b53c: 'Text - Code' # Text - Code
     41118d3a-a4e2-4b8e-8d11-b0a93f26deeb: 'Lightswitch - On' # Lightswitch - On
+    868256be-34c2-4060-9427-94a7d25d97a2: 'Entry - Service Listing' # Entry - Service Listing
     13285537-5457-4f1f-ad8c-66fd187f8f09: 'Rich Text - Full' # Rich Text - Full
+    ab214509-2da1-4b0b-b7a3-33dac1c86ce9: Hero # Hero
     b9ac68e1-d9f1-4007-843f-fde1e9f4921b: Files # Files
+    bb417d14-872a-4288-9f03-8a735011cb7e: Eyebrow # Eyebrow
     bd5792c0-8d1f-4b0d-8340-8ae589fec77d: 'Longform - Quote' # Longform - Quote
     bdf6317d-0df7-449f-a937-a1a274ffb106: 'Entry - Blocks' # Entry - Blocks
+    c019bbe6-8d43-4e78-9158-eb2c865818e9: 'Entry - Playbook Listing' # Entry - Playbook Listing
     c0203d6f-4eda-4753-879f-9c36db1c1a98: Date # Date
     c3b9838a-6581-409e-9730-3fecbd013c89: Phone # Phone
     c803bdbf-5bdd-43e8-94e2-c7cde210fe37: 'Links To' # Links To
     cb6226c7-5901-41ed-ba28-a78b9504a3df: Images # Images
+    ce59fcb1-fb86-46a3-81a4-f7d745761454: 'Entry - Case Study Listing' # Entry - Case Study Listing
     d99bf7af-1eb1-4b77-814e-624eeec1a0e3: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
     d5189384-3a6a-441f-9f4b-cb171f279337: Heading # Heading
     da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21: Form # Form
+    e746909c-3d0f-4818-9497-14651dc6ee16: 'Entry - Text' # Entry - Text
     ecf96135-0c9d-4684-888c-9e3bd7def9bc: 'Longform Button Group' # Longform Button Group
+    eebfd246-f9aa-4d59-99e5-d4aaba54acba: 'Entry - Brand Guidelines' # Entry - Brand Guidelines
     f3e544b8-88bf-4761-8df2-d767fa1502b7: Text # Text
     f7b5b560-85eb-4827-a39b-b24c863ae5c3: 'Links To - No Label' # Links To - No Label
     fb0420bb-0fbf-46d2-afd2-f7992c60c886: 'Contact Form' # Contact Form

@@ -2,7 +2,7 @@ allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
-  71660a2a-5e9c-456e-9584-e81e70baf6f2:
+  efe509f4-ea8a-45f2-8600-7987d3c2168c:
     cardThumbAlignment: end
     tabs:
       -
@@ -13,7 +13,7 @@ fieldLayouts:
             autocomplete: false
             autocorrect: true
             class: null
-            dateAdded: '2025-11-18T16:32:16+00:00'
+            dateAdded: '2026-08-28T12:01:32+00:00'
             disabled: false
             elementCondition: null
             id: null
@@ -32,12 +32,12 @@ fieldLayouts:
             tip: null
             title: null
             type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 0cf026d5-6d08-4e27-8a1f-ab30bca41c98
+            uid: 74115512-51d4-44f0-b801-7c15631d012b
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -48,12 +48,33 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: e47be9d2-9a8c-4a76-a8cc-b8f874549e35
+            uid: 17ed0417-1b90-4ef9-8f1f-8c5c0edb8bf6
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-04-07T10:41:01+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: bb82166d-ad08-4d55-8062-aaf6737370ea
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            dismissible: false
+            elementCondition: null
+            style: tip
+            tip: 'Team Entries will automatically pull through here'
+            type: craft\fieldlayoutelements\Tip
+            uid: d8de41b5-76a5-4da4-a13c-918814b3855d
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: ea0ca312-0032-4d2d-8b21-d2a76335048d
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -64,18 +85,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: b5b892ab-0a60-49af-bb9b-361bfb3a55fd
+            uid: 9c80c4e0-d39c-42b5-98a9-5f7895b488a3
             userCondition: null
             warning: null
             width: 100
         name: Content
-        uid: 0102572d-d127-40b1-b9c0-704387cc932f
+        uid: e300461a-a1b6-4ee3-9aa9-6170f153e55c
         userCondition: null
       -
         elementCondition: null
         elements:
           -
-            dateAdded: '2026-08-28T11:22:38+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -86,18 +107,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 9d7455a8-f32f-4921-9bba-9df7c207cb09
+            uid: 53751be6-3155-495d-96eb-e8170734bf1a
             userCondition: null
             warning: null
             width: 100
         name: SEO
-        uid: c88435ac-5f15-47dc-858b-68512efabbed
+        uid: a3b52e42-d0e1-4dce-b30c-5ff32a407b90
         userCondition: null
     thumbFieldKey: null
-handle: entryBlocks
+handle: entryTeamListing
 hasTitleField: true
 icon: file
-name: 'Entry - Blocks'
+name: 'Entry - Team Listing'
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null

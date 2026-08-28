@@ -2,7 +2,7 @@ allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
-  71660a2a-5e9c-456e-9584-e81e70baf6f2:
+  47d7497a-4fef-4d7f-a895-4c8d19cac541:
     cardThumbAlignment: end
     tabs:
       -
@@ -13,7 +13,7 @@ fieldLayouts:
             autocomplete: false
             autocorrect: true
             class: null
-            dateAdded: '2025-11-18T16:32:16+00:00'
+            dateAdded: '2026-08-28T12:01:32+00:00'
             disabled: false
             elementCondition: null
             id: null
@@ -32,12 +32,12 @@ fieldLayouts:
             tip: null
             title: null
             type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 0cf026d5-6d08-4e27-8a1f-ab30bca41c98
+            uid: f2640bde-d90f-41ae-80d4-62efcd44427e
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -48,12 +48,33 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: e47be9d2-9a8c-4a76-a8cc-b8f874549e35
+            uid: 8b4d8b74-23d7-4b50-b987-8ba94518b801
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-04-07T10:41:01+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 5090f491-34c5-4bd8-be48-d9bc10dc5355
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            dismissible: false
+            elementCondition: null
+            style: tip
+            tip: 'Brand Guidelines will automatically pull through here'
+            type: craft\fieldlayoutelements\Tip
+            uid: 00b3e2e6-58f3-42f4-a8f8-83776adb9a52
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 53c85704-a51e-483e-bb6e-947a8ad98edc
+            userCondition: null
+          -
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -64,18 +85,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: b5b892ab-0a60-49af-bb9b-361bfb3a55fd
+            uid: 32e01ad7-3781-435a-b574-3de57985434a
             userCondition: null
             warning: null
             width: 100
         name: Content
-        uid: 0102572d-d127-40b1-b9c0-704387cc932f
+        uid: dc135cca-bcf0-42e4-9ccf-1bfaf1fe05e8
         userCondition: null
       -
         elementCondition: null
         elements:
           -
-            dateAdded: '2026-08-28T11:22:38+00:00'
+            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -86,18 +107,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 9d7455a8-f32f-4921-9bba-9df7c207cb09
+            uid: 60a9fc1d-6f7b-4c5a-9bc1-489843e00bd0
             userCondition: null
             warning: null
             width: 100
         name: SEO
-        uid: c88435ac-5f15-47dc-858b-68512efabbed
+        uid: 41d8799b-2d66-4293-bb30-13b71221a30f
         userCondition: null
     thumbFieldKey: null
-handle: entryBlocks
+handle: entryBrandGuidelines
 hasTitleField: true
 icon: file
-name: 'Entry - Blocks'
+name: 'Entry - Brand Guidelines'
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null
