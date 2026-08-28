@@ -41,7 +41,7 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 6b2462c2-66b9-45fe-9504-0bce4d4cd1df # Page - Blocks Content
+            fieldUid: 6b2462c2-66b9-45fe-9504-0bce4d4cd1df # Blocks
             handle: null
             instructions: null
             label: null
@@ -55,11 +55,33 @@ fieldLayouts:
         name: Content
         uid: 0102572d-d127-40b1-b9c0-704387cc932f
         userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-08-28T11:22:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 453f9294-407d-405a-b73b-d5b63aec2eaa # SEO
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9d7455a8-f32f-4921-9bba-9df7c207cb09
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: c88435ac-5f15-47dc-858b-68512efabbed
+        userCondition: null
     thumbFieldKey: null
-handle: pageBlocks
+handle: entryBlocks
 hasTitleField: true
 icon: file
-name: 'Page - Blocks'
+name: 'Entry - Blocks'
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null

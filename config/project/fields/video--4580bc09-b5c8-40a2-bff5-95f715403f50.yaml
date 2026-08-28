@@ -47,9 +47,69 @@ settings:
                             9:
                               - uid
                               - 0fe9b6d2-22ad-47c0-9064-2acb8c37e00a
+                            11:
+                              - elementCondition
+                              -
+                                __assoc__:
+                                  -
+                                    - elementType
+                                    - craft\elements\ContentBlock
+                                  -
+                                    - fieldContext
+                                    - global
+                                  -
+                                    - class
+                                    - craft\elements\conditions\ElementCondition
+                                  -
+                                    - conditionRules
+                                    -
+                                      - { __assoc__: [[class, craft\fields\conditions\OptionsFieldConditionRule], [uid, 7bd4bb62-adc1-49ff-bd55-bdc8cd957a12], [operator, in], [values, [url]], [fieldUid, 6708a79d-c929-45c4-82f1-b440db7d759d], [layoutElementUid, b0e04bcb-eb4b-44b2-b9f4-00cf1e016c73]] } # Dropdown - Video Type
                             12:
                               - fieldUid
                               - f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - videoFile
+                            2:
+                              - label
+                              - 'Video File'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-08-28T11:01:57+00:00'
+                            9:
+                              - uid
+                              - 2788f6f8-6919-43df-9fb7-359b9a4cd8f0
+                            11:
+                              - elementCondition
+                              -
+                                __assoc__:
+                                  -
+                                    - elementType
+                                    - craft\elements\ContentBlock
+                                  -
+                                    - fieldContext
+                                    - global
+                                  -
+                                    - class
+                                    - craft\elements\conditions\ElementCondition
+                                  -
+                                    - conditionRules
+                                    -
+                                      - { __assoc__: [[class, craft\fields\conditions\OptionsFieldConditionRule], [uid, ace138ea-289e-4919-a854-b073862e4060], [operator, in], [values, [file]], [fieldUid, 6708a79d-c929-45c4-82f1-b440db7d759d], [layoutElementUid, b0e04bcb-eb4b-44b2-b9f4-00cf1e016c73]] } # Dropdown - Video Type
+                            12:
+                              - fieldUid
+                              - 2fa69ca1-0da9-4b6b-910a-16d9b40d3cad # File
                         -
                           __assoc__:
                             0:
@@ -76,6 +136,58 @@ settings:
                             12:
                               - fieldUid
                               - 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - videoType
+                            2:
+                              - label
+                              - 'Video Type'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 50
+                            8:
+                              - dateAdded
+                              - '2026-08-28T11:01:57+00:00'
+                            9:
+                              - uid
+                              - b0e04bcb-eb4b-44b2-b9f4-00cf1e016c73
+                            12:
+                              - fieldUid
+                              - 6708a79d-c929-45c4-82f1-b440db7d759d # Dropdown - Video Type
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - videoDisplayType
+                            2:
+                              - label
+                              - 'Video Display Type'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 50
+                            8:
+                              - dateAdded
+                              - '2026-08-28T11:01:57+00:00'
+                            9:
+                              - uid
+                              - deec9548-db32-4783-8860-6a3dbcc6f280
+                            12:
+                              - fieldUid
+                              - 2cc195a7-75c4-4cb5-baba-42a69362e622 # Dropdown - Video Display Type
             4:
               - cardThumbAlignment
               - end

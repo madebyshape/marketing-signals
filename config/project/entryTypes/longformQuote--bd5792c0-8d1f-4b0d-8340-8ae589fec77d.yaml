@@ -1,0 +1,112 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  e271ec71-0ac3-44ad-b34f-d62dbc5cf7f4:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-08-28T11:13:28+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: quote
+            instructions: null
+            label: Quote
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0f9fe702-0b18-43bd-a6cb-708b1ed7fe1a
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-08-28T11:13:28+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: avatar
+            instructions: null
+            label: Avatar
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3e400466-151c-40e7-9327-4b14d99dbaa2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-08-28T11:13:28+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: quoteName
+            instructions: null
+            label: 'Quote Name'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 63d6774c-023e-4f83-bfd9-21a66e63b263
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-08-28T11:13:28+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: quoteCompany
+            instructions: null
+            label: 'Quote Company'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d9e0c4f9-5073-4c2f-9620-f8e92fce8a3a
+            userCondition: null
+            warning: null
+            width: 50
+        name: Content
+        uid: f629cc0c-d0b7-404e-8c41-956432b3237d
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-08-28T11:13:28+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c76b061a-669f-4b75-9d8e-d962d475d02c
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 0f82a132-1b19-4790-b1b1-6416c03c5ccb
+        userCondition: null
+    thumbFieldKey: null
+handle: longformQuote
+hasTitleField: false
+icon: comment-quote
+name: 'Longform - Quote'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

@@ -1,7 +1,7 @@
 columnSuffix: null
-handle: linkButtonNoLabel
+handle: buttonNoLabel
 instructions: null
-name: 'Link / Button - No Label'
+name: 'Button - No Label'
 searchable: false
 settings:
   advancedFields:

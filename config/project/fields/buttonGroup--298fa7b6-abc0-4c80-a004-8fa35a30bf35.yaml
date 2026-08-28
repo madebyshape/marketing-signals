@@ -1,10 +1,10 @@
 columnSuffix: null
-handle: pageBlocksContent
+handle: buttonGroup
 instructions: null
-name: 'Page - Blocks Content'
+name: 'Button Group'
 searchable: false
 settings:
-  createButtonLabel: 'New Block'
+  createButtonLabel: 'New Button'
   defaultIndexViewMode: cards
   enableVersioning: false
   entryTypes:
@@ -12,12 +12,12 @@ settings:
       __assoc__:
         -
           - uid
-          - 8a84de3a-19bd-4528-a47b-1d207eda9858 # Heading
+          - 74eb57f4-3401-46b7-a35b-e2a75fee9c63 # Button
         -
           - group
           - General
   includeTableView: false
-  maxEntries: null
+  maxEntries: 2
   minEntries: null
   pageSize: null
   propagationKeyFormat: null

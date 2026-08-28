@@ -1,0 +1,64 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  dd073e59-f17f-4199-b0cc-533db3e128d0:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-08-28T11:09:59+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 298fa7b6-abc0-4c80-a004-8fa35a30bf35 # Button Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a9dff4de-507f-4891-9abf-d2b8fd50653e
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: adbec036-e0b4-4b26-82fa-ba11ef718652
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-08-28T11:09:59+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a038d7db-a458-4a93-b9b3-3e57e1743d5d
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 6fce9da0-abc2-4c6c-a530-484177eff0b4
+        userCondition: null
+    thumbFieldKey: null
+handle: longformButtonGroup
+hasTitleField: false
+icon: toggle-off
+name: 'Longform Button Group'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

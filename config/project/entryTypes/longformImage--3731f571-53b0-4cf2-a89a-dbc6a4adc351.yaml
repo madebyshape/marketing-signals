@@ -1,0 +1,80 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  1427c0fb-cba7-460d-b2c2-3c323ab22147:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-08-28T11:07:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 738c475f-8dd6-4001-8634-740c06c73f5a
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-08-28T11:07:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5edf3cb2-e081-444a-a9c1-bdab388c26f3 # Dropdown - Aspect Ratio
+            handle: aspectRatio
+            instructions: null
+            label: 'Aspect Ratio'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 057a6040-0060-47e1-a4b6-9241d853eca2
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: f1e3e42b-fb7c-400a-82be-1f01a5e527eb
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-08-28T11:07:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 42e8d7f8-0d03-4f53-8a4b-58f622efa267
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: af3ee18b-8614-4b6c-be7e-3f99beff7591
+        userCondition: null
+    thumbFieldKey: null
+handle: longformImage
+hasTitleField: false
+icon: image-landscape
+name: 'Longform Image'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

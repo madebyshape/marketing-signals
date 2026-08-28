@@ -4,6 +4,7 @@ instructions: null
 name: 'Rich Text - Longform'
 searchable: false
 settings:
+  advancedLinkFields: null
   availableTransforms: ''
   availableVolumes: '*'
   characterLimit: null
@@ -12,15 +13,74 @@ settings:
   defaultTransform: null
   defaultUploadLocationSubpath: null
   defaultUploadLocationVolume: null
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 2a539981-3459-4d5f-8713-9d29353feafe # Longform Video
+        -
+          - name
+          - Video
+        -
+          - expanded
+          - false
+    -
+      __assoc__:
+        -
+          - uid
+          - 3731f571-53b0-4cf2-a89a-dbc6a4adc351 # Longform Image
+        -
+          - name
+          - Image
+        -
+          - expanded
+          - false
+    -
+      __assoc__:
+        -
+          - uid
+          - 5e4babbb-3468-4302-9765-12fa4e367fe4 # Longform Image Columns
+        -
+          - name
+          - 'Image Columns'
+        -
+          - expanded
+          - false
+    -
+      __assoc__:
+        -
+          - uid
+          - ecf96135-0c9d-4684-888c-9e3bd7def9bc # Longform Button Group
+        -
+          - name
+          - 'Button Group'
+        -
+          - expanded
+          - false
+    -
+      __assoc__:
+        -
+          - uid
+          - bd5792c0-8d1f-4b0d-8340-8ae589fec77d # Longform - Quote
+        -
+          - name
+          - Quote
+        -
+          - handle
+          - quote
+        -
+          - expanded
+          - false
   fullGraphqlData: true
   headingLevels:
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-  imageEntryTypeUid: null
-  imageFieldUid: null
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '6'
+  imageEntryTypeUid: 3731f571-53b0-4cf2-a89a-dbc6a4adc351 # Longform Image
+  imageFieldUid: 738c475f-8dd6-4001-8634-740c06c73f5a
   imageMode: img
   js: null
   jsFile: null

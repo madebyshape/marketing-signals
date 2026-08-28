@@ -4,6 +4,7 @@ instructions: null
 name: 'Rich Text - Simple'
 searchable: false
 settings:
+  advancedLinkFields: null
   availableTransforms: ''
   availableVolumes: '*'
   characterLimit: null
@@ -12,14 +13,13 @@ settings:
   defaultTransform: null
   defaultUploadLocationSubpath: null
   defaultUploadLocationVolume: null
-  fullGraphqlData: false
+  fullGraphqlData: true
   headingLevels:
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '6'
   imageEntryTypeUid: null
   imageFieldUid: null
   imageMode: img
