@@ -1,0 +1,22 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 17c07940-d39d-4d93-801d-5a752b9c40ec # Entry - Career
+handle: career
+maxAuthors: 1
+minAuthors: 1
+name: Career
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  08c386f4-5a41-4c9f-8282-f6785af06bfc: # $CRAFT_SITE_NAME
+    enabledByDefault: true
+    hasUrls: true
+    template: _entryTypes/base.twig
+    uriFormat: 'career/{slug}'
+type: channel

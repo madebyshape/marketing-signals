@@ -1,0 +1,186 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  47d612a2-b1b9-415b-9f65-6d69495bf6da:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-01T14:06:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            handle: headerButton
+            instructions: null
+            label: 'Header Button'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b8a2ca73-8d01-4447-bf42-6ff69310000a
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-01T14:06:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2634aee9-724f-4029-a0fb-d1e3b7d3fc38 # Main Menu
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 24c22cb2-a943-44f2-8797-94cc18e259fa
+            userCondition: null
+            warning: null
+            width: 100
+        name: Header
+        uid: 902417d2-4f08-4126-b984-0c0389d1e62c
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-01T14:06:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 8053567b-728a-491a-9206-0c9a6c6b1b12 # Footer CTA
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 986e9d73-e9af-4962-8d11-56ea126507e3
+            userCondition: null
+            warning: null
+            width: 100
+        name: 'Footer CTA'
+        uid: ee524a5a-4aa0-4412-bdb7-4cdfc3afec2f
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-01T14:06:38+00:00'
+            elementCondition: null
+            heading: 'Footer Top'
+            type: craft\fieldlayoutelements\Heading
+            uid: 2c166ff4-743b-423e-8500-7f41a55ef374
+            userCondition: null
+          -
+            dateAdded: '2026-09-01T14:06:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2a8d639a-2f4a-4d25-9385-ddac09ecc1ce # Footer Columns
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 69572c0d-25f5-416e-81ed-2d2fb65a84ca
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-01T14:06:38+00:00'
+            elementCondition: null
+            heading: 'Footer Bottom'
+            type: craft\fieldlayoutelements\Heading
+            uid: be0fbc4e-4781-43a6-89e8-3fdbfc087a55
+            userCondition: null
+          -
+            dateAdded: '2026-09-01T14:06:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5cbe08b7-b4bd-4a6b-be41-de9647b5eb19 # Images
+            handle: footerLogos
+            instructions: null
+            label: 'Footer Logos'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 22d8f807-f6a0-4f48-8314-6cfe580bab3f
+            userCondition: null
+            warning: null
+            width: 100
+        name: 'Footer (Main)'
+        uid: cea8268f-971d-4c1c-a4b9-c11dda967056
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-01T14:06:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5cbe08b7-b4bd-4a6b-be41-de9647b5eb19 # Images
+            handle: errorImages
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8de517e5-c3db-4704-8083-863946dc6660
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-01T14:06:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: errorHeading
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d79e453e-c088-4354-ba63-8e2b3061e4d2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-01T14:06:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 17e2f019-d6ee-4f54-83a2-a32091caa96d # Button Group (Unlimited)
+            handle: errorLinks
+            instructions: null
+            label: 'Error Links'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 59ab6dc8-29c1-4f3e-a56a-34b7aefc9eb8
+            userCondition: null
+            warning: null
+            width: 100
+        name: '404'
+        uid: e7b0b8ae-de4b-470c-a628-f96fb6383738
+        userCondition: null
+    thumbFieldKey: null
+handle: entrySite
+hasTitleField: false
+icon: file
+name: 'Entry Site'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

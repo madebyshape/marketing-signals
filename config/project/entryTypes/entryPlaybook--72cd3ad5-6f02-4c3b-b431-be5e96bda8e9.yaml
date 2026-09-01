@@ -2,7 +2,7 @@ allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
-  71660a2a-5e9c-456e-9584-e81e70baf6f2:
+  a836a1b1-1c50-4a16-ac8b-a0277c4c7524:
     cardThumbAlignment: end
     tabs:
       -
@@ -32,10 +32,23 @@ fieldLayouts:
             tip: null
             title: null
             type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 0cf026d5-6d08-4e27-8a1f-ab30bca41c98
+            uid: fbe4f2d0-380d-470a-a390-19759e317f2c
             userCondition: null
             warning: null
             width: 100
+        name: 'Overview Content'
+        uid: 5a623a6d-edde-4b88-b58c-c66b5c93d054
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-08-28T13:42:12+00:00'
+            elementCondition: null
+            heading: Hero
+            type: craft\fieldlayoutelements\Heading
+            uid: 103aabb4-6fb5-49de-a647-49ccab25c376
+            userCondition: null
           -
             dateAdded: '2026-08-28T11:29:55+00:00'
             editCondition: null
@@ -48,10 +61,17 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: e47be9d2-9a8c-4a76-a8cc-b8f874549e35
+            uid: 5615c133-2956-470e-9627-d9c9127b8551
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-08-28T13:42:12+00:00'
+            elementCondition: null
+            heading: Content
+            type: craft\fieldlayoutelements\Heading
+            uid: dc04c1c3-7bd3-450d-ae1e-c972e47c68f4
+            userCondition: null
           -
             dateAdded: '2026-04-07T10:41:01+00:00'
             editCondition: null
@@ -64,12 +84,12 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: b5b892ab-0a60-49af-bb9b-361bfb3a55fd
+            uid: e8aae5d4-2023-4d8e-a59b-c611a47bec10
             userCondition: null
             warning: null
             width: 100
         name: 'Page Content'
-        uid: 0102572d-d127-40b1-b9c0-704387cc932f
+        uid: 2fce9544-3a04-46ec-8d97-cf3b09522bb1
         userCondition: null
       -
         elementCondition: null
@@ -86,18 +106,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 9d7455a8-f32f-4921-9bba-9df7c207cb09
+            uid: 557a0e6c-2aa6-4ee1-ab3e-04766d253a15
             userCondition: null
             warning: null
             width: 100
         name: SEO
-        uid: c88435ac-5f15-47dc-858b-68512efabbed
+        uid: 6d9d1e96-d4e8-4d13-a2a9-93fbbe7bda0e
         userCondition: null
     thumbFieldKey: null
-handle: entryBlocks
+handle: entryPlaybook
 hasTitleField: true
 icon: file
-name: 'Entry - Blocks'
+name: 'Entry - Playbook'
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null

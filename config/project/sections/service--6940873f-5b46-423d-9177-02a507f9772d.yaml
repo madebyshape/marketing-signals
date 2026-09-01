@@ -1,0 +1,25 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 6c903676-c7fc-4096-874c-68b19495c33a # Entry - Service
+handle: service
+maxAuthors: 1
+minAuthors: 1
+name: Service
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  08c386f4-5a41-4c9f-8282-f6785af06bfc: # $CRAFT_SITE_NAME
+    enabledByDefault: true
+    hasUrls: true
+    template: _entryTypes/base.twig
+    uriFormat: 'service/{slug}'
+structure:
+  maxLevels: null
+  uid: 2111a307-457f-4b57-b962-80bca8544cf2
+type: structure

@@ -2,7 +2,7 @@ allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
-  71660a2a-5e9c-456e-9584-e81e70baf6f2:
+  8b55a42c-7fb8-4ad8-9626-5b8cd6f2ea4c:
     cardThumbAlignment: end
     tabs:
       -
@@ -32,73 +32,99 @@ fieldLayouts:
             tip: null
             title: null
             type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 0cf026d5-6d08-4e27-8a1f-ab30bca41c98
+            uid: ac34f9f6-f701-4ecf-91cf-56a580b37f89
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-08-28T13:59:53+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: ab214509-2da1-4b0b-b7a3-33dac1c86ce9 # Hero
-            handle: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: avatar
             instructions: null
-            label: null
+            label: Avatar
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: e47be9d2-9a8c-4a76-a8cc-b8f874549e35
+            uid: b284fd95-06ae-4661-9c0f-ab06d567b174
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-04-07T10:41:01+00:00'
+            dateAdded: '2026-08-28T13:59:53+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 6b2462c2-66b9-45fe-9504-0bce4d4cd1df # Blocks
-            handle: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: testimonialName
             instructions: null
-            label: null
+            label: 'Testimonial Name'
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: b5b892ab-0a60-49af-bb9b-361bfb3a55fd
+            uid: f672357c-f582-4d59-a814-c08fab2124dd
             userCondition: null
             warning: null
-            width: 100
-        name: 'Page Content'
-        uid: 0102572d-d127-40b1-b9c0-704387cc932f
-        userCondition: null
-      -
-        elementCondition: null
-        elements:
+            width: 50
           -
-            dateAdded: '2026-08-28T11:22:38+00:00'
+            dateAdded: '2026-08-28T13:59:53+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 453f9294-407d-405a-b73b-d5b63aec2eaa # SEO
-            handle: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: testimonialJobRole
             instructions: null
-            label: null
+            label: 'Testimonial Job Role'
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 9d7455a8-f32f-4921-9bba-9df7c207cb09
+            uid: cba436ba-ac72-41fb-bcc5-8662b47d5ad7
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-08-28T13:59:53+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: logo
+            instructions: null
+            label: Logo
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 62ad8270-ef4f-4fa6-b845-a3498a0e8797
             userCondition: null
             warning: null
             width: 100
-        name: SEO
-        uid: c88435ac-5f15-47dc-858b-68512efabbed
+          -
+            dateAdded: '2026-08-28T13:59:53+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c5678e25-2252-4309-982a-6a1c556113fa
+            userCondition: null
+            warning: null
+            width: 100
+        name: 'Element Content'
+        uid: 61c6a497-5cd7-43bb-877c-0c682cac4712
         userCondition: null
     thumbFieldKey: null
-handle: entryBlocks
+handle: entryTestimonial
 hasTitleField: true
 icon: file
-name: 'Entry - Blocks'
-showSlugField: true
+name: 'Entry - Testimonial'
+showSlugField: false
 showStatusField: true
 slugTranslationKeyFormat: null
 slugTranslationMethod: site

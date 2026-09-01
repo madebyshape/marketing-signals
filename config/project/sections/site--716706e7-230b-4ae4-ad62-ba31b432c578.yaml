@@ -1,0 +1,22 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 93bb0c13-89fe-4d68-9853-576b7d1238a6 # Entry Site
+handle: site
+maxAuthors: 1
+minAuthors: 1
+name: Site
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  08c386f4-5a41-4c9f-8282-f6785af06bfc: # $CRAFT_SITE_NAME
+    enabledByDefault: true
+    hasUrls: true
+    template: site/_entry.twig
+    uriFormat: site
+type: single

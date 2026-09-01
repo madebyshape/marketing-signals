@@ -2,7 +2,7 @@ allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
-  71660a2a-5e9c-456e-9584-e81e70baf6f2:
+  83c3a0dd-6aee-4008-8efe-5500de2592cf:
     cardThumbAlignment: end
     tabs:
       -
@@ -32,73 +32,67 @@ fieldLayouts:
             tip: null
             title: null
             type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 0cf026d5-6d08-4e27-8a1f-ab30bca41c98
+            uid: eee3fdf0-b4cb-435f-bb23-a07970e1d4cf
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-08-28T13:53:42+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: ab214509-2da1-4b0b-b7a3-33dac1c86ce9 # Hero
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
             handle: null
             instructions: null
             label: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: e47be9d2-9a8c-4a76-a8cc-b8f874549e35
+            uid: 930f76fb-12d6-460c-bcc6-ee22c0713650
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-04-07T10:41:01+00:00'
+            dateAdded: '2026-08-28T13:53:42+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 6b2462c2-66b9-45fe-9504-0bce4d4cd1df # Blocks
+            fieldUid: 13285537-5457-4f1f-ad8c-66fd187f8f09 # Rich Text - Full
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 80c2f7f5-e669-4183-a00a-494411cc08b9
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-08-28T13:53:42+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 298fa7b6-abc0-4c80-a004-8fa35a30bf35 # Button Group
             handle: null
             instructions: null
             label: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: b5b892ab-0a60-49af-bb9b-361bfb3a55fd
+            uid: 66ed1e98-d9b4-4f19-b96e-52b6111265ac
             userCondition: null
             warning: null
             width: 100
-        name: 'Page Content'
-        uid: 0102572d-d127-40b1-b9c0-704387cc932f
-        userCondition: null
-      -
-        elementCondition: null
-        elements:
-          -
-            dateAdded: '2026-08-28T11:22:38+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: 453f9294-407d-405a-b73b-d5b63aec2eaa # SEO
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 9d7455a8-f32f-4921-9bba-9df7c207cb09
-            userCondition: null
-            warning: null
-            width: 100
-        name: SEO
-        uid: c88435ac-5f15-47dc-858b-68512efabbed
+        name: 'Element Content'
+        uid: dd7090c1-a304-411a-9529-640b04391dbd
         userCondition: null
     thumbFieldKey: null
-handle: entryBlocks
+handle: entryFaq
 hasTitleField: true
 icon: file
-name: 'Entry - Blocks'
-showSlugField: true
+name: 'Entry - FAQ'
+showSlugField: false
 showStatusField: true
 slugTranslationKeyFormat: null
 slugTranslationMethod: site

@@ -2,7 +2,7 @@ allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
-  71660a2a-5e9c-456e-9584-e81e70baf6f2:
+  ea7e7631-e1f3-4334-936c-f22e088e00cf:
     cardThumbAlignment: end
     tabs:
       -
@@ -32,73 +32,67 @@ fieldLayouts:
             tip: null
             title: null
             type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 0cf026d5-6d08-4e27-8a1f-ab30bca41c98
+            uid: dbd67718-9bb5-4372-bdaa-0fb43d271322
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-08-28T13:55:50+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: ab214509-2da1-4b0b-b7a3-33dac1c86ce9 # Hero
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
             handle: null
             instructions: null
             label: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: e47be9d2-9a8c-4a76-a8cc-b8f874549e35
+            uid: aec5ba1c-6ef1-4412-a1cd-b0775ac28c61
             userCondition: null
             warning: null
             width: 100
           -
-            dateAdded: '2026-04-07T10:41:01+00:00'
+            dateAdded: '2026-08-28T13:55:50+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 6b2462c2-66b9-45fe-9504-0bce4d4cd1df # Blocks
-            handle: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: jobRole
             instructions: null
-            label: null
+            label: 'Job Role'
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: b5b892ab-0a60-49af-bb9b-361bfb3a55fd
+            uid: 62979edc-591b-4fdf-bde7-210140f591dc
             userCondition: null
             warning: null
             width: 100
-        name: 'Page Content'
-        uid: 0102572d-d127-40b1-b9c0-704387cc932f
-        userCondition: null
-      -
-        elementCondition: null
-        elements:
           -
-            dateAdded: '2026-08-28T11:22:38+00:00'
+            dateAdded: '2026-08-28T13:55:50+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 453f9294-407d-405a-b73b-d5b63aec2eaa # SEO
-            handle: null
+            fieldUid: 13285537-5457-4f1f-ad8c-66fd187f8f09 # Rich Text - Full
+            handle: text
             instructions: null
-            label: null
+            label: Text
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 9d7455a8-f32f-4921-9bba-9df7c207cb09
+            uid: 06a6b4cb-8bac-43e8-be8a-25e0af0d227f
             userCondition: null
             warning: null
             width: 100
-        name: SEO
-        uid: c88435ac-5f15-47dc-858b-68512efabbed
+        name: 'Element Content'
+        uid: 7f6acbd8-1755-4cd7-ba8d-7bf0f4516972
         userCondition: null
     thumbFieldKey: null
-handle: entryBlocks
+handle: entryTeam
 hasTitleField: true
 icon: file
-name: 'Entry - Blocks'
-showSlugField: true
+name: 'Entry - Team'
+showSlugField: false
 showStatusField: true
 slugTranslationKeyFormat: null
 slugTranslationMethod: site

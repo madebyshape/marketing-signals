@@ -1,0 +1,37 @@
+columnSuffix: null
+handle: footerColumns
+instructions: null
+name: 'Footer Columns'
+searchable: false
+settings:
+  createButtonLabel: 'New Column'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 0b4c11ad-51c9-43b6-a7cd-47a988cc8821 # Contact Column
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
+          - 8b233bdd-f329-4553-af8e-2f8f4156f8cf # Menu Column
+        -
+          - group
+          - General
+  includeTableView: false
+  maxEntries: 3
+  minEntries: null
+  pageSize: 50
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: true
+  viewMode: cards-grid
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

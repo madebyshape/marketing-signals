@@ -1,0 +1,17 @@
+{% extends '_layouts/global' %}
+
+{% block site %}
+
+    {% for block in entry.blocks.all() %}
+
+        {{ entry.hero.render({
+            vars: vars
+        }) }}
+
+        {{ entry.blocks.render({
+            vars: vars
+        }) }}
+
+    {% endfor %}
+
+{% endblock %}

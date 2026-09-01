@@ -1,0 +1,55 @@
+{# Default Params #}
+
+{% set defaultParams = {
+	richText: null,
+	balance: false,
+	headingStyle: 'sans',
+	gap: 'md',
+	size: 'lg',
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+	gap: {
+		sm: vars.class.gap.y.sm,
+		base: vars.class.gap.y.base,
+		md: vars.class.gap.y.md,
+		lg: vars.class.gap.y.lg,
+		xl: vars.class.gap.y.xl,
+		xxl: vars.class.gap.y.xxl,
+	}
+} %}
+{# Output #}
+
+<div class="grid | {{ options.gap[params.gap] }}">
+
+	{% for chunk in params.richText %}
+
+		{% if chunk.type == 'markup' %}
+
+			{% include '_components/richText' with {
+				params: {
+					richText: chunk,
+					headingStyle: params.headingStyle,
+					size: params.size,
+				}
+			} %}
+
+		{% else %}
+
+			{{
+				chunk.entry.render({
+					vars: vars,
+				})
+			}}
+
+		{% endif %}
+
+	{% endfor %}
+
+</div>

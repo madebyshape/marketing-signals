@@ -1,0 +1,74 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  c8f9c909-5a62-4a6c-921b-99037260e888:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-01T13:58:01+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 10c4f63f-9ded-43c2-91ee-905f804b4c96
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-01T13:58:01+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 1e8bf0d4-be2b-4c71-8c62-e6cbe9bc401d # Email
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 37a24c7f-7c6e-4e17-bf7c-9864b7cdd933
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-09-01T13:58:01+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c3b9838a-6581-409e-9730-3fecbd013c89 # Phone
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: fb5f1de3-002a-4122-b83f-c69c5898ecb0
+            userCondition: null
+            warning: null
+            width: 50
+        name: Content
+        uid: 277804fb-0901-4374-afc6-9b7d81006cea
+        userCondition: null
+    thumbFieldKey: null
+handle: contactColumn
+hasTitleField: false
+icon: table-columns
+name: 'Contact Column'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

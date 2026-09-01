@@ -1,0 +1,29 @@
+columnSuffix: null
+handle: buttonGroupUnlimited
+instructions: null
+name: 'Button Group (Unlimited)'
+searchable: false
+settings:
+  createButtonLabel: 'New Button'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 74eb57f4-3401-46b7-a35b-e2a75fee9c63 # Button
+        -
+          - group
+          - General
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

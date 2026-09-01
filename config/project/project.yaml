@@ -1,4 +1,101 @@
-dateModified: 1787923186
+dateModified: 1788272968
+elementSources:
+  craft\elements\Entry:
+    -
+      defaultSort:
+        - postDate
+        - desc
+      defaultViewMode: ''
+      disabled: false
+      key: '*'
+      page: Entries
+      tableAttributes:
+        - status
+        - section
+        - postDate
+        - expiryDate
+        - link
+      type: native
+    -
+      key: 'section:dd193fca-6353-485f-a383-668951cbb602' # Blog
+      page: Entries
+      type: native
+    -
+      key: 'section:507a5f9c-bcbc-410d-a04f-48829ea6f806' # Case Study
+      page: Entries
+      type: native
+    -
+      defaultSort:
+        - structure
+        - asc
+      defaultViewMode: ''
+      disabled: false
+      key: 'section:7b662bcd-ea91-4c91-86ce-c60348c664d1' # Page
+      page: Entries
+      tableAttributes:
+        - status
+        - postDate
+        - expiryDate
+        - link
+      type: native
+    -
+      key: 'section:01db3114-eb35-4fde-a697-e47250abb979' # Playbook
+      page: Entries
+      type: native
+    -
+      key: 'section:6940873f-5b46-423d-9177-02a507f9772d' # Service
+      page: Entries
+      type: native
+    -
+      defaultSort:
+        - postDate
+        - desc
+      defaultViewMode: ''
+      disabled: false
+      key: 'section:15a9b54f-c692-49c5-9368-7a85274cd550' # Career
+      page: Elements
+      tableAttributes:
+        - status
+        - postDate
+        - expiryDate
+        - link
+      type: native
+    -
+      key: 'section:fa2d89b4-fa6d-48d3-b36a-7169022cd64d' # Client
+      page: Elements
+      type: native
+    -
+      key: 'section:bcef1181-692a-4647-9320-f85c0285fbf9' # Testimonial
+      page: Elements
+      type: native
+    -
+      key: 'section:9b4079ae-fa59-4930-8132-039a9456c37c' # FAQ
+      page: Elements
+      type: native
+    -
+      key: 'section:cfeb9855-4c2c-423d-b40b-57d2dd12b46e' # Team
+      page: Elements
+      type: native
+    -
+      defaultSort:
+        - title
+        - asc
+      defaultViewMode: ''
+      disabled: false
+      key: singles
+      page: Globals
+      tableAttributes:
+        - status
+        - link
+      type: native
+elementSourcesPages:
+  craft\elements\Entry:
+    Elements:
+      icon: elementor
+    Entries:
+      icon: file
+    Globals:
+      icon: earth-americas
 email:
   fromEmail: $CRAFT_SYSTEM_EMAIL
   fromName: $CRAFT_SITE_NAME
@@ -44,19 +141,25 @@ fs:
     url: 'https://cdn2.assets-servd.host/'
 meta:
   __names__:
+    0b4c11ad-51c9-43b6-a7cd-47a988cc8821: 'Contact Column' # Contact Column
     0b199c11-0b79-4e4b-b931-f9c85e23a667: Button # Button
+    01db3114-eb35-4fde-a697-e47250abb979: Playbook # Playbook
     1e8bf0d4-be2b-4c71-8c62-e6cbe9bc401d: Email # Email
+    1e92fbd1-878b-44df-b3fc-d00b32474e6d: 'Entry - FAQ' # Entry - FAQ
     1ef24d74-b2e4-412d-b234-8766de50c3b6: 'Hero - Simple' # Hero - Simple
     1fca19db-a5b4-4b81-addd-5d2fa40bb83d: 'Button - No Label' # Button - No Label
+    2a8d639a-2f4a-4d25-9385-ddac09ecc1ce: 'Footer Columns' # Footer Columns
     2a539981-3459-4d5f-8713-9d29353feafe: 'Longform Video' # Longform Video
     2cc195a7-75c4-4cb5-baba-42a69362e622: 'Dropdown - Video Display Type' # Dropdown - Video Display Type
     2fa69ca1-0da9-4b6b-910a-16d9b40d3cad: File # File
+    2fdcc5f0-cba6-486c-a080-20852b3bf4bd: 'Entry - Client' # Entry - Client
     5cbe08b7-b4bd-4a6b-be41-de9647b5eb19: Images # Images
     5e0a0379-473d-48fa-b3f0-4230ddc449a6: 'Lightswitch - Off' # Lightswitch - Off
     5e4babbb-3468-4302-9765-12fa4e367fe4: 'Longform Image Columns' # Longform Image Columns
     5edf3cb2-e081-444a-a9c1-bdab388c26f3: 'Dropdown - Aspect Ratio' # Dropdown - Aspect Ratio
     6b543e86-8407-40c1-a8c3-f313ed625200: 'Entry - Form Success' # Entry - Form Success
     6b2462c2-66b9-45fe-9504-0bce4d4cd1df: Blocks # Blocks
+    6c903676-c7fc-4096-874c-68b19495c33a: 'Entry - Service' # Entry - Service
     6d792fe4-471d-48ed-bc45-5fe112ba7e46: Image # Image
     6f7c5bc5-e419-4241-8b4e-4598a736cafd: 'Entry - Team Listing' # Entry - Team Listing
     7b662bcd-ea91-4c91-86ce-c60348c664d1: Page # Page
@@ -64,44 +167,70 @@ meta:
     7da91603-5ded-43ca-b8c9-692b445e049e: 'Rich Text - Longform' # Rich Text - Longform
     7f0dd947-99d8-4456-93f3-4ce4f6162a3f: 'Rich Text - Simple' # Rich Text - Simple
     8a84de3a-19bd-4528-a47b-1d207eda9858: Heading # Heading
+    8b233bdd-f329-4553-af8e-2f8f4156f8cf: 'Menu Column' # Menu Column
     08c386f4-5a41-4c9f-8282-f6785af06bfc: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
+    8dec68ee-43b1-4ee4-adaf-09353f5bfab8: 'Entry - Testimonial' # Entry - Testimonial
+    9b4079ae-fa59-4930-8132-039a9456c37c: FAQ # FAQ
     9c2880cd-7d0d-494f-aeeb-4c0b30575fb5: 'Padding - Hero' # Padding - Hero
+    9da49a9d-23bf-4f1f-b736-5d8465f335ab: 'Entry - Case Study' # Entry - Case Study
     9db15396-a721-4413-a2c2-72e509359139: 'Entry - Contact' # Entry - Contact
+    15a9b54f-c692-49c5-9368-7a85274cd550: Career # Career
+    15e52e57-510c-4224-9b47-16c703f5270c: Images # Images
+    17c07940-d39d-4d93-801d-5a752b9c40ec: 'Entry - Career' # Entry - Career
+    17e2f019-d6ee-4f54-83a2-a32091caa96d: 'Button Group (Unlimited)' # Button Group (Unlimited)
     19d6d897-1cde-4d59-914a-2bf8a23e7916: 'Public Schema' # Public Schema
     42eea3c2-2f84-43d8-a495-647d4994a8d5: 'Text - Multiline' # Text - Multiline
+    72cd3ad5-6f02-4c3b-b431-be5e96bda8e9: 'Entry - Playbook' # Entry - Playbook
     74eb57f4-3401-46b7-a35b-e2a75fee9c63: Button # Button
     75cd72a0-08d7-4e62-987d-3380ee5a0722: 'Entry - FAQ Listing' # Entry - FAQ Listing
     77b77dda-5b66-418a-8f88-158a1830c6cd: 'Entry - Blog Listing' # Entry - Blog Listing
+    93bb0c13-89fe-4d68-9853-576b7d1238a6: 'Entry Site' # Entry Site
     298fa7b6-abc0-4c80-a004-8fa35a30bf35: 'Button Group' # Button Group
+    443a1739-83a4-481f-bcf4-71cd0d14bb00: 'Entry - Blog' # Entry - Blog
     453f9294-407d-405a-b73b-d5b63aec2eaa: SEO # SEO
     502c0610-e74d-4359-8524-5652307ada64: Padding # Padding
+    507a5f9c-bcbc-410d-a04f-48829ea6f806: 'Case Study' # Case Study
     01475e1b-7d73-4ffa-868e-7dbcb87d00a9: 'Heading - Inline Images' # Heading - Inline Images
+    2634aee9-724f-4029-a0fb-d1e3b7d3fc38: 'Main Menu' # Main Menu
     3731f571-53b0-4cf2-a89a-dbc6a4adc351: 'Longform Image' # Longform Image
     4580bc09-b5c8-40a2-bff5-95f715403f50: Video # Video
+    5200f937-8d03-490c-bebc-4fb1e0c06c4a: 'Menu Item' # Menu Item
     6708a79d-c929-45c4-82f1-b440db7d759d: 'Dropdown - Video Type' # Dropdown - Video Type
+    8921f4cc-6d1a-4c1f-bf13-bcdf8b992806: Links # Links
     13116ff7-bb9e-4f5b-989d-48a287e4b53c: 'Text - Code' # Text - Code
     41118d3a-a4e2-4b8e-8d11-b0a93f26deeb: 'Lightswitch - On' # Lightswitch - On
+    401508ab-1703-4248-86c6-2adf4ccc7ea9: 'Links To' # Links To
+    716706e7-230b-4ae4-ad62-ba31b432c578: Site # Site
     868256be-34c2-4060-9427-94a7d25d97a2: 'Entry - Service Listing' # Entry - Service Listing
+    6940873f-5b46-423d-9177-02a507f9772d: Service # Service
+    8053567b-728a-491a-9206-0c9a6c6b1b12: 'Footer CTA' # Footer CTA
     13285537-5457-4f1f-ad8c-66fd187f8f09: 'Rich Text - Full' # Rich Text - Full
     ab214509-2da1-4b0b-b7a3-33dac1c86ce9: Hero # Hero
     b9ac68e1-d9f1-4007-843f-fde1e9f4921b: Files # Files
     bb417d14-872a-4288-9f03-8a735011cb7e: Eyebrow # Eyebrow
+    bcef1181-692a-4647-9320-f85c0285fbf9: Testimonial # Testimonial
     bd5792c0-8d1f-4b0d-8340-8ae589fec77d: 'Longform - Quote' # Longform - Quote
     bdf6317d-0df7-449f-a937-a1a274ffb106: 'Entry - Blocks' # Entry - Blocks
     c019bbe6-8d43-4e78-9158-eb2c865818e9: 'Entry - Playbook Listing' # Entry - Playbook Listing
     c0203d6f-4eda-4753-879f-9c36db1c1a98: Date # Date
+    c08276b4-951f-4222-9e12-73622b78b6e0: 'Avatar Group' # Avatar Group
     c3b9838a-6581-409e-9730-3fecbd013c89: Phone # Phone
     c803bdbf-5bdd-43e8-94e2-c7cde210fe37: 'Links To' # Links To
     cb6226c7-5901-41ed-ba28-a78b9504a3df: Images # Images
     ce59fcb1-fb86-46a3-81a4-f7d745761454: 'Entry - Case Study Listing' # Entry - Case Study Listing
+    cfeb9855-4c2c-423d-b40b-57d2dd12b46e: Team # Team
     d99bf7af-1eb1-4b77-814e-624eeec1a0e3: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
     d5189384-3a6a-441f-9f4b-cb171f279337: Heading # Heading
     da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21: Form # Form
+    dd193fca-6353-485f-a383-668951cbb602: Blog # Blog
+    e3078af5-a566-4561-af12-e529edd7980f: 'Entry - Team' # Entry - Team
     e746909c-3d0f-4818-9497-14651dc6ee16: 'Entry - Text' # Entry - Text
+    eb5e339e-d658-4112-9895-62287412dd93: 'Image Columns (Max 2)' # Image Columns (Max 2)
     ecf96135-0c9d-4684-888c-9e3bd7def9bc: 'Longform Button Group' # Longform Button Group
     eebfd246-f9aa-4d59-99e5-d4aaba54acba: 'Entry - Brand Guidelines' # Entry - Brand Guidelines
     f3e544b8-88bf-4761-8df2-d767fa1502b7: Text # Text
     f7b5b560-85eb-4827-a39b-b24c863ae5c3: 'Links To - No Label' # Links To - No Label
+    fa2d89b4-fa6d-48d3-b36a-7169022cd64d: Client # Client
     fb0420bb-0fbf-46d2-afd2-f7992c60c886: 'Contact Form' # Contact Form
 plugins:
   blitz:

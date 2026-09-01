@@ -1,0 +1,25 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 1e92fbd1-878b-44df-b3fc-d00b32474e6d # Entry - FAQ
+handle: faq
+maxAuthors: 1
+minAuthors: 1
+name: FAQ
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  08c386f4-5a41-4c9f-8282-f6785af06bfc: # $CRAFT_SITE_NAME
+    enabledByDefault: true
+    hasUrls: false
+    template: null
+    uriFormat: null
+structure:
+  maxLevels: null
+  uid: e03e0935-3aa0-4286-8a08-c778ac979ec0
+type: structure

@@ -1,0 +1,29 @@
+columnSuffix: null
+handle: imageColumnsMax2
+instructions: null
+name: 'Image Columns (Max 2)'
+searchable: false
+settings:
+  createButtonLabel: 'New Image Column'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 15e52e57-510c-4224-9b47-16c703f5270c # Images
+        -
+          - group
+          - General
+  includeTableView: false
+  maxEntries: 2
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

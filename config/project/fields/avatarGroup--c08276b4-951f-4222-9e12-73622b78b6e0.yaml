@@ -1,0 +1,108 @@
+columnSuffix: null
+handle: avatarGroup
+instructions: null
+name: 'Avatar Group'
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - e54968df-16c2-4c15-aa21-8eaa86509087
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    1:
+                      - uid
+                      - cbce3a72-11f2-4eb4-a285-7eb979e0086a
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - avatar
+                            2:
+                              - label
+                              - Avatar
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-01T13:50:04+00:00'
+                            9:
+                              - uid
+                              - 29ad364e-1ef9-484d-ae05-ef4e25c64e0b
+                            12:
+                              - fieldUid
+                              - 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - avatarName
+                            2:
+                              - label
+                              - Name
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-01T13:50:04+00:00'
+                            9:
+                              - uid
+                              - 1c46f551-b421-40e8-b8b1-f90806b77cdf
+                            12:
+                              - fieldUid
+                              - f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - avatarJobRole
+                            2:
+                              - label
+                              - 'Job Role'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-01T13:50:04+00:00'
+                            9:
+                              - uid
+                              - f17ccee8-7ae1-4cd7-8aef-ff1581cd088d
+                            12:
+                              - fieldUid
+                              - f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            4:
+              - cardThumbAlignment
+              - end
+  viewMode: grouped
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock

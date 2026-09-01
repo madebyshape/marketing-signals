@@ -1,0 +1,145 @@
+columnSuffix: null
+handle: footerCta
+instructions: null
+name: 'Footer CTA'
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - bfc1a140-cec9-469c-817c-2bf962c60639
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    0:
+                      - name
+                      - Content
+                    1:
+                      - uid
+                      - 62ae93b7-22de-43ca-9b61-97c2e1a4c878
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - imageColumns
+                            2:
+                              - label
+                              - 'Image Columns'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-01T13:52:42+00:00'
+                            9:
+                              - uid
+                              - 456b5e29-1c27-456f-9aae-0137e2e7a714
+                            12:
+                              - fieldUid
+                              - eb5e339e-d658-4112-9895-62287412dd93 # Image Columns (Max 2)
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-01T13:52:42+00:00'
+                            9:
+                              - uid
+                              - f72d7285-a7b0-4181-8376-47bedf77b163
+                            12:
+                              - fieldUid
+                              - d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - text
+                            2:
+                              - label
+                              - Text
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-01T13:52:42+00:00'
+                            9:
+                              - uid
+                              - f85a732c-3c9f-40bd-9321-dde95ecf2fba
+                            12:
+                              - fieldUid
+                              - 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 50
+                            8:
+                              - dateAdded
+                              - '2026-09-01T13:52:42+00:00'
+                            9:
+                              - uid
+                              - e88bad6a-052a-47ff-bad8-a85e2fe157b2
+                            12:
+                              - fieldUid
+                              - 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 50
+                            8:
+                              - dateAdded
+                              - '2026-09-01T13:52:42+00:00'
+                            9:
+                              - uid
+                              - 163ac404-6237-440a-b322-4c929683ee53
+                            12:
+                              - fieldUid
+                              - c08276b4-951f-4222-9e12-73622b78b6e0 # Avatar Group
+            4:
+              - cardThumbAlignment
+              - end
+  viewMode: grouped
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock
