@@ -1,1 +1,170 @@
-&copy; {{ now|date('Y') }} {{ siteName }}. All rights reserved.
+{% set component = 'footer' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{# `social` fixes the Social Column's order and its labels against the SEO "same as" handles.
+   `menuSlot` gives the Menu Columns their desktop slots by order, so the columns take fixed
+   positions whatever order editors add them in, and a missing block leaves its slot empty. #}
+
+{% set options = {
+    social: {
+        twitter: 'Twitter / X',
+        facebook: 'Facebook',
+        linkedin: 'LinkedIn'
+    },
+    menuSlot: [
+        'lg:col-start-7 lg:col-span-2',
+        'lg:col-start-9 lg:col-span-3'
+    ]
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'relative overflow-hidden bg-black text-white rounded-t-[30px] pt-10 pb-[55px]',
+        vars.class.siteMargin.x,
+        params.class
+    ],
+    columns: [
+        'grid grid-cols-1 gap-10',
+        'md:grid-cols-2 lg:grid-cols-12 lg:gap-5'
+    ],
+    contactColumn: 'lg:col-start-1 lg:col-span-4',
+    contactLinks: 'flex flex-wrap items-center gap-2.5 mt-7.5',
+    socialColumn: 'lg:col-start-12 lg:col-span-1',
+    listItem: 'flex items-center h-11',
+    listLink: 'link | inline-block text-lg font-medium leading-1.2 tracking-tighter'
+} %}
+
+{# Output #}
+
+{% set columns = site.footerColumns.all() %}
+{% set contactColumn = columns|filter(column => column.type.handle == 'contactColumn')|first %}
+{% set menuColumns = columns|filter(column => column.type.handle == 'menuColumn')|slice(0, 2) %}
+{% set socialLinks = seomatic.site.sameAsLinks ?? [] %}
+{% set socialColumn = options.social|filter((label, handle) => socialLinks[handle] is defined and socialLinks[handle].url) %}
+
+<footer class="{{ classes.wrapper|join(' ')|trim }}">
+
+    {# The Footer CTA card sits here, above the columns. #}
+
+    <div class="{{ classes.columns|join(' ')|trim }}">
+
+        {% if contactColumn %}
+
+            <div class="{{ classes.contactColumn }}">
+
+                {% include '_components/richText' with {
+                    params: {
+                        content: contactColumn.text,
+                        colour: 'creme-100',
+                        size: '3xl'
+                    }
+                } only %}
+
+                {% if contactColumn.email or contactColumn.phone %}
+
+                    <div class="{{ classes.contactLinks }}">
+
+                        {% include '_components/button' with {
+                            params: {
+                                button: contactColumn.email,
+                                colour: 'white-10',
+                                icon: 'fa-sharp fa-solid fa-paper-plane',
+                                iconPosition: 'before'
+                            }
+                        } only %}
+
+                        {% include '_components/button' with {
+                            params: {
+                                button: contactColumn.phone,
+                                colour: 'white-10',
+                                icon: 'fa-sharp fa-solid fa-phone',
+                                iconPosition: 'before'
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+        {% for column in menuColumns %}
+
+            {% set links = column.links.all() %}
+
+            {% if links|length %}
+
+                <nav class="{{ options.menuSlot[loop.index0] }}" aria-label="Footer Menu {{ loop.index }}">
+
+                    <ul>
+
+                        {% for item in links %}
+
+                            {% set link = item.linksTo %}
+
+                            <li class="{{ classes.listItem }}">
+                                <a
+                                    href="{{ link.value }}"
+                                    {% if link.target %}
+                                        target="{{ link.target }}"
+                                    {% endif %}
+                                    {% if link.rel %}
+                                        rel="{{ link.rel }}"
+                                    {% endif %}
+                                    class="{{ classes.listLink }}"
+                                >{{ link.label }}</a>
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </nav>
+
+            {% endif %}
+
+        {% endfor %}
+
+        {% if socialColumn|length %}
+
+            <nav class="{{ classes.socialColumn }}" aria-label="Social Links">
+
+                <ul>
+
+                    {% for handle, label in socialColumn %}
+
+                        <li class="{{ classes.listItem }}">
+                            <a
+                                href="{{ socialLinks[handle].url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="{{ classes.listLink }}"
+                            >{{ label }}</a>
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </nav>
+
+        {% endif %}
+
+    </div>
+
+</footer>
