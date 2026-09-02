@@ -3,10 +3,11 @@
 {% set defaultParams = {
     type: 'a',
     button: {},
-    colour: 'base',
+    colour: 'secondary',
     size: 'base',
-    icon: 'fa-sharp fa-regular fa-arrow-right',
+    icon: 'fa-sharp fa-regular fa-arrow-up-right',
     iconPosition: 'after',
+    iconStyle: 'inline',
     class: '',
     attributes: ''
 } %}
@@ -19,48 +20,89 @@
 
 {% set options = {
     colour: {
-        base: 'bg-black text-white ring-black/50 pointer-fine:hover:bg-zinc-600',
+        secondary: {
+            button: 'bg-secondary border-transparent text-black ring-secondary/50 pointer-fine:hover:bg-primary pointer-fine:hover:text-white',
+            circle: 'bg-black text-secondary'
+        },
+        'creme-100': {
+            button: 'bg-creme-100 border-transparent text-black ring-creme-100/50 pointer-fine:hover:bg-creme-200',
+            circle: 'bg-secondary text-black'
+        },
+        'creme-100-outline': {
+            button: 'border-creme-100 text-creme-100 ring-creme-100/50 pointer-fine:hover:bg-creme-100 pointer-fine:hover:text-black',
+            circle: 'bg-creme-100 text-black pointer-fine:group-hover:bg-black pointer-fine:group-hover:text-creme-100'
+        },
+        'creme-300-outline': {
+            button: 'border-creme-300 text-black ring-creme-300/50 pointer-fine:hover:bg-creme-300',
+            circle: 'bg-creme-300 text-black pointer-fine:group-hover:bg-black pointer-fine:group-hover:text-white'
+        }
     },
     size: {
-        base: 'text-md px-5 py-3 rounded-md'
+        base: {
+            inline: 'text-base px-5 py-3 gap-x-2 rounded-full',
+            circle: 'text-base p-0.5 gap-x-2.5 rounded-full'
+        }
     },
-    iconPosition: {
-        before: {
-            button: 'flex-row-reverse',
-            label: 'pointer-fine:group-hover:-translate-x-6',
-            left: 'inline-flex items-center scale-100 pointer-fine:group-hover:scale-0',
-            right: 'absolute right-5 inset-y-0 flex items-center scale-0 pointer-fine:group-hover:scale-100'
+    iconStyle: {
+        inline: {
+            before: {
+                button: 'flex-row-reverse',
+                label: 'pointer-fine:group-hover:-translate-x-6',
+                left: 'inline-flex items-center scale-100 pointer-fine:group-hover:scale-0',
+                right: 'absolute right-5 inset-y-0 flex items-center scale-0 pointer-fine:group-hover:scale-100'
+            },
+            after: {
+                button: 'flex-row',
+                label: 'pointer-fine:group-hover:translate-x-6',
+                left: 'absolute left-5 inset-y-0 flex items-center scale-0 pointer-fine:group-hover:scale-100',
+                right: 'inline-flex items-center scale-100 pointer-fine:group-hover:scale-0'
+            }
         },
-        after: {
-            button: 'flex-row',
-            label: 'pointer-fine:group-hover:translate-x-6',
-            left: 'absolute left-5 inset-y-0 flex items-center scale-0 pointer-fine:group-hover:scale-100',
-            right: 'inline-flex items-center scale-100 pointer-fine:group-hover:scale-0'
+        circle: {
+            before: {
+                button: 'flex-row-reverse pr-5',
+                label: '',
+                left: 'absolute inset-0 flex items-center justify-center scale-100 pointer-fine:group-hover:scale-0',
+                right: 'absolute inset-0 flex items-center justify-center scale-0 pointer-fine:group-hover:scale-100'
+            },
+            after: {
+                button: 'flex-row pl-5',
+                label: '',
+                left: 'absolute inset-0 flex items-center justify-center scale-0 pointer-fine:group-hover:scale-100',
+                right: 'absolute inset-0 flex items-center justify-center scale-100 pointer-fine:group-hover:scale-0'
+            }
         }
     }
 } %}
+
+{% set position = options.iconStyle[params.iconStyle][params.iconPosition] %}
 
 {# Classes #}
 
 {% set classes = {
     button: [
-        'group inline-flex flex-shrink-0 items-center relative gap-x-2 leading-none overflow-hidden border border-transparent cursor-pointer motion-safe:transition focus:outline-none focus:ring-3',
-        options.size[params.size],
-        options.colour[params.colour],
-        params.icon ? options.iconPosition[params.iconPosition].button : '',
+        'group inline-flex flex-shrink-0 items-center relative font-medium leading-none overflow-hidden border cursor-pointer motion-safe:transition focus:outline-none focus:ring-3',
+        options.size[params.size][params.iconStyle],
+        options.colour[params.colour].button,
+        params.icon ? position.button : '',
         params.class
     ],
     label: [
         'relative motion-safe:transition duration-300',
-        params.icon ? options.iconPosition[params.iconPosition].label : ''
+        params.icon ? position.label : ''
     ],
+    circle: [
+        'relative inline-flex flex-shrink-0 items-center justify-center size-[37px] rounded-full overflow-hidden motion-safe:transition duration-300',
+        options.colour[params.colour].circle
+    ],
+    icon: 'text-xs',
     left: [
         'motion-safe:transition duration-300',
-        options.iconPosition[params.iconPosition].left
+        position.left
     ],
     right: [
         'motion-safe:transition duration-300',
-        options.iconPosition[params.iconPosition].right
+        position.right
     ]
 } %}
 
@@ -83,12 +125,21 @@
     >
         <span class="{{ classes.label|join(' ')|trim }}">{{ params.button.label }}</span>
 
-        {% if params.icon %}
+        {% if params.icon and params.iconStyle == 'circle' %}
+            <span class="{{ classes.circle|join(' ')|trim }}" aria-hidden="true">
+                <span class="{{ classes.right|join(' ')|trim }}">
+                    <i class="{{ classes.icon }} {{ params.icon }}"></i>
+                </span>
+                <span class="{{ classes.left|join(' ')|trim }}">
+                    <i class="{{ classes.icon }} {{ params.icon }}"></i>
+                </span>
+            </span>
+        {% elseif params.icon %}
             <span class="{{ classes.right|join(' ')|trim }}" aria-hidden="true">
-                <i class="{{ params.icon }}"></i>
+                <i class="{{ classes.icon }} {{ params.icon }}"></i>
             </span>
             <span class="{{ classes.left|join(' ')|trim }}" aria-hidden="true">
-                <i class="{{ params.icon }}"></i>
+                <i class="{{ classes.icon }} {{ params.icon }}"></i>
             </span>
         {% endif %}
     </{{ params.type }}>

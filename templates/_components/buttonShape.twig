@@ -1,0 +1,72 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    type: 'a',
+    button: null,
+    colour: 'secondary',
+    size: 'base',
+    icon: null,
+    text: null,
+    class: null,
+    attributes: null  
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        secondary: 'bg-secondary border-transparent text-black ring-secondary/50 pointer-fine:hover:bg-primary pointer-fine:hover:text-white',
+        'creme-100': 'bg-creme-100 border-transparent text-black ring-creme-100/50 pointer-fine:hover:bg-creme-200',
+        'creme-100-outline': 'border-creme-100 text-creme-100 ring-creme-100/50 pointer-fine:hover:bg-creme-100 pointer-fine:hover:text-black',
+        'creme-300-outline': 'border-creme-300 text-black ring-creme-300/50 pointer-fine:hover:bg-creme-300'
+    },
+    size: {
+        base: 'w-10 h-10',
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    button: [
+        'group relative cursor-pointer flex-shrink-0 inline-flex justify-center items-center rounded-full border gap-x-3 duration-300 motion-safe:transition focus:outline-none focus:ring-3',
+        options.size[params.size] ?: '',
+        options.colour[params.colour] ?: '',
+        params.class ?: ''
+    ],
+    icon: [
+        'inline-block text-base align-middle motion-safe:transition'
+    ]
+} %}
+
+{# Output #}
+
+{% if params.button|length %}
+    <{{ params.type }}
+        {% if params.type == 'a' %}
+            href="{{ params.button.value }}"
+            {% if params.button.target is defined %}
+                target="{{ params.button.target }}"
+                {% if params.button.target == '_blank' %}
+                    rel="noopener noreferrer"
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        class="{{ classes.button|join(' ')|trim }}"
+        {{ params.attributes|raw }}
+    >
+        {% if params.icon %}
+            <span class="{{ classes.icon|join(' ')|trim }}" aria-hidden="true">
+                <i class="{{ params.icon }}"></i>
+            </span>
+        {% endif %}
+        {% if params.text %}
+            <span class="{{ classes.icon|join(' ')|trim }}">{{ params.text }}</span>
+        {% endif %}
+    </{{ params.type }}>
+{% endif %}
+
