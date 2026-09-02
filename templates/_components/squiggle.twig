@@ -1,0 +1,130 @@
+{% set component = 'squiggle' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    colour: 'black-200',
+    props: {
+        scrub: 1,
+        start: 'top bottom',
+        end: 'bottom bottom',
+        trigger: null
+    },
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Merge Props #}
+
+{% set params = params|merge({
+    props: defaultParams.props|merge(params.props ?? {})
+}) %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        'black-200': 'text-black-200'
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'block',
+        options.colour[params.colour],
+        params.class
+    ],
+    svg: [
+        'block w-full h-auto'
+    ]
+} %}
+
+{# Output #}
+
+{# The Figma shape is a filled polygon, not a stroke, so it cannot be drawn directly. `paths.shape`
+   is the polygon exactly as exported; `paths.mask` is its centreline, derived by hand from the
+   midpoints of each bar's two long edges. Stroked at 150 — a little over the polygon's 144.5 bar
+   width, with the mitre spikes falling outside the viewBox — the centreline covers the polygon
+   exactly, so drawing the mask stroke from 0% to 100% reveals the true shape along its length. #}
+
+{% set paths = {
+    shape: 'M913.37 647L792.44 577.141L861.353 321.618L570.69 644.288L447.323 576.643L516.236 327.873L231.777 644.232L107.579 579.576L177.156 280.876L102.261 355.717L0 253.585L253.769 0L375.308 67.4789L312.101 338.723L614.176 2.82315L737.598 70.3574L668.519 319.736L955.969 0.608915L1079.5 67.7003L1002.45 353.724L1093.79 262.442L1196 364.574L913.37 647Z',
+    mask: 'M51.13 304.65L304.93 51.03L177.93 596.02L667.92 51.15L517.03 595.91L1009.7 48.96L862.35 595.91L1144.9 313.51'
+} %}
+
+{# A fresh mask id per render, so two Squiggles on one page cannot reference each other's mask. #}
+
+{% set maskId = component ~ '-' ~ random(100000, 999999) %}
+
+<div
+    class="{{ classes.wrapper|join(' ')|trim }}"
+    x-data='{{ component }}({{ params.props|json_encode|raw }})'
+>
+
+    <svg viewBox="0 0 1196 647" xmlns="http://www.w3.org/2000/svg" fill="none" class="{{ classes.svg|join(' ')|trim }}" aria-hidden="true" focusable="false">
+
+        <mask id="{{ maskId }}">
+            <path
+                d="{{ paths.mask }}"
+                x-ref="mask"
+                fill="none"
+                stroke="#fff"
+                stroke-width="150"
+                stroke-miterlimit="20"
+            />
+        </mask>
+
+        <path d="{{ paths.shape }}" fill="currentColor" mask="url(#{{ maskId }})"/>
+
+    </svg>
+
+</div>
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', (props) => ({
+            init() {
+
+                const mask = this.$refs.mask;
+
+                // A caller whose Squiggle hangs off its section's edge never reaches its own
+                // `bottom bottom`, so it names that section instead. Without one — or when the
+                // selector matches nothing — the Squiggle's own wrapper is the trigger.
+                const trigger = (props.trigger ? document.querySelector(props.trigger) : null) || this.$el;
+
+                // Reduced motion gets the finished shape rather than a fragment of one, so
+                // nothing is lost by turning the drawing off.
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    gsap.set(mask, { drawSVG: '100%' });
+                    return;
+                }
+
+                gsap.fromTo(mask,
+                    {
+                        drawSVG: '0%'
+                    },
+                    {
+                        drawSVG: '100%',
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: trigger,
+                            start: props.start,
+                            end: props.end,
+                            scrub: props.scrub
+                        }
+                    }
+                );
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}

@@ -3,6 +3,7 @@
 {% set defaultParams = {
     content: '',
     colour: 'base',
+    size: 'base',
     class: null,
 } %}
 
@@ -12,15 +13,32 @@
 
 {# Options #}
 
+{# On `creme-100`, italic is the editor's highlight marker rather than emphasis: the slant is
+   dropped and the words take the secondary colour, as `u` does on the alternate heading. #}
+
 {% set options = {
     colour: {
         base: {
             heading: 'text-zinc-900',
             link: 'text-indigo-800 decoration-indigo-300 hover:decoration-indigo-900',
             paragraph: 'text-zinc-700',
+            italic: 'italic',
             list: 'text-zinc-700 marker:text-indigo-500',
             blockquote: 'bg-zinc-100 text-zinc-900'
+        },
+        'creme-100': {
+            heading: 'text-creme-100',
+            link: 'text-creme-100 decoration-creme-100/50 hover:decoration-creme-100',
+            paragraph: 'text-creme-100',
+            italic: 'not-italic text-secondary',
+            list: 'text-creme-100 marker:text-secondary',
+            blockquote: 'bg-creme-100/10 text-creme-100'
         }
+    },
+    size: {
+        base: 'text-base leading-relaxed',
+        md: 'text-md font-normal leading-1.33',
+        '3xl': 'text-2xl font-medium leading-1.2 tracking-tighter | lg:text-3xl'
     }
 } %}
 
@@ -40,9 +58,11 @@
         options.colour[params.colour].link
     ],
     paragraph: [
-        'text-base leading-relaxed text-pretty mb-5',
+        'text-pretty mb-5',
+        options.size[params.size],
         options.colour[params.colour].paragraph
     ],
+    italic: options.colour[params.colour].italic,
     list: [
         'list-outside leading-relaxed pl-4 mb-5',
         options.colour[params.colour].list
@@ -71,6 +91,7 @@
         ['attr', 'ol li', { class: 'list-decimal' }],
         ['attr', ['p:last-of-type'], { class: '!mb-0' }, false],
         ['attr', 'strong', { class: 'font-semibold' }],
+        ['attr', ['em', 'i'], { class: classes.italic }],
         ['attr', 'img', { class: 'w-full h-auto rounded-lg mb-5', loading: 'lazy' }],
         ['attr', 'blockquote', { class: classes.blockquote|join(' ')|trim }]
     ]) }}

@@ -1,0 +1,47 @@
+{# User · every colour × size, on each panel #}
+
+{% set colours = ['base', 'creme-100'] %}
+{% set sizes = ['base', 'sm'] %}
+
+<section class="grid gap-y-10" id="user">
+
+    <h2 class="text-2xl font-medium leading-1.2 tracking-tighter">User</h2>
+
+    {% for panel in panels %}
+
+        <div class="grid gap-y-8 p-10 rounded-md | {{ panel.class }}">
+
+            <h3 class="text-xs opacity-60">{{ panel.label }}</h3>
+
+            {% for colour in colours %}
+
+                <div class="grid gap-y-3">
+
+                    <h4 class="text-xs font-mono opacity-60">colour: {{ colour }}</h4>
+
+                    <div class="flex flex-wrap gap-10 items-center">
+
+                        {% for size in sizes %}
+
+                            {% include '_components/user' with {
+                                params: {
+                                    heading: 'Gareth Hoyle',
+                                    subHeading: 'Managing Director',
+                                    colour: colour,
+                                    size: size
+                                }
+                            } only %}
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endfor %}
+
+</section>

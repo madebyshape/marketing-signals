@@ -1,0 +1,139 @@
+{% set component = 'imageColumns' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    columns: null,
+    transform: '3x4',
+    speed: 0.3,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{# One grid template per column count, so a half-filled field renders as a single full-width
+   column rather than an empty half. Two is the most any caller passes today. #}
+
+{% set options = {
+    grid: {
+        1: 'grid-cols-1',
+        2: 'grid-cols-2'
+    },
+    sizes: {
+        1: '(min-width: 1024px) 40vw, 90vw',
+        2: '(min-width: 1024px) 20vw, 45vw'
+    }
+} %}
+
+{# Classes #}
+
+{# Empty lists are dropped before anything reads them, so a column an editor started and left
+   blank never takes a grid slot or a place in the loop. #}
+
+{% set columns = params.columns|filter(column => column|length) %}
+
+{# The wrapper takes its height from `params.class` — `h-full` to fill its parent, or a fixed
+   height where the parent has none. It only clips; the columns overflow it top and bottom. #}
+
+{% set classes = {
+    wrapper: [
+        'overflow-hidden',
+        params.class
+    ],
+    columns: [
+        'grid gap-5 h-full',
+        options.grid[columns|length]
+    ],
+    tile: [
+        'rounded-[20px] mb-5'
+    ],
+    image: [
+        'w-full h-full object-cover'
+    ]
+} %}
+
+{# Output #}
+
+{% if columns|length %}
+
+    <div
+        class="{{ classes.wrapper|join(' ')|trim }}"
+        x-data="{{ component }}({{ params.speed }})"
+    >
+
+        <div class="{{ classes.columns|join(' ')|trim }}" x-ref="columns">
+
+            {% for images in columns %}
+
+                <div>
+
+                    {# Each column's tiles render twice, as the marquee's do, so the loop has a
+                       second copy to bring round behind the first and never shows a gap. Every
+                       tile carries its own bottom margin rather than the column carrying a gap,
+                       so the two stacks abut at exactly the same pitch as the tiles inside them. #}
+
+                    {% for i in 0..1 %}
+
+                        <div>
+
+                            {% for image in images %}
+
+                                {% include '_components/picture' with {
+                                    params: {
+                                        image: image,
+                                        transform: params.transform,
+                                        sizes: options.sizes[columns|length],
+                                        wrapperClass: classes.tile|join(' ')|trim,
+                                        imgClass: classes.image|join(' ')|trim
+                                    }
+                                } only %}
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+{% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', (speed) => ({
+            init() {
+
+                // Reduced motion keeps the tiles where they were laid out. Nothing is lost:
+                // the columns still read as columns of photographs, they just sit still.
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    return;
+                }
+
+                // Each column loops its own two stacks, alternating direction so the first
+                // column travels up and the second down.
+                Array.from(this.$refs.columns.children).forEach((column, index) => {
+                    gsapVerticalLoop(column.children, {
+                        repeat: -1,
+                        speed: speed,
+                        reversed: index % 2 === 1
+                    });
+                });
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}

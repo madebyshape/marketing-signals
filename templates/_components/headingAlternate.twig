@@ -22,6 +22,7 @@
 {% set options = {
     colour: {
         base: 'text-black',
+        'creme-100': 'text-creme-100',
     },
     size: {
         'xs': 'text-xs',
@@ -35,7 +36,9 @@
         '4xl': 'text-4xl',
         '5xl': 'text-5xl',
         '6xl': 'text-6xl',
-        '7xl': 'text-7xl'
+        '7xl': 'text-7xl',
+        '8xl': 'text-8xl',
+        '9xl': 'text-9xl'
     },
     style: {
         sans: 'font-sans-primary',
@@ -51,6 +54,7 @@
     },
     alternateStyle: {
         base: 'text-primary',
+        secondary: 'text-secondary',
     },
 } %}
 
@@ -68,8 +72,12 @@
 
 {# Alternate Style #}
 
+{# Underline and italic are both the editor's highlight marker rather than emphasis: the mark
+   is dropped and the words take the alternate colour, as `em` does on the rich text. #}
+
 {% set alternateStyles = [
     ['attr', 'u', { class: 'no-underline ' ~ options.alternateStyle[params.alternateStyle] }],
+    ['attr', ['em', 'i'], { class: 'not-italic ' ~ options.alternateStyle[params.alternateStyle] }],
 ] %}
 
 {% set restyledText = params.heading|retcon(alternateStyles)|replace({'<p>': '', '</p>': ''}) %}
