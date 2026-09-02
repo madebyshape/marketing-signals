@@ -10,6 +10,7 @@ import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 
 // Helpers
 import gsapHorizontalLoop from './helpers/gsapHorizontalLoop.js';
+import gsapVerticalLoop from './helpers/gsapVerticalLoop.js';
 
 // Global
 window.Alpine = Alpine;
@@ -18,6 +19,7 @@ window.gsap = gsap;
 window.ScrollTrigger = ScrollTrigger;
 window.DrawSVGPlugin = DrawSVGPlugin;
 window.gsapHorizontalLoop = gsapHorizontalLoop;
+window.gsapVerticalLoop = gsapVerticalLoop;
 
 // Inits
 gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
