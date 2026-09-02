@@ -1,7 +1,7 @@
 # Issue tracker: Linear code factory (team BYB)
 
-Issues for this repo live on the shared Linear **BYB** board, not in this repo and not on
-GitHub (this repo has no git remote). All tracker operations go through the `factory issue`
+Issues for this repo live on the shared Linear **BYB** board, not in this repo and not as
+GitHub issues (PRs still go to the GitHub remote). All tracker operations go through the `factory issue`
 CLI on `PATH`; auth is handled inside it — there is no API key in this repo.
 
 **The `linear-factory` skill is the authority.** Read it before any tracker operation — it

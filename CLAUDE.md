@@ -30,6 +30,17 @@ driven by the `factory issue` CLI. See `docs/agents/issue-tracker.md`.
 No labels — the five canonical triage roles are carried by Linear **board states**.
 See `docs/agents/triage-labels.md`.
 
+### Coding standards
+
+`docs/CODING_STANDARDS.md` — every rule is named and tagged `[hard]` or `[judgement]` so a
+review finding can cite it.
+
+### Evidence
+
+No test suite. Screenshots from the DDEV site replace tests: base URL, widths, naming and
+what to capture live in `docs/agents/evidence.md`. Read it when writing an Evidence Plan in a
+spec, attaching before/after screenshots to a PR, or reviewing either.
+
 ### Domain docs
 
 Single-context: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
