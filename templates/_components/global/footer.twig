@@ -14,7 +14,9 @@
 
 {# `social` fixes the Social Column's order and its labels against the SEO "same as" handles.
    `menuSlot` gives the Menu Columns their desktop slots by order, so the columns take fixed
-   positions whatever order editors add them in, and a missing block leaves its slot empty. #}
+   positions whatever order editors add them in, and a missing block leaves its slot empty.
+   `credit` is the studio credit in the Footer Bottom, hardcoded because there is no field
+   for it. #}
 
 {% set options = {
     social: {
@@ -25,7 +27,11 @@
     menuSlot: [
         'lg:col-start-7 lg:col-span-2',
         'lg:col-start-9 lg:col-span-3'
-    ]
+    ],
+    credit: {
+        label: 'Website MadeByShape',
+        url: 'https://www.madebyshape.co.uk/'
+    }
 } %}
 
 {# Classes #}
@@ -41,7 +47,13 @@
     contactLinks: 'flex flex-wrap items-center gap-2.5 mt-7.5',
     socialColumn: 'lg:col-start-12 lg:col-span-1',
     listItem: 'flex items-center h-11',
-    listLink: 'link | inline-block text-lg font-medium leading-1.2 tracking-tighter'
+    listLink: 'link | inline-block text-lg font-medium leading-1.2 tracking-tighter',
+    bottom: 'grid grid-cols-1 justify-items-start gap-10 mt-20 | lg:grid-cols-3 lg:items-center lg:gap-5 lg:mt-[200px]',
+    copyright: 'text-base font-normal leading-1.33',
+    logos: 'flex flex-wrap items-center gap-10 | lg:col-start-2 lg:justify-self-stretch lg:justify-center',
+    logo: 'w-auto h-auto max-h-[43px]',
+    divider: 'w-px h-5 bg-white/30',
+    credit: 'text-base font-normal leading-1.33 underline decoration-white/30 decoration-1 underline-offset-7 transition-colors | pointer-fine:hover:decoration-white | lg:col-start-3 lg:justify-self-end'
 } %}
 
 {# Output #}
@@ -51,6 +63,7 @@
 {% set menuColumns = columns|filter(column => column.type.handle == 'menuColumn')|slice(0, 2) %}
 {% set socialLinks = seomatic.site.sameAsLinks ?? [] %}
 {% set socialColumn = options.social|filter((label, handle) => socialLinks[handle] is defined and socialLinks[handle].url) %}
+{% set footerLogos = site.footerLogos.all() %}
 
 <footer class="{{ classes.wrapper|join(' ')|trim }}">
 
@@ -161,6 +174,46 @@
             </nav>
 
         {% endif %}
+
+    </div>
+
+    <div class="{{ classes.bottom }}">
+
+        <p class="{{ classes.copyright }}">&copy; {{ now|date('Y') }} {{ siteName }}</p>
+
+        {% if footerLogos|length %}
+
+            <div class="{{ classes.logos }}">
+
+                {% for logo in footerLogos %}
+
+                    {% if not loop.first %}
+
+                        <span class="{{ classes.divider }}"></span>
+
+                    {% endif %}
+
+                    {% include '_components/picture' with {
+                        params: {
+                            image: logo,
+                            transform: 'noRatio',
+                            ratio: false,
+                            imgClass: classes.logo
+                        }
+                    } only %}
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+        <a
+            href="{{ options.credit.url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="{{ classes.credit }}"
+        >{{ options.credit.label }}</a>
 
     </div>
 
