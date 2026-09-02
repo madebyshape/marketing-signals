@@ -42,6 +42,7 @@
         vars.class.siteMargin.x,
         params.class
     ],
+    cta: 'mb-15 | lg:mb-25',
     columns: 'grid grid-cols-1 gap-10 | md:grid-cols-2 lg:grid-cols-12 lg:gap-5',
     contactColumn: 'lg:col-start-1 lg:col-span-4',
     contactLinks: 'flex flex-wrap items-center gap-2.5 mt-7.5',
@@ -67,7 +68,11 @@
 
 <footer class="{{ classes.wrapper|join(' ')|trim }}">
 
-    {# The Footer CTA card sits here, above the columns. #}
+    {% include '_components/global/footerCta' with {
+        params: {
+            class: classes.cta
+        }
+    } only %}
 
     <div class="{{ classes.columns }}">
 

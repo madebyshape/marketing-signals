@@ -1,0 +1,106 @@
+{% set component = 'footerCta' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{# The card is a twelve column grid so the Image Columns can take columns 1 to 5 later. Until
+   they do, the content spans the whole card and carries the card's padding itself, because
+   the Image Columns bleed to the card's edges rather than sitting inside it. #}
+
+{% set classes = {
+    card: [
+        'grid grid-cols-1 overflow-hidden bg-black-200 rounded-[20px] | lg:grid-cols-12 lg:items-center lg:gap-5',
+        params.class
+    ],
+    content: 'p-7.5 | md:p-10 lg:col-span-12 lg:px-15 lg:py-25',
+    heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl lg:text-9xl',
+    text: 'max-w-[716px] mt-7.5',
+    actions: 'flex flex-wrap items-center gap-5 mt-10'
+} %}
+
+{# Output #}
+
+{% set cta = site.footerCta %}
+{% set heading = cta.heading|trim %}
+{% set avatar = cta.avatarGroup %}
+
+{# The heading field is CKEditor, so the editor's own tag leads the markup. It is read off the
+   front of the content and the block wrapper stripped, leaving the inline marks for the
+   alternate heading to restyle. A paragraph falls back to `h2`. #}
+
+{% set headingTag = heading matches '/^<h[2-6][ >]/' ? heading|slice(1, 2) : 'h2' %}
+{% set headingText = heading|replace('/<\\/?(h[2-6]|p)\\b[^>]*>/', '') %}
+
+{% if headingText|striptags|trim|length %}
+
+    <div class="{{ classes.card|join(' ')|trim }}">
+
+        <div class="{{ classes.content }}">
+
+            {% include '_components/headingAlternate' with {
+                params: {
+                    tag: headingTag,
+                    heading: headingText,
+                    colour: 'creme-100',
+                    size: '5xl',
+                    alternateStyle: 'secondary',
+                    class: classes.heading
+                }
+            } only %}
+
+            {% if cta.text|striptags|trim|length %}
+
+                {% include '_components/richText' with {
+                    params: {
+                        content: cta.text,
+                        colour: 'creme-100',
+                        size: 'md',
+                        class: classes.text
+                    }
+                } only %}
+
+            {% endif %}
+
+            {% if cta.button|length or avatar.avatarName|length %}
+
+                <div class="{{ classes.actions }}">
+
+                    {% include '_components/button' with {
+                        params: {
+                            button: cta.button,
+                            colour: 'creme-100'
+                        }
+                    } only %}
+
+                    {% if avatar.avatarName|length %}
+
+                        {% include '_components/user' with {
+                            params: {
+                                image: avatar.avatar.one(),
+                                heading: avatar.avatarName,
+                                subHeading: avatar.avatarJobRole,
+                                colour: 'creme-100',
+                                size: 'sm'
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+{% endif %}
