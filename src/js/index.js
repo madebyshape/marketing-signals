@@ -4,6 +4,7 @@ import Lenis from 'lenis';
 import Swiper from 'swiper/bundle';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 
 // Components
 
@@ -15,10 +16,11 @@ window.Alpine = Alpine;
 window.Swiper = Swiper;
 window.gsap = gsap;
 window.ScrollTrigger = ScrollTrigger;
+window.DrawSVGPlugin = DrawSVGPlugin;
 window.gsapHorizontalLoop = gsapHorizontalLoop;
 
 // Inits
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
 Alpine.plugin(collapse);
 Alpine.start();
 
