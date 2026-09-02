@@ -52,15 +52,15 @@
     burgerBars: 'relative flex flex-col justify-between w-6 h-2',
     burgerBar: 'block w-full h-px origin-center bg-current motion-safe:transition-transform motion-safe:duration-300',
     panel: [
+        'fixed inset-0 z-40 flex flex-col overflow-y-auto overscroll-contain pb-10 motion-safe:transition-opacity motion-safe:duration-500',
         options.colour[params.colour].panel,
-        'fixed inset-0 z-40 flex flex-col overflow-y-auto overscroll-contain motion-safe:transition-opacity motion-safe:duration-500',
         vars.class.siteMargin.x,
         vars.class.header.paddingTop,
         vars.class.gap.y.lg,
-        'pb-10 | xl:hidden || js-modal'
+        'xl:hidden || js-modal'
     ],
     panelItem: [
-        'border-b first:border-t',
+        'border-b | first:border-t',
         options.colour[params.colour].divider
     ]
 } %}
