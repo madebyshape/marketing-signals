@@ -1,0 +1,27 @@
+{% if not craft.app.config.general.devMode %}
+    {% exit 404 %}
+{% endif %}
+
+{% extends '_layouts/global' %}
+
+{% set title = 'Styleguide' %}
+
+{# Panels every component is rendered on, so light-on-light and dark-on-dark variants are visible #}
+
+{% set panels = [
+    { label: 'On Creme 100', class: 'bg-creme-100 text-black' },
+    { label: 'On Black', class: 'bg-black text-white' }
+] %}
+
+{% block site %}
+
+    <div class="grid gap-y-20 | {{ vars.class.siteMargin.x }} py-20">
+
+        <h1 class="text-4xl font-semibold leading-1.2 tracking-tighter">Styleguide</h1>
+
+        {% include 'styleguide/components/button' %}
+        {% include 'styleguide/components/buttonShape' %}
+
+    </div>
+
+{% endblock %}
