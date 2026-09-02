@@ -1,6 +1,6 @@
 columnSuffix: null
 handle: imageColumnsMax2
-instructions: null
+instructions: 'Add at least three images to each column, so the columns loop without a gap.'
 name: 'Image Columns (Max 2)'
 searchable: false
 settings:
