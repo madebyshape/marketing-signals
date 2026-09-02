@@ -9,6 +9,7 @@
     "craftcms/cms": "^5.10.14",
     "craftcms/mailgun": "^3.1.0",
     "johnfmorton/craft-llm-ready": "^1.6.1",
+    "mmikkel/retcon": "^3.2.3",
     "nystudio107/craft-minify": "^5.0.0-beta.2",
     "nystudio107/craft-seomatic": "^5.1.22",
     "nystudio107/craft-vite": "^5.0.2",

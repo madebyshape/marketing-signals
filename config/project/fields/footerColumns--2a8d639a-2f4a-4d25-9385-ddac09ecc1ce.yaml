@@ -1,6 +1,6 @@
 columnSuffix: null
 handle: footerColumns
-instructions: null
+instructions: 'One Contact Column and up to two Menu Columns.'
 name: 'Footer Columns'
 searchable: false
 settings:
