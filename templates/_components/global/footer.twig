@@ -38,10 +38,12 @@
 
 {% set classes = {
     wrapper: [
-        'relative overflow-hidden bg-black text-white rounded-t-[30px] pt-10 pb-[55px]',
+        'relative isolate overflow-hidden bg-black text-white rounded-t-[30px] pt-10 pb-[55px]',
         vars.class.siteMargin.x,
-        params.class
+        params.class,
+        '|| js-footer'
     ],
+    squiggle: 'absolute right-0 bottom-0 -z-10 w-3/4 translate-y-[30%]',
     cta: 'mb-15 | lg:mb-25',
     columns: 'grid grid-cols-1 gap-10 | md:grid-cols-2 lg:grid-cols-12 lg:gap-5',
     contactColumn: 'lg:col-start-1 lg:col-span-4',
@@ -67,6 +69,19 @@
 {% set footerLogos = site.footerLogos.all() %}
 
 <footer class="{{ classes.wrapper|join(' ')|trim }}">
+
+    {# The Squiggle hangs off the Footer's bottom edge, so it never reaches its own
+       `bottom bottom` — the Footer is passed as the trigger instead. `isolate` on the Footer
+       keeps the negative z-index inside it, above the black background and behind the columns. #}
+
+    {% include '_components/squiggle' with {
+        params: {
+            props: {
+                trigger: '.js-footer'
+            },
+            class: classes.squiggle
+        }
+    } only %}
 
     {% include '_components/global/footerCta' with {
         params: {
