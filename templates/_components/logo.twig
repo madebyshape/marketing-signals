@@ -1,0 +1,28 @@
+{% set component = 'logo' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'block',
+        params.class
+    ],
+    text: 'text-[19px] font-semibold tracking-tighter'
+} %}
+
+{# Output #}
+
+{# Placeholder wordmark: swap the <text> node for the Figma "Logo / Full" paths, keeping the 213 x 23 viewBox and currentColor. #}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 213 23" fill="currentColor" class="{{ classes.wrapper|join(' ')|trim }}" aria-hidden="true" focusable="false">
+    <text x="0" y="18" textLength="213" lengthAdjust="spacingAndGlyphs" class="{{ classes.text }}">{{ siteName }}</text>
+</svg>

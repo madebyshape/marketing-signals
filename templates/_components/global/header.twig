@@ -1,0 +1,279 @@
+{% set component = 'header' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    colour: 'creme-100',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        'creme-100': {
+            wrapper: 'bg-creme-100 text-black',
+            panel: 'bg-creme-100 text-black',
+            divider: 'border-black/10',
+            button: 'white'
+        },
+        black: {
+            wrapper: 'bg-black text-white',
+            panel: 'bg-black text-white',
+            divider: 'border-white/10',
+            button: 'creme-100'
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'fixed inset-x-0 top-0 z-50 flex items-center justify-between motion-safe:transition-transform motion-safe:duration-500',
+        options.colour[params.colour].wrapper,
+        vars.class.siteMargin.x,
+        vars.class.header.height,
+        params.class
+    ],
+    logoLink: 'block flex-shrink-0',
+    logo: 'w-40 h-auto | xl:w-[213px]',
+    nav: 'absolute left-1/2 -translate-x-1/2 hidden | xl:block',
+    list: [
+        'flex items-center',
+        vars.class.gap.x.lg
+    ],
+    button: 'hidden | xl:block',
+    burger: 'inline-flex flex-shrink-0 items-center justify-center size-10 -mr-2 rounded-full cursor-pointer | focus:outline-none focus:ring-3 focus:ring-current/20 | xl:hidden',
+    burgerBars: 'relative flex flex-col justify-between w-6 h-2',
+    burgerBar: 'block w-full h-px origin-center bg-current motion-safe:transition-transform motion-safe:duration-300',
+    panel: [
+        'fixed inset-0 z-40 flex flex-col overflow-y-auto overscroll-contain pb-10 motion-safe:transition-opacity motion-safe:duration-500',
+        options.colour[params.colour].panel,
+        vars.class.siteMargin.x,
+        vars.class.header.paddingTop,
+        vars.class.gap.y.lg,
+        'xl:hidden || js-modal'
+    ],
+    panelItem: [
+        'border-b | first:border-t',
+        options.colour[params.colour].divider
+    ]
+} %}
+
+{# Output #}
+
+{% set menuItems = site.mainMenu.all() %}
+{% set currentElement = craft.app.urlManager.matchedElement %}
+
+<div
+    x-data="{{ component }}"
+    x-on:keydown.escape.window="mobileMenu = false"
+>
+
+    {# The bar takes js-modal while the Mobile Menu is open so Lenis leaves scrolling over it
+       to the browser, which the hidden overflow on the document element then blocks. #}
+
+    <header
+        class="{{ classes.wrapper|join(' ')|trim }}"
+        x-bind:class="{
+            '-translate-y-full': !isVisible && !mobileMenu,
+            'js-modal': mobileMenu
+        }"
+    >
+
+        <a href="{{ siteUrl }}" class="{{ classes.logoLink }}" aria-label="{{ siteName }}">
+            {% include '_components/logo' with {
+                params: {
+                    class: classes.logo
+                }
+            } only %}
+        </a>
+
+        {% if menuItems|length %}
+
+            <nav class="{{ classes.nav }}" aria-label="Main Menu">
+
+                <ul class="{{ classes.list|join(' ')|trim }}">
+
+                    {% for item in menuItems %}
+
+                        {% set link = item.linksTo %}
+                        {% set active = currentElement and link.type == 'entry' and link.element and link.element.id == currentElement.id %}
+
+                        <li>
+                            <a
+                                href="{{ link.value }}"
+                                {% if link.target %}
+                                    target="{{ link.target }}"
+                                    {% if link.target == '_blank' %}
+                                        rel="noopener noreferrer"
+                                    {% endif %}
+                                {% endif %}
+                                {% if active %}
+                                    aria-current="page"
+                                {% endif %}
+                                class="link{{ active ? ' link--active' : '' }} | block text-xs leading-1.33 tracking-tight"
+                            >{{ link.label }}</a>
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </nav>
+
+        {% endif %}
+
+        <div class="{{ classes.button }}">
+            {% include '_components/button' with {
+                params: {
+                    button: site.headerButton,
+                    colour: options.colour[params.colour].button,
+                    iconStyle: 'circle'
+                }
+            } only %}
+        </div>
+
+        <button
+            type="button"
+            class="{{ classes.burger }}"
+            aria-controls="mobile-menu"
+            x-bind:aria-expanded="mobileMenu"
+            x-bind:aria-label="mobileMenu ? 'Close menu' : 'Open menu'"
+            x-on:click="mobileMenu = !mobileMenu"
+        >
+            <span class="{{ classes.burgerBars }}" aria-hidden="true">
+                <span
+                    class="{{ classes.burgerBar }}"
+                    x-bind:class="{
+                        'translate-y-[3.5px] rotate-45': mobileMenu
+                    }"
+                ></span>
+                <span
+                    class="{{ classes.burgerBar }}"
+                    x-bind:class="{
+                        '-translate-y-[3.5px] -rotate-45': mobileMenu
+                    }"
+                ></span>
+            </span>
+        </button>
+
+    </header>
+
+    <div
+        id="mobile-menu"
+        class="{{ classes.panel|join(' ')|trim }}"
+        x-cloak
+        x-bind:class="{
+            'opacity-0 pointer-events-none': !mobileMenu,
+            'opacity-100 pointer-events-auto': mobileMenu
+        }"
+        x-bind:inert="!mobileMenu"
+        x-bind:aria-hidden="!mobileMenu"
+    >
+
+        {% if menuItems|length %}
+
+            <nav aria-label="Mobile Menu">
+
+                <ul>
+
+                    {% for item in menuItems %}
+
+                        {% set link = item.linksTo %}
+                        {% set active = currentElement and link.type == 'entry' and link.element and link.element.id == currentElement.id %}
+
+                        <li class="{{ classes.panelItem|join(' ')|trim }}">
+                            <a
+                                href="{{ link.value }}"
+                                {% if link.target %}
+                                    target="{{ link.target }}"
+                                    {% if link.target == '_blank' %}
+                                        rel="noopener noreferrer"
+                                    {% endif %}
+                                {% endif %}
+                                {% if active %}
+                                    aria-current="page"
+                                {% endif %}
+                                class="link{{ active ? ' link--active' : '' }} | inline-block py-4 text-2xl leading-1.2 tracking-tighter"
+                            >{{ link.label }}</a>
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </nav>
+
+        {% endif %}
+
+        <div>
+            {% include '_components/button' with {
+                params: {
+                    button: site.headerButton,
+                    colour: options.colour[params.colour].button,
+                    iconStyle: 'circle'
+                }
+            } only %}
+        </div>
+
+    </div>
+
+</div>
+
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            threshold: 100,
+            scrollPosition: 0,
+            direction: 'up',
+            isPastThreshold: false,
+            isVisible: true,
+            mobileMenu: false,
+            init() {
+
+                // Seed from the current position so a page loaded already scrolled
+                // (a refresh, a back navigation, an anchor link) starts in the right state.
+                this.scrollPosition = window.scrollY;
+                this.isPastThreshold = window.scrollY > this.threshold;
+
+                // Lenis uses native scrolling, so the window scroll event still fires.
+                window.addEventListener('scroll', () => {
+
+                    const position = window.scrollY;
+
+                    this.direction = position > this.scrollPosition ? 'down' : 'up';
+                    this.scrollPosition = position;
+                    this.isPastThreshold = position > this.threshold;
+                    this.isVisible = this.direction === 'up' || !this.isPastThreshold;
+
+                }, { passive: true });
+
+                this.$watch('mobileMenu', (value) => {
+
+                    document.documentElement.style.overflow = value ? 'hidden' : '';
+
+                    if (value) {
+                        this.isVisible = true;
+                    }
+
+                });
+
+                // The xl breakpoint, matching --breakpoint-xl in src/css/index.css.
+                const desktop = window.matchMedia('(min-width: 1280px)');
+
+                desktop.addEventListener('change', () => {
+                    this.mobileMenu = false;
+                });
+
+            }
+        }))
+    })
+
+{% endjs %}
