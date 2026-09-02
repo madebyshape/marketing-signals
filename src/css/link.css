@@ -1,0 +1,24 @@
+.link {
+    @apply
+        relative
+        before:content-['']
+        before:absolute
+        before:bottom-0
+        before:right-0
+        before:w-0
+        before:h-px
+        before:bg-current
+        before:transition-all
+        before:duration-1000
+        pointer-fine:hover:before:w-full
+        pointer-fine:hover:before:right-auto
+        pointer-fine:hover:before:left-0;
+
+    &.link--active {
+        @apply
+            before:w-full
+            before:right-auto
+            before:left-0;
+    }
+
+}

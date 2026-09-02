@@ -5,6 +5,8 @@
 @source '../../templates/**/*.html';
 @source '../../templates/**/*.css';
 
+@import "link.css";
+
 @theme {
 
   --breakpoint-*: initial;

@@ -96,3 +96,11 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Claude Code
+.claude/
+.agents/
+skills-lock.json
+tmp/*
+tasks/
+.scratch/*
