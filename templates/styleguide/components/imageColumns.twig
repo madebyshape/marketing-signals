@@ -1,0 +1,48 @@
+{# Image Columns · one column and two, on each panel #}
+
+{# The styleguide has no field to read, so the newest images in the volume stand in for an
+   editor's columns. Three per column is the minimum the field instructions ask for. #}
+
+{% set images = craft.assets.kind('image').limit(6).all() %}
+
+{% set variants = {
+    'One column': [images|slice(0, 3)],
+    'Two columns': [images|slice(0, 3), images|slice(3, 3)]
+} %}
+
+<section class="grid gap-y-10" id="imageColumns">
+
+    <h2 class="text-2xl font-medium leading-1.2 tracking-tighter">Image Columns</h2>
+
+    {% for panel in panels %}
+
+        <div class="grid gap-y-8 p-10 rounded-md | {{ panel.class }}">
+
+            <h3 class="text-xs opacity-60">{{ panel.label }}</h3>
+
+            <div class="grid grid-cols-1 gap-10 | md:grid-cols-2">
+
+                {% for label, columns in variants %}
+
+                    <div class="grid gap-y-3">
+
+                        <h4 class="text-xs font-mono opacity-60">columns: {{ label }}</h4>
+
+                        {% include '_components/imageColumns' with {
+                            params: {
+                                columns: columns,
+                                class: 'h-[400px]'
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+</section>
