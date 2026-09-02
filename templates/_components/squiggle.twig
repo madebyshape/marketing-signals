@@ -39,7 +39,9 @@
         options.colour[params.colour],
         params.class
     ],
-    svg: 'block w-full h-auto'
+    svg: [
+        'block w-full h-auto'
+    ]
 } %}
 
 {# Output #}
@@ -64,7 +66,7 @@
     x-data='{{ component }}({{ params.props|json_encode|raw }})'
 >
 
-    <svg viewBox="0 0 1196 647" xmlns="http://www.w3.org/2000/svg" fill="none" class="{{ classes.svg }}" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 1196 647" xmlns="http://www.w3.org/2000/svg" fill="none" class="{{ classes.svg|join(' ')|trim }}" aria-hidden="true" focusable="false">
 
         <mask id="{{ maskId }}">
             <path
