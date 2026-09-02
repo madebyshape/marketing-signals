@@ -36,10 +36,7 @@
         vars.class.siteMargin.x,
         params.class
     ],
-    columns: [
-        'grid grid-cols-1 gap-10',
-        'md:grid-cols-2 lg:grid-cols-12 lg:gap-5'
-    ],
+    columns: 'grid grid-cols-1 gap-10 | md:grid-cols-2 lg:grid-cols-12 lg:gap-5',
     contactColumn: 'lg:col-start-1 lg:col-span-4',
     contactLinks: 'flex flex-wrap items-center gap-2.5 mt-7.5',
     socialColumn: 'lg:col-start-12 lg:col-span-1',
@@ -59,7 +56,7 @@
 
     {# The Footer CTA card sits here, above the columns. #}
 
-    <div class="{{ classes.columns|join(' ')|trim }}">
+    <div class="{{ classes.columns }}">
 
         {% if contactColumn %}
 
