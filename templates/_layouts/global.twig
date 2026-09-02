@@ -7,6 +7,10 @@
 			r: 'pr-10',
 			l: 'pl-10'
 		},
+		header: {
+			height: 'h-20 | xl:h-[123px]',
+			paddingTop: 'pt-20 | xl:pt-[123px]'
+		},
 		gutter: {
 			x: 'px-5',
 			y: 'py-5',
@@ -38,8 +42,15 @@
 
 {% block body %}
 
+	{# Header Colour #}
+	{% set headerColour = 'creme-100' %}
+
 	{# Global Site Header #}
-    {% include '_components/global/header' %}
+	{% include '_components/global/header' with {
+		params: {
+			colour: headerColour
+		}
+	} %}
 
 	{% block site %}
 	{% endblock %}

@@ -1,0 +1,109 @@
+{% set component = 'header' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    colour: 'creme-100',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        'creme-100': {
+            wrapper: 'bg-creme-100 text-black',
+            button: 'white'
+        },
+        black: {
+            wrapper: 'bg-black text-white',
+            button: 'creme-100'
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'fixed inset-x-0 top-0 z-40 flex items-center justify-between',
+        options.colour[params.colour].wrapper,
+        vars.class.siteMargin.x,
+        vars.class.header.height,
+        params.class
+    ],
+    logoLink: 'block flex-shrink-0',
+    logo: 'w-40 h-auto | xl:w-[213px]',
+    nav: 'absolute left-1/2 -translate-x-1/2 hidden | xl:block',
+    list: [
+        'flex items-center',
+        vars.class.gap.x.lg
+    ],
+    button: 'hidden | xl:block'
+} %}
+
+{# Output #}
+
+{% set menuItems = site.mainMenu.all() %}
+{% set currentElement = craft.app.urlManager.matchedElement %}
+
+<header class="{{ classes.wrapper|join(' ')|trim }}">
+
+    <a href="{{ siteUrl }}" class="{{ classes.logoLink }}" aria-label="{{ siteName }}">
+        {% include '_components/logo' with {
+            params: {
+                class: classes.logo
+            }
+        } only %}
+    </a>
+
+    {% if menuItems|length %}
+
+        <nav class="{{ classes.nav }}" aria-label="Main Menu">
+
+            <ul class="{{ classes.list|join(' ')|trim }}">
+
+                {% for item in menuItems %}
+
+                    {% set link = item.linksTo %}
+                    {% set active = currentElement and link.type == 'entry' and link.element and link.element.id == currentElement.id %}
+
+                    <li>
+                        <a
+                            href="{{ link.value }}"
+                            {% if link.target %}
+                                target="{{ link.target }}"
+                                {% if link.target == '_blank' %}
+                                    rel="noopener noreferrer"
+                                {% endif %}
+                            {% endif %}
+                            {% if active %}
+                                aria-current="page"
+                            {% endif %}
+                            class="link{{ active ? ' link--active' : '' }} | block text-xs leading-1.33 tracking-tight"
+                        >{{ link.label }}</a>
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </nav>
+
+    {% endif %}
+
+    <div class="{{ classes.button }}">
+        {% include '_components/button' with {
+            params: {
+                button: site.headerButton,
+                colour: options.colour[params.colour].button,
+                iconStyle: 'circle'
+            }
+        } only %}
+    </div>
+
+</header>
