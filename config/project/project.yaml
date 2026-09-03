@@ -1,4 +1,4 @@
-dateModified: 1788363670
+dateModified: 1788437336
 elementSources:
   craft\elements\Entry:
     -
@@ -219,6 +219,7 @@ meta:
     cb6226c7-5901-41ed-ba28-a78b9504a3df: Images # Images
     ce59fcb1-fb86-46a3-81a4-f7d745761454: 'Entry - Case Study Listing' # Entry - Case Study Listing
     cfeb9855-4c2c-423d-b40b-57d2dd12b46e: Team # Team
+    d1bfe36b-4da4-4c86-a162-fa22d76b4ed8: Template # Template
     d99bf7af-1eb1-4b77-814e-624eeec1a0e3: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
     d5189384-3a6a-441f-9f4b-cb171f279337: Heading # Heading
     da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21: Form # Form

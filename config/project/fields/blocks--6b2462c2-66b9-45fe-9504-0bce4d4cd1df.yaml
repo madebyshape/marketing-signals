@@ -16,6 +16,14 @@ settings:
         -
           - group
           - General
+    -
+      __assoc__:
+        -
+          - uid
+          - d1bfe36b-4da4-4c86-a162-fa22d76b4ed8 # Template
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: null
   minEntries: null

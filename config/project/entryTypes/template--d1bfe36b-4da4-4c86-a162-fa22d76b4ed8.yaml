@@ -2,43 +2,41 @@ allowLineBreaksInTitles: false
 color: blue
 description: null
 fieldLayouts:
-  ab3754bd-8b11-49f3-a613-22de081474aa:
+  a0f3ccce-c980-4a6d-ab4b-6f8c732e761a:
     cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
         elements:
           -
-            dateAdded: '2026-09-03T12:08:35+00:00'
+            dateAdded: '2026-09-03T12:08:02+00:00'
             elementCondition: null
-            heading: 'Section Heading'
+            heading: 'Section Header'
             type: craft\fieldlayoutelements\Heading
-            uid: db231b62-1732-47df-a8d4-a6afb18ae6ef
+            uid: 32f4ade0-3757-495c-a637-5d7bdb22c11b
             userCondition: null
           -
-            dateAdded: '2026-04-07T10:40:16+00:00'
-            editCondition: null
+            dateAdded: '2026-09-03T12:08:02+00:00'
             elementCondition: null
-            elementEditCondition: null
-            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 18748f01-ecf7-4c6d-b46c-3611491eabf7
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: aba5ab0f-320f-40cb-a467-4dd5c9c32100
             userCondition: null
-            warning: null
-            width: 100
+          -
+            dateAdded: '2026-09-03T12:08:02+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 55585416-a628-4ca5-b58c-e1d1c9b6c56f
+            userCondition: null
         name: Content
-        uid: a318a4cd-7a73-44b0-8063-d6c1b82c9316
+        uid: aa2f66c0-8e82-4632-918b-325d22aa9ba0
         userCondition: null
       -
         elementCondition: null
         elements:
           -
-            dateAdded: '2026-04-07T10:40:16+00:00'
+            dateAdded: '2026-09-03T12:08:02+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
@@ -49,18 +47,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: a61ad277-fd53-48f4-80b0-a4959e70982d
+            uid: 388f7680-573e-41fa-872b-26271972e808
             userCondition: null
             warning: null
             width: 100
         name: Settings
-        uid: 348c9b6f-b2d5-4511-b972-98159b0f9282
+        uid: dd54b809-94de-4f30-8ad8-8ce78babcf26
         userCondition: null
     thumbFieldKey: null
-handle: heading
+handle: template
 hasTitleField: false
-icon: heading
-name: Heading
+icon: cube
+name: Template
 showSlugField: false
 showStatusField: false
 slugTranslationKeyFormat: null
