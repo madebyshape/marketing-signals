@@ -139,7 +139,7 @@ class AssetResolver
         $temp = Assets::tempFilePath(pathinfo($filename, PATHINFO_EXTENSION));
 
         if (!copy($source, $temp)) {
-            throw new SeedException("Image “$filename” could not be read from $source.");
+            throw new SeedException("Image “{$filename}” could not be read from $source.");
         }
 
         $asset = new Asset();
