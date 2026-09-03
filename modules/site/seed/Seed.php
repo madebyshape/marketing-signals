@@ -97,7 +97,7 @@ readonly class Seed
             $fields = $block['fields'] ?? [];
 
             if (!is_array($fields) || ($fields !== [] && array_is_list($fields))) {
-                throw new SeedException("Block $position’s “fields” must be a map of field handle to value.");
+                throw new SeedException("Block {$position}’s “fields” must be a map of field handle to value.");
             }
 
             return new SeedBlock($block['type'], $fields, $position);

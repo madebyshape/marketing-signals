@@ -82,7 +82,7 @@ class BlockSeeder
         $entry = $query->one();
 
         if ($entry === null) {
-            throw new SeedException("No entry found for “$name”.");
+            throw new SeedException("No entry found for “{$name}”.");
         }
 
         return $entry;
