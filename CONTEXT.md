@@ -83,3 +83,39 @@ _Avoid_: Badges, partner logos, accreditations
 **Squiggle**:
 The large zig-zag shape behind the Footer Columns that draws itself in as the visitor scrolls the Footer into view. A reusable component; other calls to action use it too.
 _Avoid_: Scribble, swoosh, background vector, doodle
+
+### Blocks
+
+**Block**:
+One editor-added section of a page, chosen from the Blocks field. Each Block is an entry type with the same three-slot layout in the control panel.
+_Avoid_: Section, module, component, matrix block
+
+**Section Header**:
+The first slot of a Block's layout: the heading, text and buttons that sit above the main content.
+_Avoid_: Intro, top, header fields
+
+**Section Content**:
+The middle slot of a Block's layout: the main bulk of its content, such as images, a carousel or body text.
+_Avoid_: Body, main, content fields
+
+**Section Footer**:
+The last slot of a Block's layout: what sits beneath the main content, such as a call-to-action button.
+_Avoid_: Outro, bottom, footer fields
+
+**Heading Image Grid**:
+A Block of a centred heading over a two-column grid of Tiles.
+_Avoid_: Image grid, photo grid, two-up, gallery
+
+**Tile**:
+One image in a grid or column, rounded and cropped to its block's ratio. The word Image Columns already uses.
+_Avoid_: Card, thumbnail, cell, slot
+
+**Highlight**:
+Words an editor marks italic in a heading or text, rendered in the accent colour rather than slanted.
+_Avoid_: Emphasis, accent words, coloured words, italic
+
+### Seeding
+
+**Seed**:
+A description of Blocks and their content to add to one entry on the development site, so a Block can be reviewed with real content. Rerunning a Seed adds nothing twice.
+_Avoid_: Fixture, dummy content, sample data, import
