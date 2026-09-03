@@ -27,6 +27,26 @@ If pages still render unstyled, the leftover Tailscale share config is the usual
 `make share`, or delete `.ddev/config.tailscale.yaml` and `ddev restart`. Capture only once
 the page is styled — an unstyled screenshot proves nothing.
 
+## Seeding content
+
+A page usually needs a Block with real content before there is anything to capture. Add it with
+the Seed command, not the control panel:
+
+```
+ddev exec php craft site/seed/blocks .scratch/seeds/<slug>/<seed>.json --dry-run
+ddev exec php craft site/seed/blocks .scratch/seeds/<slug>/<seed>.json
+```
+
+Seeds and the images they use live in `.scratch/seeds/<slug>/` — gitignored, one folder per spec
+or ticket, beside the evidence they set up. A Seed names the entry it targets (`home` for the
+Home page), the Matrix field to write to (`blocks` unless it says otherwise), and the Blocks to
+add with their field values by handle; the shape is in `docs/specs/content-seeding.md`. Rerunning
+a Seed skips every Block it already added, so it is safe to run twice, and `--dry-run` resolves
+and validates everything while writing nothing.
+
+The command’s own output is evidence in its own right: save it beside the screenshots as a text
+file named for the plan line it proves.
+
 ## Widths
 
 Capture at fixed widths so runs are comparable. Set the viewport explicitly before every
