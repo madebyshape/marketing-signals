@@ -3,6 +3,7 @@
 namespace modules\site\seed;
 
 use craft\base\ElementInterface;
+use craft\elements\Asset;
 use craft\elements\Category;
 use craft\elements\Entry;
 use craft\fields\Link as LinkField;
@@ -133,7 +134,7 @@ class LinkResolver
      *
      * @throws SeedException
      */
-    private function asset(LinkField $field, string $filename): ElementInterface
+    private function asset(LinkField $field, string $filename): Asset
     {
         return $this->assets->find(basename($filename))
             ?? throw new SeedException("Field “{$field->handle}”: no asset named “{$filename}” in the Seed’s volume.");
