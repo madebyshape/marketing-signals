@@ -44,7 +44,7 @@ add with their field values by handle; the shape is in `docs/specs/content-seedi
 a Seed skips every Block it already added, so it is safe to run twice, and `--dry-run` resolves
 and validates everything while writing nothing.
 
-The command’s own output is evidence in its own right: save it beside the screenshots as a text
+The command's own output is evidence in its own right: save it beside the screenshots as a text
 file named for the plan line it proves.
 
 ## Widths
