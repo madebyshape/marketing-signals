@@ -1,0 +1,99 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Options #}
+
+{# Every image the editor added becomes a Tile in a two-column grid. A lone Tile spans both
+   columns, so a half-filled field reads as intentional; with two or more the grid flows, which
+   leaves an odd last Tile at half width on the left. #}
+
+{% set blockOptions = {
+    tile: {
+        span: 'rounded-[20px] | md:col-span-2',
+        flow: 'rounded-[20px]'
+    },
+    sizes: '(min-width: 768px) 50vw, 100vw'
+} %}
+
+{# Classes #}
+
+{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
+   named apart from it. #}
+
+{% set images = entry.images.all() %}
+
+{% set blockClasses = {
+    headingRow: [
+        'grid grid-cols-12 gap-5',
+        images|length ? 'mb-7.5'
+    ],
+    heading: 'col-span-12 text-center font-semibold leading-0.97 tracking-tighter | md:col-start-3 md:col-span-8 md:text-7xl lg:text-8xl',
+    grid: 'grid grid-cols-1 gap-5 | md:grid-cols-2',
+    image: 'w-full h-full object-cover'
+} %}
+
+{# Output #}
+
+{# Either half renders on its own, and a Block with neither renders nothing at all. #}
+
+{% if entry.heading|striptags|trim|length or images|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {% if entry.heading|striptags|trim|length %}
+
+                <div class="{{ blockClasses.headingRow|join(' ')|trim }}">
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            heading: entry.heading,
+                            size: '5xl',
+                            class: blockClasses.heading
+                        }
+                    } only %}
+
+                </div>
+
+            {% endif %}
+
+            {% if images|length %}
+
+                <div class="{{ blockClasses.grid }}">
+
+                    {% for image in images %}
+
+                        {% include '_components/picture' with {
+                            params: {
+                                image: image,
+                                transform: '5x4',
+                                sizes: blockOptions.sizes,
+                                wrapperClass: blockOptions.tile[images|length == 1 ? 'span' : 'flow'],
+                                imgClass: blockClasses.image
+                            }
+                        } only %}
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

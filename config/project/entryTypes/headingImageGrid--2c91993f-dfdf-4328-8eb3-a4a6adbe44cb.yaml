@@ -1,0 +1,94 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  f2e85e70-27e8-4a4e-8c47-02942d42cca8:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-03T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: c6f72e2a-003d-4708-b1c1-c447f5acc166
+            userCondition: null
+          -
+            dateAdded: '2026-09-03T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f5593151-7c8a-40f0-aba9-530ced6cb90f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-03T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: fc95f913-8e62-4880-847b-7e9afcf65434
+            userCondition: null
+          -
+            dateAdded: '2026-09-03T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5cbe08b7-b4bd-4a6b-be41-de9647b5eb19 # Images
+            handle: null
+            instructions: 'Tiles fill a two-column grid, as many as you add. A single image spans the full width.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5f0e4d7a-21be-4d2f-862a-191d3fd09ebb
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 9c98d6d6-8b57-4fd2-9e2c-cc5c5e118e50
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-03T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4982256a-1012-404e-b605-aa91af66da87
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 56421b89-f3c5-47a7-ae43-180db991f941
+        userCondition: null
+    thumbFieldKey: null
+handle: headingImageGrid
+hasTitleField: false
+icon: grid-2
+name: 'Heading Image Grid'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
