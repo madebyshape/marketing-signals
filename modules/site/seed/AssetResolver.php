@@ -75,18 +75,28 @@ class AssetResolver
     }
 
     /**
+     * The asset already in the Seed's volume under this filename, if there is one. A link names
+     * an image the volume holds rather than one to upload, so it looks up through here.
+     *
+     * @throws SeedException if the Seed's volume does not exist.
+     */
+    public function find(string $filename): ?Asset
+    {
+        return Asset::find()
+            ->volumeId($this->volume()->id)
+            ->filename($filename)
+            ->status(null)
+            ->one();
+    }
+
+    /**
      * @throws SeedException
      */
     private function one(FieldInterface $field, string $path): ?int
     {
         $volume = $this->volume();
         $filename = basename($path);
-
-        $existing = Asset::find()
-            ->volumeId($volume->id)
-            ->filename($filename)
-            ->status(null)
-            ->one();
+        $existing = $this->find($filename);
 
         if ($existing !== null) {
             $this->outcomes[] = new SeedImageOutcome(SeedImageOutcome::REUSED, $existing->getFilename());

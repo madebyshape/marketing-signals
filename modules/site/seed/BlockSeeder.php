@@ -4,6 +4,7 @@ namespace modules\site\seed;
 
 use Craft;
 use craft\base\Element;
+use craft\base\ElementInterface;
 use craft\ckeditor\Field as CkeditorField;
 use craft\elements\Entry;
 use craft\fields\Matrix;
@@ -37,10 +38,10 @@ class BlockSeeder
         $new = [];
 
         foreach ($seed->blocks as $seedBlock) {
-            $type = $this->findEntryType($field, $seedBlock);
-            $values = $this->resolveValues($resolver, $type, $seedBlock);
+            $resolved = $resolver->block($field, $seedBlock);
+            $type = $resolved->type;
             $textField = $this->firstTextField($type);
-            $text = $textField !== null ? $this->matchText((string)($values[$textField->handle] ?? '')) : null;
+            $text = $textField !== null ? $this->matchText((string)($resolved->values[$textField->handle] ?? '')) : null;
             $key = $this->keyFor($type, $text);
 
             if (in_array($key, $keys, true)) {
@@ -48,7 +49,7 @@ class BlockSeeder
                 continue;
             }
 
-            $new[] = $this->buildBlock($entry, $field, $type, $values, $seedBlock);
+            $new[] = $this->buildBlock($entry, $field, $resolved);
             $keys[] = $key;
             $outcomes[] = new SeedOutcome(SeedOutcome::CREATED, $type->handle, $text);
         }
@@ -112,79 +113,27 @@ class BlockSeeder
     }
 
     /**
-     * @throws SeedException
-     */
-    private function findEntryType(Matrix $field, SeedBlock $block): EntryType
-    {
-        foreach ($field->getEntryTypes() as $type) {
-            if ($type->handle === $block->type) {
-                return $type;
-            }
-        }
-
-        throw new SeedException(sprintf(
-            'Block %d: field “%s” has no Block type “%s”. It takes: %s.',
-            $block->position,
-            $field->handle,
-            $block->type,
-            implode(', ', array_map(static fn(EntryType $type): string => $type->handle, $field->getEntryTypes())),
-        ));
-    }
-
-    /**
-     * Resolves every value in the Block by the type of the field it is written to, looked up
-     * from the entry type's own field layout so instance handles work.
+     * Builds one Block against the element that owns it: the target entry for a top-level
+     * Block, the parent Block for a nested one.
      *
-     * @return array<string, mixed>
-     * @throws SeedException
-     */
-    private function resolveValues(ValueResolver $resolver, EntryType $type, SeedBlock $block): array
-    {
-        $layout = $type->getFieldLayout();
-        $values = [];
-
-        foreach ($block->fields as $handle => $value) {
-            $field = $layout?->getFieldByHandle($handle);
-
-            if ($field === null) {
-                throw new SeedException(sprintf(
-                    'Block %d (%s): no field “%s” on this Block type.',
-                    $block->position,
-                    $type->handle,
-                    $handle,
-                ));
-            }
-
-            try {
-                $values[$handle] = $resolver->resolve($field, $value);
-            } catch (SeedException $e) {
-                throw new SeedException(sprintf('Block %d (%s): %s', $block->position, $type->handle, $e->getMessage()));
-            }
-        }
-
-        return $values;
-    }
-
-    /**
-     * @param array<string, mixed> $values
      * @throws SeedException if the built Block does not validate.
      */
-    private function buildBlock(Entry $entry, Matrix $field, EntryType $type, array $values, SeedBlock $seedBlock): Entry
+    private function buildBlock(ElementInterface $owner, Matrix $field, ResolvedBlock $resolved): Entry
     {
         $block = new Entry();
-        $block->typeId = $type->id;
+        $block->typeId = $resolved->type->id;
         $block->fieldId = $field->id;
-        $block->siteId = $entry->siteId;
-        $block->setPrimaryOwner($entry);
-        $block->setOwner($entry);
-        $block->setFieldValues($values);
+        $block->siteId = $owner->siteId;
+        $block->setPrimaryOwner($owner);
+        $block->setOwner($owner);
+        $this->applyValues($block, $resolved->values);
         $block->setScenario(Element::SCENARIO_LIVE);
 
         if (!$block->validate()) {
             throw new SeedException(sprintf(
                 "Block %d (%s) is not valid:\n%s",
-                $seedBlock->position,
-                $type->handle,
+                $resolved->position,
+                $resolved->type->handle,
                 implode("\n", array_map(
                     static fn(string $error): string => "  - $error",
                     $block->getErrorSummary(true),
@@ -193,6 +142,74 @@ class BlockSeeder
         }
 
         return $block;
+    }
+
+    /**
+     * Sets an element's resolved values on it. The plain ones go on together; the nested
+     * Matrix and Content Block values need the element they belong to, so they follow.
+     *
+     * @param array<string, mixed> $values
+     * @throws SeedException
+     */
+    private function applyValues(ElementInterface $element, array $values): void
+    {
+        $element->setFieldValues(self::plainValues($values));
+        $this->applyOwnedValues($element, $values);
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     * @throws SeedException
+     */
+    private function applyOwnedValues(ElementInterface $element, array $values): void
+    {
+        foreach ($values as $handle => $value) {
+            if ($value instanceof NestedBlocks) {
+                $this->applyNestedBlocks($element, $handle, $value);
+            } elseif ($value instanceof NestedContentBlock) {
+                $this->applyContentBlock($element, $handle, $value);
+            }
+        }
+    }
+
+    /**
+     * Builds a nested Matrix's Blocks against the element that owns them and hands them to the
+     * field, the same way the target entry is given its own.
+     *
+     * @throws SeedException
+     */
+    private function applyNestedBlocks(ElementInterface $element, string $handle, NestedBlocks $nested): void
+    {
+        $blocks = array_map(
+            fn(ResolvedBlock $resolved): Entry => $this->buildBlock($element, $nested->field, $resolved),
+            $nested->blocks,
+        );
+
+        $query = $element->getFieldValue($handle);
+        $query->setCachedResult($blocks);
+        $element->setFieldValue($handle, $query);
+    }
+
+    /**
+     * Craft builds the Content Block element itself from the plain values, so it is read back
+     * before the nested values inside it are set on it.
+     *
+     * @throws SeedException
+     */
+    private function applyContentBlock(ElementInterface $element, string $handle, NestedContentBlock $content): void
+    {
+        $element->setFieldValue($handle, ['fields' => self::plainValues($content->values)]);
+
+        $this->applyOwnedValues($element->getFieldValue($handle), $content->values);
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     * @return array<string, mixed> everything an element can be given up front.
+     */
+    private static function plainValues(array $values): array
+    {
+        return array_filter($values, static fn(mixed $value): bool => !$value instanceof OwnedValue);
     }
 
     /**

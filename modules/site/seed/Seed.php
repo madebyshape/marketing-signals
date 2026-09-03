@@ -91,33 +91,6 @@ readonly class Seed
             throw new SeedException('Seed must carry a list of Blocks in “blocks”.');
         }
 
-        return new self($path, $data['entry'], $field, $volume, self::readBlocks($data['blocks']));
-    }
-
-    /**
-     * @return SeedBlock[]
-     * @throws SeedException
-     */
-    private static function readBlocks(array $blocks): array
-    {
-        return array_map(static function(mixed $block, int $index): SeedBlock {
-            $position = $index + 1;
-
-            if (!is_array($block) || array_is_list($block)) {
-                throw new SeedException("Block $position must be a JSON object.");
-            }
-
-            if (!isset($block['type']) || !is_string($block['type']) || $block['type'] === '') {
-                throw new SeedException("Block $position must name an entry type in “type”.");
-            }
-
-            $fields = $block['fields'] ?? [];
-
-            if (!is_array($fields) || ($fields !== [] && array_is_list($fields))) {
-                throw new SeedException("Block {$position}’s “fields” must be a map of field handle to value.");
-            }
-
-            return new SeedBlock($block['type'], $fields, $position);
-        }, $blocks, array_keys($blocks));
+        return new self($path, $data['entry'], $field, $volume, SeedBlock::listFromArray($data['blocks']));
     }
 }
