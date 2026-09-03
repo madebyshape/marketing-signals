@@ -24,7 +24,10 @@ use craft\helpers\App;
 
 return [
     '*' => [
-        'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS'
+        'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS',
+        'modules' => [
+            'site' => modules\site\Module::class,
+        ],
      ],
      'dev' => [
         'components' => [
