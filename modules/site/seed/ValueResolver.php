@@ -4,6 +4,7 @@ namespace modules\site\seed;
 
 use craft\base\FieldInterface;
 use craft\ckeditor\Field as CkeditorField;
+use craft\fields\Assets as AssetsField;
 use craft\fields\Dropdown;
 use craft\fields\PlainText;
 
@@ -11,11 +12,16 @@ use craft\fields\PlainText;
  * Turns a Seed's raw JSON value into the value a Craft field takes, chosen by the field's type.
  *
  * A type this does not handle is an error naming the field and its type, never a silent skip,
- * so a Seed can never half-apply. The remaining types — assets, nested Matrix, Content Block,
- * link, form, lightswitch, date and SEO — are added here as their tickets land.
+ * so a Seed can never half-apply. The remaining types — nested Matrix, Content Block, link,
+ * form, lightswitch, date and SEO — are added here as their tickets land.
  */
 class ValueResolver
 {
+    public function __construct(
+        private readonly AssetResolver $assets,
+    ) {
+    }
+
     /**
      * @throws SeedException if the value is wrong for the field, or the field's type is not handled.
      */
@@ -24,6 +30,7 @@ class ValueResolver
         return match (true) {
             $field instanceof PlainText, $field instanceof CkeditorField => $this->text($field, $value),
             $field instanceof Dropdown => $this->option($field, $value),
+            $field instanceof AssetsField => $this->assets->resolve($field, $value),
             default => throw new SeedException(sprintf(
                 'Field “%s” is a %s field (%s), which the Seed command does not handle.',
                 $field->handle,

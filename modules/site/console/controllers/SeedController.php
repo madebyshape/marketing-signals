@@ -7,6 +7,7 @@ use craft\helpers\Console;
 use modules\site\seed\BlockSeeder;
 use modules\site\seed\Seed;
 use modules\site\seed\SeedException;
+use modules\site\seed\SeedImageOutcome;
 use modules\site\seed\SeedOutcome;
 use yii\console\ExitCode;
 
@@ -37,30 +38,43 @@ class SeedController extends Controller
     {
         try {
             $seed = Seed::fromFile($path);
-            $outcomes = (new BlockSeeder())->apply($seed, $this->dryRun);
+            $report = (new BlockSeeder())->apply($seed, $this->dryRun);
         } catch (SeedException $e) {
             $this->stderr("Error: {$e->getMessage()}\n", Console::FG_RED);
 
             return ExitCode::UNSPECIFIED_ERROR;
         }
 
-        foreach ($outcomes as $outcome) {
+        // Images come first, as they are resolved before the Block that names them is built.
+        foreach ($report->images as $image) {
+            $this->outputImage($image);
+        }
+
+        foreach ($report->blocks as $outcome) {
             $this->outputOutcome($outcome);
         }
 
         $this->stdout(sprintf(
-            "%d created, %d skipped%s.\n",
-            count(array_filter($outcomes, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::CREATED)),
-            count(array_filter($outcomes, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::SKIPPED)),
+            "%d created, %d skipped, %d uploaded, %d reused%s.\n",
+            count(array_filter($report->blocks, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::CREATED)),
+            count(array_filter($report->blocks, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::SKIPPED)),
+            count(array_filter($report->images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::UPLOADED)),
+            count(array_filter($report->images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::REUSED)),
             $this->dryRun ? ' — dry run, nothing written' : '',
         ));
 
         return ExitCode::OK;
     }
 
+    private function outputImage(SeedImageOutcome $image): void
+    {
+        $this->stdout(sprintf('%-9s', $image->action), $image->action === SeedImageOutcome::UPLOADED ? Console::FG_GREEN : Console::FG_YELLOW);
+        $this->stdout("{$image->filename}\n", Console::FG_GREY);
+    }
+
     private function outputOutcome(SeedOutcome $outcome): void
     {
-        $this->stdout(sprintf('%-8s', $outcome->action), $outcome->action === SeedOutcome::CREATED ? Console::FG_GREEN : Console::FG_YELLOW);
+        $this->stdout(sprintf('%-9s', $outcome->action), $outcome->action === SeedOutcome::CREATED ? Console::FG_GREEN : Console::FG_YELLOW);
         $this->stdout("{$outcome->type}  ");
         $this->stdout(
             $outcome->key !== null

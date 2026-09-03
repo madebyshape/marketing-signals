@@ -19,19 +19,16 @@ use craft\models\EntryType;
  */
 class BlockSeeder
 {
-    public function __construct(
-        private readonly ValueResolver $resolver = new ValueResolver(),
-    ) {
-    }
-
     /**
-     * @return SeedOutcome[] one per Block in the Seed, in Seed order.
      * @throws SeedException if the Seed cannot be applied. Nothing is written.
      */
-    public function apply(Seed $seed, bool $dryRun): array
+    public function apply(Seed $seed, bool $dryRun): SeedReport
     {
         $entry = $this->findEntry($seed->entry);
         $field = $this->findField($entry, $seed->field);
+
+        $assets = new AssetResolver($seed->volume, $seed->directory(), $dryRun);
+        $resolver = new ValueResolver($assets);
 
         $existing = $this->existingBlocks($entry, $field);
         $keys = array_map(fn(Entry $block): string => $this->keyFor($block->getType(), $this->matchTextOf($block)), $existing);
@@ -41,7 +38,7 @@ class BlockSeeder
 
         foreach ($seed->blocks as $seedBlock) {
             $type = $this->findEntryType($field, $seedBlock);
-            $values = $this->resolveValues($type, $seedBlock);
+            $values = $this->resolveValues($resolver, $type, $seedBlock);
             $textField = $this->firstTextField($type);
             $text = $textField !== null ? $this->matchText((string)($values[$textField->handle] ?? '')) : null;
             $key = $this->keyFor($type, $text);
@@ -60,7 +57,7 @@ class BlockSeeder
             $this->save($entry, $field, [...$existing, ...$new]);
         }
 
-        return $outcomes;
+        return new SeedReport($outcomes, $assets->outcomes());
     }
 
     /**
@@ -141,7 +138,7 @@ class BlockSeeder
      * @return array<string, mixed>
      * @throws SeedException
      */
-    private function resolveValues(EntryType $type, SeedBlock $block): array
+    private function resolveValues(ValueResolver $resolver, EntryType $type, SeedBlock $block): array
     {
         $layout = $type->getFieldLayout();
         $values = [];
@@ -159,7 +156,7 @@ class BlockSeeder
             }
 
             try {
-                $values[$handle] = $this->resolver->resolve($field, $value);
+                $values[$handle] = $resolver->resolve($field, $value);
             } catch (SeedException $e) {
                 throw new SeedException(sprintf('Block %d (%s): %s', $block->position, $type->handle, $e->getMessage()));
             }
