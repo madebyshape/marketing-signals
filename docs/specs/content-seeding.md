@@ -94,17 +94,17 @@ A Seed is a JSON file that names an entry, a Matrix field on it, and the Blocks 
 
 There is no test suite. Evidence replaces tests: the command's own output, and the seeded result seen in the control panel and on the front end, captured per the evidence doc.
 
-**Seams.** The single primary seam is the command itself, run against the DDEV site with a Seed that exercises every field type. The Heading Image Grid's Seed is the first real one; a second, throwaway Seed against a scratch page covers the types that Block does not use (nested Matrix, Content Block, links, form, lightswitch, date, SEO). The front end and control panel are the secondary seam, confirming that what was written is what an editor and a visitor see.
+**Seams.** The single primary seam is the command itself, run against the DDEV site with a Seed that exercises every field type. The Heading Image Grid's Seed is the first real one; a second, throwaway Seed with a temporary entry type covers the types that Block does not use (nested Matrix, Content Block, links, form, lightswitch, date, SEO). The front end is the secondary seam, confirming that what was written is what a visitor sees. The command's own output is the proof of what was written: no control panel login is needed for any line below.
 
-**What good evidence looks like.** Output that a reader can check line by line against the Seed, a second run that changes nothing, and a page that shows the content. Terminal output is saved as text files beside the screenshots.
+**What good evidence looks like.** Output that a reader can check line by line against the Seed, a second run that skips everything, and a page that shows the content. Terminal output is saved as text files beside the screenshots.
 
 **Evidence plan.**
 
 1. First run of the Heading Image Grid Seed: output shows one Block created and two images uploaded. Proves the create path.
 2. Second run of the same Seed: output shows the Block skipped with its match key and both images reused, and the entry's Block count is unchanged. Proves idempotence.
-3. Dry run of a fresh Seed against a scratch page: output shows what would be created, and afterwards the page has no new Blocks and the volume no new assets. Proves dry run writes nothing.
-4. Run of the all-types Seed against the scratch page: every field type in the project written, confirmed in the control panel with a screenshot of the entry's Blocks. Proves the type coverage.
-5. A Seed with a wrong dropdown value: the run stops with an error naming the field, and the page has no new Blocks. Proves validation before writing.
+3. Dry run of a fresh Seed against the Home page: output shows what would be created, and a second dry run shows the same, so nothing was written and the volume has no new assets. Proves dry run writes nothing.
+4. An all-types Seed run twice against the Home page, using a temporary Block entry type that carries every field type in the project: the first run's output shows the Block created with each value written, the second run's output shows it skipped. The temporary entry type is removed from project config afterwards, which removes the Block with it, so neither reaches the diff. Proves the type coverage.
+5. A Seed with a wrong dropdown value: the run stops with an error naming the field, and a following dry run shows the Block still unseeded. Proves validation before writing.
 6. A Seed naming a field type the command does not know: the run stops naming the field and type. Proves the loud failure.
 7. Home page at 1600 after the first run: the seeded Block renders. Proves the seam end to end. The Heading Image Grid spec carries the visual comparison.
 
