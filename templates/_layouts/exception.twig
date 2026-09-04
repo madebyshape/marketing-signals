@@ -15,11 +15,12 @@
         wrapper: 'relative isolate overflow-hidden min-h-svh bg-black',
         gradient: 'absolute inset-x-0 top-0 z-10 h-[197px] bg-linear-to-b from-black to-transparent',
         content: [
-            'relative z-20 grid grid-rows-[calc(50svh+54px)_1fr] justify-items-center min-h-svh',
+            'relative z-20 grid grid-rows-[calc(50svh+54px)_auto_auto] content-start justify-items-center min-h-svh',
             vars.class.siteMargin.x
         ],
         statusNumber: 'self-end text-center text-13xl font-semibold leading-0.92 tracking-tighter text-creme-100 | lg:text-14xl',
-        heading: 'mt-5 text-center font-medium leading-1.2 tracking-tighter | lg:mt-10 lg:text-3xl'
+        heading: 'mt-5 text-center font-medium leading-1.2 tracking-tighter | lg:mt-10 lg:text-3xl',
+        buttons: 'mt-6'
     } %}
 
     {# Output #}
@@ -33,7 +34,9 @@
 
         {# The content group is anchored on the Status Number rather than centred as a whole:
            the first row ends 54px below the vertical centre, so the number keeps that edge
-           however much the Error Heading adds beneath it. #}
+           however much the Error Heading and the Error Links add beneath it. The rows beneath it
+           are sized to their content and held to the top: left to `normal`, the grid would share
+           the spare height of the viewport between them and stretch the buttons into ovals. #}
 
         <div class="{{ classes.content|join(' ')|trim }}">
 
@@ -46,6 +49,18 @@
                     colour: 'secondary',
                     size: '2xl',
                     class: classes.heading
+                }
+            } only %}
+
+            {# Two colours for any number of Error Links: the first is the way back to the Home
+               page and stands solid, and every link the editor adds after it is outlined. #}
+
+            {% include '_components/buttonGroup' with {
+                params: {
+                    buttons: site.errorLinks.all(),
+                    colours: ['creme-100', 'creme-100-outline'],
+                    align: 'center',
+                    class: classes.buttons
                 }
             } only %}
 
