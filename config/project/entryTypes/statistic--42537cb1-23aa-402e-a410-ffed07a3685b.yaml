@@ -1,0 +1,74 @@
+allowLineBreaksInTitles: false
+color: purple
+description: null
+fieldLayouts:
+  8229ecf7-fbe4-4003-94d1-6bba1bd0f328:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-04T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: statistic
+            instructions: null
+            label: Statistic
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 95f0bc6c-90f1-44cb-8ab6-fa0b3554b793
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-04T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: statisticSuffix
+            instructions: null
+            label: 'Statistic Suffix'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: bbfea75a-4058-4560-9671-392cccd7ac07
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-04T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: statisticText
+            instructions: null
+            label: 'Statistic Text'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ac069244-665c-4249-a9e0-7aa2bbc64bda
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 5d050081-6314-4fe0-a3d3-1f777ad0d7de
+        userCondition: null
+    thumbFieldKey: null
+handle: statistic
+hasTitleField: false
+icon: hashtag
+name: Statistic
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{statistic}{statisticSuffix} {statisticText}'

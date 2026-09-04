@@ -1,0 +1,26 @@
+columnSuffix: null
+handle: statistics
+instructions: 'Two to four Statistics sharing the row equally. A Statistic counts up on screen using digits and . , : % + £ M B K; anything else shows without the animation.'
+name: Statistics
+searchable: false
+settings:
+  createButtonLabel: 'New Statistic'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 42537cb1-23aa-402e-a410-ffed07a3685b # Statistic
+  includeTableView: false
+  maxEntries: 4
+  minEntries: 2
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix
