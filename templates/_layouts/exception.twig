@@ -1,20 +1,56 @@
 {% extends '_layouts/global' %}
 
+{# Header Colour #}
+
+{% set headerColour = 'black' %}
+
 {% block site %}
 
-    <div class="max-w-xl mx-auto space-y-3">
-    
-        <h1 class="text-2xl font-medium">{{ exception.heading }}</h1>
+    {# Classes #}
 
-        <div class="text-base">{{ exception.text }}</div>
+    {# Set inside the block rather than at the top of the template: `vars` is defined by the
+       global layout, which only runs once this template's own top level has. #}
 
-        {% if exception.code %}
-            <div class="text-xs font-mono bg-slate-100 p-2">
-                {{ statusCode }} - {{ message }}<br>
-                (Line {{ line }}) {{ file }}
-            </div>
-        {% endif %}
-    
+    {% set classes = {
+        wrapper: 'relative isolate overflow-hidden min-h-svh bg-black',
+        gradient: 'absolute inset-x-0 top-0 z-10 h-[197px] bg-linear-to-b from-black to-transparent',
+        content: [
+            'relative z-20 grid grid-rows-[calc(50svh+54px)_1fr] justify-items-center min-h-svh',
+            vars.class.siteMargin.x
+        ],
+        statusNumber: 'self-end text-center text-13xl font-semibold leading-0.92 tracking-tighter text-creme-100 | lg:text-14xl',
+        heading: 'mt-5 text-center font-medium leading-1.2 tracking-tighter | lg:mt-10 lg:text-3xl'
+    } %}
+
+    {# Output #}
+
+    <div class="{{ classes.wrapper }}">
+
+        {# The gradient sits below the fixed header and above everything the page lays out
+           beneath it, so the Main Menu keeps its contrast whatever passes under it. #}
+
+        <div class="{{ classes.gradient }}"></div>
+
+        {# The content group is anchored on the Status Number rather than centred as a whole:
+           the first row ends 54px below the vertical centre, so the number keeps that edge
+           however much the Error Heading adds beneath it. #}
+
+        <div class="{{ classes.content|join(' ')|trim }}">
+
+            <p class="{{ classes.statusNumber }}">{{ statusNumber }}</p>
+
+            {% include '_components/headingAlternate' with {
+                params: {
+                    tag: 'h1',
+                    heading: site.errorHeading,
+                    colour: 'secondary',
+                    size: '2xl',
+                    class: classes.heading
+                }
+            } only %}
+
+        </div>
+
     </div>
 
 {% endblock %}
