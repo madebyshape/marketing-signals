@@ -16,13 +16,15 @@
 {% set options = {
     colour: {
         'creme-100': {
-            wrapper: 'bg-creme-100 text-black',
+            wrapper: 'text-black',
+            background: 'bg-creme-100',
             panel: 'bg-creme-100 text-black',
             divider: 'border-black/10',
             button: 'white'
         },
         black: {
-            wrapper: 'bg-black text-white',
+            wrapper: 'text-white',
+            background: 'bg-black',
             panel: 'bg-black text-white',
             divider: 'border-white/10',
             button: 'creme-100'
@@ -78,10 +80,14 @@
     {# The bar takes js-modal while the Mobile Menu is open so Lenis leaves scrolling over it
        to the browser, which the hidden overflow on the document element then blocks. #}
 
+    {# The bar is transparent over the hero. It slides away transparent, takes its background
+       while it is off screen, and returns solid so it covers whatever it passes over. #}
+
     <header
         class="{{ classes.wrapper|join(' ')|trim }}"
         x-bind:class="{
             '-translate-y-full': !isVisible && !mobileMenu,
+            '{{ options.colour[params.colour].background }}': hasBackground || mobileMenu,
             'js-modal': mobileMenu
         }"
     >
@@ -235,6 +241,7 @@
             direction: 'up',
             isPastThreshold: false,
             isVisible: true,
+            hasBackground: false,
             mobileMenu: false,
             init() {
 
@@ -242,6 +249,7 @@
                 // (a refresh, a back navigation, an anchor link) starts in the right state.
                 this.scrollPosition = window.scrollY;
                 this.isPastThreshold = window.scrollY > this.threshold;
+                this.hasBackground = this.isPastThreshold;
 
                 // Lenis uses native scrolling, so the window scroll event still fires.
                 window.addEventListener('scroll', () => {
@@ -254,6 +262,29 @@
                     this.isVisible = this.direction === 'up' || !this.isPastThreshold;
 
                 }, { passive: true });
+
+                // The background switches on once the bar has finished sliding off screen
+                // (matching motion-safe:duration-500), so it never appears over the hero,
+                // and switches off as soon as the page is back within the threshold.
+                this.$watch('isVisible', (value) => {
+
+                    if (value) {
+                        return;
+                    }
+
+                    setTimeout(() => {
+                        this.hasBackground = this.isPastThreshold;
+                    }, 500);
+
+                });
+
+                this.$watch('isPastThreshold', (value) => {
+
+                    if (!value) {
+                        this.hasBackground = false;
+                    }
+
+                });
 
                 this.$watch('mobileMenu', (value) => {
 
