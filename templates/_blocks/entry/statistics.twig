@@ -34,8 +34,10 @@
 
 {# `classes` is the name the embedded section uses for its own map, so the Block's classes are
    named apart from it. The grid has no gap, so neighbouring cells touch and the Divider reads as
-   one line rather than two edges; the Divider carries the pipe that joins it to the cell, since
-   it is a responsive group of its own and the last cell goes without it. #}
+   one line rather than two edges. Stacked, the Divider is a bottom border with vertical padding
+   either side of it, so the first cell drops its top padding and the last its bottom padding and
+   its Divider; from `lg` the row returns, the padding goes and the Divider becomes a right border
+   on every cell but the last. #}
 
 {% set blockClasses = {
     grid: [
@@ -44,9 +46,12 @@
         blockOptions.columns[statistics|length] ?? blockOptions.columns[4]
     ],
     cell: [
-        'flex flex-col items-center justify-center h-full text-center'
+        'flex flex-col items-center justify-center h-full py-10 border-b border-black text-center',
+        '|',
+        'first:pt-0 last:pb-0 last:border-b-0',
+        '|',
+        'lg:py-0 lg:border-b-0 lg:border-r lg:last:border-r-0'
     ],
-    divider: '| lg:border-r lg:border-black',
     figure: 'flex flex-row items-start justify-center',
     suffix: 'text-lg font-medium text-primary tracking-tighter | lg:text-2xl',
     text: 'mt-5 text-base leading-1.33 text-black | lg:mt-10'
@@ -71,7 +76,7 @@
 
                 {% for statistic in statistics %}
 
-                    <div class="{{ blockClasses.cell|merge([loop.last ? null : blockClasses.divider])|join(' ')|trim }}">
+                    <div class="{{ blockClasses.cell|join(' ')|trim }}">
 
                         <div class="{{ blockClasses.figure }}">
 
