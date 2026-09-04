@@ -1,0 +1,64 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Options #}
+
+{% set blockOptions = {} %}
+
+{# Classes #}
+
+{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
+   named apart from it. The heading's base size comes from the component; the ramp above it is
+   passed as classes, so the size steps with the screen from a phone to the 82px of the design. #}
+
+{% set blockClasses = {
+    heading: 'md:text-7xl | lg:text-9xl | 2xl:text-10xl'
+} %}
+
+{# Output #}
+
+{# Either half renders on its own, and a Block with neither renders nothing at all. #}
+
+{% if entry.eyebrow|trim|length or entry.heading|striptags|trim|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {% if entry.eyebrow|trim|length %}
+
+                {% include '_components/eyebrow' with {
+                    params: {
+                        text: entry.eyebrow,
+                        rule: true,
+                        margin: 'bottom'
+                    }
+                } only %}
+
+            {% endif %}
+
+            {% include '_components/headingReveal' with {
+                params: {
+                    heading: entry.heading,
+                    indent: 'columns',
+                    class: blockClasses.heading
+                }
+            } only %}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
