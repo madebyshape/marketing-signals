@@ -172,7 +172,12 @@
         }"
         x-init="countUp('{{ params.id }}')"
     >
-        <div class="{{ classes.wrapper|join(' ')|trim }}">
+        {# The animation scrolls every character in the array past the reader, so the characters are
+           hidden from assistive technology and the figure is given once as text. #}
+
+        <span class="sr-only">{{ params.statistic }}</span>
+
+        <div class="{{ classes.wrapper|join(' ')|trim }}" aria-hidden="true">
             
             {% for character in 0..(params.statistic|length - 1) %}
 
