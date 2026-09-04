@@ -1,0 +1,49 @@
+{# Button Group · a colour list matched to the buttons by index, on each panel #}
+
+{% set buttons = [
+    { button: { value: '#', label: 'Home' } },
+    { button: { value: '#', label: 'Case Studies' } },
+    { button: { value: '#', label: 'Services' } }
+] %}
+
+{# Three buttons against two colours, so the repeat of the last colour is what the panel shows
+   rather than something a reader has to take on trust. One sequence per panel background, since
+   a creme outline on creme reads as nothing at all. #}
+
+{% set sequences = [
+    ['secondary', 'creme-300-outline'],
+    ['creme-100', 'creme-100-outline']
+] %}
+
+<section class="grid gap-y-10" id="buttonGroup">
+
+    <h2 class="text-2xl font-medium leading-1.2 tracking-tighter">Button Group</h2>
+
+    {% for panel in panels %}
+
+        <div class="grid gap-y-8 p-10 rounded-md | {{ panel.class }}">
+
+            <h3 class="text-xs opacity-60">{{ panel.label }}</h3>
+
+            {% for sequence in sequences %}
+
+                <div class="grid gap-y-3">
+
+                    <h4 class="text-xs font-mono opacity-60">colours: {{ sequence|join(', ') }}</h4>
+
+                    {% include '_components/buttonGroup' with {
+                        params: {
+                            buttons: buttons,
+                            colours: sequence
+                        }
+                    } only %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endfor %}
+
+</section>

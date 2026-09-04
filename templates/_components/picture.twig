@@ -113,7 +113,7 @@
                 src="{{ pictureTransform|last }}"
                 srcset="{{ craft.imager.srcset(pictureTransform) }}"
                 sizes="{{ params.sizes }}"
-                alt="{{ params.alt|length ? params.alt : (params.image.title is defined ? params.image.title : '') }}"
+                alt="{{ params.alt is not null ? params.alt : (params.image.title is defined ? params.image.title : '') }}"
                 width="{{ pictureTransform[0].width }}"
                 height="{{ pictureTransform[0].height }}"
                 class="{{ classes.img|join(' ')|trim }}"
@@ -130,7 +130,7 @@
 
     <img
         src="{{ params.image['extension'] is defined ? params.image.url : params.image }}"
-        alt="{{ params.alt|length ? params.alt : (params.image.title is defined ? params.image.title : '') }}"
+        alt="{{ params.alt is not null ? params.alt : (params.image.title is defined ? params.image.title : '') }}"
         class="{{ classes.img|join(' ')|trim }}"
         {% if params.image.width is defined and params.image.height is defined %}width="{{ params.image.width }}" height="{{ params.image.height }}"{% endif %}
         {% if params.priority %}fetchpriority="high" loading="eager" decoding="sync"{% endif %}

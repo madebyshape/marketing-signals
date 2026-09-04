@@ -1,0 +1,63 @@
+{% set component = 'buttonGroup' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    buttons: [],
+    colours: ['secondary'],
+    size: 'base',
+    iconStyle: 'inline',
+    align: 'start',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    align: {
+        start: 'justify-start',
+        center: 'justify-center',
+        end: 'justify-end'
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'flex flex-row flex-wrap gap-2.5',
+        options.align[params.align],
+        params.class
+    ]
+} %}
+
+{# Output #}
+
+{% if params.buttons|length %}
+
+    <div class="{{ classes.wrapper|join(' ')|trim }}">
+
+        {# The colour list is matched to the buttons by index and its last colour repeats, so a
+           caller names only as many colours as the sequence needs: one solid button followed by
+           any number of outlined ones is two colours, however many buttons the editor adds. #}
+
+        {% for button in params.buttons %}
+
+            {% include '_components/button' with {
+                params: {
+                    button: button.button,
+                    colour: params.colours[loop.index0] ?? params.colours|last,
+                    size: params.size,
+                    iconStyle: params.iconStyle
+                }
+            } only %}
+
+        {% endfor %}
+
+    </div>
+
+{% endif %}

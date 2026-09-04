@@ -1,0 +1,197 @@
+{% set component = 'scatteredTiles' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    images: [],
+    transform: '3x5',
+    sizes: '(min-width: 1024px) 242px, 120px',
+    slots: [
+        { position: 'top-[-18.9%] left-[2.2%]', speed: 'slow' },
+        { position: 'top-[-2.4%] right-[8.5%]', speed: 'mid' },
+        { position: 'hidden top-[44%] left-[8.1%] | lg:block', speed: 'fast' },
+        { position: 'hidden top-[86.6%] left-[42.6%] | lg:block', speed: 'slow' },
+        { position: 'top-[71%] right-[-1.9%]', speed: 'mid' }
+    ],
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{# The Drift's three speeds as multipliers. They are looked up here rather than in the Alpine
+   data so the speeds stay with the slots that name them, and each Tile carries its own
+   multiplier as a data attribute for the Drift to read. #}
+
+{% set options = {
+    speed: {
+        slow: 0.1,
+        mid: 0.2,
+        fast: 0.36
+    }
+} %}
+
+{# Classes #}
+
+{% set tiles = params.images|slice(0, params.slots|length) %}
+
+{# The layer only places the Tiles: it is the parent that clips them where they pass its edges.
+   It ignores the pointer so a Tile drifting over a button never takes the click, and it is
+   unselectable so a drag across the page does not highlight it. #}
+
+{% set classes = {
+    layer: [
+        'absolute inset-0 select-none pointer-events-none',
+        params.class
+    ],
+    tile: [
+        'absolute'
+    ],
+    image: [
+        'w-[120px] h-auto rounded-[10px] | lg:w-[242px]'
+    ]
+} %}
+
+{# Output #}
+
+{% if tiles|length %}
+
+    <div
+        class="{{ classes.layer|join(' ')|trim }}"
+        aria-hidden="true"
+        x-data="{{ component }}"
+        x-ref="layer"
+    >
+
+        {# Each Tile takes the slot at its own place in the list, so the editor's first image
+           fills the first slot and a half-filled field simply leaves the later slots empty. The
+           Tiles all sit in the first viewport, so none of them is lazy loaded. #}
+
+        {% for image in tiles %}
+
+            {% set slot = params.slots[loop.index0] %}
+
+            <div
+                class="{{ classes.tile|merge([slot.position])|join(' ')|trim }}"
+                data-speed="{{ options.speed[slot.speed] }}"
+            >
+
+                {% include '_components/picture' with {
+                    params: {
+                        image: image,
+                        alt: '',
+                        transform: params.transform,
+                        sizes: params.sizes,
+                        lazy: false,
+                        ratio: false,
+                        imgClass: classes.image|join(' ')|trim
+                    }
+                } only %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            init() {
+
+                const layer = this.$refs.layer;
+                const tiles = Array.from(layer.children);
+                const speeds = tiles.map((tile) => parseFloat(tile.dataset.speed));
+
+                // Everything is created inside the media context, so a changed preference or a
+                // pointer type that arrives later is handled without a reload: GSAP reverts
+                // what it made and runs the branch that now matches.
+                gsap.matchMedia().add({
+                    motion: '(prefers-reduced-motion: no-preference)',
+                    finePointer: '(pointer: fine)'
+                }, (context) => {
+
+                    const { motion, finePointer } = context.conditions;
+
+                    // Reduced motion gets no Drift at all: the Tiles sit exactly where they
+                    // were laid out, for the pointer and for the scroll.
+                    if (!motion) {
+                        return;
+                    }
+
+                    // The scroll Drift runs wherever motion is allowed, touch included. One
+                    // scrubbed tween per Tile, tied to the layer passing through the viewport,
+                    // moves it down by a fraction of its own height so the Tiles separate as
+                    // the page scrolls towards the Footer.
+                    tiles.forEach((tile, index) => {
+                        gsap.to(tile, {
+                            yPercent: speeds[index] * 10,
+                            ease: 'none',
+                            scrollTrigger: {
+                                trigger: layer,
+                                start: 'top bottom',
+                                end: 'bottom top',
+                                scrub: true
+                            }
+                        });
+                    });
+
+                    // A coarse pointer has nothing to follow, and following a tap would jump
+                    // the Tiles under the finger.
+                    if (!finePointer) {
+                        return;
+                    }
+
+                    gsap.set(tiles, {
+                        willChange: 'transform'
+                    });
+
+                    // One `quickTo` per Tile per axis, made once and fed the new target on
+                    // every move: the tween already exists, so a move costs a number rather
+                    // than a tween, and the Tile eases towards the pointer for the rest of its
+                    // duration however fast the pointer crosses the page.
+                    const drifts = tiles.map((tile) => ({
+                        x: gsap.quickTo(tile, 'x', { duration: 0.6, ease: 'power3' }),
+                        y: gsap.quickTo(tile, 'y', { duration: 0.6, ease: 'power3' })
+                    }));
+
+                    // The pointer is measured against the centre of the layer and clamped to
+                    // half of it either way, so the furthest a Tile travels is its multiplier
+                    // of 200px: 36px for the fastest.
+                    const clamp = gsap.utils.clamp(-0.5, 0.5);
+
+                    const onPointerMove = (event) => {
+
+                        const bounds = layer.getBoundingClientRect();
+                        const x = clamp((event.clientX - bounds.left) / bounds.width - 0.5);
+                        const y = clamp((event.clientY - bounds.top) / bounds.height - 0.5);
+
+                        drifts.forEach((drift, index) => {
+                            drift.x(x * speeds[index] * 200);
+                            drift.y(y * speeds[index] * 200);
+                        });
+
+                    };
+
+                    // On the window rather than the layer: the layer ignores the pointer, and
+                    // the Tiles should answer a pointer anywhere on the page. Passive, since
+                    // the Drift never cancels the move.
+                    window.addEventListener('mousemove', onPointerMove, { passive: true });
+
+                    return () => window.removeEventListener('mousemove', onPointerMove);
+
+                });
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
