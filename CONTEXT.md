@@ -84,6 +84,40 @@ _Avoid_: Badges, partner logos, accreditations
 The large zig-zag shape behind the Footer Columns that draws itself in as the visitor scrolls the Footer into view. A reusable component; other calls to action use it too.
 _Avoid_: Scribble, swoosh, background vector, doodle
 
+### Error page
+
+**Error Page**:
+The full-screen page shown for any HTTP error, with the Footer beneath it. It shows the Status Number, the Error Heading, the Error Links and the Scattered Tiles.
+_Avoid_: 404 page, error template, not-found page, exception page
+
+**Status Number**:
+The hardcoded number filling the Error Page: "404" for a missing page, "500" for a server error.
+_Avoid_: Error code, big number, hero number
+
+**Error Heading**:
+The editor-set sentence beneath the Status Number, from the Site entry.
+_Avoid_: Error message, error text, subheading
+
+**Error Links**:
+The editor-ordered Buttons beneath the Error Heading, from the Site entry, rendered as a Button Group.
+_Avoid_: Error buttons, helpful links, CTA links
+
+**Error Images**:
+The editor-uploaded images on the Site entry that fill the Scattered Tiles on the Error Page, in order.
+_Avoid_: 404 images, background images, scatter images
+
+**Scattered Tiles**:
+A layer of Tiles placed around the edges of a full-screen area, behind its content, that Drift. A reusable component; the Error Page is its first use.
+_Avoid_: Floating images, scattered images, parallax images, image layer
+
+**Drift**:
+The motion of Scattered Tiles: following the pointer on fine-pointer devices and the scroll everywhere, each Tile at one of three speeds.
+_Avoid_: Parallax, mouse follow, float, hover effect
+
+**Button Group**:
+A row of Buttons, each coloured by its position in the row. A reusable component; the Error Links are its first use.
+_Avoid_: Button row, CTA group, actions
+
 ### Blocks
 
 **Block**:
