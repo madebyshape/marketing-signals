@@ -40,10 +40,14 @@
 	}
 } %}
 
-{% block body %}
+{# Header Colour #}
 
-	{# Header Colour #}
-	{% set headerColour = 'creme-100' %}
+{# A page picks its Header Colour by setting `headerColour` before this layout renders; every
+   page that sets nothing gets the creme header. #}
+
+{% set headerColour = headerColour ?? 'creme-100' %}
+
+{% block body %}
 
 	{# Global Site Header #}
 	{% include '_components/global/header' with {
