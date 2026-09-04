@@ -114,6 +114,26 @@ _Avoid_: Card, thumbnail, cell, slot
 Words an editor marks italic in a heading or text, rendered in the accent colour rather than slanted.
 _Avoid_: Emphasis, accent words, coloured words, italic
 
+**Statistics**:
+A Block of two to four Statistics in a row, each separated from the next by a Divider.
+_Avoid_: Stats, numbers, counters, figures, stat row
+
+**Statistic**:
+One number in a Statistics Block, which counts up as it scrolls into view, with an optional Suffix and Statistic Text.
+_Avoid_: Stat, counter, figure, number
+
+**Suffix**:
+The small primary-coloured mark at the top right of a Statistic, such as M or +, that is not counted.
+_Avoid_: Unit, superscript, badge, symbol
+
+**Statistic Text**:
+The line beneath a Statistic saying what it counts.
+_Avoid_: Label, caption, description
+
+**Divider**:
+The 1px black line between Statistics: vertical when they sit in a row, horizontal when they stack.
+_Avoid_: Border, separator, rule, line
+
 ### Seeding
 
 **Seed**:
