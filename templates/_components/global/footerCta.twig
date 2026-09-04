@@ -51,17 +51,9 @@
 
 {# Output #}
 
-{% set heading = cta.heading|trim %}
 {% set avatar = cta.avatarGroup %}
 
-{# The heading field is CKEditor, so the editor's own tag leads the markup. It is read off the
-   front of the content and the block wrapper stripped, leaving the inline marks for the
-   alternate heading to restyle. A paragraph falls back to `h2`. #}
-
-{% set headingTag = heading matches '/^<h[2-6][ >]/' ? heading|slice(1, 2) : 'h2' %}
-{% set headingText = heading|replace('/<\\/?(h[2-6]|p)\\b[^>]*>/', '') %}
-
-{% if headingText|striptags|trim|length %}
+{% if cta.heading|striptags|trim|length %}
 
     <div class="{{ classes.card|join(' ')|trim }}">
 
@@ -88,8 +80,7 @@
 
             {% include '_components/headingAlternate' with {
                 params: {
-                    tag: headingTag,
-                    heading: headingText,
+                    heading: cta.heading,
                     colour: 'creme-100',
                     size: '5xl',
                     alternateStyle: 'secondary',

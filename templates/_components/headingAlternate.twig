@@ -70,28 +70,41 @@
     ]
 } %}
 
+{# Heading Tag #}
+
+{# The heading is given as the CKEditor value stores it, so the editor's own tag leads the
+   markup: it is read off the front and becomes the element, and the block wrapper is stripped
+   so only the inline marks are left to restyle. A paragraph, or a value with no wrapper at
+   all, falls back to the `tag` param. #}
+
+{% set heading = params.heading|trim %}
+{% set headingTag = heading matches '/^<h[2-6][ >]/' ? heading|slice(1, 2) : params.tag %}
+{% set headingText = heading|replace('/<\\/?(h[2-6]|p)\\b[^>]*>/', '') %}
+
 {# Alternate Style #}
 
 {# Underline and italic are both the editor's highlight marker rather than emphasis: the mark
-   is dropped and the words take the alternate colour, as `em` does on the rich text. #}
+   is dropped and the words take the alternate colour, as `em` does on the rich text. Retcon
+   parses what it is given as a document, so it wraps the now loose text back in a paragraph;
+   that wrapper comes off again on the way out. #}
 
 {% set alternateStyles = [
     ['attr', 'u', { class: 'no-underline ' ~ options.alternateStyle[params.alternateStyle] }],
     ['attr', ['em', 'i'], { class: 'not-italic ' ~ options.alternateStyle[params.alternateStyle] }],
 ] %}
 
-{% set restyledText = params.heading|retcon(alternateStyles)|replace({'<p>': '', '</p>': ''}) %}
+{% set restyledText = headingText|retcon(alternateStyles)|replace({'<p>': '', '</p>': ''}) %}
 
 
 {# Output #}
 
-{% if params.heading|length %}
+{% if headingText|striptags|trim|length %}
 
-    <{{ params.tag }} 
+    <{{ headingTag }}
         class="{{ classes.heading|join(' ')|trim }}"
         {{ params.attributes|raw }}
     >
         {{ restyledText|raw|nl2br }}
-    </{{ params.tag }}>
+    </{{ headingTag }}>
 
 {% endif %}

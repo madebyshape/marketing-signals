@@ -20,6 +20,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 2c91993f-dfdf-4328-8eb3-a4a6adbe44cb # Heading Image Grid
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - d1bfe36b-4da4-4c86-a162-fa22d76b4ed8 # Template
         -
           - group

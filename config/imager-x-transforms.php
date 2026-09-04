@@ -39,6 +39,16 @@ return [
             'ratio' => 4/3
         ]
     ],
+    '5x4' => [
+        'transforms' => [
+            ['width' => 400],
+            ['width' => 800],
+            ['width' => 1200]
+        ],
+        'defaults' => [
+            'ratio' => 5/4
+        ]
+    ],
     '16x9' => [
         'transforms' => [
             ['width' => 400],
