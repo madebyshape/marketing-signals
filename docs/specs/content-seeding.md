@@ -49,7 +49,7 @@ A Seed is a JSON file that names an entry, a Matrix field on it, and the Blocks 
 
 **Command surface.** One argument, the path to a Seed file. One flag, `--dry-run`. Exit code zero on success, non-zero on any failure. Output is one line per Block (created or skipped, with its type and match key) and one line per image (uploaded or reused, with its filename).
 
-**Seed shape.** A JSON object with `entry` (a slug; `home` is accepted for the Home entry), `field` (a Matrix field handle on that entry, default `blocks`), an optional `volume` (asset volume handle, default `images`), and `blocks`, a list. Each Block has `type` (an entry type handle) and `fields`, a map of field handle to value. The same Block structure is used recursively for nested Matrix values. The shape, as agreed in the grilling session:
+**Seed shape.** A JSON object with `entry` (a slug; `home` is accepted for the Home entry), `field` (a Matrix field handle on that entry, default `blocks`), an optional `volume` (asset volume handle, default `images`), and `blocks`, a list. Each Block has `type` (an entry type handle), `fields`, a map of field handle to value, and an optional `after`, the entry type handle of the Block it should follow. The same Block structure is used recursively for nested Matrix values; `after` applies to top-level Blocks only. The shape, as agreed in the grilling session:
 
 ```json
 {
@@ -85,6 +85,8 @@ A Seed is a JSON file that names an entry, a Matrix field on it, and the Blocks 
 **Validation before writing.** Every Block and nested element is built and validated first; the entry is saved once with the new Blocks appended after any existing ones. A validation error prints the element's errors, names the Block by type and position, and stops the run with nothing saved. Dry run performs the same resolution and validation, prints the same lines, and saves nothing, including no image uploads.
 
 **Rerun behaviour.** Only top-level Blocks are matched. A Block's match key is its entry type handle plus the value of the first plain text or CKEditor field in its layout, compared with tags stripped and whitespace trimmed. A Block whose layout has no text field matches on type alone, so a second instance of such a Block is never seeded by this command; that is documented in the output line. Matched Blocks are skipped, never updated or reordered. Existing Blocks the Seed does not mention are untouched.
+
+**Placement.** A Block without `after` is appended after any existing Blocks. A Block with `after` is inserted after the last existing Block of the named type, and its output line says so. When the entry has no Block of that type, the Block is appended and the output line says that instead. Dry run prints the same resolved position. The key places new Blocks only; it never moves a Block that already exists. The Heading Reveal spec is its first caller.
 
 **Seeds are throwaway.** Seed files and their images live under the gitignored scratch folder, beside the evidence for the same Block. Nothing in the repo depends on them and nothing runs them automatically.
 
