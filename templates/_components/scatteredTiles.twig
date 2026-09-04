@@ -36,11 +36,11 @@
 
 {# Classes #}
 
+{% set tiles = params.images|slice(0, params.slots|length) %}
+
 {# The layer only places the Tiles: it is the parent that clips them where they pass its edges.
    It ignores the pointer so a Tile drifting over a button never takes the click, and it is
    unselectable so a drag across the page does not highlight it. #}
-
-{% set tiles = params.images|slice(0, params.slots|length) %}
 
 {% set classes = {
     layer: [
