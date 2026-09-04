@@ -49,7 +49,10 @@
 
 {% if params.heading|striptags|trim|length %}
 
-    <div{{ params.id|length ? ' id="' ~ params.id ~ '"' }}>
+    <div
+        {{- params.id|length ? ' id="' ~ params.id ~ '"' }}
+        x-data="{{ component }}"
+    >
 
         {% include '_components/headingAlternate' with {
             params: {
@@ -65,3 +68,66 @@
     </div>
 
 {% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            init() {
+
+                const heading = this.$refs.heading;
+
+                // Reduced motion gets the heading exactly as it was served: no split, no spans,
+                // nothing tied to the scroll. Everything below is inside the media context, so
+                // GSAP reverts it if the preference changes.
+                gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', (context) => {
+
+                    // Splitting against the fallback font would hand ScrollTrigger a start and
+                    // end measured off the wrong layout, so the split waits for the webfonts.
+                    // `context.add` keeps the late tween inside the media context.
+                    document.fonts.ready.then(() => context.add(() => {
+
+                        // Words only: lines would wrap the heading in blocks and take the
+                        // first-line indent with them. Spans stay inline, so the editor's line
+                        // breaks and the Highlight's colour both survive. SplitText's automatic
+                        // aria labels the heading with the whole sentence and hides each word
+                        // from assistive technology, so it is still read once as a sentence.
+                        const split = SplitText.create(heading, {
+                            type: 'words',
+                            tag: 'span',
+                            aria: 'auto'
+                        });
+
+                        gsap.set(split.words, {
+                            opacity: 0.2,
+                            willChange: 'opacity'
+                        });
+
+                        // One scrubbed tween, not a per-frame loop: a duration of four against a
+                        // stagger of one puts four words mid-fade at any moment, so the Reveal
+                        // reads as a wave. Linear, so the words track the scroll evenly, and the
+                        // one-second scrub lets them lag it and follow it back up.
+                        gsap.to(split.words, {
+                            opacity: 1,
+                            ease: 'none',
+                            duration: 4,
+                            stagger: 1,
+                            scrollTrigger: {
+                                trigger: heading,
+                                start: 'top 80%',
+                                end: 'bottom 55%',
+                                scrub: 1
+                            }
+                        });
+
+                    }));
+
+                });
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
