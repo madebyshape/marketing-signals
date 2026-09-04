@@ -86,7 +86,7 @@ class SeedController extends Controller
         $placement = self::placement($outcome);
 
         if ($placement !== null) {
-            $this->stdout("  $placement", Console::FG_CYAN);
+            $this->stdout("  {$placement}", Console::FG_CYAN);
         }
 
         $this->stdout("\n");
