@@ -200,12 +200,14 @@ meta:
     8921f4cc-6d1a-4c1f-bf13-bcdf8b992806: Links # Links
     13116ff7-bb9e-4f5b-989d-48a287e4b53c: 'Text - Code' # Text - Code
     41118d3a-a4e2-4b8e-8d11-b0a93f26deeb: 'Lightswitch - On' # Lightswitch - On
+    42537cb1-23aa-402e-a410-ffed07a3685b: Statistic # Statistic
     401508ab-1703-4248-86c6-2adf4ccc7ea9: 'Links To' # Links To
     716706e7-230b-4ae4-ad62-ba31b432c578: Site # Site
     868256be-34c2-4060-9427-94a7d25d97a2: 'Entry - Service Listing' # Entry - Service Listing
     6940873f-5b46-423d-9177-02a507f9772d: Service # Service
     8053567b-728a-491a-9206-0c9a6c6b1b12: 'Footer CTA' # Footer CTA
     13285537-5457-4f1f-ad8c-66fd187f8f09: 'Rich Text - Full' # Rich Text - Full
+    a644e662-8b0e-44bd-bbac-da76b709e24f: Statistics # Statistics
     ab214509-2da1-4b0b-b7a3-33dac1c86ce9: Hero # Hero
     b9ac68e1-d9f1-4007-843f-fde1e9f4921b: Files # Files
     bb417d14-872a-4288-9f03-8a735011cb7e: Eyebrow # Eyebrow
@@ -221,6 +223,7 @@ meta:
     ce59fcb1-fb86-46a3-81a4-f7d745761454: 'Entry - Case Study Listing' # Entry - Case Study Listing
     cfeb9855-4c2c-423d-b40b-57d2dd12b46e: Team # Team
     d1bfe36b-4da4-4c86-a162-fa22d76b4ed8: Template # Template
+    d35d937a-07ca-4c88-bd62-1f65c807aa15: Statistics # Statistics
     d99bf7af-1eb1-4b77-814e-624eeec1a0e3: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
     d5189384-3a6a-441f-9f4b-cb171f279337: Heading # Heading
     da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21: Form # Form

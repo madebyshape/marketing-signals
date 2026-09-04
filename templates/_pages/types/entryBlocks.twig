@@ -2,7 +2,11 @@
 
 {% block site %}
 
-    {% for block in entry.blocks.all() %}
+    {# The hero renders with the Blocks, so a page with no Blocks renders nothing. Guarding on the
+       count rather than looping over the Blocks keeps a second Block from rendering the whole page
+       a second time. #}
+
+    {% if entry.blocks.count() %}
 
         {{ entry.hero.render({
             vars: vars
@@ -12,6 +16,6 @@
             vars: vars
         }) }}
 
-    {% endfor %}
+    {% endif %}
 
 {% endblock %}

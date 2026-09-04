@@ -1,0 +1,114 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Statistics #}
+
+{# A Statistic with no number has nothing to count, so it is dropped before the row is measured
+   and the Statistics that are left still share the full width. #}
+
+{% set statistics = entry.statistics.all()|filter(statistic => statistic.statistic|trim|length) %}
+
+{# Options #}
+
+{# The Statistics share the row equally, so the desktop column rule is picked by how many of them
+   there are. The Matrix holds two to four, which leaves the four-column rule as a fallback the
+   control panel should never reach. #}
+
+{% set blockOptions = {
+    columns: {
+        2: 'lg:grid-cols-2',
+        3: 'lg:grid-cols-3',
+        4: 'lg:grid-cols-4'
+    }
+} %}
+
+{# Classes #}
+
+{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
+   named apart from it. The grid has no gap, so neighbouring cells touch and the Divider reads as
+   one line rather than two edges. Stacked, the Divider is a bottom border with vertical padding
+   either side of it, so the first cell drops its top padding and the last its bottom padding and
+   its Divider; from `lg` the row returns, the padding goes and the Divider becomes a right border
+   on every cell but the last. #}
+
+{% set blockClasses = {
+    grid: [
+        'grid grid-cols-1 gap-0',
+        '|',
+        blockOptions.columns[statistics|length] ?? blockOptions.columns[4]
+    ],
+    cell: [
+        'flex flex-col items-center justify-center h-full py-10 border-b border-black text-center',
+        '|',
+        'first:pt-0 last:pb-0 last:border-b-0',
+        '|',
+        'lg:py-0 lg:border-b-0 lg:border-r lg:last:border-r-0'
+    ],
+    figure: 'flex flex-row items-start justify-center',
+    suffix: 'text-lg font-medium text-primary tracking-tighter | lg:text-2xl',
+    text: 'mt-5 text-base leading-1.33 text-black | lg:mt-10'
+} %}
+
+{# Output #}
+
+{# A Block whose Statistics all lack a number renders nothing at all, section included. #}
+
+{% if statistics|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.grid|join(' ')|trim }}">
+
+                {% for statistic in statistics %}
+
+                    <div class="{{ blockClasses.cell|join(' ')|trim }}">
+
+                        <div class="{{ blockClasses.figure }}">
+
+                            {% include '_components/statistic' with {
+                                params: {
+                                    id: entry.id ~ '-' ~ loop.index,
+                                    statistic: statistic.statistic,
+                                    size: '13xl'
+                                }
+                            } only %}
+
+                            {% if statistic.statisticSuffix|trim|length %}
+
+                                <span class="{{ blockClasses.suffix }}">{{ statistic.statisticSuffix }}</span>
+
+                            {% endif %}
+
+                        </div>
+
+                        {% if statistic.statisticText|trim|length %}
+
+                            <p class="{{ blockClasses.text }}">{{ statistic.statisticText }}</p>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
