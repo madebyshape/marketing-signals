@@ -5,6 +5,7 @@ import Swiper from 'swiper/bundle';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+import { SplitText } from 'gsap/SplitText';
 
 // Components
 
@@ -18,11 +19,12 @@ window.Swiper = Swiper;
 window.gsap = gsap;
 window.ScrollTrigger = ScrollTrigger;
 window.DrawSVGPlugin = DrawSVGPlugin;
+window.SplitText = SplitText;
 window.gsapHorizontalLoop = gsapHorizontalLoop;
 window.gsapVerticalLoop = gsapVerticalLoop;
 
 // Inits
-gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin, SplitText);
 Alpine.plugin(collapse);
 Alpine.start();
 

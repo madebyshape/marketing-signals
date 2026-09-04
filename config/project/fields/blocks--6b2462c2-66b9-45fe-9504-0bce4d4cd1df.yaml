@@ -28,6 +28,14 @@ settings:
       __assoc__:
         -
           - uid
+          - ee7c6ba5-113d-47b8-aac7-4d8e6018f645 # Heading Reveal
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - a644e662-8b0e-44bd-bbac-da76b709e24f # Statistics
         -
           - group

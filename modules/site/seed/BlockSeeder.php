@@ -12,8 +12,9 @@ use craft\fields\PlainText;
 use craft\models\EntryType;
 
 /**
- * Applies a Seed: appends its Blocks to the target entry's Matrix field, skipping any Block it
- * has already added.
+ * Applies a Seed: adds its Blocks to the target entry's Matrix field, skipping any Block it has
+ * already added. A Block goes on the end unless it names the entry type it follows, in which
+ * case it is inserted after the last Block of that type.
  *
  * Every Block is built and validated before anything is written, and the entry is saved once,
  * so a bad Seed cannot half-apply. A dry run does the same work and saves nothing.
@@ -31,11 +32,11 @@ class BlockSeeder
         $assets = new AssetResolver($seed->volume, $seed->directory(), $dryRun);
         $resolver = new ValueResolver($assets);
 
-        $existing = $this->existingBlocks($entry, $field);
-        $keys = array_map(fn(Entry $block): string => $this->keyFor($block->getType(), $this->matchTextOf($block)), $existing);
+        $blocks = $this->existingBlocks($entry, $field);
+        $keys = array_map(fn(Entry $block): string => $this->keyFor($block->getType(), $this->matchTextOf($block)), $blocks);
 
         $outcomes = [];
-        $new = [];
+        $created = false;
 
         foreach ($seed->blocks as $seedBlock) {
             $resolved = $resolver->block($field, $seedBlock);
@@ -45,17 +46,27 @@ class BlockSeeder
             $key = $this->keyFor($type, $text);
 
             if (in_array($key, $keys, true)) {
-                $outcomes[] = new SeedOutcome(SeedOutcome::SKIPPED, $type->handle, $text);
+                $outcomes[] = SeedOutcome::skipped($type->handle, $text);
                 continue;
             }
 
-            $new[] = $this->buildBlock($entry, $field, $resolved);
+            $block = $this->buildBlock($entry, $field, $resolved);
+            $after = $seedBlock->after !== null ? $this->neighbourType($field, $seedBlock) : null;
+            $at = $after !== null ? $this->positionAfter($blocks, $after) : null;
+
+            if ($at !== null) {
+                array_splice($blocks, $at, 0, [$block]);
+            } else {
+                $blocks[] = $block;
+            }
+
             $keys[] = $key;
-            $outcomes[] = new SeedOutcome(SeedOutcome::CREATED, $type->handle, $text);
+            $created = true;
+            $outcomes[] = SeedOutcome::created($type->handle, $text, $after, $at !== null);
         }
 
-        if (!$dryRun && $new !== []) {
-            $this->save($entry, $field, [...$existing, ...$new]);
+        if (!$dryRun && $created) {
+            $this->save($entry, $field, $blocks);
         }
 
         return new SeedReport($outcomes, $assets->outcomes());
@@ -213,9 +224,9 @@ class BlockSeeder
     }
 
     /**
-     * Saves the entry once with the new Blocks appended after the ones already on it. The
-     * existing Blocks are passed through untouched, since Craft deletes any nested entry the
-     * saved value leaves out.
+     * Saves the entry once with the new Blocks in the order the placement worked out. The
+     * existing Blocks are passed through untouched, in their own order, since Craft deletes any
+     * nested entry the saved value leaves out.
      *
      * @param Entry[] $blocks
      * @throws SeedException
@@ -257,6 +268,49 @@ class BlockSeeder
             ->status(null)
             ->limit(null)
             ->all();
+    }
+
+    /**
+     * The entry type a Block's “after” key names, checked against the field so that a mistyped
+     * handle is an error rather than a silent append.
+     *
+     * @throws SeedException
+     */
+    private function neighbourType(Matrix $field, SeedBlock $block): string
+    {
+        foreach ($field->getEntryTypes() as $type) {
+            if ($type->handle === $block->after) {
+                return $type->handle;
+            }
+        }
+
+        throw new SeedException(sprintf(
+            'Block %d: “after” names “%s”, which field “%s” has no Block type for. It takes: %s.',
+            $block->position,
+            $block->after,
+            $field->handle,
+            implode(', ', array_map(static fn(EntryType $type): string => $type->handle, $field->getEntryTypes())),
+        ));
+    }
+
+    /**
+     * Where a Block that follows the named type goes: straight after the last Block of that type,
+     * counting the ones this run has already placed. Null when the entry has none, which leaves
+     * the Block to be appended.
+     *
+     * @param Entry[] $blocks the field's Blocks in the order they will be saved in.
+     */
+    private function positionAfter(array $blocks, string $handle): ?int
+    {
+        $at = null;
+
+        foreach ($blocks as $index => $block) {
+            if ($block->getType()->handle === $handle) {
+                $at = $index + 1;
+            }
+        }
+
+        return $at;
     }
 
     /**
