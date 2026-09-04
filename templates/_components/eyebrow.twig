@@ -2,7 +2,9 @@
 
 {% set defaultParams = {
     text: null,
-    colour: 'base',
+    colour: 'black',
+    rule: false,
+    ruleColour: 'creme-300',
     margin: 'none',
     marginSize: 'base',
     class: null
@@ -14,16 +16,29 @@
 
 {# Options #}
 
+{# The Rule is the wrapper's own bottom border, so it spans the wrapper rather than the text and
+   needs no element of its own. Its 10px of padding, the 21px of text above it and the border make
+   the design's 31px row. Its colour is set apart from the text so a dark section can take a white
+   Rule under white, creme or primary text. #}
+
 {% set options = {
     colour: {
-        base: 'text-black',
+        black: 'text-black',
+        white: 'text-white',
+        'creme-100': 'text-creme-100',
+        primary: 'text-primary'
+    },
+    rule: 'pb-2.5 border-b',
+    ruleColour: {
+        'creme-300': 'border-creme-300',
+        white: 'border-white'
     },
     margin: {
         base: {
             none: 'm-0',
-            top: 'mt-10',
-            bottom: 'mb-10',
-            topBottom: 'my-10',
+            top: 'mt-10 | lg:mt-15',
+            bottom: 'mb-10 | lg:mb-15',
+            topBottom: 'my-10 | lg:my-15',
         }
     },
 } %}
@@ -32,11 +47,13 @@
 
 {% set classes = {
     wrapper: [
+        params.rule ? options.rule : '',
+        params.rule ? (options.ruleColour[params.ruleColour] ?? '') : '',
         options.margin[params.marginSize][params.margin] ?: '',
         params.class ?: ''
     ],
     eyebrow: [
-        'relative text-sm pl-3 after:absolute after:left-0 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:rounded-full after:bg-current',
+        'text-base font-medium leading-1.33',
         options.colour[params.colour] ?: '',
     ]
 } %}
