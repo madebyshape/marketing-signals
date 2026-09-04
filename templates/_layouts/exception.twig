@@ -27,6 +27,17 @@
 
     <div class="{{ classes.wrapper }}">
 
+        {# The Tiles are laid into the shell itself, so it is the shell that crops them where
+           they pass the edges of the page. They take no z-index of their own: everything the
+           page lays out over them names one, so they stay behind the gradient and the content
+           group whatever the editor uploads. #}
+
+        {% include '_components/scatteredTiles' with {
+            params: {
+                images: site.errorImages.all()
+            }
+        } only %}
+
         {# The gradient sits below the fixed header and above everything the page lays out
            beneath it, so the Main Menu keeps its contrast whatever passes under it. #}
 
