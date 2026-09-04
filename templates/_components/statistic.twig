@@ -50,6 +50,16 @@
 
 {% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
 
+{# Animation #}
+
+{# The animation scrolls a column of the characters in the component's own array, so a figure
+   holding anything else — an editor's "1.5bn" — has no character to stop on. Checking the figure
+   against the array first sends it down the static branch instead of animating to nothing. #}
+
+{% set supportedCharacters = params.characterArray|map(character => character|upper) %}
+{% set unsupportedCharacters = (params.statistic ?: '')|upper|split('')|filter(character => character not in supportedCharacters) %}
+{% set animate = params.animate and params.statistic|length and unsupportedCharacters|length == 0 %}
+
 {# Options #}
 
 {% set options = {
@@ -99,12 +109,19 @@
     ],
     characterText: [
         'text-transparent'
+    ],
+    static: [
+        'inline-flex',
+        options.size[params.size],
+        options.style[params.style].text,
+        options.style[params.style].font,
+        params.class
     ]
 } %}
 
 {# Output #}
 
-{% if params.animate %}
+{% if animate %}
     <div 
         x-data="{
             countUp(id) {
@@ -195,7 +212,7 @@
 
 {% else %}
 
-    <div class="{{ classes.heading }}">
+    <div class="{{ classes.static|join(' ')|trim }}">
         {{ params.statistic }}
     </div>
 

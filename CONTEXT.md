@@ -102,6 +102,14 @@ _Avoid_: Body, main, content fields
 The last slot of a Block's layout: what sits beneath the main content, such as a call-to-action button.
 _Avoid_: Outro, bottom, footer fields
 
+**Eyebrow**:
+The short label that sits above a heading, such as "Who We Are".
+_Avoid_: Kicker, overline, label, subheading, pre-heading
+
+**Rule**:
+The 1px line under an Eyebrow, running the full content width. It underlines a label; a Divider separates siblings.
+_Avoid_: Divider, border, underline, separator
+
 **Heading Image Grid**:
 A Block of a centred heading over a two-column grid of Tiles.
 _Avoid_: Image grid, photo grid, two-up, gallery
@@ -113,6 +121,14 @@ _Avoid_: Card, thumbnail, cell, slot
 **Highlight**:
 Words an editor marks italic in a heading or text, rendered in the accent colour rather than slanted.
 _Avoid_: Emphasis, accent words, coloured words, italic
+
+**Heading Reveal**:
+A Block of an Eyebrow with a Rule over a large heading whose words Reveal as the visitor scrolls.
+_Avoid_: Text reveal, scroll text, intro statement, manifesto
+
+**Reveal**:
+The scroll-linked fade of a heading's words from faint to full, a few words at a time, in reading order. It follows the scroll in both directions.
+_Avoid_: Fade in, animate in, scroll effect, highlight scroll
 
 **Statistics**:
 A Block of two to four Statistics in a row, each separated from the next by a Divider.
