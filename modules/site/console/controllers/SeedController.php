@@ -30,7 +30,7 @@ class SeedController extends Controller
     }
 
     /**
-     * Appends a Seed's Blocks to the entry it names, skipping any Block already seeded.
+     * Adds a Seed's Blocks to the entry it names, skipping any Block already seeded.
      *
      * @param string $path Path to the Seed file.
      */
@@ -78,9 +78,32 @@ class SeedController extends Controller
         $this->stdout("{$outcome->type}  ");
         $this->stdout(
             $outcome->key !== null
-                ? "“{$outcome->key}”\n"
-                : "matched on type alone — this Block type has no text field, so a second one is never seeded\n",
+                ? "“{$outcome->key}”"
+                : 'matched on type alone — this Block type has no text field, so a second one is never seeded',
             Console::FG_GREY,
         );
+
+        $placement = self::placement($outcome);
+
+        if ($placement !== null) {
+            $this->stdout("  $placement", Console::FG_CYAN);
+        }
+
+        $this->stdout("\n");
+    }
+
+    /**
+     * Where a created Block went, for the Blocks whose Seed named a neighbour. A Block with no
+     * “after” key is simply appended, as every Block was before the key existed, and says nothing.
+     */
+    private static function placement(SeedOutcome $outcome): ?string
+    {
+        if ($outcome->after === null) {
+            return null;
+        }
+
+        return $outcome->placedAfter
+            ? "after {$outcome->after}"
+            : "appended — no {$outcome->after} on this entry";
     }
 }

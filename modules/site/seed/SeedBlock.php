@@ -3,8 +3,10 @@
 namespace modules\site\seed;
 
 /**
- * One Block in a Seed: the entry type to create, and its field values by handle. A nested
- * Matrix value is a list of these, read by the same rules as a top-level Block.
+ * One Block in a Seed: the entry type to create, its field values by handle, and optionally the
+ * entry type it should be placed after. A nested Matrix value is a list of these, read by the
+ * same rules as a top-level Block, except that “after” is a top-level placement and is not read
+ * for a nested Block.
  */
 readonly class SeedBlock
 {
@@ -12,6 +14,7 @@ readonly class SeedBlock
         public string $type,
         public array $fields,
         public int $position,
+        public ?string $after = null,
     ) {
     }
 
@@ -35,7 +38,13 @@ readonly class SeedBlock
             throw new SeedException("Block {$position}’s “fields” must be a map of field handle to value.");
         }
 
-        return new self($block['type'], $fields, $position);
+        $after = $block['after'] ?? null;
+
+        if ($after !== null && (!is_string($after) || $after === '')) {
+            throw new SeedException("Block {$position}’s “after” must be the handle of the entry type it follows.");
+        }
+
+        return new self($block['type'], $fields, $position, $after);
     }
 
     /**
