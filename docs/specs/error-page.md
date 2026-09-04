@@ -4,7 +4,11 @@ Spec for the Error Page: a full-screen black page for any HTTP error, showing th
 
 Design: Figma node `9716-8215` in the Marketing Signals file, 1600 by 900. No mobile node exists; the responsive rules below are decisions, not measurements. Reference for the Drift: the scattered-images hero on the Belasko site (madebyshape/belasko-ltd) and its live About Us page.
 
+Branch: feature/error-page
+
 Related: the Global Header spec, which promised the layout variable this page uses to pick the black Header Colour. ADR-0001 applies: the header is fixed and takes no space, so the page is designed with the header overlapping its top edge and a gradient beneath it. Vocabulary: `CONTEXT.md`, "Error page" section, which gained its terms during the grilling session.
+
+The branch is code-reviewed against this spec before merge.
 
 ## Problem Statement
 
