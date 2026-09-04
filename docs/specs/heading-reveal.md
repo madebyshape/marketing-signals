@@ -85,7 +85,7 @@ A Heading Reveal Block editors can add to any page. It holds an Eyebrow and a He
 
 There is no test suite. Evidence replaces tests: screenshots from the running DDEV site, taken with agent-browser per the evidence doc, compared against the Figma node at the same width.
 
-**Seams.** The primary seam is the rendered Home page through the global layout, with the Block seeded after the Heading Image Grid. The Block is the heading reveal component's only caller and the eyebrow component's only caller, so both are proven through it; the styleguide gains nothing. The secondary seam is the Seed command's own output, which proves the `after` key.
+**Seams.** The primary seam is the rendered Home page through the global layout, with the Block seeded after the Heading Image Grid. The Block is the heading reveal component's only caller and the eyebrow component's only caller, so both are proven through it. The secondary seam is the Seed command's own output, which proves the `after` key. The styleguide is used once, for a throwaway preview of the eyebrow on black, and gains nothing that is committed.
 
 **What good evidence looks like.** It shows what a visitor would see: the Eyebrow and Rule at the designed sizes, the heading at 82px with its indent and Highlight, the words faint before the Reveal, a band of words mid-fade, and every word full afterwards. Fixed widths and fixed scroll offsets, one state per file, before and after pairs on the PR. The before for this Block is the Home page on `main` at the commit the branch forked from.
 
@@ -100,7 +100,7 @@ There is no test suite. Evidence replaces tests: screenshots from the running DD
 7. Home page at 1600 with reduced motion emulated, scrolled to the offset of line 1: every word full and no word spans in the DOM. Proves the reduced-motion story.
 8. Served HTML of the Home page: the heading is an `h2` with the Highlight inside it, no inline styles, and no word spans. Proves the before-JavaScript state.
 9. DOM of the Home page after scripts run at 1600: the heading carries an aria label of the full sentence and each word span is hidden from assistive technology. Proves the accessibility story.
-10. Home page at 1600 with the Block's section temporarily switched to a black background, eyebrow white and Rule white: the white Rule value. Removed afterwards.
+10. Styleguide at 1600 with a temporary preview of the eyebrow on a black background, text white and Rule white: the white Rule value. The preview is removed afterwards and does not reach the diff.
 11. Home page at 1600 with the eyebrow temporarily cleared: heading only, no Rule. Restored afterwards.
 12. Home page at 1600 with the heading temporarily cleared: Eyebrow with Rule only. Restored afterwards.
 13. Seed command output for the Home Seed, run twice: created after the Heading Image Grid on the first run, skipped on the second. Saved as text beside the screenshots. Proves the seeding and the `after` key.
@@ -110,7 +110,7 @@ There is no test suite. Evidence replaces tests: screenshots from the running DD
 
 - A colour shift during the Reveal, as the reference site does. Opacity alone is the decision.
 - Splitting characters or lines, masks, or any movement. The Reveal is opacity only.
-- A styleguide preview for the heading reveal or eyebrow components.
+- A committed styleguide preview for the heading reveal or eyebrow components. The eyebrow preview in the Evidence Plan is temporary.
 - Reordering or updating Blocks that already exist. The `after` key places new Blocks only.
 - Keeping the eyebrow's dot as an option. The base style changes.
 - Correcting the Statistics spec's "second Block" wording. It describes its own moment.
