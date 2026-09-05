@@ -1,4 +1,4 @@
-dateModified: 1788437336
+dateModified: 1788622364
 elementSources:
   craft\elements\Entry:
     -
@@ -146,7 +146,6 @@ meta:
     01db3114-eb35-4fde-a697-e47250abb979: Playbook # Playbook
     1e8bf0d4-be2b-4c71-8c62-e6cbe9bc401d: Email # Email
     1e92fbd1-878b-44df-b3fc-d00b32474e6d: 'Entry - FAQ' # Entry - FAQ
-    1ef24d74-b2e4-412d-b234-8766de50c3b6: 'Hero - Simple' # Hero - Simple
     1fca19db-a5b4-4b81-addd-5d2fa40bb83d: 'Button - No Label' # Button - No Label
     2a8d639a-2f4a-4d25-9385-ddac09ecc1ce: 'Footer Columns' # Footer Columns
     2a539981-3459-4d5f-8713-9d29353feafe: 'Longform Video' # Longform Video
@@ -175,6 +174,7 @@ meta:
     9c2880cd-7d0d-494f-aeeb-4c0b30575fb5: 'Padding - Hero' # Padding - Hero
     9da49a9d-23bf-4f1f-b736-5d8465f335ab: 'Entry - Case Study' # Entry - Case Study
     9db15396-a721-4413-a2c2-72e509359139: 'Entry - Contact' # Entry - Contact
+    9de44452-8794-4e21-b47e-f1adf6c262eb: 'Hero Template' # Hero Template
     15a9b54f-c692-49c5-9368-7a85274cd550: Career # Career
     15e52e57-510c-4224-9b47-16c703f5270c: Images # Images
     17c07940-d39d-4d93-801d-5a752b9c40ec: 'Entry - Career' # Entry - Career

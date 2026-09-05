@@ -12,7 +12,15 @@ settings:
       __assoc__:
         -
           - uid
-          - 1ef24d74-b2e4-412d-b234-8766de50c3b6 # Hero - Simple
+          - 9de44452-8794-4e21-b47e-f1adf6c262eb # Hero Template
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
+          - 1ef24d74-b2e4-412d-b234-8766de50c3b6
         -
           - group
           - General
