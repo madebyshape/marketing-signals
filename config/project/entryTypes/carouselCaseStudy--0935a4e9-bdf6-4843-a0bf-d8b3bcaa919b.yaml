@@ -1,0 +1,110 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  427453cb-2d3e-429d-ac42-1b0e3b7e3c91:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 70d95b20-a428-4999-b1d4-2fbf907aa944
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9bb4b962-739d-4ddb-a198-cfae876c13d8
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e5f1ee2c-757d-46ca-9dee-0180178f4c55
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 696ee153-8462-498a-8269-3984745fb421
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 76599613-117c-4ce5-b344-172d2aff2194 # Entries - Case Study
+            handle: null
+            instructions: 'One Slide per Case Study, in the order they are listed.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: eaa842fd-2f67-48ff-bdbb-a6b80e4b3d73
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 0f48d499-fb6c-4164-9005-e01c31cd66cf
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f61d1d4b-60c8-41a4-adf2-8d5c9ae73bb0
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: cd18fcce-3720-424b-852f-02c5f57e80fb
+        userCondition: null
+    thumbFieldKey: null
+handle: carouselCaseStudy
+hasTitleField: false
+icon: images
+name: 'Carousel - Case Study'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
