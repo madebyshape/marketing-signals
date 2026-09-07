@@ -1,0 +1,131 @@
+{% set component = 'breadcrumb' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    items: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{# The listing page a section's entries belong under, by section handle (ADR-0003). A case study
+   has a flat URL and is not a child of the Case Studies page, so the trail finds that page by
+   its entry type rather than by slug or by URL segment. The next listing section is one line. #}
+
+{% set options = {
+    listingType: {
+        caseStudy: 'entryCaseStudyListing'
+    }
+} %}
+
+{# Crumbs #}
+
+{# A Crumb is a label and a URL. `items` hands the component a trail outright, for a page that
+   sits in no structure; otherwise the trail is derived from the entry and the editor never
+   touches it. #}
+
+{% if params.items %}
+
+    {% set crumbs = params.items %}
+
+{% elseif params.entry is null %}
+
+    {% set crumbs = [] %}
+
+{% else %}
+
+    {% set home = craft.entries().uri('__home__').one() %}
+    {% set crumbs = home ? [{ label: home.title, url: siteUrl }] : [] %}
+
+    {% if not (home and home.id == params.entry.id) %}
+
+        {% set listingType = options.listingType[params.entry.section.handle] ?? null %}
+        {% set listing = listingType ? craft.entries().section('page').type(listingType).one() : null %}
+
+        {% if listing %}
+            {% set crumbs = crumbs|merge([{ label: listing.title, url: listing.url }]) %}
+        {% endif %}
+
+        {% for ancestor in params.entry.level > 1 ? params.entry.ancestors.all() : [] %}
+            {% set crumbs = crumbs|merge([{ label: ancestor.title, url: ancestor.url }]) %}
+        {% endfor %}
+
+        {% set crumbs = crumbs|merge([{ label: params.entry.title, url: params.entry.url }]) %}
+
+    {% endif %}
+
+{% endif %}
+
+{# Schema #}
+
+{# SEOmatic builds its BreadcrumbList by walking the URL segments, so it sees neither the listing
+   page nor a parent case study. Replacing its items with the Crumbs above keeps the schema and
+   the visible trail from drifting apart. #}
+
+{% set breadcrumbList = seomatic.jsonLd.get('breadcrumbList') %}
+
+{% if breadcrumbList and crumbs|length %}
+
+    {% set listItems = [] %}
+
+    {% for crumb in crumbs %}
+        {% set listItems = listItems|merge([seomatic.jsonLd.create({
+            type: 'ListItem',
+            position: loop.index,
+            name: crumb.label,
+            item: crumb.url
+        }, false)]) %}
+    {% endfor %}
+
+    {% do breadcrumbList.itemListElement(listItems) %}
+
+{% endif %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'w-full',
+        params.class
+    ],
+    list: 'flex flex-wrap items-center gap-3.75',
+    item: 'flex items-center gap-3.75 text-base font-medium leading-1.33',
+    link: 'text-creme-500 transition-colors | hover:text-black focus:text-black',
+    current: 'text-black underline',
+    chevron: 'fa-sharp fa-regular fa-angle-right text-xs text-creme-500'
+} %}
+
+{# Output #}
+
+{% if crumbs|length %}
+
+    <nav class="{{ classes.wrapper|join(' ')|trim }}" aria-label="Breadcrumb">
+
+        <ol class="{{ classes.list }}">
+
+            {% for crumb in crumbs %}
+
+                <li class="{{ classes.item }}">
+
+                    {% if loop.last %}
+                        <span class="{{ classes.current }}" aria-current="page">{{ crumb.label }}</span>
+                    {% else %}
+                        <a href="{{ crumb.url }}" class="{{ classes.link }}">{{ crumb.label }}</a>
+                        <i class="{{ classes.chevron }}" aria-hidden="true"></i>
+                    {% endif %}
+
+                </li>
+
+            {% endfor %}
+
+        </ol>
+
+    </nav>
+
+{% endif %}
