@@ -270,6 +270,32 @@ _Avoid_: Client logo, brand, mark, icon
 The Previous and Next pills beneath a carousel's Slides that move the row one Slide at a time.
 _Avoid_: Arrows, nav buttons, pagination, prev/next
 
+### Stacking Cards
+
+**Stacking Cards**:
+A Block of a heading and text beside a pile of Stacking Cards, with a button and an Avatar Group beneath the pile. The cards Stack as the visitor scrolls.
+_Avoid_: Card stack, scroll cards, industries block, sticky cards
+
+**Stacking Card**:
+One panel in a Stacking Cards Block: its Card Images beside a heading, text and button, coloured and tilted by its Card Scheme.
+_Avoid_: Card, panel, slide, tile, item
+
+**Card Images**:
+The one or more images an editor adds to a Stacking Card, shown one at a time in the card's image slot through the Image Cycle.
+_Avoid_: Gallery, slideshow, image carousel, thumbnails
+
+**Card Scheme**:
+The colour and tilt a Stacking Card takes from its position in the pile: white, black, secondary and fluro in turn, repeating past four. Never chosen by editors.
+_Avoid_: Theme, variant, colour option, style
+
+**Stack**:
+The scroll-driven behaviour of the Stacking Cards Block: the whole Block holds still on screen while each Stacking Card slides up and away in turn to reveal the one beneath, following the scroll in both directions. Below the desktop breakpoint, and under reduced motion, the cards are a plain column instead.
+_Avoid_: Pin, scroll-jack, sticky, parallax, deck
+
+**Image Cycle**:
+The timed cross-fade between a Stacking Card's Card Images, one every few seconds, that runs only while the card is on screen. A card with one image has none.
+_Avoid_: Slideshow, rotation, auto-play, fade loop
+
 ### Seeding
 
 **Seed**:
