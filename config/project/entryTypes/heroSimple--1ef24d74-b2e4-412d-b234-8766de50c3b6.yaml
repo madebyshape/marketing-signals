@@ -1,0 +1,101 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  a8d8f7f7-fcda-4a91-90ee-b66874ca1b20:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 7abaac61-cc47-4614-a630-949e9c04969b
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: 'Make words italic to highlight them.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 71c66647-3877-4086-a531-322c7a60e3fd
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 367c3ef8-ea7d-4388-b5c6-682ee4a08dff
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: a7129ebe-517c-4e46-a242-002aa8b5b24a
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 4f8b95be-c349-403f-b197-84b13a7ca7ca
+            userCondition: null
+        name: Content
+        uid: 942dbd85-810d-4c39-b7bd-644626597489
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 9c2880cd-7d0d-494f-aeeb-4c0b30575fb5 # Padding - Hero
+            handle: padding
+            instructions: null
+            label: Padding
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f781bd49-ac14-4b29-93e4-dbbb60cf5d8e
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 43c0b06c-3bc4-4156-ba88-b3dace89cb7e
+        userCondition: null
+    thumbFieldKey: null
+handle: heroSimple
+hasTitleField: false
+icon: heading
+name: 'Hero - Simple'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
