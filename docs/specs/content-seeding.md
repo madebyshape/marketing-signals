@@ -47,7 +47,7 @@ A Seed is a JSON file that names an entry, a Matrix field on it, and the Blocks 
 
 **Where it lives.** A site module registered as `site`, the first code in the repo's module namespace, which composer already autoloads. The Seed command is a console controller in it, so the command is `site/seed/blocks`, run through DDEV. Other site-level console commands belong in the same module.
 
-**Command surface.** One argument, the path to a Seed file. One flag, `--dry-run`. Exit code zero on success, non-zero on any failure. Output is one line per Block (created or skipped, with its type and match key) and one line per image (uploaded or reused, with its filename).
+**Command surface.** One argument, the path to a Seed file. One flag, `--dry-run`. Exit code zero on success, non-zero on any failure. Output is one line per Block (created or skipped, with its type and match key), one line per image (uploaded or reused, with its filename), and one line per entry an Entries field named (resolved, with its field, slug and title).
 
 **Seed shape.** A JSON object with `entry` (a slug; `home` is accepted for the Home entry), `field` (a Matrix field handle on that entry, default `blocks`), an optional `volume` (asset volume handle, default `images`), the optional entry keys `section`, `type`, `title` and `parent` described under Creating entries, and `blocks`, a list. Each Block has `type` (an entry type handle), `fields`, a map of field handle to value, and an optional `after`, the entry type handle of the Block it should follow. The same Block structure is used recursively for nested Matrix values; `after` applies to top-level Blocks only. The shape, as agreed in the grilling session:
 
@@ -75,6 +75,7 @@ A Seed is a JSON file that names an entry, a Matrix field on it, and the Blocks 
 - Lightswitch: a boolean.
 - Date: an ISO 8601 string.
 - Assets: a list of filenames or paths. Each is matched by filename in the Seed's volume and reused if found, otherwise uploaded from the path, resolved relative to the Seed file. Alt text is left to the asset's title, which Craft derives from the filename.
+- Entries: a list of slugs, in the order the entries should appear. Each is found by slug the way a link to an entry is, and written to the field in that order. A slug that matches no entry is an error naming the field and the slug. The entries already exist, so nothing is written for them and a dry run resolves and reports the same. The Service Carousel spec is its first caller.
 - Matrix: a list of Blocks in the same shape, created fresh as part of their parent.
 - Content Block: a map of field handle to value, resolved with the same rules.
 - Link: an object with `type` (`entry`, `category`, `asset`, `url`, `email`, `tel`), `value`, and optional `label`, `target` and `ariaLabel`. Entries and categories are found by slug, assets by filename in the volume, the rest are raw strings. A bare string is a `url` link.
