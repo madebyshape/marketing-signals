@@ -13,8 +13,9 @@
 
 {# Options #}
 
-{# On `creme-100`, italic is the editor's highlight marker rather than emphasis: the slant is
-   dropped and the words take the secondary colour, as `u` does on the alternate heading. #}
+{# On `creme-100` and `black`, italic is the editor's highlight marker rather than emphasis: the
+   slant is dropped and the words take the alternate colour, as `u` does on the alternate
+   heading. #}
 
 {% set options = {
     colour: {
@@ -33,10 +34,18 @@
             italic: 'not-italic text-secondary',
             list: 'text-creme-100 marker:text-secondary',
             blockquote: 'bg-creme-100/10 text-creme-100'
+        },
+        black: {
+            heading: 'text-black',
+            link: 'text-primary decoration-primary/50 hover:decoration-primary',
+            paragraph: 'text-black',
+            italic: 'not-italic text-primary',
+            list: 'text-black marker:text-primary',
+            blockquote: 'bg-black/10 text-black'
         }
     },
     size: {
-        base: 'text-base leading-relaxed',
+        base: 'text-base leading-1.33',
         md: 'text-md font-normal leading-1.33',
         '3xl': 'text-2xl font-medium leading-1.2 tracking-tighter | lg:text-3xl'
     }

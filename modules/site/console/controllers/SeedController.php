@@ -6,6 +6,7 @@ use craft\console\Controller;
 use craft\helpers\Console;
 use modules\site\seed\BlockSeeder;
 use modules\site\seed\Seed;
+use modules\site\seed\SeedEntryOutcome;
 use modules\site\seed\SeedException;
 use modules\site\seed\SeedImageOutcome;
 use modules\site\seed\SeedOutcome;
@@ -45,7 +46,12 @@ class SeedController extends Controller
             return ExitCode::UNSPECIFIED_ERROR;
         }
 
-        // Images come first, as they are resolved before the Block that names them is built.
+        // The entry comes first, as it is created or switched before a Block is resolved at all.
+        foreach ($report->entries as $entry) {
+            $this->outputEntry($entry);
+        }
+
+        // Images follow, as they are resolved before the Block that names them is built.
         foreach ($report->images as $image) {
             $this->outputImage($image);
         }
@@ -64,6 +70,16 @@ class SeedController extends Controller
         ));
 
         return ExitCode::OK;
+    }
+
+    private function outputEntry(SeedEntryOutcome $entry): void
+    {
+        $wrote = $entry->action !== SeedEntryOutcome::SKIPPED;
+
+        $this->stdout(sprintf('%-9s', $entry->action), $wrote ? Console::FG_GREEN : Console::FG_YELLOW);
+        $this->stdout('entry  ');
+        $this->stdout("“{$entry->slug}”", Console::FG_GREY);
+        $this->stdout("  {$entry->detail}\n", Console::FG_CYAN);
     }
 
     private function outputImage(SeedImageOutcome $image): void

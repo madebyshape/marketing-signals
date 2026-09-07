@@ -2,20 +2,15 @@
 
 {% block site %}
 
-    {# The hero renders with the Blocks, so a page with no Blocks renders nothing. Guarding on the
-       count rather than looping over the Blocks keeps a second Block from rendering the whole page
-       a second time. #}
+    {{ entry.hero.render({
+        vars: vars
+    }) }}
 
-    {% if entry.blocks.count() %}
+    {# Rendering the Blocks as one call rather than looping over them keeps a second Block from
+       rendering the whole page a second time. #}
 
-        {{ entry.hero.render({
-            vars: vars
-        }) }}
-
-        {{ entry.blocks.render({
-            vars: vars
-        }) }}
-
-    {% endif %}
+    {{ entry.blocks.render({
+        vars: vars
+    }) }}
 
 {% endblock %}
