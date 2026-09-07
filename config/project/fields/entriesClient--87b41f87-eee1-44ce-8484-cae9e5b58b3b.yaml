@@ -1,0 +1,25 @@
+columnSuffix: null
+handle: entriesClient
+instructions: null
+name: 'Entries - Client'
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: 2
+  selectionLabel: 'Add a Client'
+  showSearchInput: true
+  showSiteMenu: false
+  showUnpermittedEntries: false
+  showUnpermittedSections: false
+  sources:
+    - 'section:fa2d89b4-fa6d-48d3-b36a-7169022cd64d' # Client
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Entries
