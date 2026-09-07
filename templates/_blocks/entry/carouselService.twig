@@ -9,6 +9,13 @@
 
 {% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
 
+{# Component #}
+
+{# The Alpine data is named for the Block's handle, so two Service Carousels on one page each keep
+   their own state and their own refs. #}
+
+{% set component = entry.type.handle %}
+
 {# Services #}
 
 {# One Slide per enabled Service the editor picked, in the field's order. A disabled Service has
@@ -23,14 +30,25 @@
    margin instead, so that once the track is a row the neighbouring Slides overflow the margin and
    the frame clips them at the viewport edge.
 
-   Served, the track is a column and the Slides stack with the design's 20px between them; the Pin
-   turns it into a row, which is the next ticket. The card is 820px tall from `lg`, capped to the
+   Served, the track is a column and the Slides stack with the design's 20px between them; the
+   Block's own state turns it into a row, gives the frame a viewport of height to centre the stage
+   in, and shows the bars, so reduced motion and a page whose script has not run both keep the
+   stack. Every one of those classes lives in `pinned` below, none of them carrying a group pipe,
+   because Alpine reads them as a class list. The card is 820px tall from `lg`, capped to the
    viewport less 80px so a pinned card always sits whole on screen, and at least that tall below
    `lg`, where a long Description may grow it.
 
+   A Slide is the full width of the stage's inner width and never shrinks, so it is the card's
+   width in the column and the same width again in the row, where the neighbours overflow the
+   margin and the frame clips them at the viewport edge.
+
    The heading and the Description share the card's 12-column grid from `lg`, in columns one to
    seven and eight to eleven, both centred on the same line in the height the Eyebrow row leaves.
-   Below `lg` they stack with the button, 20px apart. #}
+   Below `lg` they stack with the button, 20px apart.
+
+   The bars are positioned in the stage rather than the track, so the Slides pass beneath them
+   while they hold still. They take the site margin at every width, which is the stage's inner
+   width and so the card's own width, and they sit above everything the card paints. #}
 
 {% set blockClasses = {
     frame: 'relative overflow-hidden',
@@ -39,6 +57,7 @@
         vars is defined ? vars.class.siteMargin.x : 'px-10'
     ],
     track: 'flex flex-col gap-5',
+    slide: 'w-full shrink-0',
     card: [
         'group relative flex flex-col overflow-hidden rounded-[20px] bg-black min-h-[calc(100vh-80px)]',
         '|',
@@ -66,13 +85,14 @@
         'lg:col-start-8 lg:col-span-4'
     ],
     button: 'hidden | pointer-coarse:block',
-    bars: [
-        'hidden absolute inset-x-5 bottom-5 flex-row gap-x-1.25',
-        '|',
-        'lg:inset-x-10 lg:bottom-12.5'
-    ],
+    bars: 'hidden absolute inset-x-10 bottom-12.5 z-20 flex-row gap-x-1.25',
     bar: 'flex-1 h-1.25 overflow-hidden rounded-full bg-white/30',
-    fill: 'w-full h-full origin-left scale-x-0 rounded-full bg-fluro'
+    fill: 'w-full h-full origin-left scale-x-0 rounded-full bg-fluro will-change-transform',
+    pinned: {
+        frame: 'h-screen flex flex-col justify-center',
+        track: 'flex-row will-change-transform',
+        bars: 'flex'
+    }
 } %}
 
 {# Output #}
@@ -91,11 +111,25 @@
     %}
         {% block sectionContent %}
 
-            <div class="{{ blockClasses.frame }}" x-ref="frame">
+            {# The frame is as tall as its content until the Pin exists; then it is a viewport
+               tall with the stage centred in it, which is what holds the card in the middle of
+               the screen rather than under the header. It clips the neighbouring Slides at the
+               viewport edge either way. #}
+
+            <div
+                class="{{ blockClasses.frame }}"
+                x-data="{{ component }}"
+                x-bind:class="{ '{{ blockClasses.pinned.frame }}': pinned }"
+                x-ref="frame"
+            >
 
                 <div class="{{ blockClasses.stage|join(' ')|trim }}" x-ref="stage">
 
-                    <ul class="{{ blockClasses.track }}" x-ref="track">
+                    <ul
+                        class="{{ blockClasses.track }}"
+                        x-bind:class="{ 'flex-col': !pinned, '{{ blockClasses.pinned.track }}': pinned }"
+                        x-ref="track"
+                    >
 
                         {% for service in services %}
 
@@ -103,12 +137,17 @@
                                inside it. Its accessible name is the Service's title alone rather
                                than everything the card holds. #}
 
-                            <li>
+                            <li class="{{ blockClasses.slide }}">
+
+                                {# Tabbing to a link inside the pinned frame would leave the
+                                   visitor focused on a card that is off screen, so the link hands
+                                   the Block its own position and the Block scrolls to it. #}
 
                                 <a
                                     href="{{ service.url }}"
                                     aria-label="{{ service.title }}"
                                     class="{{ blockClasses.card|join(' ')|trim }}"
+                                    x-on:focus="focusSlide({{ loop.index0 }})"
                                 >
 
                                     {% set thumbnail = service.thumbnail.one() %}
@@ -220,8 +259,9 @@
                        reduced motion, no script and a single Slide all show none of it. #}
 
                     <div
-                        class="{{ blockClasses.bars|join(' ')|trim }}"
+                        class="{{ blockClasses.bars }}"
                         aria-hidden="true"
+                        x-bind:class="{ 'hidden': !pinned, '{{ blockClasses.pinned.bars }}': pinned }"
                         x-ref="bars"
                     >
 
@@ -243,3 +283,123 @@
     {% endembed %}
 
 {% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => {
+
+            // The ScrollTrigger is held outside the data object, because Alpine makes everything
+            // in there reactive and nothing renders from the instance: only the Block reads it.
+            let trigger = null;
+
+            return {
+                pinned: false,
+                init() {
+
+                    // One Slide has nowhere to travel, so it keeps the static card the server
+                    // sent: no row, no bars and no ScrollTrigger.
+                    if (this.$refs.track.children.length < 2) {
+                        return;
+                    }
+
+                    // Reduced motion keeps the served layout exactly, for the same reason.
+                    // Everything below is inside the media context, so GSAP reverts the whole Pin
+                    // if the preference changes and the cleanup puts the Block's state back.
+                    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', (context) => {
+
+                        this.pinned = true;
+
+                        // Alpine writes the row classes on the next tick, so the widths are
+                        // measured off the layout the tween describes rather than the column it
+                        // replaced. `context.add` keeps the late tween inside the media context.
+                        this.$nextTick(() => context.add(() => {
+
+                            // One tween on one ScrollTrigger drives the row and the bars
+                            // together. The end is the travel itself, so a pixel of scroll is a
+                            // pixel of movement; a direct scrub rests wherever the scroll stops
+                            // and follows it back up, and no snap is there to fight it. The
+                            // travel is a function, so an invalidated refresh reads the widths
+                            // from the DOM again after a resize rather than every frame.
+                            const tween = gsap.to(this.$refs.track, {
+                                x: () => -this.travel(),
+                                ease: 'none',
+                                scrollTrigger: {
+                                    trigger: this.$refs.frame,
+                                    pin: this.$refs.frame,
+                                    start: 'top top',
+                                    end: () => '+=' + this.travel(),
+                                    scrub: true,
+                                    invalidateOnRefresh: true,
+                                    onUpdate: (self) => this.fillBars(self.progress)
+                                }
+                            });
+
+                            trigger = tween.scrollTrigger;
+
+                            this.fillBars(trigger.progress);
+
+                        }));
+
+                        return () => {
+                            this.pinned = false;
+                            trigger = null;
+                        };
+
+                    });
+
+                },
+                step() {
+
+                    // A Slide's own width plus the gap the track holds it at: the distance one
+                    // Slide travels to take the last one's place.
+                    const track = this.$refs.track;
+
+                    return track.children[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap || 0);
+
+                },
+                travel() {
+
+                    return (this.$refs.track.children.length - 1) * this.step();
+
+                },
+                fillBars(progress) {
+
+                    // The progress is read as a position in the row, so bar one is always full
+                    // and bar n fills as the visitor moves from Slide n minus one to Slide n: at
+                    // rest on Slide k the first k bars are full, matching the Slide Number.
+                    const fills = Array.from(this.$refs.bars.children, (bar) => bar.firstElementChild);
+                    const position = progress * (fills.length - 1);
+
+                    // One write for every fill, transforms only, so a frame costs no layout.
+                    gsap.set(fills, {
+                        scaleX: (index) => index === 0 ? 1 : gsap.utils.clamp(0, 1, position - index + 1)
+                    });
+
+                },
+                focusSlide(index) {
+
+                    // Only while the Pin exists: stacked, the card the visitor tabbed to is
+                    // already in the flow and the browser has brought it into view itself.
+                    if (!trigger) {
+                        return;
+                    }
+
+                    // The Slide's own offset is the scroll the Pin starts at plus the Slides
+                    // before it, because a pixel of scroll is a pixel of travel. Lenis owns the
+                    // page's scroll, so the move goes through it rather than fighting it.
+                    window.lenis.scrollTo(trigger.start + index * this.step());
+
+                    // Hidden overflow is still a scroll container, so the browser may shunt the
+                    // frame sideways to reveal the focused card. The Pin owns that axis.
+                    this.$refs.frame.scrollLeft = 0;
+
+                }
+            };
+
+        })
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}

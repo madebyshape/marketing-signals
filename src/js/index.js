@@ -38,3 +38,8 @@ const lenis = new Lenis({
 lenis.on('scroll', () => {
     ScrollTrigger.update();
 });
+
+// Global
+// Exposed after Lenis is built so a Block can scroll the window through the same instance the
+// page already scrolls with, rather than a native scroll Lenis would fight.
+window.lenis = lenis;
