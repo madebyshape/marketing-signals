@@ -47,7 +47,7 @@ class SeedController extends Controller
         }
 
         // The entry comes first, as it is created or switched before a Block is resolved at all.
-        foreach ($report->entry as $entry) {
+        foreach ($report->entries as $entry) {
             $this->outputEntry($entry);
         }
 

@@ -9,12 +9,12 @@ namespace modules\site\seed;
 readonly class SeedReport
 {
     /**
-     * @param SeedEntryOutcome[] $entry what the entry keys did, empty for a Seed without them.
+     * @param SeedEntryOutcome[] $entries what the entry keys did, empty for a Seed without them.
      * @param SeedOutcome[] $blocks one per Block in the Seed, in Seed order.
      * @param SeedImageOutcome[] $images one per image named, in the order they were resolved.
      */
     public function __construct(
-        public array $entry,
+        public array $entries,
         public array $blocks,
         public array $images,
     ) {
