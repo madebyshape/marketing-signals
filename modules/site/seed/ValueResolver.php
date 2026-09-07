@@ -8,6 +8,7 @@ use craft\fields\Assets as AssetsField;
 use craft\fields\ContentBlock as ContentBlockField;
 use craft\fields\Date as DateField;
 use craft\fields\Dropdown;
+use craft\fields\Entries as EntriesField;
 use craft\fields\Lightswitch;
 use craft\fields\Link as LinkField;
 use craft\fields\Matrix;
@@ -36,8 +37,9 @@ class ValueResolver
 
     public function __construct(
         private readonly AssetResolver $assets,
+        private readonly EntriesResolver $entries,
     ) {
-        $this->links = new LinkResolver($this->assets);
+        $this->links = new LinkResolver($this->assets, $this->entries);
     }
 
     /**
@@ -87,6 +89,7 @@ class ValueResolver
             $field instanceof Lightswitch => $this->boolean($field, $value),
             $field instanceof DateField => $this->date($field, $value),
             $field instanceof AssetsField => $this->assets->resolve($field, $value),
+            $field instanceof EntriesField => $this->entries->resolve($field, $value),
             $field instanceof LinkField => $this->links->resolve($field, $value),
             $field instanceof Matrix => $this->matrix($field, $value),
             $field instanceof ContentBlockField => $this->contentBlock($field, $value),

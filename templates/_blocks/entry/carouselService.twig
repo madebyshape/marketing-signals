@@ -1,0 +1,422 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Component #}
+
+{# The Alpine data is named for the Block's handle, so two Service Carousels on one page each keep
+   their own state and their own refs. #}
+
+{% set component = entry.type.handle %}
+
+{# Services #}
+
+{# One Slide per enabled Service the editor picked, in the field's order. A disabled Service has
+   no page to link to, so it never becomes a Slide. #}
+
+{% set services = entry.entriesServices.all() %}
+
+{# Classes #}
+
+{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
+   named apart from it. The section's horizontal padding is off and the stage carries the site
+   margin instead, so that once the track is a row the neighbouring Slides overflow the margin and
+   the frame clips them at the viewport edge.
+
+   Served, the track is a column and the Slides stack with the design's 20px between them; the
+   Block's own state turns it into a row, gives the frame a viewport of height to centre the stage
+   in, and shows the bars, so reduced motion and a page whose script has not run both keep the
+   stack. Every one of those classes lives in `pinned` below, none of them carrying a group pipe,
+   because Alpine reads them as a class list. The card is 820px tall from `lg`, capped to the
+   viewport less 80px so a pinned card always sits whole on screen, and at least that tall below
+   `lg`, where a long Description may grow it.
+
+   A Slide is the full width of the stage's inner width and never shrinks, so it is the card's
+   width in the column and the same width again in the row, where the neighbours overflow the
+   margin and the frame clips them at the viewport edge.
+
+   The heading and the Description share the card's 12-column grid from `lg`, in columns one to
+   seven and eight to eleven, both centred on the same line in the height the Eyebrow row leaves.
+   Below `lg` they stack with the button, 20px apart.
+
+   The bars are positioned in the stage rather than the track, so the Slides pass beneath them
+   while they hold still. They take the site margin at every width, which is the stage's inner
+   width and so the card's own width, and they sit above everything the card paints.
+
+   The card is the hover group and the heading is the only thing in it that changes: on a fine
+   pointer it transitions to fluro, under the motion-safe guard the site transitions behind. The
+   card hides the native cursor for itself as well, because a link carries the browser's own
+   pointer and the body rule the cursor component writes does not reach it. #}
+
+{% set blockClasses = {
+    frame: 'relative overflow-hidden',
+    stage: [
+        'relative',
+        vars is defined ? vars.class.siteMargin.x : 'px-10'
+    ],
+    track: 'flex flex-col gap-5',
+    slide: 'w-full shrink-0',
+    card: [
+        'group relative flex flex-col overflow-hidden rounded-[20px] bg-black min-h-[calc(100vh-80px)]',
+        '|',
+        'pointer-fine:hover:cursor-none',
+        '|',
+        'lg:h-[820px] lg:max-h-[calc(100vh-80px)] lg:min-h-0'
+    ],
+    image: 'absolute inset-0 z-0 opacity-30',
+    content: [
+        'relative z-10 flex flex-1 flex-col p-5',
+        '|',
+        'lg:px-10 lg:py-12.5'
+    ],
+    body: [
+        'flex flex-1 flex-col justify-center gap-5',
+        '|',
+        'lg:grid lg:grid-cols-12 lg:content-center lg:items-center'
+    ],
+    heading: [
+        'font-semibold leading-0.92 tracking-tighter motion-safe:transition',
+        '|',
+        'pointer-fine:group-hover:text-fluro',
+        '|',
+        'md:text-7xl | lg:col-span-7 lg:text-9xl | 2xl:text-12xl'
+    ],
+    column: [
+        'flex flex-col gap-5',
+        '|',
+        'lg:col-start-8 lg:col-span-4'
+    ],
+    button: 'hidden | pointer-coarse:block',
+    bars: 'hidden absolute inset-x-10 bottom-12.5 z-20 flex-row gap-x-1.25',
+    bar: 'flex-1 h-1.25 overflow-hidden rounded-full bg-white/30',
+    fill: 'w-full h-full origin-left scale-x-0 rounded-full bg-fluro will-change-transform',
+    pinned: {
+        frame: 'h-screen flex flex-col justify-center',
+        track: 'flex-row will-change-transform',
+        bars: 'flex'
+    }
+} %}
+
+{# Output #}
+
+{# A Block with no Services renders nothing at all, section included. #}
+
+{% if services|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {# The frame is as tall as its content until the Pin exists; then it is a viewport
+               tall with the stage centred in it, which is what holds the card in the middle of
+               the screen rather than under the header. It clips the neighbouring Slides at the
+               viewport edge either way. #}
+
+            <div
+                class="{{ blockClasses.frame }}"
+                x-data="{{ component }}"
+                x-bind:class="{ '{{ blockClasses.pinned.frame }}': pinned }"
+                x-ref="frame"
+            >
+
+                <div class="{{ blockClasses.stage|join(' ')|trim }}" x-ref="stage">
+
+                    <ul
+                        class="{{ blockClasses.track }}"
+                        x-bind:class="{ 'flex-col': !pinned, '{{ blockClasses.pinned.track }}': pinned }"
+                        x-ref="track"
+                    >
+
+                        {% for service in services %}
+
+                            {# The whole card is the link, so the Slide has one link and no link
+                               inside it. Its accessible name is the Service's title alone rather
+                               than everything the card holds. #}
+
+                            <li class="{{ blockClasses.slide }}">
+
+                                {# Tabbing to a link inside the pinned frame would leave the
+                                   visitor focused on a card that is off screen, so the link hands
+                                   the Block its own position and the Block scrolls to it.
+
+                                   Entering the card raises the Cursor Label the global layout
+                                   mounts and leaving lowers it; the event goes to the window, so
+                                   the Block never reaches for the cursor's markup. A coarse
+                                   pointer fires these too, and the cursor component ignores them
+                                   there, which is what leaves the touch visitor the button. #}
+
+                                <a
+                                    href="{{ service.url }}"
+                                    aria-label="{{ service.title }}"
+                                    class="{{ blockClasses.card|join(' ')|trim }}"
+                                    x-on:focus="focusSlide({{ loop.index0 }})"
+                                    x-on:mouseenter="$dispatch('component-cursor', { active: true, text: 'Find Out More' })"
+                                    x-on:mouseleave="$dispatch('component-cursor', { active: false })"
+                                >
+
+                                    {% set thumbnail = service.thumbnail.one() %}
+
+                                    {# A Service without a Thumbnail renders its card on solid
+                                       black. The photograph is decorative, so its alt is empty
+                                       and the card's own heading names the Service. #}
+
+                                    {% if thumbnail %}
+
+                                        <div class="{{ blockClasses.image }}">
+
+                                            {% include '_components/picture' with {
+                                                params: {
+                                                    image: thumbnail,
+                                                    alt: '',
+                                                    transform: 'noRatioLarge',
+                                                    ratio: false,
+                                                    focalPoint: true,
+                                                    sizes: '100vw'
+                                                }
+                                            } only %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                    <div class="{{ blockClasses.content|join(' ')|trim }}">
+
+                                        {# An empty Eyebrow drops the whole row, Slide Number
+                                           included. #}
+
+                                        {% if entry.eyebrow|trim|length %}
+
+                                            {% include '_components/eyebrow' with {
+                                                params: {
+                                                    text: entry.eyebrow,
+                                                    colour: 'white',
+                                                    rule: true,
+                                                    ruleColour: 'white-30',
+                                                    aside: '(' ~ '%02d'|format(loop.index) ~ ')',
+                                                    asideAttributes: 'aria-hidden="true"'
+                                                }
+                                            } only %}
+
+                                        {% endif %}
+
+                                        <div class="{{ blockClasses.body|join(' ')|trim }}">
+
+                                            {% include '_components/heading' with {
+                                                params: {
+                                                    tag: 'h3',
+                                                    heading: service.title,
+                                                    colour: 'white',
+                                                    size: '5xl',
+                                                    class: blockClasses.heading|join(' ')|trim
+                                                }
+                                            } only %}
+
+                                            <div class="{{ blockClasses.column|join(' ')|trim }}">
+
+                                                {# A link inside the Slide's link is invalid HTML
+                                                   and the Slide already goes to the Service, so
+                                                   the Description keeps its paragraphs, bold,
+                                                   italic and line breaks and loses the rest. #}
+
+                                                {% include '_components/richText' with {
+                                                    params: {
+                                                        content: service.description|striptags('<p><strong><b><em><i><br>'),
+                                                        colour: 'white'
+                                                    }
+                                                } only %}
+
+                                                {# A visitor with a mouse gets the Cursor Label
+                                                   instead, so the pill shows on coarse pointers
+                                                   only. It is a span: the Slide is the link. #}
+
+                                                <div class="{{ blockClasses.button }}">
+
+                                                    {% include '_components/button' with {
+                                                        params: {
+                                                            type: 'span',
+                                                            button: {
+                                                                label: 'Find Out More'
+                                                            },
+                                                            colour: 'white',
+                                                            size: 'sm',
+                                                            icon: false
+                                                        }
+                                                    } only %}
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </a>
+
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                    {# The Slide Progress is served hidden and shown only once the Pin exists, so
+                       reduced motion, no script and a single Slide all show none of it. #}
+
+                    <div
+                        class="{{ blockClasses.bars }}"
+                        aria-hidden="true"
+                        x-bind:class="{ 'hidden': !pinned, '{{ blockClasses.pinned.bars }}': pinned }"
+                        x-ref="bars"
+                    >
+
+                        {% for service in services %}
+
+                            <div class="{{ blockClasses.bar }}">
+                                <div class="{{ blockClasses.fill }}"></div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => {
+
+            // The ScrollTrigger is held outside the data object, because Alpine makes everything
+            // in there reactive and nothing renders from the instance: only the Block reads it.
+            let trigger = null;
+
+            return {
+                pinned: false,
+                init() {
+
+                    // One Slide has nowhere to travel, so it keeps the static card the server
+                    // sent: no row, no bars and no ScrollTrigger.
+                    if (this.$refs.track.children.length < 2) {
+                        return;
+                    }
+
+                    // Reduced motion keeps the served layout exactly, for the same reason.
+                    // Everything below is inside the media context, so GSAP reverts the whole Pin
+                    // if the preference changes and the cleanup puts the Block's state back.
+                    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', (context) => {
+
+                        this.pinned = true;
+
+                        // Alpine writes the row classes on the next tick, so the widths are
+                        // measured off the layout the tween describes rather than the column it
+                        // replaced. `context.add` keeps the late tween inside the media context.
+                        this.$nextTick(() => context.add(() => {
+
+                            // One tween on one ScrollTrigger drives the row and the bars
+                            // together. The end is the travel itself, so a pixel of scroll is a
+                            // pixel of movement; a direct scrub rests wherever the scroll stops
+                            // and follows it back up, and no snap is there to fight it. The
+                            // travel is a function, so an invalidated refresh reads the widths
+                            // from the DOM again after a resize rather than every frame.
+                            const tween = gsap.to(this.$refs.track, {
+                                x: () => -this.travel(),
+                                ease: 'none',
+                                scrollTrigger: {
+                                    trigger: this.$refs.frame,
+                                    pin: this.$refs.frame,
+                                    start: 'top top',
+                                    end: () => '+=' + this.travel(),
+                                    scrub: true,
+                                    invalidateOnRefresh: true,
+                                    onUpdate: (self) => this.fillBars(self.progress)
+                                }
+                            });
+
+                            trigger = tween.scrollTrigger;
+
+                            this.fillBars(trigger.progress);
+
+                        }));
+
+                        return () => {
+                            this.pinned = false;
+                            trigger = null;
+                        };
+
+                    });
+
+                },
+                step() {
+
+                    // A Slide's own width plus the gap the track holds it at: the distance one
+                    // Slide travels to take the last one's place.
+                    const track = this.$refs.track;
+
+                    return track.children[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap || 0);
+
+                },
+                travel() {
+
+                    return (this.$refs.track.children.length - 1) * this.step();
+
+                },
+                fillBars(progress) {
+
+                    // The progress is read as a position in the row, so bar one is always full
+                    // and bar n fills as the visitor moves from Slide n minus one to Slide n: at
+                    // rest on Slide k the first k bars are full, matching the Slide Number.
+                    const fills = Array.from(this.$refs.bars.children, (bar) => bar.firstElementChild);
+                    const position = progress * (fills.length - 1);
+
+                    // One write for every fill, transforms only, so a frame costs no layout.
+                    gsap.set(fills, {
+                        scaleX: (index) => index === 0 ? 1 : gsap.utils.clamp(0, 1, position - index + 1)
+                    });
+
+                },
+                focusSlide(index) {
+
+                    // Only while the Pin exists: stacked, the card the visitor tabbed to is
+                    // already in the flow and the browser has brought it into view itself.
+                    if (!trigger) {
+                        return;
+                    }
+
+                    // The Slide's own offset is the scroll the Pin starts at plus the Slides
+                    // before it, because a pixel of scroll is a pixel of travel. Lenis owns the
+                    // page's scroll, so the move goes through it rather than fighting it.
+                    window.lenis.scrollTo(trigger.start + index * this.step());
+
+                    // Hidden overflow is still a scroll container, so the browser may shunt the
+                    // frame sideways to reveal the focused card. The Pin owns that axis.
+                    this.$refs.frame.scrollLeft = 0;
+
+                }
+            };
+
+        })
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}

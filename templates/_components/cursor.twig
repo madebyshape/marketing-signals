@@ -16,18 +16,28 @@
 
 {% set options = {
     colour: {
-        base: 'bg-zinc-900 text-white',
+        base: 'bg-white text-black',
     },
     size: {
-        base: 'w-20 h-20 text-2xl',
+        base: 'px-2.5 py-1.25 text-base',
     }
 } %}
 
 {# Classes #}
 
+{# The pointer is the element GSAP moves, so its transform is the component's alone and the pill
+   inside it keeps the class-driven scale that raises and lowers it; one element could not hold
+   both without GSAP's inline transform wiping the scale. It is served hidden and shown on fine
+   pointers only, so a touch visitor never carries a label their pointer cannot place. #}
+
 {% set classes = {
+    pointer: [
+        'hidden pointer-events-none fixed top-0 left-0 z-50',
+        '|',
+        'pointer-fine:block'
+    ],
     cursor: [
-        'hidden pointer-events-none fixed z-50 isolate overflow-hidden rounded-full transition scale-0 items-center justify-center pointer-fine:flex',
+        'flex items-center justify-center gap-x-2 whitespace-nowrap rounded-full font-medium leading-none transition scale-0',
         options.colour[params.colour],
         options.size[params.size],
         params.class
@@ -36,39 +46,41 @@
 
 {# Output #}
 
+{# A caller raises the label by dispatching the window event with the text, an icon, or both;
+   every part of the detail is read afresh each time, so a caller that sends only text never
+   inherits the icon the last one sent. #}
+
 <div
     x-data="{{ params.component }}"
     @component-cursor.window="
 
-        active = false;
-        text = false;
-
-        if ($event.detail.active) {
-            active = $event.detail.active;
-        }
-
-        if ($event.detail.icon) {
-            icon = $event.detail.icon;
-        }
+        active = $event.detail.active ? true : false;
+        text = $event.detail.text ? $event.detail.text : false;
+        icon = $event.detail.icon ? $event.detail.icon : false;
 
     "
 >
 
-    <div
-        class="{{ classes.cursor|join(' ')|trim }}"
-        x-ref="cursor"
-        x-bind:class="{
-            'scale-100': active,
-            'scale-0': !active
-        }"
-    >
+    <div class="{{ classes.pointer|join(' ')|trim }}" x-ref="pointer">
 
-        <i
-            class="{{ params.icon }}"
-            x-show="icon"
-            x-bind:class="icon"
+        <div
+            class="{{ classes.cursor|join(' ')|trim }}"
+            x-bind:class="{
+                'scale-100': active,
+                'scale-0': !active
+            }"
         >
-        </i>
+
+            <i
+                class="{{ params.icon }}"
+                x-show="icon"
+                x-bind:class="icon"
+            >
+            </i>
+
+            <span x-show="text" x-text="text"></span>
+
+        </div>
 
     </div>
 
@@ -84,32 +96,33 @@
             init() {
 
                 const _self = this;
-                const cursor = _self.$refs.cursor;
+                const pointer = _self.$refs.pointer;
+
+                // A coarse pointer has nothing to follow and no native cursor to hide, so the
+                // component listens to nothing at all there.
+                if (!window.matchMedia('(pointer: fine)').matches) {
+                    return;
+                }
+
+                // The pill is centred on the pointer by its own transform rather than by half its
+                // width, so its size can change with the caller's text without the maths.
+                gsap.set(pointer, { xPercent: -50, yPercent: -50 });
+
+                // One quick tween for each axis: a pointer move retargets a running tween instead
+                // of writing left and top, so a frame costs a transform and no layout.
+                const moveX = gsap.quickTo(pointer, 'x', { duration: 0.3, ease: 'power3' });
+                const moveY = gsap.quickTo(pointer, 'y', { duration: 0.3, ease: 'power3' });
 
                 document.addEventListener('pointermove', (e) => {
 
-                    const left = e.clientX - cursor.clientWidth / 2;
-                    const top = e.clientY - cursor.clientHeight / 2;
+                    moveX(e.clientX);
+                    moveY(e.clientY);
 
-                    cursor.style.left = `${left}px`;
-                    cursor.style.top = `${top}px`;
-
-                });
-
-                _self.$watch('icon', value => {
-
-                    value ? _self.icon = value : _self.icon = false;
                 });
 
                 _self.$watch('active', value => {
 
-                    value ? _self.active = true : _self.active = false;
-
-                    if (_self.active) {
-                        document.body.style.cursor = 'none';
-                    } else {
-                        document.body.style.cursor = 'default';
-                    }
+                    document.body.style.cursor = value ? 'none' : 'default';
 
                 });
 

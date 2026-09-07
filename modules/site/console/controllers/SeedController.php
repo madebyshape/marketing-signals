@@ -10,6 +10,7 @@ use modules\site\seed\SeedEntryOutcome;
 use modules\site\seed\SeedException;
 use modules\site\seed\SeedImageOutcome;
 use modules\site\seed\SeedOutcome;
+use modules\site\seed\SeedRelationOutcome;
 use yii\console\ExitCode;
 
 /**
@@ -51,9 +52,14 @@ class SeedController extends Controller
             $this->outputEntry($entry);
         }
 
-        // Images follow, as they are resolved before the Block that names them is built.
+        // Images and related entries follow, as they are resolved before the Block that names
+        // them is built.
         foreach ($report->images as $image) {
             $this->outputImage($image);
+        }
+
+        foreach ($report->relations as $relation) {
+            $this->outputRelation($relation);
         }
 
         foreach ($report->blocks as $outcome) {
@@ -61,11 +67,12 @@ class SeedController extends Controller
         }
 
         $this->stdout(sprintf(
-            "%d created, %d skipped, %d uploaded, %d reused%s.\n",
+            "%d created, %d skipped, %d uploaded, %d reused, %d resolved%s.\n",
             count(array_filter($report->blocks, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::CREATED)),
             count(array_filter($report->blocks, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::SKIPPED)),
             count(array_filter($report->images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::UPLOADED)),
             count(array_filter($report->images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::REUSED)),
+            count($report->relations),
             $this->dryRun ? ' — dry run, nothing written' : '',
         ));
 
@@ -86,6 +93,18 @@ class SeedController extends Controller
     {
         $this->stdout(sprintf('%-9s', $image->action), $image->action === SeedImageOutcome::UPLOADED ? Console::FG_GREEN : Console::FG_YELLOW);
         $this->stdout("{$image->filename}\n", Console::FG_GREY);
+    }
+
+    /**
+     * One line per entry an Entries field named, so the Seed's list of slugs can be read off
+     * against the entries it found, in the order they will be written.
+     */
+    private function outputRelation(SeedRelationOutcome $relation): void
+    {
+        $this->stdout(sprintf('%-9s', 'resolved'), Console::FG_GREEN);
+        $this->stdout("{$relation->field}  ");
+        $this->stdout("“{$relation->slug}”", Console::FG_GREY);
+        $this->stdout("  {$relation->title}\n", Console::FG_CYAN);
     }
 
     private function outputOutcome(SeedOutcome $outcome): void

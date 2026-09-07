@@ -26,6 +26,7 @@ class LinkResolver
 
     public function __construct(
         private readonly AssetResolver $assets,
+        private readonly EntriesResolver $entries,
     ) {
     }
 
@@ -115,7 +116,7 @@ class LinkResolver
      */
     private function entry(LinkField $field, string $slug): Entry
     {
-        return Entry::find()->slug($slug)->site('*')->unique()->status(null)->one()
+        return $this->entries->find($slug)
             ?? throw new SeedException("Field “{$field->handle}”: no entry with the slug “{$slug}”.");
     }
 
