@@ -206,6 +206,36 @@ _Avoid_: Label, caption, description
 The 1px black line between Statistics: vertical when they sit in a row, horizontal when they stack.
 _Avoid_: Border, separator, rule, line
 
+### Service Carousel
+
+**Service**:
+An entry in the Service section: one of the agency's digital marketing services, with a Description and a Thumbnail of its own.
+_Avoid_: Service page, offering, product
+
+**Service Carousel**:
+A Block of an Eyebrow over a row of Slides, one per Service the editor picked, that Pins to the screen and moves sideways as the visitor scrolls.
+_Avoid_: Services slider, service cards, horizontal scroller, carousel block
+
+**Slide**:
+One Service in the Service Carousel: a rounded card inside the site margins, its Thumbnail darkened behind the Eyebrow, its Slide Number, its title and its Description, the whole of it one link to the Service. Slides sit side by side with a small gap between them, so the neighbours show at the edges.
+_Avoid_: Card, panel, item, service tile, full-screen image
+
+**Slide Number**:
+The bracketed count at the right end of a Slide's Eyebrow row, such as "(01)", saying which Slide it is.
+_Avoid_: Counter, index, pagination number
+
+**Pin**:
+The scroll-driven behaviour of the Service Carousel: the Block holds still on screen while the visitor's own scroll moves the Slides sideways, at every width, resting wherever the scroll stops.
+_Avoid_: Scroll-jack, horizontal scroll, sticky section, scrub, snap
+
+**Slide Progress**:
+The row of bars in the Service Carousel, one per Slide, each filling as the visitor scrolls through its Slide.
+_Avoid_: Pagination, dots, progress bar, indicator, counter
+
+**Cursor Label**:
+The custom cursor that follows the pointer over a Slide on fine-pointer devices, reading "Find out more". On coarse-pointer devices a button beneath the Description says the same.
+_Avoid_: Hover cursor, cursor follower, tooltip, CTA
+
 ### Seeding
 
 **Seed**:
