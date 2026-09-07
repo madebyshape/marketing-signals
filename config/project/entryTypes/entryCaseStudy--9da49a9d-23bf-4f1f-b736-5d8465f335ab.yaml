@@ -36,6 +36,70 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-07T14:44:03+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: thumbnail
+            instructions: null
+            label: Thumbnail
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: cf830ea4-ed6e-47c9-90b8-877eae049ee4
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-09-07T14:44:03+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: logo
+            instructions: null
+            label: Logo
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 91dc0212-c926-4a49-87bc-f99d99b061dd
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-09-07T14:44:03+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: tagLine
+            instructions: null
+            label: 'Tag Line'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7c48136a-f27e-4b51-b066-760ce4e16682
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-09-07T14:47:02+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4cca2129-e042-4a21-9fa8-29d23e75875d # Categories - Case Study
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 680905a2-02e3-4554-aed8-355e1cdb9d0a
+            userCondition: null
+            warning: null
+            width: 50
         name: 'Overview Content'
         uid: f1e7849b-41e3-4c43-91f6-e6c51a82644e
         userCondition: null
