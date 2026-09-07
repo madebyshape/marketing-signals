@@ -12,6 +12,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 0935a4e9-bdf6-4843-a0bf-d8b3bcaa919b # Carousel - Case Study
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - c72c0ecf-e02d-4d76-893c-18b1b2d9f1b6 # Carousel - Service
         -
           - group

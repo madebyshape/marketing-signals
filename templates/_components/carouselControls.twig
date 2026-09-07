@@ -1,7 +1,8 @@
+{% set component = 'carouselControls' %}
+
 {# Default Params #}
 
 {% set defaultParams = {
-    id: null,
     colour: 'base',
     class: null,
 } %}
@@ -12,40 +13,57 @@
 
 {# Options #}
 
-{% set options = {} %}
+{# One entry per colour pair rather than one colour for both buttons, because the pair is the
+   house style: Previous reads as the quieter of the two and Next as the one to press. #}
+
+{% set options = {
+    colour: {
+        base: {
+            prev: 'creme-100-outline',
+            next: 'secondary'
+        }
+    }
+} %}
 
 {# Classes #}
 
+{# Swiper puts its disabled class on a button at an end of a row that does not loop and, because
+   these are `button` elements, disables them outright; the class only has to say so. #}
+
 {% set classes = {
     wrapper: [
-        'inline-flex items-center gap-x-2',
+        'flex items-center justify-center gap-x-2.5',
         params.class
+    ],
+    control: [
+        'disabled:pointer-events-none [&.swiper-button-disabled]:opacity-30'
     ]
 } %}
 
 {# Output #}
 
-{% if params.id %}
+{# The refs are read by the carousel component's own Alpine scope, so the Controls belong in its
+   after-content slot and nowhere else. #}
 
-    <div class="{{ classes.wrapper|join(' ')|trim }}">
+<div class="{{ classes.wrapper|join(' ')|trim }}">
 
-        {% for control in [
-            { direction: 'prev', icon: 'fa-sharp fa-regular fa-arrow-left' },
-            { direction: 'next', icon: 'fa-sharp fa-regular fa-arrow-right' }
-        ] %}
+    {% for control in [
+        { ref: 'prev', label: 'Previous', icon: 'fa-sharp fa-regular fa-arrow-left', iconPosition: 'before' },
+        { ref: 'next', label: 'Next', icon: 'fa-sharp fa-regular fa-arrow-right', iconPosition: 'after' }
+    ] %}
 
-            {% include '_components/buttonShape' with {
-                params: {
-                    type: 'button',
-                    button: { value: '#' },
-                    icon: control.icon,
-                    colour: params.colour,
-                    class: 'js-carousel-' ~ control.direction ~ '-' ~ params.id,
-                }
-            } %}
+        {% include '_components/button' with {
+            params: {
+                type: 'button',
+                button: { label: control.label },
+                colour: options.colour[params.colour][control.ref],
+                icon: control.icon,
+                iconPosition: control.iconPosition,
+                class: classes.control|join(' ')|trim,
+                attributes: 'x-ref="' ~ control.ref ~ '"'
+            }
+        } only %}
 
-        {% endfor %}
+    {% endfor %}
 
-    </div>
-
-{% endif %}
+</div>

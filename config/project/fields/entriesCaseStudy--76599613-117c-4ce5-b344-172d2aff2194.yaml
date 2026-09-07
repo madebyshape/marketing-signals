@@ -10,7 +10,7 @@ settings:
   maintainHierarchy: false
   maxRelations: null
   minRelations: null
-  selectionLabel: null
+  selectionLabel: 'Add a Case Study'
   showSearchInput: true
   showSiteMenu: false
   showUnpermittedEntries: false
@@ -21,5 +21,5 @@ settings:
   validateRelatedElements: false
   viewMode: list
 translationKeyFormat: null
-translationMethod: none
+translationMethod: site
 type: craft\fields\Entries
