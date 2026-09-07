@@ -48,22 +48,30 @@
 
 {% set cellMinimum = 6 %}
 
+{# Both rows Crawl at the same speed, held here so it can be tuned without touching the marquee
+   component every other caller shares. 0.4 on the component's scale is 40 pixels a second. #}
+
+{% set crawlSpeed = 0.4 %}
+
 {# Options #}
 
-{# The two rows differ in where they start and which edges they draw. The first row starts at the
-   viewport's left edge; the second is shifted left by half a cell so the two read as brickwork
-   rather than a grid. Every cell draws its top and left edges, and a second-row cell its bottom
-   too, so the two rows together draw the design's grid: the line between them is the second
-   row's top edge alone, and no border is ever doubled. #}
+{# The two rows differ in where they start, which way they Crawl and which edges they draw. The
+   first row starts at the viewport's left edge and Crawls leftwards; the second is shifted left
+   by half a cell and Crawls rightwards, so the two read as brickwork rather than a grid and as
+   two streams rather than one conveyor. Every cell draws its top and left edges, and a
+   second-row cell its bottom too, so the two rows together draw the design's grid: the line
+   between them is the second row's top edge alone, and no border is ever doubled. #}
 
 {% set blockOptions = {
     row: {
         first: {
-            track: '',
+            offset: 'ml-0',
+            reversed: false,
             cell: 'border-t border-l'
         },
         second: {
-            track: '-ml-[90px] | md:-ml-[120px] lg:-ml-[160px]',
+            offset: '-ml-[90px] | md:-ml-[120px] lg:-ml-[160px]',
+            reversed: true,
             cell: 'border-t border-b border-l'
         }
     }
@@ -80,7 +88,13 @@
    Eyebrow's own margin is only there when a heading follows it.
 
    A row is wider than the viewport by design and the second starts outside it, so the rows are
-   clipped by their wrapper rather than pushing the page sideways. #}
+   clipped by their wrapper rather than pushing the page sideways.
+
+   The hover fill is the cell's own background and text colour under a fine pointer, and the Logo
+   is inline and takes `currentColor`, so the one transition carries both. The long duration is
+   the fade out, which the pointer's own hover shortens to 150ms, so the fill arrives at once and
+   lingers behind the pointer as it sweeps on. No per-cell state, and a coarse pointer never
+   matches the variant, so a tap leaves nothing lit. #}
 
 {% set blockClasses = {
     margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
@@ -96,11 +110,10 @@
         'md:text-6xl | lg:text-8xl'
     ],
     rows: 'w-full overflow-hidden',
-    track: [
-        'flex'
-    ],
     cell: [
-        'flex size-[180px] shrink-0 items-center justify-center border-creme-400 text-black',
+        'flex size-[180px] shrink-0 items-center justify-center border-creme-400 text-black transition-colors duration-2000 ease-out',
+        '|',
+        'pointer-fine:hover:bg-black pointer-fine:hover:text-fluro pointer-fine:hover:duration-150',
         '|',
         'md:size-[240px] | lg:size-[320px]'
     ],
@@ -195,39 +208,63 @@
                     {% set rowStyle = loop.first ? blockOptions.row.first : blockOptions.row.second %}
                     {% set repeats = (cellMinimum / row|length)|round(0, 'ceil') %}
 
-                    <div class="{{ blockClasses.track|merge([rowStyle.track])|join(' ')|trim }}">
+                    {# The offset is a margin on this wrapper rather than on the marquee, because
+                       a block-level box with no stated width grows by what its negative margin
+                       takes: the row still reaches the right-hand edge instead of ending half a
+                       cell short of it. Each row is its own marquee under its own Alpine name,
+                       taken from the Block handle and the row's index, so two Client Marquees on
+                       one page keep their loops and their pauses apart. #}
 
-                        {% for repeat in 1..repeats %}
+                    <div class="{{ rowStyle.offset }}">
 
-                            {% for client in row %}
+                        {% embed '_components/marquee' with {
+                            params: {
+                                component: params.handle ~ loop.index,
+                                gap: 'none',
+                                props: {
+                                    reversed: rowStyle.reversed,
+                                    speed: crawlSpeed,
+                                    pauseOnHover: true
+                                }
+                            }
+                        } %}
+                            {% block marqueeContent %}
 
-                                <div class="{{ [rowStyle.cell]|merge(blockClasses.cell)|join(' ')|trim }}">
+                                {% for repeat in 1..repeats %}
 
-                                    {# The Logo is written into the page rather than linked, so it
-                                       takes the cell's text colour and the next ticket's hover
-                                       fill has something to recolour. It is capped at 40% of the
-                                       cell's width and 20% of its height, which is the room the
-                                       design leaves around the widest and the tallest of them.
-                                       The rows are hidden from assistive technology, so the Logo
-                                       carries no alt of its own. #}
+                                    {% for client in row %}
 
-                                    {% include '_components/picture' with {
-                                        params: {
-                                            image: client.logo,
-                                            alt: '',
-                                            transform: 'noRatio',
-                                            ratio: false,
-                                            lazy: false,
-                                            svgInline: true,
-                                            imgClass: blockClasses.logo
-                                        }
-                                    } only %}
+                                        <div class="{{ [rowStyle.cell]|merge(blockClasses.cell)|join(' ')|trim }}">
 
-                                </div>
+                                            {# The Logo is written into the page rather than
+                                               linked, so the cell's hover fill recolours it by
+                                               moving the text colour it takes. It is capped at
+                                               40% of the cell's width and 20% of its height,
+                                               which is the room the design leaves around the
+                                               widest and the tallest of them. The rows are
+                                               hidden from assistive technology, so the Logo
+                                               carries no alt of its own. #}
 
-                            {% endfor %}
+                                            {% include '_components/picture' with {
+                                                params: {
+                                                    image: client.logo,
+                                                    alt: '',
+                                                    transform: 'noRatio',
+                                                    ratio: false,
+                                                    lazy: false,
+                                                    svgInline: true,
+                                                    imgClass: blockClasses.logo
+                                                }
+                                            } only %}
 
-                        {% endfor %}
+                                        </div>
+
+                                    {% endfor %}
+
+                                {% endfor %}
+
+                            {% endblock %}
+                        {% endembed %}
 
                     </div>
 
