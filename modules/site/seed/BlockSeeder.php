@@ -32,7 +32,8 @@ class BlockSeeder
         $field = $this->findField($entry, $seed->field);
 
         $assets = new AssetResolver($seed->volume, $seed->directory(), $dryRun);
-        $resolver = new ValueResolver($assets);
+        $relations = new EntriesResolver();
+        $resolver = new ValueResolver($assets, $relations);
 
         $blocks = $this->existingBlocks($entry, $field);
         $keys = array_map(fn(Entry $block): string => $this->keyFor($block->getType(), $this->matchTextOf($block)), $blocks);
@@ -71,7 +72,7 @@ class BlockSeeder
             $this->save($entry, $field, $blocks);
         }
 
-        return new SeedReport($entries->outcomes(), $outcomes, $assets->outcomes());
+        return new SeedReport($entries->outcomes(), $outcomes, $assets->outcomes(), $relations->outcomes());
     }
 
     /**
