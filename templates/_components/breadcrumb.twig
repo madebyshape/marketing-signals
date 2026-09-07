@@ -94,11 +94,21 @@
         'w-full',
         params.class
     ],
-    list: 'flex flex-wrap items-center gap-3.75',
-    item: 'flex items-center gap-3.75 text-base font-medium leading-1.33',
-    link: 'text-creme-500 transition-colors | hover:text-black focus:text-black',
-    current: 'text-black underline',
-    chevron: 'fa-sharp fa-regular fa-angle-right text-xs text-creme-500'
+    list: [
+        'flex flex-wrap items-center gap-3.75'
+    ],
+    item: [
+        'flex items-center gap-3.75 text-base font-medium leading-1.33'
+    ],
+    link: [
+        'text-creme-500 transition-colors | hover:text-black focus:text-black'
+    ],
+    current: [
+        'text-black underline'
+    ],
+    chevron: [
+        'fa-sharp fa-regular fa-angle-right | text-xs text-creme-500'
+    ]
 } %}
 
 {# Output #}
@@ -107,17 +117,17 @@
 
     <nav class="{{ classes.wrapper|join(' ')|trim }}" aria-label="Breadcrumb">
 
-        <ol class="{{ classes.list }}">
+        <ol class="{{ classes.list|join(' ')|trim }}">
 
             {% for crumb in crumbs %}
 
-                <li class="{{ classes.item }}">
+                <li class="{{ classes.item|join(' ')|trim }}">
 
                     {% if loop.last %}
-                        <span class="{{ classes.current }}" aria-current="page">{{ crumb.label }}</span>
+                        <span class="{{ classes.current|join(' ')|trim }}" aria-current="page">{{ crumb.label }}</span>
                     {% else %}
-                        <a href="{{ crumb.url }}" class="{{ classes.link }}">{{ crumb.label }}</a>
-                        <i class="{{ classes.chevron }}" aria-hidden="true"></i>
+                        <a href="{{ crumb.url }}" class="{{ classes.link|join(' ')|trim }}">{{ crumb.label }}</a>
+                        <i class="{{ classes.chevron|join(' ')|trim }}" aria-hidden="true"></i>
                     {% endif %}
 
                 </li>
