@@ -3,9 +3,9 @@
 namespace modules\site\seed;
 
 /**
- * A parsed Seed file: the entry it targets, the Matrix field it writes to, and the Blocks it
- * adds. Seeds are throwaway JSON files under `.scratch/`; the shape is in
- * `docs/specs/content-seeding.md`.
+ * A parsed Seed file: the entry it targets, the fields it sets on that entry, the Matrix field
+ * it writes to, and the Blocks it adds. Seeds are throwaway JSON files under `.scratch/`; the
+ * shape is in `docs/specs/content-seeding.md`.
  */
 readonly class Seed
 {
@@ -19,7 +19,7 @@ readonly class Seed
     public const DEFAULT_VOLUME = 'images';
 
     /** Keys a Seed may carry. */
-    private const KEYS = ['entry', 'field', 'volume', 'section', 'type', 'title', 'parent', 'blocks'];
+    private const KEYS = ['entry', 'field', 'volume', 'section', 'type', 'title', 'parent', 'fields', 'blocks'];
 
     /**
      * @param string|null $section the section the entry lives in. Given, the command creates the
@@ -30,6 +30,9 @@ readonly class Seed
      * @param string|null $title the title a created entry is given.
      * @param string|null $parent the slug, in the same section, a created entry is placed under.
      *                            Missing, it goes at the end of the structure.
+     * @param array<string, mixed> $fields the fields set on the entry itself, handle to raw
+     *                                     value, resolved by the same rules as a Block's fields.
+     *                                     Empty for a Seed that only adds Blocks.
      * @param SeedBlock[] $blocks
      */
     private function __construct(
@@ -41,6 +44,7 @@ readonly class Seed
         public ?string $type,
         public ?string $title,
         public ?string $parent,
+        public array $fields,
         public array $blocks,
     ) {
     }
@@ -114,8 +118,20 @@ readonly class Seed
             }
         }
 
-        if (!isset($data['blocks']) || !is_array($data['blocks']) || !array_is_list($data['blocks'])) {
-            throw new SeedException('Seed must carry a list of Blocks in “blocks”.');
+        $fields = $data['fields'] ?? [];
+
+        if (!is_array($fields) || ($fields !== [] && array_is_list($fields))) {
+            throw new SeedException('Seed’s “fields” must be a map of field handle to value.');
+        }
+
+        // A Seed that sets entry fields need carry no Blocks: a Client is a title and a Logo,
+        // with no Matrix field to write to at all.
+        $blocks = $data['blocks'] ?? ($fields !== [] ? [] : null);
+
+        if (!is_array($blocks) || !array_is_list($blocks)) {
+            throw new SeedException(
+                'Seed must carry a list of Blocks in “blocks”, a map of entry fields in “fields”, or both.',
+            );
         }
 
         return new self(
@@ -127,7 +143,8 @@ readonly class Seed
             $type,
             $title,
             $parent,
-            SeedBlock::listFromArray($data['blocks']),
+            $fields,
+            SeedBlock::listFromArray($blocks),
         );
     }
 
