@@ -9,6 +9,18 @@ return [
         ],
         'defaults' => []
     ],
+    // The Service Carousel's Slide fills a 1520px card at the 1600 frame, so the widths run to
+    // twice that for a retina screen. No ratio: the Thumbnail is cropped to its focal point by
+    // the card, whatever shape it was uploaded in.
+    'noRatioLarge' => [
+        'transforms' => [
+            ['width' => 760],
+            ['width' => 1520],
+            ['width' => 2280],
+            ['width' => 3040]
+        ],
+        'defaults' => []
+    ],
     '1x1' => [
         'transforms' => [
             ['width' => 400],

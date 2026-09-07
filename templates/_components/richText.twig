@@ -13,9 +13,9 @@
 
 {# Options #}
 
-{# On `creme-100` and `black`, italic is the editor's highlight marker rather than emphasis: the
-   slant is dropped and the words take the alternate colour, as `u` does on the alternate
-   heading. #}
+{# On `creme-100`, `black` and `white`, italic is the editor's highlight marker rather than
+   emphasis: the slant is dropped and the words take the alternate colour, as `u` does on the
+   alternate heading. On `white` that colour is fluro, which is what a dark card asks for. #}
 
 {% set options = {
     colour: {
@@ -42,6 +42,14 @@
             italic: 'not-italic text-primary',
             list: 'text-black marker:text-primary',
             blockquote: 'bg-black/10 text-black'
+        },
+        white: {
+            heading: 'text-white',
+            link: 'text-fluro decoration-fluro/50 hover:decoration-fluro',
+            paragraph: 'text-white',
+            italic: 'not-italic text-fluro',
+            list: 'text-white marker:text-fluro',
+            blockquote: 'bg-white/10 text-white'
         }
     },
     size: {
