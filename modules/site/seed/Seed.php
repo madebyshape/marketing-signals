@@ -22,7 +22,6 @@ readonly class Seed
     private const KEYS = ['entry', 'field', 'volume', 'section', 'type', 'title', 'parent', 'blocks'];
 
     /**
-     * @param SeedBlock[] $blocks
      * @param string|null $section the section the entry lives in. Given, the command creates the
      *                             entry when the section has none with the Seed's slug; missing,
      *                             the entry must already exist.
@@ -31,6 +30,7 @@ readonly class Seed
      * @param string|null $title the title a created entry is given.
      * @param string|null $parent the slug, in the same section, a created entry is placed under.
      *                            Missing, it goes at the end of the structure.
+     * @param SeedBlock[] $blocks
      */
     private function __construct(
         public string $path,
