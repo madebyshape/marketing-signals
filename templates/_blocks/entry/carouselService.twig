@@ -48,7 +48,12 @@
 
    The bars are positioned in the stage rather than the track, so the Slides pass beneath them
    while they hold still. They take the site margin at every width, which is the stage's inner
-   width and so the card's own width, and they sit above everything the card paints. #}
+   width and so the card's own width, and they sit above everything the card paints.
+
+   The card is the hover group and the heading is the only thing in it that changes: on a fine
+   pointer it transitions to fluro, under the motion-safe guard the site transitions behind. The
+   card hides the native cursor for itself as well, because a link carries the browser's own
+   pointer and the body rule the cursor component writes does not reach it. #}
 
 {% set blockClasses = {
     frame: 'relative overflow-hidden',
@@ -59,7 +64,7 @@
     track: 'flex flex-col gap-5',
     slide: 'w-full shrink-0',
     card: [
-        'group relative flex flex-col overflow-hidden rounded-[20px] bg-black min-h-[calc(100vh-80px)]',
+        'group relative flex flex-col overflow-hidden rounded-[20px] bg-black min-h-[calc(100vh-80px)] pointer-fine:hover:cursor-none',
         '|',
         'lg:h-[820px] lg:max-h-[calc(100vh-80px)] lg:min-h-0'
     ],
@@ -75,7 +80,7 @@
         'lg:grid lg:grid-cols-12 lg:content-center lg:items-center'
     ],
     heading: [
-        'font-semibold leading-0.92 tracking-tighter',
+        'font-semibold leading-0.92 tracking-tighter motion-safe:transition pointer-fine:group-hover:text-fluro',
         '|',
         'md:text-7xl | lg:col-span-7 lg:text-9xl | 2xl:text-12xl'
     ],
@@ -141,13 +146,21 @@
 
                                 {# Tabbing to a link inside the pinned frame would leave the
                                    visitor focused on a card that is off screen, so the link hands
-                                   the Block its own position and the Block scrolls to it. #}
+                                   the Block its own position and the Block scrolls to it.
+
+                                   Entering the card raises the Cursor Label the global layout
+                                   mounts and leaving lowers it; the event goes to the window, so
+                                   the Block never reaches for the cursor's markup. A coarse
+                                   pointer fires these too, and the cursor component ignores them
+                                   there, which is what leaves the touch visitor the button. #}
 
                                 <a
                                     href="{{ service.url }}"
                                     aria-label="{{ service.title }}"
                                     class="{{ blockClasses.card|join(' ')|trim }}"
                                     x-on:focus="focusSlide({{ loop.index0 }})"
+                                    x-on:mouseenter="$dispatch('component-cursor', { active: true, text: 'Find Out More' })"
+                                    x-on:mouseleave="$dispatch('component-cursor', { active: false })"
                                 >
 
                                     {% set thumbnail = service.thumbnail.one() %}

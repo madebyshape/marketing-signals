@@ -62,6 +62,12 @@
 	{# Global Site Footer #}
     {% include '_components/global/footer' %}
 
+	{# Global Cursor Label #}
+
+	{# Mounted once for the whole site and raised by window event, so a Block that wants a Cursor
+	   Label needs no cursor of its own. #}
+    {% include '_components/cursor' %}
+
 	{# Layout Guidelines #}
     {% include '_components/layoutGuidelines' %}
 
