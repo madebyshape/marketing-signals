@@ -60,6 +60,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 2173f8fc-5044-44ea-a7ca-a776fbdca208 # Stacking Cards
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - d1bfe36b-4da4-4c86-a162-fa22d76b4ed8 # Template
         -
           - group

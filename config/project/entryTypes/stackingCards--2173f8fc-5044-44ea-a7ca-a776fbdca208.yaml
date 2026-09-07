@@ -1,0 +1,149 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  ff431988-64f1-403d-aa14-289a66718bbe:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 0112f2ce-7891-4e7f-8e1a-77be91ab364c
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 258b0a84-85ac-4b59-bf32-f3cb2e8f52ae
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d4bbbb3c-bd30-42d9-848a-b7c0bbf9b259
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: d9c0fec7-a05b-48d3-a694-8e2ac13fef04
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f18e57cc-fd7c-4892-a604-aa68a1598318 # Stacking Cards
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 00aaecd2-c777-4533-880f-bf227c7e7877
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 4416c8b3-9fef-47b6-9158-70a126ae3c0d
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 68d7ab98-09ac-4cb6-92e3-4840c2e6837f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c08276b4-951f-4222-9e12-73622b78b6e0 # Avatar Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 76d16449-2bcf-4518-94c4-00575fe85d43
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 4ae7790a-a836-44d8-b0b5-e9f9f0da75c7
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 39280de0-45b7-4e7f-b3fe-da5be3d8c9c1
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 6b8ecb43-af03-4aa9-800e-ea8009259196
+        userCondition: null
+    thumbFieldKey: null
+handle: stackingCards
+hasTitleField: false
+icon: layer-group
+name: 'Stacking Cards'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

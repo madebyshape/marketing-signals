@@ -1,0 +1,319 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Stacking Cards #}
+
+{# A card with no heading has nothing to name it in the pile, so it is dropped before the pile is
+   built and the cards that are left keep their positions in the Card Scheme cycle. Two or more
+   are a pile: one card has nothing to sit beneath it, so it stays the plain column at every
+   width, which is the layout the Stack falls back to as well. #}
+
+{% set cards = entry.stackingCards.all()|filter(card => card.heading|striptags|trim|length) %}
+{% set stacked = cards|length > 1 %}
+
+{# Options #}
+
+{# The Card Scheme comes from the card's position, never from the editor: four schemes cycled
+   past the fourth card. `tilt` is the sheet's angle in the pile and applies from `lg` only,
+   because below `lg` every card is square to the page. #}
+
+{% set blockOptions = {
+    scheme: [
+        {
+            card: 'bg-white',
+            heading: 'base',
+            text: 'black',
+            button: 'creme-300-outline',
+            tilt: 'lg:rotate-2'
+        },
+        {
+            card: 'bg-black',
+            heading: 'fluro',
+            text: 'white',
+            button: 'white-30-outline',
+            tilt: 'lg:-rotate-1'
+        },
+        {
+            card: 'bg-secondary',
+            heading: 'base',
+            text: 'black',
+            button: 'black-outline',
+            tilt: 'lg:rotate-0'
+        },
+        {
+            card: 'bg-fluro',
+            heading: 'base',
+            text: 'black',
+            button: 'black-outline',
+            tilt: 'lg:-rotate-2'
+        }
+    ],
+    sizes: {
+        column: '100vw',
+        row: '(min-width: 1024px) 25vw, 100vw'
+    }
+} %}
+
+{# Classes #}
+
+{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
+   named apart from it.
+
+   From `lg` the frame is a twelve column grid: the Section Header in columns one to four, the
+   pile in five to twelve, and the Section Footer beneath the pile in the same columns. Below
+   `lg` the grid is one column and the three fall into order with the design's own spacing.
+
+   Stacked, the pile is a single grid cell every card occupies, so the cell takes the tallest
+   card's height and every card stretches to fill it: the sheets share one height, as the design's
+   do. Paint order would leave the last card on top, so each card takes a z-index counting down
+   from the first — a computed offset, so it travels as a custom property rather than a class. #}
+
+{% set blockClasses = {
+    grid: [
+        'grid grid-cols-1',
+        '|',
+        'lg:grid-cols-12 lg:gap-5'
+    ],
+    header: 'lg:col-span-4',
+    heading: 'font-semibold leading-0.97 tracking-tighter | lg:text-7xl',
+    text: 'max-w-[365px] mt-7.5',
+    pile: [
+        'flex flex-col gap-5 mt-10',
+        '|',
+        'lg:col-start-5 lg:col-span-8 lg:mt-0',
+        stacked ? 'lg:grid lg:grid-cols-1 lg:grid-rows-1 lg:gap-0'
+    ],
+    card: {
+        base: 'relative flex flex-col overflow-hidden rounded-[20px]',
+        row: 'lg:flex-row',
+        stacked: 'lg:col-start-1 lg:row-start-1 lg:z-(--card-z)'
+    },
+    slot: [
+        'relative overflow-hidden m-1.25 rounded-[15px] aspect-[4/3]',
+        '|',
+        'lg:w-[36%] lg:shrink-0 lg:aspect-auto'
+    ],
+    image: {
+        column: 'lg:hidden',
+        row: 'hidden | lg:block'
+    },
+    content: [
+        'flex flex-1 flex-col justify-center p-7.5',
+        '|',
+        'lg:p-25'
+    ],
+    cardHeading: 'font-semibold leading-0.97 tracking-tighter | lg:text-5xl',
+    cardText: 'mt-6.25',
+    cardButton: 'mt-7.5',
+    footer: [
+        'flex flex-wrap items-center gap-5 mt-10',
+        '|',
+        'lg:col-start-5 lg:col-span-8 lg:mt-15 lg:justify-center'
+    ]
+} %}
+
+{# Output #}
+
+{# A Block whose cards all lack a heading has no pile to hold, so it renders nothing at all,
+   section included. #}
+
+{% if cards|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.grid|join(' ')|trim }}">
+
+                {# An empty heading drops the Section Header and the pile moves up; an empty text
+                   drops the text alone. #}
+
+                {% if entry.heading|striptags|trim|length %}
+
+                    <div class="{{ blockClasses.header }}">
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                heading: entry.heading,
+                                size: '5xl',
+                                class: blockClasses.heading
+                            }
+                        } only %}
+
+                        {% if entry.text|striptags|trim|length %}
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: entry.text,
+                                    colour: 'black',
+                                    class: blockClasses.text
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+                <div class="{{ blockClasses.pile|join(' ')|trim }}">
+
+                    {% for card in cards %}
+
+                        {% set scheme = cycle(blockOptions.scheme, loop.index0) %}
+
+                        {% set cardClasses = [
+                            blockClasses.card.base,
+                            scheme.card,
+                            '|',
+                            blockClasses.card.row,
+                            stacked ? blockClasses.card.stacked ~ ' ' ~ scheme.tilt
+                        ] %}
+
+                        {# The card is a panel, not a link: its button is the only link in it. #}
+
+                        <div
+                            class="{{ cardClasses|join(' ')|trim }}"
+                            {% if stacked %}style="--card-z: {{ loop.revindex }}"{% endif %}
+                        >
+
+                            {# A card with no Card Images keeps its slot, so the content stays in
+                               its place and the slot shows the card's own colour. The photograph
+                               is decorative: its alt is empty and the card's heading names the
+                               industry. The row's slot is the design's 360 by 437 and the
+                               column's is 4x3, so each is cropped to fill rather than letterboxed
+                               into the other's shape. #}
+
+                            <div class="{{ blockClasses.slot|join(' ')|trim }}">
+
+                                {% set image = card.images.one() %}
+
+                                {% if image %}
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: image,
+                                            alt: '',
+                                            transform: '4x3',
+                                            ratio: false,
+                                            focalPoint: true,
+                                            sizes: blockOptions.sizes.column,
+                                            wrapperClass: blockClasses.image.column
+                                        }
+                                    } only %}
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: image,
+                                            alt: '',
+                                            transform: '3x4',
+                                            ratio: false,
+                                            focalPoint: true,
+                                            sizes: blockOptions.sizes.row,
+                                            wrapperClass: blockClasses.image.row
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="{{ blockClasses.content|join(' ')|trim }}">
+
+                                {% include '_components/headingAlternate' with {
+                                    params: {
+                                        tag: 'h3',
+                                        heading: card.heading,
+                                        colour: scheme.heading,
+                                        size: '4xl',
+                                        class: blockClasses.cardHeading
+                                    }
+                                } only %}
+
+                                {% if card.text|striptags|trim|length %}
+
+                                    {% include '_components/richText' with {
+                                        params: {
+                                            content: card.text,
+                                            colour: scheme.text,
+                                            class: blockClasses.cardText
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                                {% if card.button|length %}
+
+                                    <div class="{{ blockClasses.cardButton }}">
+
+                                        {% include '_components/button' with {
+                                            params: {
+                                                button: card.button,
+                                                colour: scheme.button
+                                            }
+                                        } only %}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {# A button with no link, or an Avatar Group with no name, drops that item; both
+                   missing drops the Section Footer row. #}
+
+                {% set avatar = entry.avatarGroup %}
+
+                {% if entry.button|length or avatar.avatarName|length %}
+
+                    <div class="{{ blockClasses.footer|join(' ')|trim }}">
+
+                        {% include '_components/button' with {
+                            params: {
+                                button: entry.button,
+                                colour: 'secondary'
+                            }
+                        } only %}
+
+                        {% if avatar.avatarName|length %}
+
+                            {% include '_components/user' with {
+                                params: {
+                                    image: avatar.avatar.one(),
+                                    heading: avatar.avatarName,
+                                    subHeading: avatar.avatarJobRole,
+                                    size: 'sm'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

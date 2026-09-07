@@ -195,6 +195,7 @@ meta:
     507a5f9c-bcbc-410d-a04f-48829ea6f806: 'Case Study' # Case Study
     0935a4e9-bdf6-4843-a0bf-d8b3bcaa919b: 'Carousel - Case Study' # Carousel - Case Study
     01475e1b-7d73-4ffa-868e-7dbcb87d00a9: 'Heading - Inline Images' # Heading - Inline Images
+    2173f8fc-5044-44ea-a7ca-a776fbdca208: 'Stacking Cards' # Stacking Cards
     2451f9f6-405a-429f-9abb-a2acde87159a: 'Entries - Services' # Entries - Services
     2634aee9-724f-4029-a0fb-d1e3b7d3fc38: 'Main Menu' # Main Menu
     3731f571-53b0-4cf2-a89a-dbc6a4adc351: 'Longform Image' # Longform Image
@@ -237,12 +238,14 @@ meta:
     dd193fca-6353-485f-a383-668951cbb602: Blog # Blog
     e3078af5-a566-4561-af12-e529edd7980f: 'Entry - Team' # Entry - Team
     e746909c-3d0f-4818-9497-14651dc6ee16: 'Entry - Text' # Entry - Text
+    ea300912-bfa1-429b-9212-ba39329d1960: 'Stacking Card' # Stacking Card
     eb5e339e-d658-4112-9895-62287412dd93: 'Image Columns (Max 2)' # Image Columns (Max 2)
     ecf96135-0c9d-4684-888c-9e3bd7def9bc: 'Longform Button Group' # Longform Button Group
     ee7c6ba5-113d-47b8-aac7-4d8e6018f645: 'Heading Reveal' # Heading Reveal
     eebfd246-f9aa-4d59-99e5-d4aaba54acba: 'Entry - Brand Guidelines' # Entry - Brand Guidelines
     f3e544b8-88bf-4761-8df2-d767fa1502b7: Text # Text
     f7b5b560-85eb-4827-a39b-b24c863ae5c3: 'Links To - No Label' # Links To - No Label
+    f18e57cc-fd7c-4892-a604-aa68a1598318: 'Stacking Cards' # Stacking Cards
     fa2d89b4-fa6d-48d3-b36a-7169022cd64d: Client # Client
     fb0420bb-0fbf-46d2-afd2-f7992c60c886: 'Contact Form' # Contact Form
 plugins:
