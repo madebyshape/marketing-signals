@@ -133,6 +133,7 @@
         'lg:col-start-5 lg:col-span-8 lg:mt-15 lg:justify-center'
     ],
     stacked: {
+        frame: 'lg:h-screen lg:content-center-safe',
         pile: 'lg:grid lg:grid-cols-1 lg:grid-rows-1 lg:gap-0',
         card: 'lg:col-start-1 lg:row-start-1'
     }
@@ -155,14 +156,18 @@
         {% block sectionContent %}
 
             {# The frame is the Section Header, the pile and the Section Footer together: the one
-               element the Pin holds still, and the one the ScrollTrigger is triggered by. It is
-               pinned to the top of the viewport rather than centred in it, so a pile taller than
-               the screen is read from its heading down rather than losing its top above the
-               screen where a stuck frame cannot be scrolled to. #}
+               element the Pin holds still, and the one the ScrollTrigger is triggered by. While
+               it is stacked it takes a viewport of height and centres its rows in it, as the
+               Service Carousel's does, so the cards travel from the middle of the screen and the
+               tilted corners are not clipped by its top edge. The centring is safe: when the
+               frame is taller than the viewport it aligns to the top instead, so an over-tall
+               pile is read from its heading down rather than losing its top above the screen
+               where a stuck frame cannot be scrolled to. #}
 
             <div
                 class="{{ blockClasses.grid|join(' ')|trim }}"
                 x-data="{{ component }}"
+                {% if stacked %}x-bind:class="{ '{{ blockClasses.stacked.frame }}': stacked }"{% endif %}
                 x-ref="frame"
             >
 
