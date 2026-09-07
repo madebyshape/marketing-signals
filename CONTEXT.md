@@ -263,7 +263,7 @@ The one-line result a Case Study leads with, such as "188% increase in traffic f
 _Avoid_: Strapline, subtitle, result, stat line
 
 **Logo**:
-The client's logo on a Case Study, shown centred on its Slide as the Slide's visible title.
+The client's logo image: on a Case Study, shown centred on its Slide as the Slide's visible title; on a Client, shown in its Logo Cell.
 _Avoid_: Client logo, brand, mark, icon
 
 **Carousel Controls**:
@@ -295,6 +295,28 @@ _Avoid_: Pin, scroll-jack, sticky, parallax, deck
 **Image Cycle**:
 The timed cross-fade between a Stacking Card's Card Images, one every few seconds, that runs only while the card is on screen. A card with one image has none.
 _Avoid_: Slideshow, rotation, auto-play, fade loop
+
+### Client Marquee
+
+**Client**:
+An entry in the Client section: a brand the agency has worked with, with a Logo of its own and no page.
+_Avoid_: Brand, customer, partner, account
+
+**Client Marquee**:
+A Block of an Eyebrow and a centred heading over two Logo Rows, one per half of the Clients the editor picked, that Crawl in opposite directions, with a button and an Avatar Group beneath.
+_Avoid_: Logo carousel, logo grid, client logos, brand ticker
+
+**Logo Row**:
+One of the two full-width rows of Logo Cells in a Client Marquee, offset from the other by half a cell.
+_Avoid_: Track, strip, band, ticker, lane
+
+**Logo Cell**:
+One bordered square in a Logo Row holding a Client's Logo, which fills black with the Logo in fluro while the pointer is over it. Not a link.
+_Avoid_: Tile, card, slot, item, logo box
+
+**Crawl**:
+The continuous sideways motion of a Logo Row that never stops, leftwards in the first row and rightwards in the second, pausing while the pointer is over the row. Under reduced motion the rows sit still.
+_Avoid_: Marquee, scroll, ticker, autoplay, loop
 
 ### Seeding
 
