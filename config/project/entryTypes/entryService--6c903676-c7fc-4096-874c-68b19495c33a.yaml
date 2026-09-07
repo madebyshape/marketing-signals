@@ -36,6 +36,38 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-07T10:36:02+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: description
+            instructions: null
+            label: Description
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0806db7b-321a-4490-99fd-2df4828f3f1b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T10:36:02+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: thumbnail
+            instructions: null
+            label: Thumbnail
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 35e1d8a1-dcd4-498c-a0e5-de6f24f1ba32
+            userCondition: null
+            warning: null
+            width: 100
         name: 'Overview Content'
         uid: 2c15df9d-c8e3-45e6-8eda-7ff23d9d47f3
         userCondition: null
