@@ -7,7 +7,8 @@ site-specific facts every plan, PR and review relies on.
 
 ## Site
 
-- **Base URL**: `https://marketing-signals.ddev.site:8443/`
+- **Base URL**: `https://marketing-signals.ddev.site:8443/`. In a worktree it is that worktree's
+  own URL, `https://marketing-signals-<slug>.ddev.site:8443/`.
 - **Styleguide**: `/styleguide` — renders the `_components/*` previews. devMode only, so it
   exists on the DDEV site and nowhere else.
 - **Home page** is the seam for anything in the global layout (header, footer, fonts). The

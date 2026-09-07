@@ -98,8 +98,8 @@ lerna-debug.log*
 *.sw?
 
 # Claude Code
-.claude/
-.agents/
+.claude
+.agents
 skills-lock.json
 tmp/*
 tasks/

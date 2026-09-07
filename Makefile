@@ -1,4 +1,4 @@
-.PHONY: prod dev install setup clean npm-install share funnel switch-branch import-on-empty
+.PHONY: prod dev install setup clean npm-install share funnel switch-branch import-on-empty worktree worktree-remove worktree-list
 
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 PROJECT_BASE := $(shell grep -h '^name:' .ddev/config.yaml | awk '{print $$2}')
@@ -131,6 +131,19 @@ switch-branch:
 	ddev start
 	@$(MAKE) clean
 	@$(MAKE) import-on-empty
+
+worktree:
+	@$(eval TARGET := $(filter-out worktree,$(MAKECMDGOALS)))
+	@if [ -z "$(TARGET)" ]; then echo "Usage: make worktree <slug>"; exit 1; fi
+	@NPM_INSTALL_FLAGS="$(NPM_INSTALL_FLAGS)" bin/worktree create $(TARGET)
+
+worktree-remove:
+	@$(eval TARGET := $(filter-out worktree-remove,$(MAKECMDGOALS)))
+	@if [ -z "$(TARGET)" ]; then echo "Usage: make worktree-remove <slug>"; exit 1; fi
+	@bin/worktree remove $(TARGET)
+
+worktree-list:
+	@bin/worktree list
 
 %:
 	@:

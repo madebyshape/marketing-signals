@@ -41,6 +41,11 @@ No test suite. Screenshots from the DDEV site replace tests: base URL, widths, n
 what to capture live in `docs/agents/evidence.md`. Read it when writing an Evidence Plan in a
 spec, attaching before/after screenshots to a PR, or reviewing either.
 
+### Worktrees
+
+One DDEV project per spec branch for parallel work: `claude -w <slug>` or `make worktree <slug>`.
+The `worktree` skill has the URL scheme and the rules.
+
 ### Domain docs
 
 Single-context: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.

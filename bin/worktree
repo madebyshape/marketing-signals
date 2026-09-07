@@ -1,0 +1,165 @@
+#!/usr/bin/env bash
+# One DDEV project per git worktree, so parallel branches each get their own
+# URL, database and Vite dev server.
+#
+#   bin/worktree create <slug|branch>        provision ../<project>--<name> on feature/<slug>
+#   bin/worktree remove <slug|path> [--force] delete the DDEV project and the worktree; keeps the branch
+#   bin/worktree path   <slug|branch>        print the worktree directory
+#   bin/worktree list
+#
+# A plain <slug> means branch feature/<slug>; a name containing "/" is used as the branch as-is.
+set -euo pipefail
+
+say() { printf '\033[1m▸ %s\033[0m\n' "$*" >&2; }
+die() { printf '✗ %s\n' "$*" >&2; exit 1; }
+
+MAIN=$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --path-format=absolute --git-common-dir)
+MAIN=${MAIN%/.git}
+[ -f "$MAIN/.ddev/config.yaml" ] || die "$MAIN is not a DDEV project"
+
+PROJECT=$(awk '/^name:/{print $2}' "$MAIN/.ddev/config.yaml")
+HTTPS_PORT=$(awk '/^router_https_port:/{gsub(/"/,"",$2);print $2}' "$MAIN/.ddev/config.yaml")
+HTTPS_PORT=${HTTPS_PORT:-443}
+NPM_INSTALL_FLAGS=${NPM_INSTALL_FLAGS:---include=optional --legacy-peer-deps}
+COPY_DIRS="node_modules vendor storage web/assets web/cpresources"
+
+# Sets NAME, BRANCH, WT, DDEV_NAME and URL from a slug, a branch, or a worktree path.
+resolve() {
+    local arg=$1
+    case $arg in
+        /*|./*|../*)
+            WT=$(cd "$arg" && pwd -P)
+            NAME=${WT##*/}
+            NAME=${NAME#"$PROJECT--"}
+            BRANCH=$(git -C "$WT" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "?")
+            ;;
+        */*) BRANCH=$arg ;;
+        *)   BRANCH=feature/$arg ;;
+    esac
+    if [ -z "${WT:-}" ]; then
+        NAME=$(printf '%s' "${BRANCH#feature/}" | tr '/A-Z' '-a-z')
+        WT=$(dirname "$MAIN")/$PROJECT--$NAME
+    fi
+    DDEV_NAME=$PROJECT-$NAME
+    if [ -f "$WT/.ddev/config.local.yaml" ]; then
+        DDEV_NAME=$(awk '/^name:/{print $2}' "$WT/.ddev/config.local.yaml")
+    fi
+    URL=https://$DDEV_NAME.ddev.site:$HTTPS_PORT
+}
+
+registered() {
+    git -C "$MAIN" worktree list --porcelain | grep -qx "worktree $WT"
+}
+
+summary() {
+    cat >&2 <<END
+
+Worktree ready
+  Branch:     $BRANCH
+  Directory:  $WT
+  Site:       $URL
+  Vite:       running in the container (restart with: make dev)
+  Remove:     make worktree-remove $NAME
+END
+}
+
+create() {
+    exec 1>&2
+    resolve "$1"
+
+    if registered; then
+        say "Worktree already exists at $WT — making sure DDEV is up"
+        (cd "$WT" && ddev start)
+        summary
+        return
+    fi
+    [ -e "$WT" ] && die "$WT exists but is not a registered worktree"
+
+    say "Fetching origin"
+    git -C "$MAIN" fetch -q origin
+    if git -C "$MAIN" show-ref --verify -q "refs/heads/$BRANCH"; then
+        say "Checking out existing branch $BRANCH"
+        git -C "$MAIN" worktree add "$WT" "$BRANCH"
+    elif git -C "$MAIN" show-ref --verify -q "refs/remotes/origin/$BRANCH"; then
+        say "Tracking origin/$BRANCH"
+        git -C "$MAIN" worktree add --track -b "$BRANCH" "$WT" "origin/$BRANCH"
+    else
+        say "Creating $BRANCH from origin/main"
+        git -C "$MAIN" worktree add -b "$BRANCH" "$WT" origin/main
+    fi
+
+    say "Copying local config and dependencies from main"
+    cp "$MAIN/.env" "$WT/.env"
+    sed -i '' -E "s#^PRIMARY_SITE_URL=.*#PRIMARY_SITE_URL=\"$URL\"#" "$WT/.env"
+    printf 'name: %s\n' "$DDEV_NAME" > "$WT/.ddev/config.local.yaml"
+    mkdir -p "$WT/.claude" "$WT/web/transforms"
+    for link in .claude/skills .agents; do
+        if [ -e "$MAIN/$link" ] && [ ! -e "$WT/$link" ]; then
+            ln -s "$MAIN/$link" "$WT/$link"
+        fi
+    done
+    for dir in $COPY_DIRS; do
+        if [ -d "$MAIN/$dir" ]; then
+            mkdir -p "$WT/$dir"
+            cp -a "$MAIN/$dir/." "$WT/$dir/"
+        fi
+    done
+
+    say "Starting DDEV project $DDEV_NAME"
+    (cd "$WT" && ddev start)
+
+    say "Cloning the database from $PROJECT"
+    if ! (cd "$MAIN" && ddev describe -j 2>/dev/null | grep -q '"status":"running"'); then
+        (cd "$MAIN" && ddev start)
+    fi
+    local dump
+    dump="$(mktemp -d)/$PROJECT.sql.gz"
+    (cd "$MAIN" && ddev export-db --gzip --file="$dump")
+    (cd "$WT" && ddev import-db --file="$dump")
+    rm -rf "$(dirname "$dump")"
+
+    say "Installing dependencies and applying project config"
+    cd "$WT"
+    ddev composer install --no-interaction
+    ddev exec -- npm install $NPM_INSTALL_FLAGS
+    ddev exec php craft up --interactive=0
+    ddev exec php craft clear-caches/all
+
+    say "Starting Vite in the container"
+    ddev exec -- bash -c 'nohup npm run dev > /tmp/vite.log 2>&1 &'
+
+    summary
+}
+
+remove() {
+    exec 1>&2
+    local force=0
+    [ "${2:-}" = "--force" ] && force=1
+    resolve "$1"
+    registered || die "No worktree registered at $WT"
+    if [ "$force" = 0 ] && [ -n "$(git -C "$WT" status --porcelain)" ]; then
+        die "$WT has uncommitted changes — commit them, or: bin/worktree remove $NAME --force"
+    fi
+
+    say "Deleting DDEV project $DDEV_NAME"
+    (cd "$MAIN" && ddev delete -Oy "$DDEV_NAME") || true
+    say "Removing worktree $WT"
+    git -C "$MAIN" worktree remove --force "$WT"
+    git -C "$MAIN" worktree prune
+
+    cat <<END
+
+Worktree removed
+  Directory:  $WT (deleted)
+  DDEV:       $DDEV_NAME (deleted)
+  Branch:     $BRANCH (kept — git branch -D $BRANCH when the PR has merged)
+END
+}
+
+case ${1:-} in
+    create) [ -n "${2:-}" ] || die "Usage: bin/worktree create <slug>"; create "$2" ;;
+    remove) [ -n "${2:-}" ] || die "Usage: bin/worktree remove <slug|path> [--force]"; remove "$2" "${3:-}" ;;
+    path)   [ -n "${2:-}" ] || die "Usage: bin/worktree path <slug>"; resolve "$2"; printf '%s\n' "$WT" ;;
+    list)   git -C "$MAIN" worktree list ;;
+    *)      sed -n '2,9p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//' >&2; exit 1 ;;
+esac
