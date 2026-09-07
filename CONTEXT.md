@@ -217,8 +217,12 @@ A Block of an Eyebrow over a row of Slides, one per Service the editor picked, t
 _Avoid_: Services slider, service cards, horizontal scroller, carousel block
 
 **Slide**:
-One Service in the Service Carousel: a rounded card inside the site margins, its Thumbnail darkened behind the Eyebrow, its Slide Number, its title and its Description, the whole of it one link to the Service. Slides sit side by side with a small gap between them, so the neighbours show at the edges.
-_Avoid_: Card, panel, item, service tile, full-screen image
+One entry in a carousel Block: a rounded card, the whole of it one link to the entry. Slides sit side by side with a small gap between them, so the neighbours show at the edges.
+_Avoid_: Card, panel, item, tile, full-screen image
+
+**Service Slide**:
+A Slide in the Service Carousel: inside the site margins, its Thumbnail darkened behind the Eyebrow, its Slide Number, its title and its Description.
+_Avoid_: Service card, service tile
 
 **Slide Number**:
 The bracketed count at the right end of a Slide's Eyebrow row, such as "(01)", saying which Slide it is.
@@ -233,8 +237,38 @@ The row of bars in the Service Carousel, one per Slide, each filling as the visi
 _Avoid_: Pagination, dots, progress bar, indicator, counter
 
 **Cursor Label**:
-The custom cursor that follows the pointer over a Slide on fine-pointer devices, reading "Find out more". On coarse-pointer devices a button beneath the Description says the same.
+The custom cursor that follows the pointer over a Slide on fine-pointer devices, naming what the Slide links to, such as "Find Out More" or "View Case Study". Where a Slide gives no other cue, a button on the Slide says the same on coarse-pointer devices.
 _Avoid_: Hover cursor, cursor follower, tooltip, CTA
+
+### Case Study Carousel
+
+**Case Study**:
+An entry in the Case Study section: one piece of client work, with a Thumbnail, a Logo, a Tag Line and a Category of its own.
+_Avoid_: Work, project, portfolio item, success story
+
+**Case Study Carousel**:
+A Block of an Eyebrow and a heading over a row of Slides, one per Case Study the editor picked, that the visitor moves with the Carousel Controls or by dragging. It sits in a black panel inside the site margins.
+_Avoid_: Work carousel, featured work, case study slider, work exterior
+
+**Case Study Slide**:
+A Slide in the Case Study Carousel: the Case Study's Thumbnail darkened behind its Category Badge, its Logo and its Tag Line.
+_Avoid_: Case study card, work card, project tile
+
+**Category Badge**:
+The small translucent pill at the top left of a Case Study Slide naming the Case Study's first Category.
+_Avoid_: Tag, label, chip, pill
+
+**Tag Line**:
+The one-line result a Case Study leads with, such as "188% increase in traffic from LLMs", set by editors on the Case Study with its Highlight.
+_Avoid_: Strapline, subtitle, result, stat line
+
+**Logo**:
+The client's logo on a Case Study, shown centred on its Slide as the Slide's visible title.
+_Avoid_: Client logo, brand, mark, icon
+
+**Carousel Controls**:
+The Previous and Next pills beneath a carousel's Slides that move the row one Slide at a time.
+_Avoid_: Arrows, nav buttons, pagination, prev/next
 
 ### Seeding
 
