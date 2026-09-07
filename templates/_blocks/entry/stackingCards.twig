@@ -112,6 +112,10 @@
         'lg:w-[36%] lg:shrink-0 lg:aspect-auto'
     ],
     image: {
+        base: 'absolute inset-0',
+        shown: 'opacity-100',
+        hidden: 'opacity-0',
+        hook: 'js-stacking-cards-image',
         column: 'lg:hidden',
         row: 'hidden | lg:block'
     },
@@ -226,35 +230,50 @@
 
                             <div class="{{ blockClasses.slot|join(' ')|trim }}">
 
-                                {% set image = card.images.one() %}
+                                {# Every Card Image is laid on top of the last, filling the slot,
+                                   with only the first opaque, so the Image Cycle has nothing to
+                                   lay out and nothing to reflow: it fades one image out and the
+                                   next in. A card with one image renders exactly the same way
+                                   and simply never has a timeline built for it, and so does
+                                   every card for a visitor who prefers reduced motion, which is
+                                   the first image and no cross-fade at any width. #}
 
-                                {% if image %}
+                                {% for image in card.images.all() %}
 
-                                    {% include '_components/picture' with {
-                                        params: {
-                                            image: image,
-                                            alt: '',
-                                            transform: '4x3',
-                                            ratio: false,
-                                            focalPoint: true,
-                                            sizes: blockOptions.sizes.column,
-                                            wrapperClass: blockClasses.image.column
-                                        }
-                                    } only %}
+                                    <div class="{{ [
+                                        blockClasses.image.base,
+                                        loop.first ? blockClasses.image.shown : blockClasses.image.hidden,
+                                        '||',
+                                        blockClasses.image.hook
+                                    ]|join(' ')|trim }}">
 
-                                    {% include '_components/picture' with {
-                                        params: {
-                                            image: image,
-                                            alt: '',
-                                            transform: '3x4',
-                                            ratio: false,
-                                            focalPoint: true,
-                                            sizes: blockOptions.sizes.row,
-                                            wrapperClass: blockClasses.image.row
-                                        }
-                                    } only %}
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: image,
+                                                alt: '',
+                                                transform: '4x3',
+                                                ratio: false,
+                                                focalPoint: true,
+                                                sizes: blockOptions.sizes.column,
+                                                wrapperClass: blockClasses.image.column
+                                            }
+                                        } only %}
 
-                                {% endif %}
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: image,
+                                                alt: '',
+                                                transform: '3x4',
+                                                ratio: false,
+                                                focalPoint: true,
+                                                sizes: blockOptions.sizes.row,
+                                                wrapperClass: blockClasses.image.row
+                                            }
+                                        } only %}
+
+                                    </div>
+
+                                {% endfor %}
 
                             </div>
 
@@ -370,6 +389,17 @@
             // bounding box can leave behind.
             const CLEARANCE = 24;
 
+            // The Image Cycle's two figures, in seconds: how long a Card Image is held before
+            // the card moves on to the next, and how long the cross-fade between the two takes.
+            // The hold is the beat the photograph is read for; the fade is long enough to read
+            // as a dissolve rather than a cut.
+            const IMAGE_HOLD = 3;
+            const IMAGE_FADE = 0.8;
+
+            // The Card Images are reached by a hook class rather than a ref, because a ref names
+            // one element per Alpine component and every card in the pile has its own set.
+            const IMAGE = '.{{ blockClasses.image.hook }}';
+
             // The ScrollTrigger is held outside the data object, because Alpine makes everything
             // in there reactive and nothing renders from the instance: only the Block reads it.
             let trigger = null;
@@ -378,11 +408,10 @@
                 stacked: false,
                 init() {
 
-                    // One card has nothing to reveal beneath it, so it keeps the column the
-                    // server sent: no pile, no Pin and no ScrollTrigger.
-                    if (this.$refs.pile.children.length < 2) {
-                        return;
-                    }
+                    // One matchMedia for the Block, so the Stack and the Image Cycle are two
+                    // contexts under one watcher: they answer different queries, and a changed
+                    // width or motion preference re-evaluates both together.
+                    const media = gsap.matchMedia();
 
                     // One query rather than a matching pair, and the motion preference folded
                     // into it: below `lg`, and for a visitor who has asked for reduced motion at
@@ -390,7 +419,15 @@
                     // markup is what they get. Both are watched as well as read, so crossing the
                     // breakpoint or changing the preference re-evaluates the query and the
                     // cleanup the context returns puts the column back.
-                    gsap.matchMedia().add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', (context) => {
+                    media.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', (context) => {
+
+                        // One card has nothing to reveal beneath it, so it keeps the column the
+                        // server sent: no pile, no Pin and no ScrollTrigger. The gate is here
+                        // rather than around both contexts, because a lone card's Card Images
+                        // cycle like any other card's.
+                        if (this.$refs.pile.children.length < 2) {
+                            return;
+                        }
 
                         this.stacked = true;
 
@@ -462,6 +499,75 @@
                         };
 
                     });
+
+                    // The Image Cycle is not the Stack's: it is asked for at every width, on the
+                    // pile and on the plain column alike, and only a visitor who prefers reduced
+                    // motion goes without. Its own context under the same matchMedia is what
+                    // holds the two apart, so a phone cross-fades and a stilled page does not.
+                    media.add('(prefers-reduced-motion: no-preference)', () => {
+
+                        Array.from(this.$refs.pile.children).forEach((card) => {
+
+                            const images = card.querySelectorAll(IMAGE);
+
+                            // One photograph is not a cycle: no timeline is built for it, so a
+                            // card with a single Card Image costs nothing and never moves.
+                            if (images.length < 2) {
+                                return;
+                            }
+
+                            // One repeating timeline for the card: every hold, the image showing
+                            // fades out while the next fades in over the same 0.8 seconds, the
+                            // last handing back to the first so the cycle closes. It is paused on
+                            // creation, so a card the visitor has not reached does no work until
+                            // its trigger plays it.
+                            const timeline = gsap.timeline({ repeat: -1, paused: true });
+
+                            images.forEach((image, index) => {
+
+                                timeline
+                                    .to(image, {
+                                        opacity: 0,
+                                        duration: IMAGE_FADE,
+                                        ease: 'none'
+                                    }, (index + 1) * IMAGE_HOLD)
+                                    .to(images[(index + 1) % images.length], {
+                                        opacity: 1,
+                                        duration: IMAGE_FADE,
+                                        ease: 'none'
+                                    }, '<');
+
+                            });
+
+                            // The card's own trigger is the switch: the cycle runs while the card
+                            // is in the viewport and is paused the moment it leaves, so a Block
+                            // the visitor has scrolled past animates nothing. While the frame is
+                            // pinned the card is held on screen long after the flow position the
+                            // trigger was measured at, so the Pin's length is added to the end;
+                            // without it the cycle would stop under the visitor's eyes partway
+                            // through the Stack. The card is measured last of everything on the
+                            // page, because a Block that Pins above this one lengthens the page
+                            // as it is refreshed, and a card measured before that lands a whole
+                            // Pin short of where it really sits.
+                            ScrollTrigger.create({
+                                trigger: card,
+                                start: 'top bottom',
+                                end: () => '+=' + (window.innerHeight + card.offsetHeight + this.hold()),
+                                refreshPriority: -1,
+                                onToggle: (self) => (self.isActive ? timeline.play() : timeline.pause())
+                            });
+
+                        });
+
+                    });
+
+                },
+                hold() {
+
+                    // How long the frame holds a card still beyond its own place in the flow:
+                    // the whole of the Pin while the Stack exists, and nothing at all without
+                    // it, where a card is only ever on screen for the space it takes.
+                    return this.stacked ? this.end(this.$refs.pile.children.length) : 0;
 
                 },
                 step() {
