@@ -49,7 +49,7 @@ A Seed is a JSON file that names an entry, a Matrix field on it, and the Blocks 
 
 **Command surface.** One argument, the path to a Seed file. One flag, `--dry-run`. Exit code zero on success, non-zero on any failure. Output is one line per Block (created or skipped, with its type and match key) and one line per image (uploaded or reused, with its filename).
 
-**Seed shape.** A JSON object with `entry` (a slug; `home` is accepted for the Home entry), `field` (a Matrix field handle on that entry, default `blocks`), an optional `volume` (asset volume handle, default `images`), and `blocks`, a list. Each Block has `type` (an entry type handle), `fields`, a map of field handle to value, and an optional `after`, the entry type handle of the Block it should follow. The same Block structure is used recursively for nested Matrix values; `after` applies to top-level Blocks only. The shape, as agreed in the grilling session:
+**Seed shape.** A JSON object with `entry` (a slug; `home` is accepted for the Home entry), `field` (a Matrix field handle on that entry, default `blocks`), an optional `volume` (asset volume handle, default `images`), the optional entry keys `section`, `type`, `title` and `parent` described under Creating entries, and `blocks`, a list. Each Block has `type` (an entry type handle), `fields`, a map of field handle to value, and an optional `after`, the entry type handle of the Block it should follow. The same Block structure is used recursively for nested Matrix values; `after` applies to top-level Blocks only. The shape, as agreed in the grilling session:
 
 ```json
 {
@@ -88,6 +88,8 @@ A Seed is a JSON file that names an entry, a Matrix field on it, and the Blocks 
 
 **Placement.** A Block without `after` is appended after any existing Blocks. A Block with `after` is inserted after the last existing Block of the named type, and its output line says so. When the entry has no Block of that type, the Block is appended and the output line says that instead. Dry run prints the same resolved position. The key places new Blocks only; it never moves a Block that already exists. The Heading Reveal spec is its first caller.
 
+**Creating entries.** Four optional keys let a Seed reach an entry that does not exist yet, added for the Hero Simple spec, whose test content needs case studies that nobody has created. `section` is a section handle: when no entry with the Seed's slug exists in that section, the command creates one, enabled, with `title` as its title and `type` as its entry type, placed under `parent` (a slug in the same section) when given and at the end of the structure otherwise. The output says the entry was created. A rerun finds the entry by slug and section and skips creation. `type` on an entry that already exists switches it to that entry type, reported as its own output line and skipped when the type already matches. Dry run reports what it would create or switch and writes nothing. Without `section` the entry must exist, as before.
+
 **Seeds are throwaway.** Seed files and their images live under the gitignored scratch folder, beside the evidence for the same Block. Nothing in the repo depends on them and nothing runs them automatically.
 
 **Docs.** The evidence doc gains a short section on seeding: where Seeds live and the command to run. ADR-0002 records the decision.
@@ -114,7 +116,7 @@ There is no test suite. Evidence replaces tests: the command's own output, and t
 
 - Updating or reordering Blocks that already exist. Seeds append and skip, nothing else.
 - Deleting seeded content. An editor removes Blocks in the control panel.
-- Creating pages or entries. The target entry must exist.
+- Updating an entry's title, slug or parent once it exists. The entry keys create and switch type, nothing else.
 - Committing Seeds or images to the repo, or running Seeds on any environment but development.
 - A control panel or web route for seeding. It is a console command only.
 - Users, categories, globals or any element type other than Blocks on an entry.

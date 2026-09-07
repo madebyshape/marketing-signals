@@ -118,6 +118,28 @@ _Avoid_: Parallax, mouse follow, float, hover effect
 A row of Buttons, each coloured by its position in the row. A reusable component; the Error Links are its first use.
 _Avoid_: Button row, CTA group, actions
 
+### Heroes
+
+**Hero**:
+The single entry at the top of a page, from the Hero field, always rendered before the Blocks. A page has at most one.
+_Avoid_: Hero block, banner, page header, masthead
+
+**Hero Layout**:
+One entry type the Hero field offers an editor. Hero Simple is the first; Hero Template is the scaffold developers copy and is not offered to editors.
+_Avoid_: Hero type, hero variant, hero block
+
+**Hero Simple**:
+The Hero Layout of a Breadcrumb over a large heading with the Highlight, and a short text beside it.
+_Avoid_: Simple hero, text hero, default hero
+
+**Breadcrumb**:
+The trail of Crumbs at the top of a Hero: Home, then the page's parents in order, then the page itself. Derived from the page, never set by editors.
+_Avoid_: Breadcrumbs, trail, crumb trail, path
+
+**Crumb**:
+One page in the Breadcrumb: Home, a parent, or the current page. Every Crumb but the current page is a link.
+_Avoid_: Breadcrumb item, link, step
+
 ### Blocks
 
 **Block**:
