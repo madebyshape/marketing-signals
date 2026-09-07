@@ -19,16 +19,28 @@ readonly class Seed
     public const DEFAULT_VOLUME = 'images';
 
     /** Keys a Seed may carry. */
-    private const KEYS = ['entry', 'field', 'volume', 'blocks'];
+    private const KEYS = ['entry', 'field', 'volume', 'section', 'type', 'title', 'parent', 'blocks'];
 
     /**
      * @param SeedBlock[] $blocks
+     * @param string|null $section the section the entry lives in. Given, the command creates the
+     *                             entry when the section has none with the Seed's slug; missing,
+     *                             the entry must already exist.
+     * @param string|null $type the entry type to create the entry as, or to switch an existing
+     *                          entry to. Missing, a created entry takes its section's only type.
+     * @param string|null $title the title a created entry is given.
+     * @param string|null $parent the slug, in the same section, a created entry is placed under.
+     *                            Missing, it goes at the end of the structure.
      */
     private function __construct(
         public string $path,
         public string $entry,
         public string $field,
         public string $volume,
+        public ?string $section,
+        public ?string $type,
+        public ?string $title,
+        public ?string $parent,
         public array $blocks,
     ) {
     }
@@ -87,10 +99,56 @@ readonly class Seed
             throw new SeedException('Seed’s “volume” must be an asset volume handle.');
         }
 
+        $section = self::handle($data, 'section');
+        $type = self::handle($data, 'type');
+        $title = self::handle($data, 'title');
+        $parent = self::handle($data, 'parent');
+
+        // “title” and “parent” describe an entry being created, which only “section” asks for.
+        foreach (['title' => $title, 'parent' => $parent] as $key => $value) {
+            if ($value !== null && $section === null) {
+                throw new SeedException(sprintf(
+                    'Seed’s “%s” only applies to an entry the command creates, so it needs “section” too.',
+                    $key,
+                ));
+            }
+        }
+
         if (!isset($data['blocks']) || !is_array($data['blocks']) || !array_is_list($data['blocks'])) {
             throw new SeedException('Seed must carry a list of Blocks in “blocks”.');
         }
 
-        return new self($path, $data['entry'], $field, $volume, SeedBlock::listFromArray($data['blocks']));
+        return new self(
+            $path,
+            $data['entry'],
+            $field,
+            $volume,
+            $section,
+            $type,
+            $title,
+            $parent,
+            SeedBlock::listFromArray($data['blocks']),
+        );
+    }
+
+    /**
+     * One of the optional entry keys, which are all non-empty strings when they are there at all.
+     *
+     * @param array<string, mixed> $data
+     * @throws SeedException
+     */
+    private static function handle(array $data, string $key): ?string
+    {
+        $value = $data[$key] ?? null;
+
+        if ($value === null) {
+            return null;
+        }
+
+        if (!is_string($value) || $value === '') {
+            throw new SeedException("Seed’s “{$key}” must be a non-empty string.");
+        }
+
+        return $value;
     }
 }

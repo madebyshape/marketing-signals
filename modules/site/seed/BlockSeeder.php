@@ -14,7 +14,8 @@ use craft\models\EntryType;
 /**
  * Applies a Seed: adds its Blocks to the target entry's Matrix field, skipping any Block it has
  * already added. A Block goes on the end unless it names the entry type it follows, in which
- * case it is inserted after the last Block of that type.
+ * case it is inserted after the last Block of that type. The entry itself is found — or created,
+ * or switched to another type — by the EntrySeeder first.
  *
  * Every Block is built and validated before anything is written, and the entry is saved once,
  * so a bad Seed cannot half-apply. A dry run does the same work and saves nothing.
@@ -26,7 +27,8 @@ class BlockSeeder
      */
     public function apply(Seed $seed, bool $dryRun): SeedReport
     {
-        $entry = $this->findEntry($seed->entry);
+        $entries = new EntrySeeder($seed, $dryRun);
+        $entry = $entries->entry();
         $field = $this->findField($entry, $seed->field);
 
         $assets = new AssetResolver($seed->volume, $seed->directory(), $dryRun);
@@ -69,32 +71,7 @@ class BlockSeeder
             $this->save($entry, $field, $blocks);
         }
 
-        return new SeedReport($outcomes, $assets->outcomes());
-    }
-
-    /**
-     * The Seed names its target by slug; `home` stands in for the home page, so a Seed never
-     * has to know Craft's internal slug for it.
-     *
-     * @throws SeedException
-     */
-    private function findEntry(string $name): Entry
-    {
-        $query = Entry::find()->site('*')->unique()->status(null);
-
-        if ($name === Seed::HOME) {
-            $query->uri('__home__');
-        } else {
-            $query->slug($name);
-        }
-
-        $entry = $query->one();
-
-        if ($entry === null) {
-            throw new SeedException("No entry found for “{$name}”.");
-        }
-
-        return $entry;
+        return new SeedReport($entries->outcomes(), $outcomes, $assets->outcomes());
     }
 
     /**
@@ -253,12 +230,17 @@ class BlockSeeder
 
     /**
      * Every Block already on the entry, disabled and drafted ones included, so that saving the
-     * entry never drops one.
+     * entry never drops one. A dry run that would have created the entry has nothing to ask for:
+     * the entry was never saved, and an owner with no ID would match every Block in the field.
      *
      * @return Entry[]
      */
     private function existingBlocks(Entry $entry, Matrix $field): array
     {
+        if ($entry->id === null) {
+            return [];
+        }
+
         return Entry::find()
             ->fieldId($field->id)
             ->owner($entry)
