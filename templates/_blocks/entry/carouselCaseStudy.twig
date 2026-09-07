@@ -27,12 +27,15 @@
    rendered when it has something to say: an empty Eyebrow or heading takes its spacing with it
    and the rows below close up.
 
-   The row of Slides is pulled out to the panel's edges by negative margins the size of the side
-   padding, so the Slides run under the padding while the Eyebrow and heading stay inside it.
-   Served, Swiper's own layout stands: the Slides in a row from the panel's left edge, two of them
-   filling the panel from `lg`, and everything past the second clipped at the panel. Swiper's
-   stylesheet is unlayered, so the width that replaces its `swiper-slide` full width has to be
-   important to reach it, as `flex` and `h-auto` already are.
+   From `md` the row of Slides is pulled out to the panel's edges by negative margins the size of
+   the side padding, so the Slides run under the padding and the neighbours peek to the panel's
+   edge while the Eyebrow, heading and Controls stay inside it. Below `md` there is no pull-out
+   and no neighbour to show, so the one card is the panel's inner width and lines up with the
+   heading above it. The carousel component's wrapper is full width, and a percentage width is
+   read from the padded box whatever the margins do, so the pull-out comes with `w-auto` to let
+   the wrapper take the width its negative margins give it. Served, Swiper's own layout stands:
+   the Slides in a row from the panel's left edge, clipped at the panel, the Controls visible but
+   inert.
 
    The card is 3x4 portrait below `md` and 16x10 landscape from `md`, which makes it the design's
    750 by 469 at 1600. The Thumbnail fills it at 90% under two shades, the top one fading from
@@ -62,15 +65,14 @@
         'md:text-6xl | lg:col-span-8 lg:text-7xl'
     ],
     carousel: [
-        '-mx-5',
+        'md:-mx-5 md:w-auto',
         '|',
         'lg:-mx-12.5'
     ],
-    track: 'swiper-wrapper gap-x-5',
-    slide: [
-        'swiper-slide flex! h-auto! w-[calc(100%_-_2.5rem)]!',
+    controls: [
+        'mt-7.5',
         '|',
-        'md:w-[calc((100%_-_2.5rem)/1.5)]! | lg:w-[calc((100%_-_1.25rem)/2)]!'
+        'lg:mt-12.5'
     ],
     card: 'relative block w-full overflow-hidden rounded-[20px] bg-black',
     thumbnail: {
@@ -169,145 +171,202 @@
 
                     {% endif %}
 
-                    <div class="{{ blockClasses.carousel|join(' ')|trim }}">
+                    {# The carousel component owns the Alpine scope, so the Controls go in its
+                       after-content slot where their `prev` and `next` refs resolve, and the
+                       Slides in its slide slot. Swiper writes each Slide's width itself from
+                       `slidesPerView`, so the Block sets the counts and the gap and nothing else
+                       measures the row.
 
-                        <div class="swiper">
+                       Looping needs more Slides than the row shows at once to have something to
+                       wrap, and two per view makes three the floor: two Case Studies page to
+                       their ends and dim the button there instead. #}
 
-                            <ul class="{{ blockClasses.track }}">
+                    {% embed '_components/carousel'
+                        with {
+                            params: {
+                                id: params.handle,
+                                items: caseStudies,
+                                tag: 'ul',
+                                slideTag: 'li',
+                                ease: 'smooth',
+                                class: blockClasses.carousel|join(' ')|trim,
+                                props: {
+                                    centeredSlides: true,
+                                    slidesPerView: 1,
+                                    spaceBetween: 20,
+                                    speed: 600,
+                                    loop: caseStudies|length >= 3,
+                                    simulateTouch: true,
+                                    allowTouchMove: true,
+                                    preventClicks: true,
+                                    preventClicksPropagation: true,
+                                    breakpoints: {
+                                        768: { slidesPerView: 1.5 },
+                                        1024: { slidesPerView: 2 }
+                                    },
+                                    a11y: {
+                                        enabled: true,
+                                        containerRole: 'region'
+                                    }
+                                }
+                            }
+                        }
+                    %}
 
-                                {% for caseStudy in caseStudies %}
+                        {% block slideContent %}
 
-                                    {# The whole card is the link, so the Slide has one link and
-                                       no link inside it. Its accessible name is what the card
-                                       holds — the Category, the Logo's alt and the Tag Line — so
-                                       no `aria-label` overrides it. #}
+                            {# The whole card is the link, so the Slide has one link and no link
+                               inside it. Its accessible name is what the card holds — the
+                               Category, the Logo's alt and the Tag Line — so no `aria-label`
+                               overrides it.
 
-                                    <li class="{{ blockClasses.slide|join(' ')|trim }}">
+                               Entering the card raises the Cursor Label the global layout mounts
+                               and leaving lowers it, whether the Slide is the centre one or a
+                               peeking neighbour; the event goes to the window, so the Block never
+                               reaches for the cursor's markup. A coarse pointer fires these too
+                               and the cursor component ignores them there, which is what leaves
+                               the touch visitor a plain card and a tap. #}
 
-                                        <a href="{{ caseStudy.url }}" class="{{ blockClasses.card }}">
+                            <a
+                                href="{{ item.url }}"
+                                class="{{ blockClasses.card }}"
+                                x-on:mouseenter="$dispatch('component-cursor', { active: true, text: 'View Case Study' })"
+                                x-on:mouseleave="$dispatch('component-cursor', { active: false })"
+                            >
 
-                                            {% set thumbnail = caseStudy.thumbnail.one() %}
-                                            {% set logo = caseStudy.logo.one() %}
-                                            {% set category = caseStudy.categoriesCaseStudy.one() %}
+                                {% set thumbnail = item.thumbnail.one() %}
+                                {% set logo = item.logo.one() %}
+                                {% set category = item.categoriesCaseStudy.one() %}
 
-                                            {# A Case Study without a Thumbnail renders its card
-                                               on solid black, so the placeholder holds the card's
-                                               shape in its place. The photograph is decorative:
-                                               its alt is empty and the Logo names the client. #}
+                                {# A Case Study without a Thumbnail renders its card on solid
+                                   black, so the placeholder holds the card's shape in its place.
+                                   The photograph is decorative: its alt is empty and the Logo
+                                   names the client. #}
 
-                                            {% if thumbnail %}
+                                {% if thumbnail %}
 
-                                                {% include '_components/picture' with {
-                                                    params: {
-                                                        image: thumbnail,
-                                                        alt: '',
-                                                        transform: '3x4',
-                                                        ratio: true,
-                                                        focalPoint: true,
-                                                        sizes: '85vw',
-                                                        wrapperClass: blockClasses.thumbnail.portrait|join(' ')|trim
-                                                    }
-                                                } only %}
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: thumbnail,
+                                            alt: '',
+                                            transform: '3x4',
+                                            ratio: true,
+                                            focalPoint: true,
+                                            sizes: '85vw',
+                                            wrapperClass: blockClasses.thumbnail.portrait|join(' ')|trim
+                                        }
+                                    } only %}
 
-                                                {% include '_components/picture' with {
-                                                    params: {
-                                                        image: thumbnail,
-                                                        alt: '',
-                                                        transform: '16x10',
-                                                        ratio: true,
-                                                        focalPoint: true,
-                                                        sizes: '(min-width: 1024px) 47vw, 60vw',
-                                                        wrapperClass: blockClasses.thumbnail.landscape|join(' ')|trim
-                                                    }
-                                                } only %}
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: thumbnail,
+                                            alt: '',
+                                            transform: '16x10',
+                                            ratio: true,
+                                            focalPoint: true,
+                                            sizes: '(min-width: 1024px) 47vw, 60vw',
+                                            wrapperClass: blockClasses.thumbnail.landscape|join(' ')|trim
+                                        }
+                                    } only %}
 
-                                            {% else %}
+                                {% else %}
 
-                                                <div class="{{ blockClasses.placeholder|join(' ')|trim }}"></div>
+                                    <div class="{{ blockClasses.placeholder|join(' ')|trim }}"></div>
 
-                                            {% endif %}
+                                {% endif %}
 
-                                            <div class="{{ blockClasses.shadeTop }}"></div>
-                                            <div class="{{ blockClasses.shadeBottom }}"></div>
+                                <div class="{{ blockClasses.shadeTop }}"></div>
+                                <div class="{{ blockClasses.shadeBottom }}"></div>
 
-                                            {# A Case Study with no Logo shows the Thumbnail and
-                                               the Tag Line alone. The Logo is the Slide's visible
-                                               title, so its alt is the Case Study's. #}
+                                {# A Case Study with no Logo shows the Thumbnail and the Tag Line
+                                   alone. The Logo is the Slide's visible title, so its alt is the
+                                   Case Study's. #}
 
-                                            {% if logo %}
+                                {% if logo %}
 
-                                                <div class="{{ blockClasses.logo }}">
+                                    <div class="{{ blockClasses.logo }}">
 
-                                                    {% include '_components/picture' with {
-                                                        params: {
-                                                            image: logo,
-                                                            alt: caseStudy.title,
-                                                            transform: 'noRatio',
-                                                            ratio: false,
-                                                            imgClass: blockClasses.logoImage
-                                                        }
-                                                    } only %}
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: logo,
+                                                alt: item.title,
+                                                transform: 'noRatio',
+                                                ratio: false,
+                                                imgClass: blockClasses.logoImage
+                                            }
+                                        } only %}
 
-                                                </div>
+                                    </div>
 
-                                            {% endif %}
+                                {% endif %}
 
-                                            {# The badge shows the first Category's title only. A
-                                               Case Study with no Category shows no badge. #}
+                                {# The badge shows the first Category's title only. A Case Study
+                                   with no Category shows no badge. #}
 
-                                            {% if category %}
+                                {% if category %}
 
-                                                <div class="{{ blockClasses.badge|join(' ')|trim }}">
+                                    <div class="{{ blockClasses.badge|join(' ')|trim }}">
 
-                                                    {% include '_components/badge' with {
-                                                        params: {
-                                                            badge: category.title,
-                                                            colour: 'white-20',
-                                                            size: 'sm'
-                                                        }
-                                                    } only %}
+                                        {% include '_components/badge' with {
+                                            params: {
+                                                badge: category.title,
+                                                colour: 'white-20',
+                                                size: 'sm'
+                                            }
+                                        } only %}
 
-                                                </div>
+                                    </div>
 
-                                            {% endif %}
+                                {% endif %}
 
-                                            {# A link inside the Slide's link is invalid HTML and
-                                               a heading here would compete with the Block's, so
-                                               the Tag Line keeps its italic Highlight, bold and
-                                               line breaks and renders as a paragraph. #}
+                                {# A link inside the Slide's link is invalid HTML and a heading
+                                   here would compete with the Block's, so the Tag Line keeps its
+                                   italic Highlight, bold and line breaks and renders as a
+                                   paragraph. #}
 
-                                            {% set tagLine = caseStudy.tagLine|striptags('<em><i><strong><b><br>') %}
+                                {% set tagLine = item.tagLine|striptags('<em><i><strong><b><br>') %}
 
-                                            {% if tagLine|striptags|trim|length %}
+                                {% if tagLine|striptags|trim|length %}
 
-                                            <div class="{{ blockClasses.tagLine|join(' ')|trim }}">
+                                    <div class="{{ blockClasses.tagLine|join(' ')|trim }}">
 
-                                                {% include '_components/headingAlternate' with {
-                                                    params: {
-                                                        tag: 'p',
-                                                        heading: tagLine,
-                                                        colour: 'white',
-                                                        size: '2xl',
-                                                        alternateStyle: 'fluro',
-                                                        class: blockClasses.tagLineText|join(' ')|trim
-                                                    }
-                                                } only %}
+                                        {% include '_components/headingAlternate' with {
+                                            params: {
+                                                tag: 'p',
+                                                heading: tagLine,
+                                                colour: 'white',
+                                                size: '2xl',
+                                                alternateStyle: 'fluro',
+                                                class: blockClasses.tagLineText|join(' ')|trim
+                                            }
+                                        } only %}
 
-                                            </div>
+                                    </div>
 
-                                            {% endif %}
+                                {% endif %}
 
-                                        </a>
+                            </a>
 
-                                    </li>
+                        {% endblock %}
 
-                                {% endfor %}
+                        {% block afterContent %}
 
-                            </ul>
+                            {# One Case Study is a single static card: there is nowhere to page
+                               to, so it gets no Controls and the carousel wires no navigation. #}
 
-                        </div>
+                            {% if caseStudies|length > 1 %}
 
-                    </div>
+                                {% include '_components/carouselControls' with {
+                                    params: {
+                                        class: blockClasses.controls|join(' ')|trim
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                        {% endblock %}
+
+                    {% endembed %}
 
                 </div>
 
