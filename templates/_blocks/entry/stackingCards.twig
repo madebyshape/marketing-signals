@@ -76,6 +76,12 @@
    pile in five to twelve, and the Section Footer beneath the pile in the same columns. Below
    `lg` the grid is one column and the three fall into order with the design's own spacing.
 
+   Every one of those `lg` rules is behind `motion-safe`, the row card and its two image slots
+   with them, because the two column frame exists to be Stacked and a visitor who has asked for
+   reduced motion never Stacks. They get the one column layout at every width instead: the
+   heading and text above a plain column of full width cards, each with its photograph above its
+   content, and the button and Avatar Group beneath.
+
    Served, the pile is a column and the cards fall down it with the design's 20px between them;
    the Block's own state turns it into a single grid cell every card occupies, so the cell takes
    the tallest card's height and every card stretches to fill it and the sheets share one height,
@@ -92,45 +98,45 @@
     grid: [
         'grid grid-cols-1',
         '|',
-        'lg:grid-cols-12 lg:gap-5'
+        'motion-safe:lg:grid-cols-12 motion-safe:lg:gap-5'
     ],
-    header: 'lg:col-span-4',
-    heading: 'font-semibold leading-0.97 tracking-tighter | lg:text-7xl',
+    header: 'motion-safe:lg:col-span-4',
+    heading: 'font-semibold leading-0.97 tracking-tighter | motion-safe:lg:text-7xl',
     text: 'max-w-[365px] mt-7.5',
     pile: [
         'flex flex-col gap-5 mt-10',
         '|',
-        'lg:col-start-5 lg:col-span-8 lg:mt-0'
+        'motion-safe:lg:col-start-5 motion-safe:lg:col-span-8 motion-safe:lg:mt-0'
     ],
     card: {
         base: 'relative flex flex-col overflow-hidden rounded-[20px]',
-        row: 'lg:flex-row'
+        row: 'motion-safe:lg:flex-row'
     },
     slot: [
         'relative overflow-hidden m-1.25 rounded-[15px] aspect-[4/3]',
         '|',
-        'lg:w-[36%] lg:shrink-0 lg:aspect-auto'
+        'motion-safe:lg:w-[36%] motion-safe:lg:shrink-0 motion-safe:lg:aspect-auto'
     ],
     image: {
         base: 'absolute inset-0',
         shown: 'opacity-100',
         hidden: 'opacity-0',
         hook: 'js-stacking-cards-image',
-        column: 'lg:hidden',
-        row: 'hidden | lg:block'
+        column: 'motion-safe:lg:hidden',
+        row: 'hidden | motion-safe:lg:block'
     },
     content: [
         'flex flex-1 flex-col justify-center p-7.5',
         '|',
-        'lg:p-25'
+        'motion-safe:lg:p-25'
     ],
-    cardHeading: 'font-semibold leading-0.97 tracking-tighter | lg:text-5xl',
+    cardHeading: 'font-semibold leading-0.97 tracking-tighter | motion-safe:lg:text-5xl',
     cardText: 'mt-6.25',
     cardButton: 'mt-7.5',
     footer: [
         'flex flex-wrap items-center gap-5 mt-10',
         '|',
-        'lg:col-start-5 lg:col-span-8 lg:mt-15 lg:justify-center'
+        'motion-safe:lg:col-start-5 motion-safe:lg:col-span-8 motion-safe:lg:mt-15 motion-safe:lg:justify-center'
     ],
     stacked: {
         frame: 'lg:h-screen lg:content-center-safe',
