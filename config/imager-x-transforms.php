@@ -80,5 +80,18 @@ return [
         'defaults' => [
             'ratio' => 16/9
         ]
+    ],
+    // The Case Study Slide's card is 750px wide at the 1600 frame, so the widths run to twice
+    // that for a retina screen. 16x10 is the common ratio nearest the design's 750 by 471.
+    '16x10' => [
+        'transforms' => [
+            ['width' => 400],
+            ['width' => 800],
+            ['width' => 1200],
+            ['width' => 1500]
+        ],
+        'defaults' => [
+            'ratio' => 16/10
+        ]
     ]
 ];

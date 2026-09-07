@@ -15,12 +15,22 @@
 
 {# Options #}
 
+{# The `white-20` colour is the translucent pill a dark photograph carries: white at a fifth over
+   whatever is behind it, blurred just enough to hold the text off a busy picture, and no visible
+   border, since the fill is the whole shape. The `sm` size is that pill's 14px text with the
+   tight tracking the xs token carries and the design's 10px by 7px padding. #}
+
 {% set options = {
 	colour: {
 		base: {
 			text: 'text-white',
 			bg: 'bg-black',
 			border: 'border-black'
+		},
+		'white-20': {
+			text: 'text-white',
+			bg: 'bg-white/20 backdrop-blur-[2px]',
+			border: 'border-transparent'
 		}
 	},
 	size: {
@@ -29,6 +39,12 @@
 			gap: 'gap-x-1.5 lg:gap-x-2.5',
 			padding: 'px-2 py-1 lg:py-2 lg:px-2.5',
 			border: 'border'
+		},
+		sm: {
+			text: 'text-xs tracking-tight',
+			gap: 'gap-x-1.5',
+			padding: 'px-2.5 py-1.75',
+			border: 'border-0'
 		}
 	}
 } %}
