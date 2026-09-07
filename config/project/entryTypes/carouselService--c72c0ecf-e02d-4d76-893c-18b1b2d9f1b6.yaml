@@ -1,0 +1,94 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  3f790b17-21a0-4263-b359-5e376cb8bf30:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: eeff334d-999a-4df2-a87e-4265e3bc0e4f
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9cfe3c8e-d832-43a6-bcce-c66c775d329d
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: d27c04ae-18ec-4d61-9bae-f450a7561d6f
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2451f9f6-405a-429f-9abb-a2acde87159a # Entries - Services
+            handle: null
+            instructions: 'One Slide per Service, in the order they are listed.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 2ae42dc3-e759-438e-85ce-1d86323df7f5
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: a9764927-2e1d-4bc0-bd8b-dc443fded80e
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 984108fc-0919-44c3-8fa7-540da0c94ef8
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 418069ea-4b48-4e56-a4ed-93666b4e86a6
+        userCondition: null
+    thumbFieldKey: null
+handle: carouselService
+hasTitleField: false
+icon: images
+name: 'Carousel - Service'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

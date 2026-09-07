@@ -12,6 +12,14 @@ settings:
       __assoc__:
         -
           - uid
+          - c72c0ecf-e02d-4d76-893c-18b1b2d9f1b6 # Carousel - Service
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 8a84de3a-19bd-4528-a47b-1d207eda9858 # Heading
         -
           - group

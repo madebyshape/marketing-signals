@@ -1,0 +1,245 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Services #}
+
+{# One Slide per enabled Service the editor picked, in the field's order. A disabled Service has
+   no page to link to, so it never becomes a Slide. #}
+
+{% set services = entry.entriesServices.all() %}
+
+{# Classes #}
+
+{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
+   named apart from it. The section's horizontal padding is off and the stage carries the site
+   margin instead, so that once the track is a row the neighbouring Slides overflow the margin and
+   the frame clips them at the viewport edge.
+
+   Served, the track is a column and the Slides stack with the design's 20px between them; the Pin
+   turns it into a row, which is the next ticket. The card is 820px tall from `lg`, capped to the
+   viewport less 80px so a pinned card always sits whole on screen, and at least that tall below
+   `lg`, where a long Description may grow it.
+
+   The heading and the Description share the card's 12-column grid from `lg`, in columns one to
+   seven and eight to eleven, both centred on the same line in the height the Eyebrow row leaves.
+   Below `lg` they stack with the button, 20px apart. #}
+
+{% set blockClasses = {
+    frame: 'relative overflow-hidden',
+    stage: [
+        'relative',
+        vars is defined ? vars.class.siteMargin.x : 'px-10'
+    ],
+    track: 'flex flex-col gap-5',
+    card: [
+        'group relative flex flex-col overflow-hidden rounded-[20px] bg-black min-h-[calc(100vh-80px)]',
+        '|',
+        'lg:h-[820px] lg:max-h-[calc(100vh-80px)] lg:min-h-0'
+    ],
+    image: 'absolute inset-0 z-0 opacity-30',
+    content: [
+        'relative z-10 flex flex-1 flex-col p-5',
+        '|',
+        'lg:px-10 lg:py-12.5'
+    ],
+    body: [
+        'flex flex-1 flex-col justify-center gap-5',
+        '|',
+        'lg:grid lg:grid-cols-12 lg:content-center lg:items-center'
+    ],
+    heading: [
+        'font-semibold leading-0.92 tracking-tighter',
+        '|',
+        'md:text-7xl | lg:col-span-7 lg:text-9xl | 2xl:text-12xl'
+    ],
+    column: [
+        'flex flex-col gap-5',
+        '|',
+        'lg:col-start-8 lg:col-span-4'
+    ],
+    button: 'hidden | pointer-coarse:block',
+    bars: [
+        'hidden absolute inset-x-5 bottom-5 flex-row gap-x-1.25',
+        '|',
+        'lg:inset-x-10 lg:bottom-12.5'
+    ],
+    bar: 'flex-1 h-1.25 overflow-hidden rounded-full bg-white/30',
+    fill: 'w-full h-full origin-left scale-x-0 rounded-full bg-fluro'
+} %}
+
+{# Output #}
+
+{# A Block with no Services renders nothing at all, section included. #}
+
+{% if services|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.frame }}" x-ref="frame">
+
+                <div class="{{ blockClasses.stage|join(' ')|trim }}" x-ref="stage">
+
+                    <ul class="{{ blockClasses.track }}" x-ref="track">
+
+                        {% for service in services %}
+
+                            {# The whole card is the link, so the Slide has one link and no link
+                               inside it. Its accessible name is the Service's title alone rather
+                               than everything the card holds. #}
+
+                            <li>
+
+                                <a
+                                    href="{{ service.url }}"
+                                    aria-label="{{ service.title }}"
+                                    class="{{ blockClasses.card|join(' ')|trim }}"
+                                >
+
+                                    {% set thumbnail = service.thumbnail.one() %}
+
+                                    {# A Service without a Thumbnail renders its card on solid
+                                       black. The photograph is decorative, so its alt is empty
+                                       and the card's own heading names the Service. #}
+
+                                    {% if thumbnail %}
+
+                                        <div class="{{ blockClasses.image }}">
+
+                                            {% include '_components/picture' with {
+                                                params: {
+                                                    image: thumbnail,
+                                                    alt: '',
+                                                    transform: 'noRatioLarge',
+                                                    ratio: false,
+                                                    focalPoint: true,
+                                                    sizes: '100vw'
+                                                }
+                                            } only %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                    <div class="{{ blockClasses.content|join(' ')|trim }}">
+
+                                        {# An empty Eyebrow drops the whole row, Slide Number
+                                           included. #}
+
+                                        {% if entry.eyebrow|trim|length %}
+
+                                            {% include '_components/eyebrow' with {
+                                                params: {
+                                                    text: entry.eyebrow,
+                                                    colour: 'white',
+                                                    rule: true,
+                                                    ruleColour: 'white-30',
+                                                    aside: '(' ~ '%02d'|format(loop.index) ~ ')',
+                                                    asideAttributes: 'aria-hidden="true"'
+                                                }
+                                            } only %}
+
+                                        {% endif %}
+
+                                        <div class="{{ blockClasses.body|join(' ')|trim }}">
+
+                                            {% include '_components/heading' with {
+                                                params: {
+                                                    tag: 'h3',
+                                                    heading: service.title,
+                                                    colour: 'white',
+                                                    size: '5xl',
+                                                    class: blockClasses.heading|join(' ')|trim
+                                                }
+                                            } only %}
+
+                                            <div class="{{ blockClasses.column|join(' ')|trim }}">
+
+                                                {# A link inside the Slide's link is invalid HTML
+                                                   and the Slide already goes to the Service, so
+                                                   the Description keeps its paragraphs, bold,
+                                                   italic and line breaks and loses the rest. #}
+
+                                                {% include '_components/richText' with {
+                                                    params: {
+                                                        content: service.description|striptags('<p><strong><b><em><i><br>'),
+                                                        colour: 'white'
+                                                    }
+                                                } only %}
+
+                                                {# A visitor with a mouse gets the Cursor Label
+                                                   instead, so the pill shows on coarse pointers
+                                                   only. It is a span: the Slide is the link. #}
+
+                                                <div class="{{ blockClasses.button }}">
+
+                                                    {% include '_components/button' with {
+                                                        params: {
+                                                            type: 'span',
+                                                            button: {
+                                                                label: 'Find Out More'
+                                                            },
+                                                            colour: 'white',
+                                                            size: 'sm',
+                                                            icon: false
+                                                        }
+                                                    } only %}
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </a>
+
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                    {# The Slide Progress is served hidden and shown only once the Pin exists, so
+                       reduced motion, no script and a single Slide all show none of it. #}
+
+                    <div
+                        class="{{ blockClasses.bars|join(' ')|trim }}"
+                        aria-hidden="true"
+                        x-ref="bars"
+                    >
+
+                        {% for service in services %}
+
+                            <div class="{{ blockClasses.bar }}">
+                                <div class="{{ blockClasses.fill }}"></div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
