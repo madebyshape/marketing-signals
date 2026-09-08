@@ -173,6 +173,7 @@ meta:
     08c386f4-5a41-4c9f-8282-f6785af06bfc: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
     8dec68ee-43b1-4ee4-adaf-09353f5bfab8: 'Entry - Testimonial' # Entry - Testimonial
     9b4079ae-fa59-4930-8132-039a9456c37c: FAQ # FAQ
+    9bc3b5b3-8512-4246-b1b8-d78eb6798dd5: 'Video Content' # Video Content
     9c2880cd-7d0d-494f-aeeb-4c0b30575fb5: 'Padding - Hero' # Padding - Hero
     9da49a9d-23bf-4f1f-b736-5d8465f335ab: 'Entry - Case Study' # Entry - Case Study
     9db15396-a721-4413-a2c2-72e509359139: 'Entry - Contact' # Entry - Contact
@@ -246,8 +247,8 @@ meta:
     eebfd246-f9aa-4d59-99e5-d4aaba54acba: 'Entry - Brand Guidelines' # Entry - Brand Guidelines
     f3e544b8-88bf-4761-8df2-d767fa1502b7: Text # Text
     f7b5b560-85eb-4827-a39b-b24c863ae5c3: 'Links To - No Label' # Links To - No Label
-    f54fdb7f-5fd1-41e9-a4c3-63791f1316b8: 'Marquee - Client' # Marquee - Client
     f18e57cc-fd7c-4892-a604-aa68a1598318: 'Stacking Cards' # Stacking Cards
+    f54fdb7f-5fd1-41e9-a4c3-63791f1316b8: 'Marquee - Client' # Marquee - Client
     fa2d89b4-fa6d-48d3-b36a-7169022cd64d: Client # Client
     fb0420bb-0fbf-46d2-afd2-f7992c60c886: 'Contact Form' # Contact Form
 plugins:

@@ -1,0 +1,165 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  ca447812-ff35-4b55-badb-431a35800972:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 9ebc5af3-1ec4-4095-a56b-5d2f76da6cd8
+            userCondition: null
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 502d679e-5255-48d9-8a13-55c1c9ac458a
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 2914d9d7-f65e-43d6-aee0-9db596da51ce
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 865b57b8-b924-405f-ae02-cf5a26a62a5d
+            userCondition: null
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4580bc09-b5c8-40a2-bff5-95f715403f50 # Video
+            handle: null
+            instructions: 'The Display Type is not used on this Block: the video always opens in the Video Modal.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e0f61bcc-93da-4a66-ba51-cc05527c327a
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: textColumnOne
+            instructions: null
+            label: 'Text Column One'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ca85c94a-f033-43ea-a098-07547a39701b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 13285537-5457-4f1f-ad8c-66fd187f8f09 # Rich Text - Full
+            handle: textColumnTwo
+            instructions: null
+            label: 'Text Column Two'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f5a592b6-d61c-4865-aedf-c62213139fa6
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 2ea72047-009a-4f6f-a524-de039c46a829
+            userCondition: null
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 298fa7b6-abc0-4c80-a004-8fa35a30bf35 # Button Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8dff145d-970b-4389-98c3-47337c7ddb2e
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: b6232c20-c83b-4ead-8d41-f96bec55060a
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: bc58604e-7044-46b4-a785-14bee4482b98
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 75a2b5ff-78c3-4f83-8eb8-9ad744318953
+        userCondition: null
+    thumbFieldKey: null
+handle: videoContent
+hasTitleField: false
+icon: circle-play
+name: 'Video Content'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
