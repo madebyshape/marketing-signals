@@ -26,9 +26,8 @@
         '|',
         'focus:outline-none focus:ring-2 focus:ring-white/60 pointer-fine:hover:opacity-70'
     ],
-    icon: [
-        'fa-sharp fa-regular text-base leading-none'
-    ],
+    iconGlyph: 'fa-sharp fa-regular',
+    iconStyle: 'text-base leading-none',
     buttonEnd: [
         'ml-auto'
     ]
@@ -56,8 +55,8 @@
             x-bind:aria-pressed="playing"
             x-on:click="togglePlay()"
         >
-            <span x-show="!playing" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-play" aria-hidden="true"></i></span>
-            <span x-show="playing" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-pause" aria-hidden="true"></i></span>
+            <span x-show="!playing" x-cloak><i class="{{ classes.iconGlyph }} fa-play | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
+            <span x-show="playing" x-cloak><i class="{{ classes.iconGlyph }} fa-pause | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
         </button>
 
         <button
@@ -67,8 +66,8 @@
             x-bind:aria-pressed="!muted"
             x-on:click="toggleMute()"
         >
-            <span x-show="muted" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-volume-xmark" aria-hidden="true"></i></span>
-            <span x-show="!muted" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-volume-high" aria-hidden="true"></i></span>
+            <span x-show="muted" x-cloak><i class="{{ classes.iconGlyph }} fa-volume-xmark | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
+            <span x-show="!muted" x-cloak><i class="{{ classes.iconGlyph }} fa-volume-high | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
         </button>
 
         <button
@@ -78,8 +77,8 @@
             x-bind:aria-pressed="fullscreen"
             x-on:click="toggleFullscreen()"
         >
-            <span x-show="!fullscreen" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-expand-wide" aria-hidden="true"></i></span>
-            <span x-show="fullscreen" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-compress-wide" aria-hidden="true"></i></span>
+            <span x-show="!fullscreen" x-cloak><i class="{{ classes.iconGlyph }} fa-expand-wide | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
+            <span x-show="fullscreen" x-cloak><i class="{{ classes.iconGlyph }} fa-compress-wide | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
         </button>
 
     </div>
