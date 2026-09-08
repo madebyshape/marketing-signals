@@ -20,6 +20,18 @@
     },
     size: {
         base: 'px-2.5 py-1.25 text-base',
+    },
+    style: {
+        pill: {
+            cursor: 'justify-center gap-x-2 rounded-full font-medium leading-none',
+            icon: '',
+            text: ''
+        },
+        outline: {
+            cursor: 'gap-x-1.5',
+            icon: 'flex size-[18px] items-center justify-center rounded-full border border-creme-100 text-[8px] text-creme-100',
+            text: 'text-xs font-normal leading-[20px] tracking-tight text-white'
+        }
     }
 } %}
 
@@ -34,11 +46,18 @@
         'pointer-fine:block'
     ],
     cursor: [
-        'flex items-center justify-center gap-x-2 whitespace-nowrap rounded-full font-medium leading-none transition scale-0',
-        options.colour[params.colour],
-        options.size[params.size],
+        'flex items-center whitespace-nowrap transition',
         params.class
     ],
+    style: options.style|merge({
+        pill: options.style.pill|merge({
+            cursor: [
+                options.style.pill.cursor,
+                options.colour[params.colour],
+                options.size[params.size]
+            ]|join(' ')
+        })
+    })
 } %}
 
 {# Output #}
@@ -46,34 +65,31 @@
 {# Every part of the detail is read afresh, so a caller sending only text never inherits the last icon. #}
 
 <div
-    x-data="{{ params.component }}"
+    x-data='{{ params.component }}({{ classes.style|json_encode|raw }})'
     @component-cursor.window="
 
         active = $event.detail.active ? true : false;
         text = $event.detail.text ? $event.detail.text : false;
         icon = $event.detail.icon ? $event.detail.icon : false;
+        style = $event.detail.style ? $event.detail.style : 'pill';
 
     "
 >
 
-    <div class="{{ classes.pointer|join(' ')|trim }}" x-ref="pointer">
+    <div class="{{ classes.pointer|join(' ')|trim }}" aria-hidden="true" x-ref="pointer">
 
         <div
             class="{{ classes.cursor|join(' ')|trim }}"
-            x-bind:class="{
-                'scale-100': active,
-                'scale-0': !active
-            }"
+            x-bind:class="[styles[style].cursor, active ? 'scale-100' : 'scale-0']"
         >
 
-            <i
-                class="{{ params.icon }}"
-                x-show="icon"
-                x-bind:class="icon"
-            >
-            </i>
+            <span x-show="icon" x-bind:class="styles[style].icon">
 
-            <span x-show="text" x-text="text"></span>
+                <i class="{{ params.icon }}" x-bind:class="icon"></i>
+
+            </span>
+
+            <span x-show="text" x-text="text" x-bind:class="styles[style].text"></span>
 
         </div>
 
@@ -84,10 +100,12 @@
 {% js %}
 
     document.addEventListener('alpine:init', () => {
-        Alpine.data('{{ params.component }}', () => ({
+        Alpine.data('{{ params.component }}', (styles = {}) => ({
             active: false,
             text: false,
             icon: false,
+            style: 'pill',
+            styles: styles,
             init() {
 
                 const _self = this;
