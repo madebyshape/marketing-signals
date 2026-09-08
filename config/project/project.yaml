@@ -143,6 +143,7 @@ meta:
   __names__:
     0b4c11ad-51c9-43b6-a7cd-47a988cc8821: 'Contact Column' # Contact Column
     0b199c11-0b79-4e4b-b931-f9c85e23a667: Button # Button
+    1d852893-eb82-4886-afbd-030682a843f8: 'Entries - Testimonial' # Entries - Testimonial
     01db3114-eb35-4fde-a697-e47250abb979: Playbook # Playbook
     1e8bf0d4-be2b-4c71-8c62-e6cbe9bc401d: Email # Email
     1e92fbd1-878b-44df-b3fc-d00b32474e6d: 'Entry - FAQ' # Entry - FAQ
@@ -189,6 +190,7 @@ meta:
     77b77dda-5b66-418a-8f88-158a1830c6cd: 'Entry - Blog Listing' # Entry - Blog Listing
     87b41f87-eee1-44ce-8484-cae9e5b58b3b: 'Entries - Client' # Entries - Client
     93bb0c13-89fe-4d68-9853-576b7d1238a6: 'Entry Site' # Entry Site
+    101f8024-59d6-48df-9744-ccf3da6ef824: 'Dropdown - Star Rating' # Dropdown - Star Rating
     298fa7b6-abc0-4c80-a004-8fa35a30bf35: 'Button Group' # Button Group
     443a1739-83a4-481f-bcf4-71cd0d14bb00: 'Entry - Blog' # Entry - Blog
     453f9294-407d-405a-b73b-d5b63aec2eaa: SEO # SEO
@@ -242,12 +244,13 @@ meta:
     ea300912-bfa1-429b-9212-ba39329d1960: 'Stacking Card' # Stacking Card
     eb5e339e-d658-4112-9895-62287412dd93: 'Image Columns (Max 2)' # Image Columns (Max 2)
     ecf96135-0c9d-4684-888c-9e3bd7def9bc: 'Longform Button Group' # Longform Button Group
+    ed7d1592-7563-4406-aba9-cbdf547d198d: 'Elements - Testimonial' # Elements - Testimonial
     ee7c6ba5-113d-47b8-aac7-4d8e6018f645: 'Heading Reveal' # Heading Reveal
     eebfd246-f9aa-4d59-99e5-d4aaba54acba: 'Entry - Brand Guidelines' # Entry - Brand Guidelines
     f3e544b8-88bf-4761-8df2-d767fa1502b7: Text # Text
     f7b5b560-85eb-4827-a39b-b24c863ae5c3: 'Links To - No Label' # Links To - No Label
-    f54fdb7f-5fd1-41e9-a4c3-63791f1316b8: 'Marquee - Client' # Marquee - Client
     f18e57cc-fd7c-4892-a604-aa68a1598318: 'Stacking Cards' # Stacking Cards
+    f54fdb7f-5fd1-41e9-a4c3-63791f1316b8: 'Marquee - Client' # Marquee - Client
     fa2d89b4-fa6d-48d3-b36a-7169022cd64d: Client # Client
     fb0420bb-0fbf-46d2-afd2-f7992c60c886: 'Contact Form' # Contact Form
 plugins:
