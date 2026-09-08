@@ -318,6 +318,40 @@ _Avoid_: Tile, card, slot, item, logo box
 The continuous sideways motion of a Logo Row that never stops, leftwards in the first row and rightwards in the second, pausing while the pointer is over the row. Under reduced motion the rows sit still.
 _Avoid_: Marquee, scroll, ticker, autoplay, loop
 
+### Video Content
+
+**Video Content**:
+A Block of a Poster beside an Eyebrow with a Rule, a heading with the Highlight, two Text Columns and a Button Group, set in a black panel inside the site margins with the Squiggle at its bottom right. Clicking the Poster opens the Video Modal.
+_Avoid_: Video block, video and text, media text, feature video
+
+**Poster**:
+The still image that stands in for a video before it plays, with the Play Button over it. Set by editors on the Video field.
+_Avoid_: Thumbnail, cover, placeholder, video image
+
+**Play Button**:
+The lilac circle with a play glyph centred on a Poster.
+_Avoid_: Play icon, CTA, trigger
+
+**Video Modal**:
+The full-screen overlay that opens from a Poster and holds a Video Player, closed by its close button, its backdrop or Escape.
+_Avoid_: Lightbox, popup, overlay, dialog
+
+**Video Player**:
+The reusable component that plays a video from any Provider with the same Controls. The Video Modal is its first use.
+_Avoid_: Embed, iframe, player wrapper
+
+**Provider**:
+Where a video comes from: Vimeo, YouTube or an uploaded File.
+_Avoid_: Source, platform, host, type
+
+**Controls**:
+The Video Player's own play/pause, mute, fullscreen, progress bar and time labels, the same for every Provider.
+_Avoid_: Native controls, player UI, chrome
+
+**Text Columns**:
+The two side-by-side rich text columns beneath a heading, one column below the tablet breakpoint. A column with no content leaves its half empty.
+_Avoid_: Body copy, two-col text, paragraphs, intro text
+
 ### Seeding
 
 **Seed**:
