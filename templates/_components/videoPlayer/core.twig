@@ -1,0 +1,150 @@
+{% set component = 'videoPlayer' %}
+
+{# Output #}
+
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', (props) => ({
+
+            visible: false,
+            ready: false,
+            playing: false,
+            muted: false,
+            currentTime: 0,
+            duration: 0,
+            fullscreen: false,
+            adapter: null,
+
+            init() {
+
+                // Hardware media keys would otherwise fight the Controls.
+                if (navigator.mediaSession) {
+                    ['play', 'pause', 'seekbackward', 'seekforward', 'previoustrack', 'nexttrack'].forEach((action) => {
+                        try {
+                            navigator.mediaSession.setActionHandler(action, () => {});
+                        } catch (error) {}
+                    });
+                }
+
+                ['fullscreenchange', 'webkitfullscreenchange'].forEach((event) => {
+                    document.addEventListener(event, () => {
+                        const element = document.fullscreenElement || document.webkitFullscreenElement;
+                        this.fullscreen = element === this.$refs.panel;
+                    });
+                });
+
+            },
+
+            // The Provider is only created on the first open, so the page loads without an embed.
+            create() {
+
+                const provider = window.videoPlayerProviders ? window.videoPlayerProviders[props.provider] : null;
+
+                if (!provider) return;
+
+                this.adapter = provider.create(this.$refs.video, {
+                    videoId: props.videoId,
+                    videoHash: props.videoHash,
+                    videoSrc: props.videoSrc,
+                    onReady: (duration) => {
+                        this.ready = true;
+                        this.duration = duration || 0;
+                        this.adapter.unmute();
+                        this.adapter.play();
+                    },
+                    onPlay: () => { this.playing = true; },
+                    onPause: () => { this.playing = false; },
+                    onEnded: () => { this.playing = false; },
+                    onTimeUpdate: (current, duration) => {
+                        this.currentTime = current || 0;
+                        if (duration) this.duration = duration;
+                    }
+                });
+
+            },
+
+            open() {
+
+                this.visible = true;
+                document.body.classList.add('overflow-hidden');
+
+                // The close button is only focusable once x-show has revealed the modal.
+                this.$nextTick(() => this.$refs.close.focus());
+
+                this.adapter ? this.adapter.play() : this.create();
+
+            },
+
+            close() {
+
+                if (!this.visible) return;
+
+                this.visible = false;
+                document.body.classList.remove('overflow-hidden');
+
+                if (this.adapter) this.adapter.pause();
+
+                this.$refs.poster.focus();
+
+            },
+
+            togglePlay() {
+                if (!this.adapter) return;
+                this.playing ? this.adapter.pause() : this.adapter.play();
+            },
+
+            toggleMute() {
+                if (!this.adapter) return;
+                this.muted ? this.adapter.unmute() : this.adapter.mute();
+                this.muted = !this.muted;
+            },
+
+            seek(event) {
+
+                if (!this.adapter || !this.duration) return;
+
+                const bounds = event.currentTarget.getBoundingClientRect();
+                const fraction = Math.min(Math.max((event.clientX - bounds.left) / bounds.width, 0), 1);
+
+                this.adapter.seek(fraction * this.duration);
+
+            },
+
+            // Fullscreen takes the panel, not the video, so the Controls stay on top of it.
+            toggleFullscreen() {
+
+                const panel = this.$refs.panel;
+
+                if (document.fullscreenElement || document.webkitFullscreenElement) {
+                    const exit = document.exitFullscreen || document.webkitExitFullscreen;
+                    if (exit) exit.call(document);
+                    return;
+                }
+
+                const request = panel.requestFullscreen || panel.webkitRequestFullscreen;
+                if (request) request.call(panel);
+
+            },
+
+            formatTime(seconds) {
+
+                const total = Math.floor(!seconds || isNaN(seconds) || seconds < 0 ? 0 : seconds);
+                const hours = Math.floor(total / 3600);
+                const minutes = Math.floor((total % 3600) / 60);
+                const remainder = String(total % 60).padStart(2, '0');
+
+                return hours > 0
+                    ? hours + ':' + String(minutes).padStart(2, '0') + ':' + remainder
+                    : minutes + ':' + remainder;
+
+            },
+
+            get progress() {
+                return this.duration ? (this.currentTime / this.duration) * 100 : 0;
+            }
+
+        }))
+    })
+
+{% endjs %}

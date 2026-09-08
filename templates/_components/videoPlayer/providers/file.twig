@@ -1,0 +1,41 @@
+{# Output #}
+
+{% js %}
+
+    window.videoPlayerProviders = window.videoPlayerProviders || {};
+
+    window.videoPlayerProviders.file = {
+
+        create(element, options) {
+
+            const video = document.createElement('video');
+
+            video.src = options.videoSrc;
+            video.preload = 'none';
+            video.playsInline = true;
+            video.setAttribute('playsinline', '');
+
+            video.addEventListener('loadedmetadata', () => options.onReady(video.duration));
+            video.addEventListener('play', () => options.onPlay());
+            video.addEventListener('pause', () => options.onPause());
+            video.addEventListener('ended', () => options.onEnded());
+            video.addEventListener('timeupdate', () => options.onTimeUpdate(video.currentTime, video.duration));
+
+            element.appendChild(video);
+
+            // Nothing is fetched until this first open, so playing is what starts the download.
+            video.play().catch(() => {});
+
+            return {
+                play() { video.play().catch(() => {}); },
+                pause() { video.pause(); },
+                seek(seconds) { video.currentTime = seconds; },
+                mute() { video.muted = true; },
+                unmute() { video.muted = false; video.volume = 1; }
+            };
+
+        }
+
+    };
+
+{% endjs %}
