@@ -57,61 +57,67 @@
 
 {# Output #}
 
-<div
-    class="{{ classes.backdrop|join(' ')|trim }}"
-    role="dialog"
-    aria-modal="true"
-    aria-label="{{ params.label }}"
-    x-cloak
-    x-show="visible"
-    x-transition:enter="motion-safe:transition-opacity motion-safe:ease-out motion-safe:duration-200"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="motion-safe:transition-opacity motion-safe:ease-in motion-safe:duration-150"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    x-on:click.self="close()"
-    x-on:keydown.escape.window="close()"
->
+{# Teleported out, or the Block panel's own stacking context keeps the backdrop under the header. #}
 
-    {# buttonShape is relative, so the corner placement sits on a wrapper. #}
+<template x-teleport="body">
 
-    {% set closeAttributes = 'aria-label="Close video" x-ref="close" x-on:click="close()"' %}
+    <div
+        class="{{ classes.backdrop|join(' ')|trim }}"
+        role="dialog"
+        aria-modal="true"
+        aria-label="{{ params.label }}"
+        x-cloak
+        x-show="visible"
+        x-transition:enter="motion-safe:transition-opacity motion-safe:ease-out motion-safe:duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="motion-safe:transition-opacity motion-safe:ease-in motion-safe:duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        x-on:click.self="close()"
+        x-on:keydown.escape.window="close()"
+    >
 
-    <div class="{{ classes.close|join(' ')|trim }}">
+        {# buttonShape is relative, so the corner placement sits on a wrapper. #}
 
-        {% include '_components/buttonShape' with {
-            params: {
-                type: 'button',
-                button: { value: '#' },
-                colour: 'creme-100',
-                icon: 'fa-sharp fa-regular fa-xmark',
-                attributes: closeAttributes
-            }
-        } only %}
+        {% set closeAttributes = 'aria-label="Close video" x-ref="close" x-on:click="close()"' %}
 
-    </div>
+        <div class="{{ classes.close|join(' ')|trim }}">
 
-    <div class="{{ classes.panel|join(' ')|trim }}" x-ref="panel">
+            {% include '_components/buttonShape' with {
+                params: {
+                    type: 'button',
+                    button: { value: '#' },
+                    colour: 'creme-100',
+                    icon: 'fa-sharp fa-regular fa-xmark',
+                    attributes: closeAttributes
+                }
+            } only %}
 
-        {# The Provider fills this on the first open. #}
+        </div>
 
-        <div class="{{ classes.video|join(' ')|trim }}" x-ref="video"></div>
+        <div class="{{ classes.panel|join(' ')|trim }}" x-ref="panel">
 
-        <div
-            class="{{ classes.gradient|join(' ')|trim }}"
-            x-bind:class="{ 'xl:opacity-100': !playing }"
-        ></div>
+            {# The Provider fills this on the first open. #}
 
-        <div
-            class="{{ classes.controls|join(' ')|trim }}"
-            x-bind:class="{ 'xl:opacity-100': !playing }"
-        >
+            <div class="{{ classes.video|join(' ')|trim }}" x-ref="video"></div>
 
-            {% include '_components/videoPlayer/controls' only %}
+            <div
+                class="{{ classes.gradient|join(' ')|trim }}"
+                x-bind:class="{ 'xl:opacity-100': !playing }"
+            ></div>
+
+            <div
+                class="{{ classes.controls|join(' ')|trim }}"
+                x-bind:class="{ 'xl:opacity-100': !playing }"
+            >
+
+                {% include '_components/videoPlayer/controls' only %}
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
+</template>
