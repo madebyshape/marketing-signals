@@ -18,6 +18,8 @@
     responsive: 'xl:opacity-0 xl:group-hover:opacity-100'
 } %}
 
+{# The video slot ignores the pointer, so a Provider's own hover chrome never appears over the Controls. #}
+
 {% set classes = {
     backdrop: [
         'fixed inset-0 z-100 flex items-center justify-center bg-black/80 backdrop-blur-sm',
@@ -36,7 +38,7 @@
         '[&:fullscreen]:w-full [&:fullscreen]:max-w-none [&:fullscreen]:h-screen [&:fullscreen]:aspect-auto [&:fullscreen]:rounded-none'
     ],
     video: [
-        'absolute inset-0 z-0 [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:size-full'
+        'absolute inset-0 z-0 pointer-events-none [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:size-full [&_video]:absolute [&_video]:inset-0 [&_video]:size-full [&_video]:object-contain'
     ],
     gradient: [
         'absolute inset-x-0 bottom-0 z-10 h-40 pointer-events-none bg-linear-to-t from-black/80 to-transparent',

@@ -5,6 +5,7 @@
 {% set defaultParams = {
     video: null,
     videoUrl: null,
+    videoFile: null,
     poster: null,
     posterClass: null,
     transform: '3x4',
@@ -21,11 +22,15 @@
 {# Video #}
 
 {% set videoUrl = params.video ? params.video.videoUrl : params.videoUrl %}
+{% set videoType = params.video ? params.video.videoType.value : null %}
+{% set videoFile = params.video ? (videoType == 'file' ? params.video.videoFile.one() : null) : params.videoFile %}
 {% set poster = params.video ? params.video.videoThumbnail.one() : params.poster %}
 
 {# Provider #}
 
-{% set path = videoUrl|length ? videoUrl|split('?')|first|split('#')|first|trim('/') : '' %}
+{% set url = videoUrl|length ? videoUrl|trim|split('#')|first : '' %}
+{% set path = url|split('?')|first|trim('/') %}
+{% set query = '&' ~ ('?' in url ? url|split('?')|last : '') %}
 
 {% set vimeoPath = 'player.vimeo.com/video/' in path
     ? path|split('player.vimeo.com/video/')|last
@@ -33,18 +38,37 @@
 
 {% set vimeoSegments = vimeoPath|length ? vimeoPath|split('/') : [] %}
 
-{% set videoId = (vimeoSegments|length and (vimeoSegments|first matches '/^[0-9]+$/')) ? vimeoSegments|first : null %}
+{% set vimeoId = (vimeoSegments|length and (vimeoSegments|first matches '/^[0-9]+$/')) ? vimeoSegments|first : null %}
 
 {# An unlisted Vimeo carries its hash as a second segment, which the player needs. #}
 
-{% set videoHash = (videoId and vimeoSegments|length > 1) ? vimeoSegments[1] : null %}
+{% set videoHash = (vimeoId and vimeoSegments|length > 1) ? vimeoSegments[1] : null %}
 
-{% set provider = videoId ? 'vimeo' : null %}
+{% set youtubePath = '' %}
+
+{% if 'youtu.be/' in path %}
+    {% set youtubePath = path|split('youtu.be/')|last %}
+{% elseif 'youtube.com/' in path or 'youtube-nocookie.com/' in path %}
+    {% if '/shorts/' in path %}
+        {% set youtubePath = path|split('/shorts/')|last %}
+    {% elseif '/embed/' in path %}
+        {% set youtubePath = path|split('/embed/')|last %}
+    {% elseif '&v=' in query %}
+        {% set youtubePath = query|split('&v=')|last %}
+    {% endif %}
+{% endif %}
+
+{% set youtubeSegment = youtubePath|length ? youtubePath|split('/')|first|split('&')|first : '' %}
+
+{% set youtubeId = youtubeSegment matches '/^[A-Za-z0-9_-]{6,}$/' ? youtubeSegment : null %}
+
+{% set provider = videoFile ? 'file' : (vimeoId ? 'vimeo' : (youtubeId ? 'youtube' : null)) %}
 
 {% set props = {
     provider: provider,
-    videoId: videoId,
-    videoHash: videoHash
+    videoId: vimeoId ?? youtubeId,
+    videoHash: videoHash,
+    videoSrc: videoFile ? videoFile.url : null
 } %}
 
 {# Classes #}

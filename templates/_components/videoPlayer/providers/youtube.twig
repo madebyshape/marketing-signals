@@ -1,0 +1,96 @@
+{# Output #}
+
+{% js 'https://www.youtube.com/iframe_api' %}
+
+{% js %}
+
+    window.videoPlayerProviders = window.videoPlayerProviders || {};
+
+    window.videoPlayerProviders.youtube = {
+
+        // The API calls one global hook, so every player on the page waits on the same promise.
+        ready() {
+
+            if (window.YT && window.YT.Player) return Promise.resolve();
+
+            window.videoPlayerYouTubeReady = window.videoPlayerYouTubeReady || new Promise((resolve) => {
+                const previous = window.onYouTubeIframeAPIReady;
+                window.onYouTubeIframeAPIReady = () => {
+                    if (previous) previous();
+                    resolve();
+                };
+            });
+
+            return window.videoPlayerYouTubeReady;
+
+        },
+
+        create(element, options) {
+
+            let player = null;
+            let timer = null;
+
+            // The API replaces this element with the iframe, so it cannot be the ref itself.
+            const target = document.createElement('div');
+
+            element.appendChild(target);
+
+            const track = (on) => {
+                clearInterval(timer);
+                if (on) timer = setInterval(() => options.onTimeUpdate(player.getCurrentTime(), player.getDuration()), 250);
+            };
+
+            this.ready().then(() => {
+                new YT.Player(target, {
+                    host: 'https://www.youtube-nocookie.com',
+                    videoId: options.videoId,
+                    playerVars: {
+                        autoplay: 1,
+                        controls: 0,
+                        disablekb: 1,
+                        modestbranding: 1,
+                        playsinline: 1,
+                        rel: 0,
+                        origin: window.location.origin
+                    },
+                    events: {
+                        onReady: (event) => {
+                            player = event.target;
+                            options.onReady(player.getDuration());
+                        },
+                        onStateChange: (event) => {
+                            player = event.target;
+                            if (event.data === YT.PlayerState.PLAYING) {
+                                options.onPlay();
+                                track(true);
+                            }
+                            if (event.data === YT.PlayerState.PAUSED) {
+                                options.onPause();
+                                track(false);
+                            }
+                            if (event.data === YT.PlayerState.ENDED) {
+                                options.onEnded();
+                                track(false);
+                            }
+                        }
+                    }
+                });
+            });
+
+            return {
+                play() { if (player) player.playVideo(); },
+                pause() { if (player) player.pauseVideo(); },
+                seek(seconds) {
+                    if (!player) return;
+                    player.seekTo(seconds, true);
+                    options.onTimeUpdate(seconds, player.getDuration());
+                },
+                mute() { if (player) player.mute(); },
+                unmute() { if (player) { player.unMute(); player.setVolume(100); } }
+            };
+
+        }
+
+    };
+
+{% endjs %}

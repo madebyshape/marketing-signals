@@ -46,6 +46,7 @@
                 this.adapter = provider.create(this.$refs.video, {
                     videoId: props.videoId,
                     videoHash: props.videoHash,
+                    videoSrc: props.videoSrc,
                     onReady: (duration) => {
                         this.ready = true;
                         this.duration = duration || 0;
