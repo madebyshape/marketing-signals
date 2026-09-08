@@ -38,6 +38,13 @@
 {# Classes #}
 
 {% set blockClasses = {
+    sink: 'relative',
+    sinkHeader: [
+        vars is defined ? vars.class.header.top : 'top-20 | xl:top-[123px]',
+        '|',
+        'lg:sticky'
+    ],
+    gradient: 'absolute inset-0 hidden pointer-events-none bg-linear-to-t from-creme-100 to-transparent | lg:block',
     badge: 'flex items-center justify-center mb-7.5',
     mark: 'shrink-0 size-[17px]',
     stars: 'flex items-center gap-0.75 ml-1.5 text-2xs text-yellow',
@@ -49,7 +56,7 @@
         'md:text-6xl | lg:text-8xl'
     ],
     grid: [
-        'grid grid-cols-1 gap-5 mt-10',
+        'relative grid grid-cols-1 gap-5 mt-10',
         '|',
         'md:grid-cols-2',
         '|',
@@ -78,134 +85,146 @@
     %}
         {% block sectionContent %}
 
-            {% if rating %}
+            <div class="{{ blockClasses.sink }}">
 
-                <div class="{{ blockClasses.badge }}">
+                <div class="{{ blockClasses.sinkHeader|join(' ')|trim }}">
 
-                    {% include '_components/logoGoogle' with {
-                        params: {
-                            class: blockClasses.mark
-                        }
-                    } only %}
+                    {% if rating %}
 
-                    <div class="{{ blockClasses.stars }}" aria-hidden="true">
+                        <div class="{{ blockClasses.badge }}">
 
-                        {% if fullStars %}
-
-                            {% for star in 1..fullStars %}
-
-                                <i class="fa-sharp fa-solid fa-star"></i>
-
-                            {% endfor %}
-
-                        {% endif %}
-
-                        {% if halfStar %}
-
-                            <i class="fa-sharp fa-solid fa-star-half-stroke"></i>
-
-                        {% endif %}
-
-                    </div>
-
-                    <span class="sr-only">Rated {{ rating }} out of 5 stars</span>
-
-                    {% if reviewText %}
-
-                        <div class="{{ blockClasses.divider }}"></div>
-
-                        {# Wrapped so the rich text component's full-width block shrinks to its own line. #}
-
-                        <div class="{{ blockClasses.reviewText }}">
-
-                            {% include '_components/richText' with {
+                            {% include '_components/logoGoogle' with {
                                 params: {
-                                    content: reviewText,
-                                    colour: 'black-links',
-                                    size: 'sm'
+                                    class: blockClasses.mark
                                 }
                             } only %}
+
+                            <div class="{{ blockClasses.stars }}" aria-hidden="true">
+
+                                {% if fullStars %}
+
+                                    {% for star in 1..fullStars %}
+
+                                        <i class="fa-sharp fa-solid fa-star"></i>
+
+                                    {% endfor %}
+
+                                {% endif %}
+
+                                {% if halfStar %}
+
+                                    <i class="fa-sharp fa-solid fa-star-half-stroke"></i>
+
+                                {% endif %}
+
+                            </div>
+
+                            <span class="sr-only">Rated {{ rating }} out of 5 stars</span>
+
+                            {% if reviewText %}
+
+                                <div class="{{ blockClasses.divider }}"></div>
+
+                                {# Wrapped so the rich text component's full-width block shrinks to its own line. #}
+
+                                <div class="{{ blockClasses.reviewText }}">
+
+                                    {% include '_components/richText' with {
+                                        params: {
+                                            content: reviewText,
+                                            colour: 'black-links',
+                                            size: 'sm'
+                                        }
+                                    } only %}
+
+                                </div>
+
+                            {% endif %}
 
                         </div>
 
                     {% endif %}
 
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h2',
+                            heading: entry.heading,
+                            size: '4xl',
+                            class: blockClasses.heading|join(' ')|trim
+                        }
+                    } only %}
+
                 </div>
 
-            {% endif %}
+                {# Painted over the Section Header and under the cards, so the heading dims as it sinks. #}
 
-            {% include '_components/headingAlternate' with {
-                params: {
-                    tag: 'h2',
-                    heading: entry.heading,
-                    size: '4xl',
-                    class: blockClasses.heading|join(' ')|trim
-                }
-            } only %}
+                <div class="{{ blockClasses.gradient }}"></div>
 
-            <div class="{{ blockClasses.grid|join(' ')|trim }}">
+                <div class="{{ blockClasses.grid|join(' ')|trim }}">
 
-                {% for testimonial in testimonials %}
+                    {% for testimonial in testimonials %}
 
-                    {% set slot = cycle(blockOptions.slot, loop.index0) %}
-                    {% set avatar = testimonial.avatar.one() %}
-                    {% set logo = testimonial.logo.one() %}
+                        {% set slot = cycle(blockOptions.slot, loop.index0) %}
+                        {% set avatar = testimonial.avatar.one() %}
+                        {% set logo = testimonial.logo.one() %}
 
-                    {% set cardClasses = [
-                        blockClasses.card.base,
-                        slot.card,
-                        '|',
-                        blockClasses.card.scatter,
-                        slot.position
-                    ] %}
+                        {% set cardClasses = [
+                            blockClasses.card.base,
+                            slot.card,
+                            '|',
+                            blockClasses.card.scatter,
+                            slot.position
+                        ] %}
 
-                    <div class="{{ cardClasses|join(' ')|trim }}">
+                        <div class="{{ cardClasses|join(' ')|trim }}">
 
-                        <div class="{{ blockClasses.cardHeader }}">
+                            <div class="{{ blockClasses.cardHeader }}">
 
-                            {% if testimonial.testimonialName|length or avatar %}
+                                {% if testimonial.testimonialName|length or avatar %}
 
-                                {% include '_components/user' with {
-                                    params: {
-                                        image: avatar,
-                                        heading: testimonial.testimonialName,
-                                        subHeading: testimonial.testimonialJobRole,
-                                        colour: slot.avatar
-                                    }
-                                } only %}
+                                    {% include '_components/user' with {
+                                        params: {
+                                            image: avatar,
+                                            heading: testimonial.testimonialName,
+                                            subHeading: testimonial.testimonialJobRole,
+                                            colour: slot.avatar
+                                        }
+                                    } only %}
 
-                            {% endif %}
+                                {% endif %}
 
-                            {% if logo %}
+                                {% if logo %}
 
-                                {# Inline so the Logo takes the card's text colour. #}
+                                    {# Inline so the Logo takes the card's text colour. #}
 
-                                {% include '_components/picture' with {
-                                    params: {
-                                        image: logo,
-                                        transform: 'noRatio',
-                                        ratio: false,
-                                        svgInline: true,
-                                        imgClass: blockClasses.logo
-                                    }
-                                } only %}
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: logo,
+                                            transform: 'noRatio',
+                                            ratio: false,
+                                            svgInline: true,
+                                            imgClass: blockClasses.logo
+                                        }
+                                    } only %}
 
-                            {% endif %}
+                                {% endif %}
+
+                            </div>
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: testimonial.text,
+                                    colour: slot.quote,
+                                    size: 'xl',
+                                    class: blockClasses.quote
+                                }
+                            } only %}
 
                         </div>
 
-                        {% include '_components/richText' with {
-                            params: {
-                                content: testimonial.text,
-                                colour: slot.quote,
-                                size: 'xl',
-                                class: blockClasses.quote
-                            }
-                        } only %}
+                    {% endfor %}
 
-                    </div>
-
-                {% endfor %}
+                </div>
 
             </div>
 
