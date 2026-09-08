@@ -187,6 +187,7 @@ meta:
     74eb57f4-3401-46b7-a35b-e2a75fee9c63: Button # Button
     75cd72a0-08d7-4e62-987d-3380ee5a0722: 'Entry - FAQ Listing' # Entry - FAQ Listing
     77b77dda-5b66-418a-8f88-158a1830c6cd: 'Entry - Blog Listing' # Entry - Blog Listing
+    87b41f87-eee1-44ce-8484-cae9e5b58b3b: 'Entries - Client' # Entries - Client
     93bb0c13-89fe-4d68-9853-576b7d1238a6: 'Entry Site' # Entry Site
     298fa7b6-abc0-4c80-a004-8fa35a30bf35: 'Button Group' # Button Group
     443a1739-83a4-481f-bcf4-71cd0d14bb00: 'Entry - Blog' # Entry - Blog
@@ -245,6 +246,7 @@ meta:
     eebfd246-f9aa-4d59-99e5-d4aaba54acba: 'Entry - Brand Guidelines' # Entry - Brand Guidelines
     f3e544b8-88bf-4761-8df2-d767fa1502b7: Text # Text
     f7b5b560-85eb-4827-a39b-b24c863ae5c3: 'Links To - No Label' # Links To - No Label
+    f54fdb7f-5fd1-41e9-a4c3-63791f1316b8: 'Marquee - Client' # Marquee - Client
     f18e57cc-fd7c-4892-a604-aa68a1598318: 'Stacking Cards' # Stacking Cards
     fa2d89b4-fa6d-48d3-b36a-7169022cd64d: Client # Client
     fb0420bb-0fbf-46d2-afd2-f7992c60c886: 'Contact Form' # Contact Form

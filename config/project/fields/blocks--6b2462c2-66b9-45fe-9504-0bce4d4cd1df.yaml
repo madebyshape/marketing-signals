@@ -52,6 +52,14 @@ settings:
       __assoc__:
         -
           - uid
+          - f54fdb7f-5fd1-41e9-a4c3-63791f1316b8 # Marquee - Client
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - a644e662-8b0e-44bd-bbac-da76b709e24f # Statistics
         -
           - group

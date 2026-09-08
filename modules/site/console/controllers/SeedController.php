@@ -8,14 +8,15 @@ use modules\site\seed\BlockSeeder;
 use modules\site\seed\Seed;
 use modules\site\seed\SeedEntryOutcome;
 use modules\site\seed\SeedException;
+use modules\site\seed\SeedFieldOutcome;
 use modules\site\seed\SeedImageOutcome;
 use modules\site\seed\SeedOutcome;
 use modules\site\seed\SeedRelationOutcome;
 use yii\console\ExitCode;
 
 /**
- * Adds Blocks with real content to an entry on the development site, so a Block can be reviewed
- * without anyone touching the control panel.
+ * Adds Blocks with real content to an entry on the development site, and sets fields on the
+ * entry itself, so a Block can be reviewed without anyone touching the control panel.
  *
  * @see docs/specs/content-seeding.md
  */
@@ -32,7 +33,8 @@ class SeedController extends Controller
     }
 
     /**
-     * Adds a Seed's Blocks to the entry it names, skipping any Block already seeded.
+     * Sets a Seed's entry fields and adds its Blocks to the entry it names, skipping any Block
+     * already seeded.
      *
      * @param string $path Path to the Seed file.
      */
@@ -62,17 +64,24 @@ class SeedController extends Controller
             $this->outputRelation($relation);
         }
 
+        // The entry's own fields follow the images they name, and come before the Blocks, which
+        // is the order they are written in.
+        foreach ($report->fields as $field) {
+            $this->outputField($field);
+        }
+
         foreach ($report->blocks as $outcome) {
             $this->outputOutcome($outcome);
         }
 
         $this->stdout(sprintf(
-            "%d created, %d skipped, %d uploaded, %d reused, %d resolved%s.\n",
+            "%d created, %d skipped, %d uploaded, %d reused, %d resolved, %d set%s.\n",
             count(array_filter($report->blocks, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::CREATED)),
             count(array_filter($report->blocks, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::SKIPPED)),
             count(array_filter($report->images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::UPLOADED)),
             count(array_filter($report->images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::REUSED)),
             count($report->relations),
+            count($report->fields),
             $this->dryRun ? ' — dry run, nothing written' : '',
         ));
 
@@ -93,6 +102,18 @@ class SeedController extends Controller
     {
         $this->stdout(sprintf('%-9s', $image->action), $image->action === SeedImageOutcome::UPLOADED ? Console::FG_GREEN : Console::FG_YELLOW);
         $this->stdout("{$image->filename}\n", Console::FG_GREY);
+    }
+
+    /**
+     * One line per field the Seed set on the entry itself, so a Client Seed says what it wrote
+     * even though it carries no Blocks at all.
+     */
+    private function outputField(SeedFieldOutcome $field): void
+    {
+        $this->stdout(sprintf('%-9s', SeedFieldOutcome::SET), Console::FG_GREEN);
+        $this->stdout('field  ');
+        $this->stdout("“{$field->handle}”", Console::FG_GREY);
+        $this->stdout("  on “{$field->slug}”\n", Console::FG_CYAN);
     }
 
     /**

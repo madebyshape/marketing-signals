@@ -12,10 +12,11 @@ use craft\fields\PlainText;
 use craft\models\EntryType;
 
 /**
- * Applies a Seed: adds its Blocks to the target entry's Matrix field, skipping any Block it has
- * already added. A Block goes on the end unless it names the entry type it follows, in which
- * case it is inserted after the last Block of that type. The entry itself is found — or created,
- * or switched to another type — by the EntrySeeder first.
+ * Applies a Seed: sets the fields it names on the target entry, and adds its Blocks to that
+ * entry's Matrix field, skipping any Block it has already added. A Block goes on the end unless
+ * it names the entry type it follows, in which case it is inserted after the last Block of that
+ * type. The entry itself is found — or created, or switched to another type — by the EntrySeeder
+ * first.
  *
  * Every Block is built and validated before anything is written, and the entry is saved once,
  * so a bad Seed cannot half-apply. A dry run does the same work and saves nothing.
@@ -29,12 +30,20 @@ class BlockSeeder
     {
         $entries = new EntrySeeder($seed, $dryRun);
         $entry = $entries->entry();
-        $field = $this->findField($entry, $seed->field);
 
         $assets = new AssetResolver($seed->volume, $seed->directory(), $dryRun);
         $relations = new EntriesResolver();
         $resolver = new ValueResolver($assets, $relations);
 
+        $fields = $this->applyEntryFields($entry, $seed, $resolver, $dryRun);
+
+        // A Seed that only sets entry fields never looks for a Matrix field, so it can target an
+        // entry type that has none.
+        if ($seed->blocks === []) {
+            return new SeedReport($entries->outcomes(), $fields, [], $assets->outcomes(), $relations->outcomes());
+        }
+
+        $field = $this->findField($entry, $seed->field);
         $blocks = $this->existingBlocks($entry, $field);
         $keys = array_map(fn(Entry $block): string => $this->keyFor($block->getType(), $this->matchTextOf($block)), $blocks);
 
@@ -72,7 +81,50 @@ class BlockSeeder
             $this->save($entry, $field, $blocks);
         }
 
-        return new SeedReport($entries->outcomes(), $outcomes, $assets->outcomes(), $relations->outcomes());
+        return new SeedReport($entries->outcomes(), $fields, $outcomes, $assets->outcomes(), $relations->outcomes());
+    }
+
+    /**
+     * Sets the Seed's own `fields` on the target entry, resolved against the entry's field layout
+     * by the same rules as a Block's fields, and saves it. A field is written every run: the
+     * value resolves the same way each time — an image by filename in the Seed's volume — so a
+     * rerun writes nothing new. A dry run resolves, reports and saves nothing.
+     *
+     * @return SeedFieldOutcome[] one per field the Seed named, in Seed order.
+     * @throws SeedException if the entry has no field of that handle, or the value is wrong for it.
+     */
+    private function applyEntryFields(Entry $entry, Seed $seed, ValueResolver $resolver, bool $dryRun): array
+    {
+        if ($seed->fields === []) {
+            return [];
+        }
+
+        $layout = $entry->getFieldLayout();
+        $values = [];
+        $outcomes = [];
+
+        foreach ($seed->fields as $handle => $value) {
+            $field = $layout?->getFieldByHandle($handle);
+
+            if ($field === null) {
+                throw new SeedException(sprintf(
+                    'Entry “%s” has no field “%s”.',
+                    $entry->title ?? $entry->slug,
+                    $handle,
+                ));
+            }
+
+            $values[$handle] = $resolver->resolve($field, $value);
+            $outcomes[] = new SeedFieldOutcome($handle, $seed->entry);
+        }
+
+        $this->applyValues($entry, $values);
+
+        if (!$dryRun) {
+            $this->saveEntry($entry);
+        }
+
+        return $outcomes;
     }
 
     /**
@@ -217,6 +269,14 @@ class BlockSeeder
         // Setting it back marks the field dirty, which is what makes Craft save the Blocks.
         $entry->setFieldValue($field->handle, $value);
 
+        $this->saveEntry($entry);
+    }
+
+    /**
+     * @throws SeedException naming the entry and everything Craft refused it for.
+     */
+    private function saveEntry(Entry $entry): void
+    {
         if (!Craft::$app->getElements()->saveElement($entry)) {
             throw new SeedException(sprintf(
                 "Entry “%s” could not be saved:\n%s",

@@ -1,0 +1,316 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Clients #}
+
+{# A Client is a title and a Logo, and a Logo is what a Logo Cell shows, so a Client without one
+   is left out of the rows and out of the list a screen reader hears. The Logo is resolved once
+   here rather than again in the rows, where each Client is drawn several times over. #}
+
+{% set clients = [] %}
+
+{% for client in entry.entriesClient.all() %}
+
+    {% set logo = client.logo.one() %}
+
+    {% if logo %}
+
+        {% set clients = clients|merge([{
+            title: client.title,
+            logo: logo
+        }]) %}
+
+    {% endif %}
+
+{% endfor %}
+
+{# Logo Rows #}
+
+{# The Clients are split in listed order, the first half rounded up filling the first row. Each
+   row then repeats its Clients in order until it holds at least six Logo Cells, so a row is at
+   least 1920px wide at the desktop cell size and the widest supported viewport never shows a
+   gap at the end of it. #}
+
+{% set split = (clients|length / 2)|round(0, 'ceil') %}
+
+{% set logoRows = [
+    clients|slice(0, split),
+    clients|slice(split)
+] %}
+
+{% set cellMinimum = 6 %}
+
+{# Both rows Crawl at the same speed, held here so it can be tuned without touching the marquee
+   component every other caller shares. 0.4 on the component's scale is 40 pixels a second. #}
+
+{% set crawlSpeed = 0.4 %}
+
+{# Options #}
+
+{# The two rows differ in where they start, which way they Crawl and which edges they draw. The
+   first row starts at the viewport's left edge and Crawls leftwards; the second is shifted left
+   by half a cell and Crawls rightwards, so the two read as brickwork rather than a grid and as
+   two streams rather than one conveyor. Every cell draws its top and left edges, and a
+   second-row cell its bottom too, so the two rows together draw the design's grid: the line
+   between them is the second row's top edge alone, and no border is ever doubled. #}
+
+{% set blockOptions = {
+    row: {
+        first: {
+            offset: 'ml-0',
+            reversed: false,
+            cell: 'border-t border-l'
+        },
+        second: {
+            offset: '-ml-[90px] | md:-ml-[120px] lg:-ml-[160px]',
+            reversed: true,
+            cell: 'border-t border-b border-l'
+        }
+    }
+} %}
+
+{# Classes #}
+
+{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
+   named apart from it. The section's horizontal padding is off: the Section Header and Section
+   Footer carry the site margin themselves and the Logo Rows run edge to edge without it.
+
+   The header carries the gap to the rows on its own bottom margin, so a Block with no Eyebrow
+   and no heading takes that spacing with it and the rows sit at the top of the section. The
+   Eyebrow's own margin is only there when a heading follows it.
+
+   A row is wider than the viewport by design and the second starts outside it, so the rows are
+   clipped by their wrapper rather than pushing the page sideways.
+
+   The hover fill is the cell's own background and text colour under a fine pointer, and the Logo
+   is inline and takes `currentColor`, so the one transition carries both. The long duration is
+   the fade out, which the pointer's own hover shortens to 150ms, so the fill arrives at once and
+   lingers behind the pointer as it sweeps on. No per-cell state, and a coarse pointer never
+   matches the variant, so a tap leaves nothing lit. #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    header: [
+        'text-center mb-10',
+        '|',
+        'lg:mb-17.5'
+    ],
+    eyebrow: 'mb-7.5',
+    heading: [
+        'mx-auto max-w-[1010px] font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:text-8xl'
+    ],
+    rows: 'w-full overflow-hidden',
+    cell: [
+        'flex size-[180px] shrink-0 items-center justify-center border-creme-400 text-black transition-colors duration-2000 ease-out',
+        '|',
+        'pointer-fine:hover:bg-black pointer-fine:hover:text-fluro pointer-fine:hover:duration-150',
+        '|',
+        'md:size-[240px] | lg:size-[320px]'
+    ],
+    logo: 'h-auto max-h-[20%] w-auto max-w-[40%]',
+    footer: [
+        'flex flex-wrap items-center justify-center gap-5 mt-10',
+        '|',
+        'lg:mt-12.5'
+    ]
+} %}
+
+{# Output #}
+
+{# One Client is a single Logo Cell and an empty second row, which is not a marquee, so the field
+   asks for two and a Block left with fewer renderable Clients renders nothing at all, section
+   included. #}
+
+{% if clients|length >= 2 %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+            {% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+
+            {% if hasEyebrow or hasHeading %}
+
+                <div class="{{ blockClasses.margin }} {{ blockClasses.header|join(' ')|trim }}">
+
+                    {# An empty Eyebrow drops its row, and an empty heading drops its own. #}
+
+                    {% if hasEyebrow %}
+
+                        {% include '_components/eyebrow' with {
+                            params: {
+                                text: entry.eyebrow,
+                                colour: 'black',
+                                class: hasHeading ? blockClasses.eyebrow : ''
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    {% if hasHeading %}
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                colour: 'base',
+                                size: '4xl',
+                                alternateStyle: 'base',
+                                class: blockClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+            {# Every cell repeats and the Clients are split across two rows, so reading the rows
+               out would name each Client several times over and in an order nobody sees. The
+               rows are hidden from assistive technology and this list stands in for them,
+               naming each renderable Client once, in the order the editor set. #}
+
+            <ul class="sr-only">
+
+                {% for client in clients %}
+
+                    <li>{{ client.title }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+            <div
+                class="{{ blockClasses.rows }}"
+                aria-hidden="true"
+            >
+
+                {% for row in logoRows %}
+
+                    {% set rowStyle = loop.first ? blockOptions.row.first : blockOptions.row.second %}
+                    {% set repeats = (cellMinimum / row|length)|round(0, 'ceil') %}
+
+                    {# The offset is a margin on this wrapper rather than on the marquee, because
+                       a block-level box with no stated width grows by what its negative margin
+                       takes: the row still reaches the right-hand edge instead of ending half a
+                       cell short of it. Each row is its own marquee under its own Alpine name,
+                       taken from the Block handle and the row's index, so two Client Marquees on
+                       one page keep their loops and their pauses apart. #}
+
+                    <div class="{{ rowStyle.offset }}">
+
+                        {% embed '_components/marquee' with {
+                            params: {
+                                component: params.handle ~ loop.index,
+                                gap: 'none',
+                                props: {
+                                    reversed: rowStyle.reversed,
+                                    speed: crawlSpeed,
+                                    pauseOnHover: true
+                                }
+                            }
+                        } %}
+                            {% block marqueeContent %}
+
+                                {% for repeat in 1..repeats %}
+
+                                    {% for client in row %}
+
+                                        <div class="{{ [rowStyle.cell]|merge(blockClasses.cell)|join(' ')|trim }}">
+
+                                            {# The Logo is written into the page rather than
+                                               linked, so the cell's hover fill recolours it by
+                                               moving the text colour it takes. It is capped at
+                                               40% of the cell's width and 20% of its height,
+                                               which is the room the design leaves around the
+                                               widest and the tallest of them. The rows are
+                                               hidden from assistive technology, so the Logo
+                                               carries no alt of its own. #}
+
+                                            {% include '_components/picture' with {
+                                                params: {
+                                                    image: client.logo,
+                                                    alt: '',
+                                                    transform: 'noRatio',
+                                                    ratio: false,
+                                                    lazy: false,
+                                                    svgInline: true,
+                                                    imgClass: blockClasses.logo
+                                                }
+                                            } only %}
+
+                                        </div>
+
+                                    {% endfor %}
+
+                                {% endfor %}
+
+                            {% endblock %}
+                        {% endembed %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            {# A button with no link, or an Avatar Group with no name, drops that item; both
+               missing drops the row. #}
+
+            {% set avatar = entry.avatarGroup %}
+
+            {% if entry.button|length or avatar.avatarName|length %}
+
+                <div class="{{ blockClasses.margin }}">
+
+                    <div class="{{ blockClasses.footer|join(' ')|trim }}">
+
+                        {% include '_components/button' with {
+                            params: {
+                                button: entry.button,
+                                colour: 'secondary'
+                            }
+                        } only %}
+
+                        {% if avatar.avatarName|length %}
+
+                            {% include '_components/user' with {
+                                params: {
+                                    image: avatar.avatar.one(),
+                                    heading: avatar.avatarName,
+                                    subHeading: avatar.avatarJobRole,
+                                    colour: 'base',
+                                    size: 'sm'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

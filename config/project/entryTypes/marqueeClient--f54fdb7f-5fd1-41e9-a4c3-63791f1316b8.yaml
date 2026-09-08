@@ -1,0 +1,149 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  8b96b37e-3f8f-42de-b985-16d717016019:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: b3cbf7a3-a026-4553-8fa5-b44524160b27
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f37a501d-11b4-4599-b6a7-058221d26f2e
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 239254ea-ed0d-424a-9d83-44d266994955
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 94627485-e672-4f11-b077-c8d6b785e8d2
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 87b41f87-eee1-44ce-8484-cae9e5b58b3b # Entries - Client
+            handle: null
+            instructions: 'Two or more Clients. The first half fill the first row, the rest the second, in this order.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ac51826a-23da-4ba1-979c-42e044b56ae0
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: eb49972b-69f2-4ea1-937e-3508dbb1ad4d
+            userCondition: null
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c88f1551-813a-462e-8e48-34f55d2260f1
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c08276b4-951f-4222-9e12-73622b78b6e0 # Avatar Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d09dafbc-f34b-49dc-9fbc-6cb2f1cbe40e
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 4cc921ac-4808-42a7-9b0e-eccd2f2635e0
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-07T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d7b1688f-272e-41fc-88bf-006fb55d98d0
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: d999a883-daab-4eeb-b580-a8bc6c902fca
+        userCondition: null
+    thumbFieldKey: null
+handle: marqueeClient
+hasTitleField: false
+icon: grip
+name: 'Marquee - Client'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
