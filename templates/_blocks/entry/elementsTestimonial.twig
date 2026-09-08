@@ -1,0 +1,243 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Testimonials #}
+
+{% set testimonials = entry.entriesTestimonial.all()|filter(testimonial => testimonial.text|striptags|trim|length) %}
+
+{# Review Badge #}
+
+{% set rating = entry.googleReviews and entry.starRating|length ? entry.starRating.value : null %}
+{% set fullStars = rating ? rating|round(0, 'floor') : 0 %}
+{% set halfStar = rating ? rating != fullStars : false %}
+{% set reviewText = entry.googleReviewText|striptags|trim|length ? entry.googleReviewText : null %}
+
+{# Options #}
+
+{# Each Slot carries its colour, its column and the drop below its row's top. #}
+
+{% set blockOptions = {
+    slot: [
+        { card: 'bg-fluro text-black', quote: 'black', avatar: 'base', position: 'lg:col-start-1' },
+        { card: 'bg-secondary text-black', quote: 'black', avatar: 'base', position: 'lg:col-start-6' },
+        { card: 'bg-black text-white', quote: 'white', avatar: 'creme-100', position: 'lg:col-start-9 lg:mt-12.5' },
+        { card: 'bg-creme-200 text-black', quote: 'black', avatar: 'base', position: 'lg:col-start-3 lg:mt-32.5' },
+        { card: 'bg-fluro text-black', quote: 'black', avatar: 'base', position: 'lg:col-start-7 lg:mt-5' },
+        { card: 'bg-white text-black', quote: 'black', avatar: 'base', position: 'lg:col-start-2 lg:mt-30' }
+    ]
+} %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    sink: 'relative',
+    sinkHeader: [
+        vars is defined ? vars.class.header.top : 'top-20 | xl:top-[123px]',
+        '|',
+        'lg:sticky'
+    ],
+    gradient: 'absolute inset-0 hidden pointer-events-none bg-linear-to-t from-creme-100 to-transparent | lg:block',
+    badge: 'flex items-center justify-center mb-7.5',
+    mark: 'shrink-0 size-[17px]',
+    stars: 'flex items-center gap-0.75 ml-1.5 text-2xs text-yellow',
+    divider: 'w-px h-5 shrink-0 bg-creme-300 mx-3.75',
+    reviewText: 'shrink-0 max-w-max',
+    heading: [
+        'mx-auto max-w-[1007px] text-center font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:text-8xl'
+    ],
+    grid: [
+        'relative grid grid-cols-1 gap-5 mt-10',
+        '|',
+        'md:grid-cols-2',
+        '|',
+        'lg:grid-cols-12 lg:grid-flow-row-dense lg:items-start lg:mt-25'
+    ],
+    card: {
+        base: 'flex flex-col rounded-[20px] p-7.5',
+        scatter: 'lg:col-span-4 lg:p-10'
+    },
+    cardHeader: 'flex items-center gap-5',
+    logo: 'h-auto max-h-[34px] w-auto max-w-[100px] ml-auto',
+    quote: 'mt-14.5',
+    footer: 'mt-10'
+} %}
+
+{# Output #}
+
+{% if testimonials|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.sink }}">
+
+                <div class="{{ blockClasses.sinkHeader|join(' ')|trim }}">
+
+                    {% if rating %}
+
+                        <div class="{{ blockClasses.badge }}">
+
+                            {% include '_components/logoGoogle' with {
+                                params: {
+                                    class: blockClasses.mark
+                                }
+                            } only %}
+
+                            <div class="{{ blockClasses.stars }}" aria-hidden="true">
+
+                                {% if fullStars %}
+
+                                    {% for star in 1..fullStars %}
+
+                                        <i class="fa-sharp fa-solid fa-star"></i>
+
+                                    {% endfor %}
+
+                                {% endif %}
+
+                                {% if halfStar %}
+
+                                    <i class="fa-sharp fa-solid fa-star-half-stroke"></i>
+
+                                {% endif %}
+
+                            </div>
+
+                            <span class="sr-only">Rated {{ rating }} out of 5 stars</span>
+
+                            {% if reviewText %}
+
+                                <div class="{{ blockClasses.divider }}"></div>
+
+                                {# Wrapped so the rich text component's full-width block shrinks to its own line. #}
+
+                                <div class="{{ blockClasses.reviewText }}">
+
+                                    {% include '_components/richText' with {
+                                        params: {
+                                            content: reviewText,
+                                            colour: 'black-links',
+                                            size: 'sm'
+                                        }
+                                    } only %}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h2',
+                            heading: entry.heading,
+                            size: '4xl',
+                            class: blockClasses.heading|join(' ')|trim
+                        }
+                    } only %}
+
+                </div>
+
+                {# Painted over the Section Header and under the cards, so the heading dims as it sinks. #}
+
+                <div class="{{ blockClasses.gradient }}"></div>
+
+                <div class="{{ blockClasses.grid|join(' ')|trim }}">
+
+                    {% for testimonial in testimonials %}
+
+                        {% set slot = cycle(blockOptions.slot, loop.index0) %}
+                        {% set avatar = testimonial.avatar.one() %}
+                        {% set logo = testimonial.logo.one() %}
+
+                        {% set cardClasses = [
+                            blockClasses.card.base,
+                            slot.card,
+                            '|',
+                            blockClasses.card.scatter,
+                            slot.position
+                        ] %}
+
+                        <div class="{{ cardClasses|join(' ')|trim }}">
+
+                            <div class="{{ blockClasses.cardHeader }}">
+
+                                {% if testimonial.testimonialName|length or avatar %}
+
+                                    {% include '_components/user' with {
+                                        params: {
+                                            image: avatar,
+                                            heading: testimonial.testimonialName,
+                                            subHeading: testimonial.testimonialJobRole,
+                                            colour: slot.avatar
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                                {% if logo %}
+
+                                    {# Inline so the Logo takes the card's text colour. #}
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: logo,
+                                            transform: 'noRatio',
+                                            ratio: false,
+                                            svgInline: true,
+                                            imgClass: blockClasses.logo
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                            </div>
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: testimonial.text,
+                                    colour: slot.quote,
+                                    size: 'xl',
+                                    class: blockClasses.quote
+                                }
+                            } only %}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            {% include '_components/buttonGroup' with {
+                params: {
+                    buttons: entry.buttonGroup.all(),
+                    colours: ['secondary', 'creme-300-outline'],
+                    align: 'center',
+                    class: blockClasses.footer
+                }
+            } only %}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

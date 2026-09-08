@@ -1,0 +1,28 @@
+{% set component = 'logoGoogle' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'block',
+        params.class
+    ]
+} %}
+
+{# Output #}
+
+{{ svg('@templates/_svg/logoGoogle.svg')|attr({
+    class: classes.wrapper|join(' ')|trim,
+    'aria-hidden': 'true',
+    focusable: 'false'
+}) }}
