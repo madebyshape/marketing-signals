@@ -22,8 +22,29 @@
 
     {% set buttons = row.buttonGroup.all() %}
 
+    {% set accordions = [] %}
+
+    {% for accordion in row.accordions.all() %}
+
+        {% if accordion.text|striptags|trim|length %}
+
+            {# Captured so an entity in the rich text Heading is not escaped a second time. #}
+
+            {% set heading %}{{ accordion.heading|striptags|trim|raw }}{% endset %}
+
+            {% set accordions = accordions|merge([{
+                id: accordion.id,
+                heading: heading,
+                content: accordion.text
+            }]) %}
+
+        {% endif %}
+
+    {% endfor %}
+
     {% set hasContent = row.heading|striptags|trim|length
         or row.text|striptags|trim|length
+        or accordions|length
         or buttons|length %}
 
     {% if image or hasVideo or hasContent %}
@@ -32,6 +53,7 @@
             row: row,
             image: image,
             video: hasVideo ? video : null,
+            accordions: accordions,
             buttons: buttons,
             hasMedia: image or hasVideo,
             hasContent: hasContent
@@ -88,6 +110,7 @@
         'lg:text-6xl'
     ],
     text: 'mt-7.5',
+    accordions: 'mt-7.5',
     buttons: 'mt-10'
 } %}
 
@@ -195,11 +218,21 @@
 
                                 {% endif %}
 
+                                {# The prefix carries the row id so two rows never share an item id. #}
+
+                                {% include '_components/accordion' with {
+                                    params: {
+                                        id: params.handle ~ '-' ~ item.row.id,
+                                        items: item.accordions,
+                                        class: (item.row.heading|striptags|trim|length or item.row.text|striptags|trim|length) ? blockClasses.accordions
+                                    }
+                                } only %}
+
                                 {% include '_components/buttonGroup' with {
                                     params: {
                                         buttons: item.buttons,
                                         colours: ['secondary', 'creme-300-outline'],
-                                        class: (item.row.heading|striptags|trim|length or item.row.text|striptags|trim|length) ? blockClasses.buttons
+                                        class: (item.row.heading|striptags|trim|length or item.row.text|striptags|trim|length or item.accordions|length) ? blockClasses.buttons
                                     }
                                 } only %}
 
