@@ -263,7 +263,7 @@ The one-line result a Case Study leads with, such as "188% increase in traffic f
 _Avoid_: Strapline, subtitle, result, stat line
 
 **Logo**:
-The client's logo image: on a Case Study, shown centred on its Slide as the Slide's visible title; on a Client, shown in its Logo Cell.
+The client's logo image: on a Case Study, shown centred on its Slide as the Slide's visible title; on a Client, shown in its Logo Cell; on a Testimonial, shown at the top right of its Testimonial Card.
 _Avoid_: Client logo, brand, mark, icon
 
 **Carousel Controls**:
@@ -351,6 +351,40 @@ _Avoid_: Native controls, player UI, chrome
 **Text Columns**:
 The two side-by-side rich text columns beneath a heading, one column below the tablet breakpoint. A column with no content leaves its half empty.
 _Avoid_: Body copy, two-col text, paragraphs, intro text
+
+### Testimonial Grid
+
+**Testimonial**:
+An entry in the Testimonial section: one client's quote, with the person's name, job role and avatar and their company's Logo. It has no page.
+_Avoid_: Review, quote, reference, case study quote
+
+**Testimonial Grid**:
+A Block of a centred heading with the Highlight over a scatter of Testimonial Cards, one per Testimonial the editor picked, with a Button Group beneath.
+_Avoid_: Testimonials block, reviews grid, quote grid, testimonial scatter
+
+**Testimonial Card**:
+One coloured panel in a Testimonial Grid: an Avatar Group and the Logo above the Testimonial's quote.
+_Avoid_: Card, review card, quote card, tile
+
+**Review Badge**:
+The line above a Testimonial Grid's heading: the Google mark, the Star Rating, and a short editor text such as "4.9 from 130 reviews". Shown only when the editor turns Google Reviews on and sets a Star Rating.
+_Avoid_: Google row, rating bar, trust badge, reviews line
+
+**Star Rating**:
+The half-step score from 0.5 to 5 an editor picks for the Review Badge, drawn as that many full and half stars with no empty ones.
+_Avoid_: Stars, score, rating value
+
+**Scatter**:
+The desktop placement of Testimonial Cards in a Testimonial Grid: each card takes the next Slot in turn, repeating past six. Below the desktop breakpoint the cards are a plain grid instead.
+_Avoid_: Masonry, layout pattern, stagger, offset grid
+
+**Slot**:
+One of the six positions in the Scatter, fixing a card's column, its drop below the row and its colour: fluro, secondary, black, creme-200, fluro, white in turn. Never chosen by editors.
+_Avoid_: Position, cell, placement, scheme
+
+**Sink**:
+The behaviour of a Testimonial Grid's heading and Review Badge from the desktop breakpoint: they hold still below the Header while the Testimonial Cards scroll over them, then dim out behind the page colour towards the bottom of the cards. Below the desktop breakpoint the heading is in flow.
+_Avoid_: Sticky heading, fade, parallax, pin
 
 ### Seeding
 
