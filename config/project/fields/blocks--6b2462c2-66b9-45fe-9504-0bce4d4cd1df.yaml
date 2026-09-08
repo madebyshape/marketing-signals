@@ -28,6 +28,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 823de6d3-c67e-4f53-b852-0983c35aab97 # Elements - FAQ
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 8a84de3a-19bd-4528-a47b-1d207eda9858 # Heading
         -
           - group
