@@ -1,0 +1,83 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'bottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Classes #}
+
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
+
+{# The content column's bottom padding reserves the band the Work Marquee takes #}
+
+{% set blockClasses = {
+    panel: [
+        'w-full min-h-svh overflow-hidden rounded-b-[30px] bg-black',
+        vars is defined ? vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]'
+    ],
+    content: [
+        'pb-[230px]',
+        vars is defined ? vars.class.siteMargin.x : 'px-10',
+        '|',
+        'lg:pb-[370px]'
+    ],
+    heading: 'mt-7.5 max-w-[1263px] font-semibold leading-0.97 tracking-tighter | md:text-8xl lg:text-10xl xl:mt-10 xl:text-12xl xl:leading-0.92',
+    text: 'mt-7.5',
+    buttons: 'mt-7.5'
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: params|merge({
+            paddingY: params.padding,
+            paddingX: 'none'
+        })
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+            <div class="{{ blockClasses.content|join(' ')|trim }}">
+
+                {% include '_components/headingAlternate' with {
+                    params: {
+                        tag: 'h1',
+                        heading: entry.heading,
+                        colour: 'creme-100',
+                        size: '5xl',
+                        alternateStyle: 'secondary',
+                        class: blockClasses.heading
+                    }
+                } only %}
+
+                {% include '_components/richText' with {
+                    params: {
+                        content: entry.text,
+                        colour: 'secondary',
+                        size: '3xl',
+                        class: blockClasses.text
+                    }
+                } only %}
+
+                {% include '_components/buttonGroup' with {
+                    params: {
+                        buttons: entry.buttonGroup.all(),
+                        colours: ['creme-100', 'creme-100-outline'],
+                        class: blockClasses.buttons
+                    }
+                } only %}
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+{% endembed %}

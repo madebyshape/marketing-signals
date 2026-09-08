@@ -16,6 +16,14 @@ settings:
         -
           - group
           - General
+    -
+      __assoc__:
+        -
+          - uid
+          - acbe31d2-326d-4dca-b857-3ccf50f3efdc # Hero - Home
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: 1
   minEntries: null
