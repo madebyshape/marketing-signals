@@ -224,6 +224,7 @@ meta:
     a644e662-8b0e-44bd-bbac-da76b709e24f: Statistics # Statistics
     ab214509-2da1-4b0b-b7a3-33dac1c86ce9: Hero # Hero
     acbe31d2-326d-4dca-b857-3ccf50f3efdc: 'Hero - Home' # Hero - Home
+    b6d2560f-cae8-458b-9d36-e66efde2f247: 'Entries - Blog' # Entries - Blog
     b9ac68e1-d9f1-4007-843f-fde1e9f4921b: Files # Files
     bb417d14-872a-4288-9f03-8a735011cb7e: Eyebrow # Eyebrow
     bcef1181-692a-4647-9320-f85c0285fbf9: Testimonial # Testimonial
@@ -243,6 +244,7 @@ meta:
     d35d937a-07ca-4c88-bd62-1f65c807aa15: Statistics # Statistics
     d99bf7af-1eb1-4b77-814e-624eeec1a0e3: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
     d5189384-3a6a-441f-9f4b-cb171f279337: Heading # Heading
+    d8925826-0e82-41f9-91e8-bb798d884868: 'Carousel - Blog' # Carousel - Blog
     da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21: Form # Form
     dd193fca-6353-485f-a383-668951cbb602: Blog # Blog
     e3078af5-a566-4561-af12-e529edd7980f: 'Entry - Team' # Entry - Team

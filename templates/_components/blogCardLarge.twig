@@ -1,0 +1,136 @@
+{% set component = 'blogCardLarge' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    blog: null,
+    sizes: '(min-width: 1024px) 47vw, 90vw',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    card: [
+        'group block w-full overflow-hidden rounded-[20px] bg-creme-200 text-black',
+        params.class
+    ],
+    thumbnail: [
+        'p-1.25'
+    ],
+    thumbnailInner: [
+        'overflow-hidden rounded-[15px]'
+    ],
+    thumbnailImage: [
+        'motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out',
+        '|',
+        'motion-safe:pointer-fine:group-hover:scale-105'
+    ],
+    placeholder: [
+        'aspect-[2/1] rounded-[15px] bg-creme-300'
+    ],
+    content: [
+        'p-5',
+        '|',
+        'lg:p-10'
+    ],
+    meta: [
+        'mb-6.25'
+    ],
+    text: [
+        'grid gap-y-6.25',
+        '|',
+        'lg:max-w-[87%]'
+    ],
+    title: [
+        'text-2xl font-medium leading-1.2 tracking-tighter',
+        '|',
+        'lg:text-3xl'
+    ],
+    description: [
+        'text-base leading-1.33'
+    ]
+} %}
+
+{# Output #}
+
+{% if params.blog %}
+
+    {% set thumbnail = params.blog.thumbnail.one() %}
+    {% set description = params.blog.description|striptags %}
+
+    <a href="{{ params.blog.url }}" class="{{ classes.card|join(' ')|trim }}">
+
+        <div class="{{ classes.thumbnail|join(' ')|trim }}">
+
+            {% if thumbnail %}
+
+                <div class="{{ classes.thumbnailInner|join(' ')|trim }}">
+
+                    {% include '_components/picture' with {
+                        params: {
+                            image: thumbnail,
+                            alt: '',
+                            transform: '2x1',
+                            ratio: true,
+                            focalPoint: true,
+                            sizes: params.sizes,
+                            wrapperClass: classes.thumbnailImage|join(' ')|trim
+                        }
+                    } only %}
+
+                </div>
+
+            {% else %}
+
+                <div class="{{ classes.placeholder|join(' ')|trim }}"></div>
+
+            {% endif %}
+
+        </div>
+
+        <div class="{{ classes.content|join(' ')|trim }}">
+
+            {% include '_components/blogMeta' with {
+                params: {
+                    date: params.blog.postDate,
+                    class: classes.meta|join(' ')|trim
+                }
+            } only %}
+
+            <div class="{{ classes.text|join(' ')|trim }}">
+
+                <h3 class="{{ classes.title|join(' ')|trim }}">{{ params.blog.title }}</h3>
+
+                {# The Description is stripped to text: a link inside the card's link is invalid HTML. #}
+
+                {% if description|trim|length %}
+
+                    <p class="{{ classes.description|join(' ')|trim }}">{{ description }}</p>
+
+                {% endif %}
+
+                <div>
+
+                    {% include '_components/button' with {
+                        params: {
+                            type: 'span',
+                            button: { label: 'Continue Reading' },
+                            colour: 'secondary-outline',
+                            icon: null
+                        }
+                    } only %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </a>
+
+{% endif %}

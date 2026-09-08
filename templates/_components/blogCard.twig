@@ -1,0 +1,118 @@
+{% set component = 'blogCard' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    blog: null,
+    sizes: '(min-width: 1024px) 18vw, 40vw',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    card: [
+        'group flex w-full flex-row overflow-hidden rounded-[20px] bg-creme-200 text-black',
+        params.class
+    ],
+    content: [
+        'flex min-w-0 flex-1 flex-col justify-between gap-y-6.25 p-6.25',
+        '|',
+        'xl:p-10'
+    ],
+    text: [
+        'grid gap-y-6.25'
+    ],
+    title: [
+        'text-xl font-medium leading-1.2 tracking-tighter',
+        '|',
+        'xl:text-2xl'
+    ],
+    thumbnail: [
+        'w-[37%] shrink-0 p-1.25'
+    ],
+    thumbnailInner: [
+        'h-full overflow-hidden rounded-[15px]'
+    ],
+    thumbnailImage: [
+        'motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out',
+        '|',
+        'motion-safe:pointer-fine:group-hover:scale-105'
+    ],
+    placeholder: [
+        'h-full rounded-[15px] bg-creme-300'
+    ]
+} %}
+
+{# Output #}
+
+{% if params.blog %}
+
+    {% set thumbnail = params.blog.thumbnail.one() %}
+
+    <a href="{{ params.blog.url }}" class="{{ classes.card|join(' ')|trim }}">
+
+        <div class="{{ classes.content|join(' ')|trim }}">
+
+            {% include '_components/blogMeta' with {
+                params: {
+                    date: params.blog.postDate
+                }
+            } only %}
+
+            <div class="{{ classes.text|join(' ')|trim }}">
+
+                <h3 class="{{ classes.title|join(' ')|trim }}">{{ params.blog.title }}</h3>
+
+                <div>
+
+                    {% include '_components/button' with {
+                        params: {
+                            type: 'span',
+                            button: { label: 'Continue Reading' },
+                            colour: 'secondary-outline',
+                            icon: null
+                        }
+                    } only %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="{{ classes.thumbnail|join(' ')|trim }}">
+
+            {% if thumbnail %}
+
+                <div class="{{ classes.thumbnailInner|join(' ')|trim }}">
+
+                    {% include '_components/picture' with {
+                        params: {
+                            image: thumbnail,
+                            alt: '',
+                            transform: '1x1',
+                            ratio: false,
+                            focalPoint: true,
+                            sizes: params.sizes,
+                            wrapperClass: classes.thumbnailImage|join(' ')|trim
+                        }
+                    } only %}
+
+                </div>
+
+            {% else %}
+
+                <div class="{{ classes.placeholder|join(' ')|trim }}"></div>
+
+            {% endif %}
+
+        </div>
+
+    </a>
+
+{% endif %}

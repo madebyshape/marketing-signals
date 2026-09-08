@@ -1,0 +1,33 @@
+{# Blog Large Card · the latest live Blog, at its designed width, on each panel #}
+
+{% set blog = craft.entries().section('blog').orderBy('postDate DESC').one() %}
+
+{% if blog %}
+
+    <section class="grid gap-y-10" id="blogCardLarge">
+
+        <h2 class="text-2xl font-medium leading-1.2 tracking-tighter">Blog Large Card</h2>
+
+        {% for panel in panels %}
+
+            <div class="grid gap-y-8 p-5 rounded-md | {{ panel.class }} | lg:p-10">
+
+                <h3 class="text-xs opacity-60">{{ panel.label }}</h3>
+
+                <div class="max-w-[750px]">
+
+                    {% include '_components/blogCardLarge' with {
+                        params: {
+                            blog: blog
+                        }
+                    } only %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </section>
+
+{% endif %}

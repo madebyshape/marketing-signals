@@ -93,6 +93,7 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('{{ component }}', (props) => ({
             activeIndex: 0,
+            slideCount: 0,
             init() {
 
                 const _self = this;
@@ -114,8 +115,14 @@
                     } : {}),
                 });
 
+                _self.slideCount = swiper.slides.length;
+
                 swiper.on('slideChange', () => {
                     _self.activeIndex = swiper.realIndex;
+                });
+
+                swiper.on('update', () => {
+                    _self.slideCount = swiper.slides.length;
                 });
 
             },

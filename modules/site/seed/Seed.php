@@ -2,6 +2,9 @@
 
 namespace modules\site\seed;
 
+use craft\helpers\DateTimeHelper;
+use DateTime;
+
 /**
  * A parsed Seed file: the entry it targets, the fields it sets on that entry, the Matrix field
  * it writes to, and the Blocks it adds. Seeds are throwaway JSON files under `.scratch/`; the
@@ -19,7 +22,7 @@ readonly class Seed
     public const DEFAULT_VOLUME = 'images';
 
     /** Keys a Seed may carry. */
-    private const KEYS = ['entry', 'field', 'volume', 'section', 'type', 'title', 'parent', 'replace', 'fields', 'blocks'];
+    private const KEYS = ['entry', 'field', 'volume', 'section', 'type', 'title', 'parent', 'postDate', 'replace', 'fields', 'blocks'];
 
     /**
      * @param string|null $section the section the entry lives in. Given, the command creates the
@@ -47,6 +50,7 @@ readonly class Seed
         public ?string $title,
         public ?string $parent,
         public bool $replace,
+        public ?DateTime $postDate,
         public array $fields,
         public array $blocks,
     ) {
@@ -110,9 +114,10 @@ readonly class Seed
         $type = self::handle($data, 'type');
         $title = self::handle($data, 'title');
         $parent = self::handle($data, 'parent');
+        $postDate = self::postDate($data);
 
-        // “title” and “parent” describe an entry being created, which only “section” asks for.
-        foreach (['title' => $title, 'parent' => $parent] as $key => $value) {
+        // These describe an entry being created, which only “section” asks for.
+        foreach (['title' => $title, 'parent' => $parent, 'postDate' => $postDate] as $key => $value) {
             if ($value !== null && $section === null) {
                 throw new SeedException(sprintf(
                     'Seed’s “%s” only applies to an entry the command creates, so it needs “section” too.',
@@ -158,9 +163,38 @@ readonly class Seed
             $title,
             $parent,
             $replace,
+            $postDate,
             $fields,
             SeedBlock::listFromArray($blocks),
         );
+    }
+
+    /**
+     * The post date, parsed here rather than left to Craft, which turns anything it cannot read
+     * into the moment of the save. It is read in the site's own timezone, since a Seed's date is
+     * the calendar date the design shows, not an instant.
+     *
+     * @param array<string, mixed> $data
+     * @throws SeedException
+     */
+    private static function postDate(array $data): ?DateTime
+    {
+        $value = $data['postDate'] ?? null;
+
+        if ($value === null) {
+            return null;
+        }
+
+        $date = is_string($value) ? DateTimeHelper::toDateTime($value, assumeSystemTimeZone: true) : false;
+
+        if ($date === false) {
+            throw new SeedException(sprintf(
+                'Seed’s “postDate” takes an ISO 8601 date such as “2026-03-14”, but the Seed gives %s.',
+                is_string($value) ? "“{$value}”" : get_debug_type($value),
+            ));
+        }
+
+        return $date;
     }
 
     /**

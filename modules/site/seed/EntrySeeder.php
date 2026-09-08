@@ -12,9 +12,9 @@ use craft\models\Section;
  * section holds none with the Seed's slug, so a Seed can reach a page nobody has made yet.
  *
  * A rerun finds what the first run created and skips creation. A `type` on an entry that already
- * exists switches it. Nothing here updates a title, a slug or a parent: the keys create and
- * switch, and an entry is the editor's from then on. A dry run resolves and reports the same way
- * and saves nothing.
+ * exists switches it. Nothing here updates a title, a slug, a parent or a post date: the keys
+ * create and switch, and an entry is the editor's from then on. A dry run resolves and reports
+ * the same way and saves nothing.
  */
 class EntrySeeder
 {
@@ -87,8 +87,9 @@ class EntrySeeder
 
     /**
      * A new entry, enabled, under its parent when the Seed names one and at the end of the
-     * structure otherwise. A dry run builds it and stops, so that the Blocks are still resolved
-     * and validated against the entry type they would be written to.
+     * structure otherwise, posted on the date the Seed gives and at the moment of the save
+     * without one. A dry run builds it and stops, so that the Blocks are still resolved and
+     * validated against the entry type they would be written to.
      *
      * @throws SeedException
      */
@@ -106,6 +107,10 @@ class EntrySeeder
         $entry->title = $this->seed->title;
         $entry->enabled = true;
 
+        if ($this->seed->postDate !== null) {
+            $entry->postDate = $this->seed->postDate;
+        }
+
         if ($parent !== null) {
             $entry->setParentId($parent->id);
         }
@@ -116,6 +121,10 @@ class EntrySeeder
             $type->handle,
             $parent?->slug,
         );
+
+        if ($this->seed->postDate !== null) {
+            $this->outcomes[] = SeedEntryOutcome::posted($this->seed->entry, $this->seed->postDate);
+        }
 
         if (!$this->dryRun) {
             $this->save($entry);

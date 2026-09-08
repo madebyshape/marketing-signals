@@ -1,0 +1,59 @@
+{% set component = 'blogMeta' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    date: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'flex flex-row flex-wrap items-center gap-x-3.75 gap-y-2 text-base font-normal leading-1.33 text-black',
+        params.class
+    ],
+    item: [
+        'inline-flex flex-row items-center gap-x-2 whitespace-nowrap'
+    ],
+    date: [
+        'border-r border-creme-400 pr-3.75'
+    ],
+    icon: [
+        'text-[12px]'
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+
+    <div class="{{ classes.item|join(' ')|trim }} {{ classes.date|join(' ')|trim }}">
+
+        <i class="{{ classes.icon|join(' ')|trim }} fa-sharp fa-regular fa-calendar-day" aria-hidden="true"></i>
+
+        {% include '_components/date' with {
+            params: {
+                date: params.date,
+                format: 'j F Y'
+            }
+        } only %}
+
+    </div>
+
+    {# The read time is a literal until Blogs have content; swap in the readTime component then. #}
+
+    <div class="{{ classes.item|join(' ')|trim }}">
+
+        <i class="{{ classes.icon|join(' ')|trim }} fa-sharp fa-regular fa-clock" aria-hidden="true"></i>
+
+        5 min read
+
+    </div>
+
+</div>
