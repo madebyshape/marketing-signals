@@ -29,6 +29,7 @@ settings:
         -
           - uid
           - 823de6d3-c67e-4f53-b852-0983c35aab97 # Elements - FAQ
+          - ed7d1592-7563-4406-aba9-cbdf547d198d # Elements - Testimonial
         -
           - group
           - General
@@ -85,6 +86,14 @@ settings:
         -
           - uid
           - d1bfe36b-4da4-4c86-a162-fa22d76b4ed8 # Template
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
+          - 9bc3b5b3-8512-4246-b1b8-d78eb6798dd5 # Video Content
         -
           - group
           - General

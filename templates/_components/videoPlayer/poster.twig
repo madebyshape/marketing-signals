@@ -1,0 +1,68 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    image: null,
+    transform: '3x4',
+    label: 'Play video',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    button: [
+        'group relative block w-full h-full cursor-pointer overflow-hidden bg-black',
+        '|',
+        'focus:outline-none focus:ring-3 focus:ring-secondary/50',
+        params.class
+    ],
+    play: [
+        'absolute inset-0 z-10 flex items-center justify-center'
+    ],
+    circle: [
+        'flex size-20 items-center justify-center rounded-full bg-secondary text-black motion-safe:transition-transform motion-safe:duration-300',
+        '|',
+        'motion-safe:pointer-fine:group-hover:scale-110',
+        '|',
+        'lg:size-30'
+    ],
+    icon: [
+        'fa-sharp fa-regular fa-play | text-[24px]'
+    ]
+} %}
+
+{# Output #}
+
+<button
+    type="button"
+    class="{{ classes.button|join(' ')|trim }}"
+    aria-label="{{ params.label }}"
+    x-ref="poster"
+    x-on:click="open()"
+>
+
+    {% if params.image %}
+
+        {% include '_components/picture' with {
+            params: {
+                image: params.image,
+                alt: '',
+                transform: params.transform,
+                focalPoint: true,
+                ratio: false
+            }
+        } only %}
+
+    {% endif %}
+
+    <span class="{{ classes.play|join(' ')|trim }}" aria-hidden="true">
+        <span class="{{ classes.circle|join(' ')|trim }}">
+            <i class="{{ classes.icon|join(' ')|trim }}"></i>
+        </span>
+    </span>
+
+</button>

@@ -1,0 +1,47 @@
+{# Video Player · a Poster per Provider, each opening the Video Modal #}
+
+{# No field to read, so the newest volume image stands in as the Poster. #}
+
+{% set poster = craft.assets.kind('image').one() %}
+
+{# The mp4 is uploaded for the evidence run and never committed. #}
+
+{% set videoFile = craft.assets.kind('video').one() %}
+
+{% set players = [
+    { label: 'Vimeo', videoUrl: 'https://vimeo.com/822986690', videoFile: null },
+    { label: 'YouTube', videoUrl: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ', videoFile: null },
+    { label: 'File', videoUrl: null, videoFile: videoFile }
+] %}
+
+<section class="grid gap-y-10" id="videoPlayer">
+
+    <h2 class="text-2xl font-medium leading-1.2 tracking-tighter">Video Player</h2>
+
+    <div class="grid gap-5 p-10 rounded-md | bg-black text-white | md:grid-cols-3">
+
+        {% for player in players %}
+
+            <div class="grid gap-y-8 content-start">
+
+                <h3 class="text-xs opacity-60">{{ player.label }} · Modal Player Type</h3>
+
+                {% include '_components/videoPlayer/base' with {
+                    params: {
+                        videoUrl: player.videoUrl,
+                        videoFile: player.videoFile,
+                        poster: poster,
+                        posterClass: 'rounded-[15px]',
+                        label: 'Play ' ~ player.label ~ ' video',
+                        modalLabel: player.label ~ ' video player',
+                        class: 'w-full aspect-3/4'
+                    }
+                } only %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>

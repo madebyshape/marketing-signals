@@ -1,0 +1,49 @@
+{# Output #}
+
+{% js 'https://player.vimeo.com/api/player.js' %}
+
+{% js %}
+
+    window.videoPlayerProviders = window.videoPlayerProviders || {};
+
+    window.videoPlayerProviders.vimeo = {
+
+        create(element, options) {
+
+            if (!window.Vimeo) return null;
+
+            const player = new Vimeo.Player(element, {
+                id: options.videoId,
+                h: options.videoHash || undefined,
+                autoplay: true,
+                muted: false,
+                controls: false,
+                playsinline: true,
+                autopause: false,
+                responsive: false,
+                dnt: true
+            });
+
+            player.ready()
+                .then(() => player.getDuration())
+                .then((duration) => options.onReady(duration))
+                .catch(() => {});
+
+            player.on('play', () => options.onPlay());
+            player.on('pause', () => options.onPause());
+            player.on('ended', () => options.onEnded());
+            player.on('timeupdate', (data) => options.onTimeUpdate(data.seconds, data.duration));
+
+            return {
+                play() { player.play().catch(() => {}); },
+                pause() { player.pause().catch(() => {}); },
+                seek(seconds) { player.setCurrentTime(seconds).catch(() => {}); },
+                mute() { player.setMuted(true).catch(() => {}); },
+                unmute() { player.setMuted(false).then(() => player.setVolume(1)).catch(() => {}); }
+            };
+
+        }
+
+    };
+
+{% endjs %}

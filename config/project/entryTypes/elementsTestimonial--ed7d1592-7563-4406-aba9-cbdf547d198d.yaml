@@ -1,0 +1,185 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  0c4ad953-c028-4710-a4eb-385aa3f32a22:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: bdf38fcc-42dc-468d-b649-81829f12e076
+            userCondition: null
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5e0a0379-473d-48fa-b3f0-4230ddc449a6 # Lightswitch - Off
+            handle: googleReviews
+            instructions: null
+            label: 'Google Reviews'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a16a1899-fdec-4df6-ba96-b733a1eb8ce1
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\LightswitchFieldConditionRule
+                  fieldUid: 5e0a0379-473d-48fa-b3f0-4230ddc449a6 # Lightswitch - Off
+                  layoutElementUid: a16a1899-fdec-4df6-ba96-b733a1eb8ce1
+                  uid: ed388d0b-0284-43c1-8e42-84e598a2ae37
+                  value: true
+              elementType: craft\elements\Entry
+              fieldContext: global
+            elementEditCondition: null
+            fieldUid: 101f8024-59d6-48df-9744-ccf3da6ef824 # Dropdown - Star Rating
+            handle: starRating
+            instructions: null
+            label: 'Star Rating'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7ae8e4c5-d111-4d16-8bdd-640ce81c7132
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\LightswitchFieldConditionRule
+                  fieldUid: 5e0a0379-473d-48fa-b3f0-4230ddc449a6 # Lightswitch - Off
+                  layoutElementUid: a16a1899-fdec-4df6-ba96-b733a1eb8ce1
+                  uid: 1529c544-5997-40b0-afbc-7909d5a26ffb
+                  value: true
+              elementType: craft\elements\Entry
+              fieldContext: global
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: googleReviewText
+            instructions: null
+            label: 'Google Review Text'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 48e629b8-1dc2-4448-9fc8-464ac5a055c7
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5cc3d3d3-e715-4c92-ab12-a1826104d18b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 716eaefb-ed27-4266-a2c8-28d58020169d
+            userCondition: null
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 1d852893-eb82-4886-afbd-030682a843f8 # Entries - Testimonial
+            handle: null
+            instructions: 'One or more Testimonials. Each card takes its colour and position from its place in this order.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a8e58899-397a-4ebf-bb46-81cb1e41fe91
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 604eeffe-398c-4e62-97b8-f6eff0c29ea0
+            userCondition: null
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 298fa7b6-abc0-4c80-a004-8fa35a30bf35 # Button Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 35a1944c-b65d-411c-bde8-317324e58835
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 9a3a5b64-b656-4965-a4a5-d0ad5c288118
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e0c6d7c2-34f4-4b5a-918a-fda0042e3320
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: a50781ee-97f9-4b3b-9314-d21179e91c2a
+        userCondition: null
+    thumbFieldKey: null
+handle: elementsTestimonial
+hasTitleField: false
+icon: quotes
+name: 'Elements - Testimonial'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

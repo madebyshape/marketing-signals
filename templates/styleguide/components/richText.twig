@@ -1,0 +1,58 @@
+{# Rich Text · every size, then every colour scheme, on each panel #}
+
+{% set sizes = ['sm', 'base', 'md', 'xl', '3xl'] %}
+{% set colours = ['base', 'creme-100', 'black', 'black-links', 'white'] %}
+
+{% set sample = '<p><strong>4.9</strong> from <a href="#richText">130 reviews</a>, and a word in <em>italic</em> for the highlight.</p>' %}
+
+<section class="grid gap-y-10" id="richText">
+
+    <h2 class="text-2xl font-medium leading-1.2 tracking-tighter">Rich Text</h2>
+
+    {% for panel in panels %}
+
+        <div class="grid gap-y-8 p-10 rounded-md | {{ panel.class }}">
+
+            <h3 class="text-xs opacity-60">{{ panel.label }}</h3>
+
+            {% for size in sizes %}
+
+                <div class="grid gap-y-3">
+
+                    <h4 class="text-xs font-mono opacity-60">size: {{ size }}</h4>
+
+                    {% include '_components/richText' with {
+                        params: {
+                            content: sample,
+                            colour: panel.label == 'On Black' ? 'white' : 'base',
+                            size: size
+                        }
+                    } only %}
+
+                </div>
+
+            {% endfor %}
+
+            {% for colour in colours %}
+
+                <div class="grid gap-y-3">
+
+                    <h4 class="text-xs font-mono opacity-60">colour: {{ colour }}</h4>
+
+                    {% include '_components/richText' with {
+                        params: {
+                            content: sample,
+                            colour: colour,
+                            size: 'sm'
+                        }
+                    } only %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endfor %}
+
+</section>
