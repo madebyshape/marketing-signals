@@ -2,10 +2,13 @@
 
 namespace modules\site\seed;
 
+use DateTimeInterface;
+
 /**
  * What the command did with the entry a Seed targets, before it wrote a single Block: created it
- * because its section had no entry with the Seed's slug, found the one already there, switched
- * its entry type, or left a type that already matched alone.
+ * because its section had no entry with the Seed's slug, gave a created entry its post date,
+ * found the one already there, switched its entry type, or left a type that already matched
+ * alone.
  *
  * A Seed without the entry keys reports nothing here, since the entry it names has always had to
  * exist and saying so every run would be noise.
@@ -14,6 +17,7 @@ readonly class SeedEntryOutcome
 {
     public const CREATED = 'created';
     public const SWITCHED = 'switched';
+    public const SET = 'set';
     public const SKIPPED = 'skipped';
 
     private function __construct(
@@ -36,6 +40,15 @@ readonly class SeedEntryOutcome
             $section,
             $parent !== null ? "under “{$parent}”" : 'at the end of the structure',
         ));
+    }
+
+    /**
+     * The post date a created entry was given. Only creation sets one, so a rerun says nothing
+     * here.
+     */
+    public static function posted(string $slug, DateTimeInterface $date): self
+    {
+        return new self(self::SET, $slug, 'post date ' . $date->format('Y-m-d'));
     }
 
     /**
