@@ -14,9 +14,7 @@
 
 {# Options #}
 
-{# The listing page a section's entries belong under, by section handle (ADR-0003). A case study
-   has a flat URL and is not a child of the Case Studies page, so the trail finds that page by
-   its entry type rather than by slug or by URL segment. The next listing section is one line. #}
+{# Listing page per section handle (ADR-0003): a case study's flat URL has no parent to walk. #}
 
 {% set options = {
     listingType: {
@@ -26,9 +24,7 @@
 
 {# Crumbs #}
 
-{# A Crumb is a label and a URL. `items` hands the component a trail outright, for a page that
-   sits in no structure; otherwise the trail is derived from the entry and the editor never
-   touches it. #}
+{# `items` hands in a trail outright; otherwise it is derived from the entry. #}
 
 {% if params.items %}
 
@@ -64,9 +60,7 @@
 
 {# Schema #}
 
-{# SEOmatic builds its BreadcrumbList by walking the URL segments, so it sees neither the listing
-   page nor a parent case study. Replacing its items with the Crumbs above keeps the schema and
-   the visible trail from drifting apart. #}
+{# SEOmatic walks the URL segments, so its BreadcrumbList is replaced with the Crumbs above. #}
 
 {% set breadcrumbList = seomatic.jsonLd.get('breadcrumbList') %}
 

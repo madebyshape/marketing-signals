@@ -47,6 +47,9 @@ Templates carry no `style="…"` attributes. Styling lives in classes; truly dyn
 **Dead code is deleted** [hard]
 Replaced code is removed, not commented out. Git holds the history.
 
+**Comments are one line and only when necessary** [hard]
+A comment exists so a developer can understand the code by skim reading it: one line, short, to the point. Never restate what the code visibly does and never write design rationale or per-breakpoint layout prose. The fixed section headings are the exception.
+
 **Craft field access patterns** [hard]
 Dropdown and radio fields read `.value`; multi-entry relation/matrix fields loop `.all()`; a single related entry reads `.one()`.
 

@@ -7,6 +7,10 @@
 - Grid: 12-column with `gap-5`
 - Site margins: `px-10`
 - **No `{% css %}` blocks** - Use Tailwind utility classes only
+- **Comments only when necessary** - A comment exists so a developer can skim the code and understand it. One line, short and to the point. Never explain what the code visibly does, never write paragraphs of design rationale, never describe layout at each breakpoint. The standard section headings (`{# Classes #}`, `{# Output #}`) stay.
+  - Good: `{# Preload critical font files first so the browser can fetch them early. #}`
+  - Bad: `{# A Block with no Case Studies renders nothing at all, section included. #}` (the `{% if %}` already says this)
+  - Bad: any comment that wraps onto a second line
 
 ## Browser Automation
 

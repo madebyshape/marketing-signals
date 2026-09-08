@@ -18,15 +18,6 @@
 
 {# Options #}
 
-{# The Rule is the wrapper's own bottom border, so it spans the wrapper rather than the text and
-   needs no element of its own. Its 10px of padding, the 21px of text above it and the border make
-   the design's 31px row. Its colour is set apart from the text so a dark section can take a white
-   Rule under white, creme or primary text.
-
-   The `aside` sits at the far end of the same row rather than in a row of its own, so one Rule
-   still spans both. The row only becomes a flex row when there is an aside to place, which
-   leaves an eyebrow on its own rendering exactly as it did. #}
-
 {% set options = {
     colour: {
         black: 'text-black',

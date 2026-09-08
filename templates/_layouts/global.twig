@@ -42,9 +42,6 @@
 
 {# Header Colour #}
 
-{# A page picks its Header Colour by setting `headerColour` before this layout renders; every
-   page that sets nothing gets the creme header. #}
-
 {% set headerColour = headerColour ?? 'creme-100' %}
 
 {% block body %}
@@ -64,8 +61,7 @@
 
 	{# Global Cursor Label #}
 
-	{# Mounted once for the whole site and raised by window event, so a Block that wants a Cursor
-	   Label needs no cursor of its own. #}
+	{# Mounted once and raised by window event, so Blocks need no cursor of their own. #}
     {% include '_components/cursor' %}
 
 	{# Layout Guidelines #}

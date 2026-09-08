@@ -18,10 +18,7 @@
 
 {# Options #}
 
-{# The indent is the design's two grid columns plus the two gaps between them, which on a
-   12-column grid is one sixth of the content width plus one sixth of the gap. Text indent takes
-   its percentage from the containing block, so the same class holds at every width and no inline
-   style is needed. It moves the first line only, which is what the design asks for. #}
+{# Two grid columns plus two gaps: one sixth of the content width plus one sixth of the gap. #}
 
 {% set options = {
     indent: {
@@ -41,11 +38,6 @@
 } %}
 
 {# Output #}
-
-{# The wrapper is the element the Reveal is driven from, so the heading itself carries the ref
-   rather than being found by selector. The heading is handed on as the editor wrote it: the
-   alternate heading reads the level off the front of it and turns the italic words into the
-   Highlight. #}
 
 {% if params.heading|striptags|trim|length %}
 
@@ -78,21 +70,12 @@
 
                 const heading = this.$refs.heading;
 
-                // Reduced motion gets the heading exactly as it was served: no split, no spans,
-                // nothing tied to the scroll. Everything below is inside the media context, so
-                // GSAP reverts it if the preference changes.
                 gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', (context) => {
 
-                    // Splitting against the fallback font would hand ScrollTrigger a start and
-                    // end measured off the wrong layout, so the split waits for the webfonts.
-                    // `context.add` keeps the late tween inside the media context.
+                    // Split after the webfonts load, or ScrollTrigger measures against the fallback font's layout.
                     document.fonts.ready.then(() => context.add(() => {
 
-                        // Words only: lines would wrap the heading in blocks and take the
-                        // first-line indent with them. Spans stay inline, so the editor's line
-                        // breaks and the Highlight's colour both survive. SplitText's automatic
-                        // aria labels the heading with the whole sentence and hides each word
-                        // from assistive technology, so it is still read once as a sentence.
+                        // Words, not lines: line blocks would take the first-line indent with them.
                         const split = SplitText.create(heading, {
                             type: 'words',
                             tag: 'span',
@@ -104,10 +87,7 @@
                             willChange: 'opacity'
                         });
 
-                        // One scrubbed tween, not a per-frame loop: a duration of four against a
-                        // stagger of one puts four words mid-fade at any moment, so the Reveal
-                        // reads as a wave. Linear, so the words track the scroll evenly, and the
-                        // one-second scrub lets them lag it and follow it back up.
+                        // Duration four against stagger one keeps four words mid-fade, so the Reveal reads as a wave.
                         gsap.to(split.words, {
                             opacity: 1,
                             ease: 'none',

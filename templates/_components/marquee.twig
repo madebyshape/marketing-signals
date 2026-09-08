@@ -25,9 +25,7 @@
 
 {# Options #}
 
-{# The gap sits between the repeated items inside a track, so the track that follows needs the
-   same space after its last item or the seam reads a gap short. `none` is for callers whose
-   items already carry their own edges and must run into one another. #}
+{# The second track needs the same space after its last item or the seam reads a gap short. #}
 
 {% set options = {
     gap: {
@@ -51,9 +49,7 @@
 
 {# Output #}
 
-{# Two copies of the same content: the loop measures one against the other, so the second is what
-   fills the space the first leaves as it travels. Each copy takes its own ref, which is how the
-   script reaches them without a per-instance class to query. #}
+{# Two copies: the second fills the space the first leaves as it travels. #}
 
     <div
         class="{{ classes.wrapper|join(' ')|trim }}"
@@ -87,24 +83,17 @@
                     pauseOnHover: props.pauseOnHover ?? false
                 };
 
-                // Reduced motion gets the tracks exactly as they were served: no loop, no
-                // listeners, the first copy's items showing where the server put them.
-                // Everything below is inside the media context, so GSAP reverts the transforms
-                // the loop writes if the preference changes.
                 gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
 
-                    // Create the marquee loop
                     const marqueeLoop = gsapHorizontalLoop(tracks, {
                         reversed: config.reversed,
                         repeat: config.repeat,
                         speed: config.speed
                     });
 
-                    // Block for custom JS content
                     {% block jsContent %}
                     {% endblock %}
 
-                    // Pause on hover
                     if (!config.pauseOnHover) {
                         return;
                     }
@@ -117,7 +106,6 @@
                         track.addEventListener('mouseleave', play);
                     });
 
-                    // GSAP reverts what it made, but the listeners are ours to take back off.
                     return () => {
                         tracks.forEach((track) => {
                             track.removeEventListener('mouseenter', pause);

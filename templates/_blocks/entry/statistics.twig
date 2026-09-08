@@ -11,16 +11,11 @@
 
 {# Statistics #}
 
-{# A Statistic with no number has nothing to count, so it is dropped before the row is measured
-   and the Statistics that are left still share the full width. #}
-
 {% set statistics = entry.statistics.all()|filter(statistic => statistic.statistic|trim|length) %}
 
 {# Options #}
 
-{# The Statistics share the row equally, so the desktop column rule is picked by how many of them
-   there are. The Matrix holds two to four, which leaves the four-column rule as a fallback the
-   control panel should never reach. #}
+{# The Matrix holds 2-4 Statistics; the 4-column fallback should never be reached #}
 
 {% set blockOptions = {
     columns: {
@@ -31,13 +26,6 @@
 } %}
 
 {# Classes #}
-
-{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
-   named apart from it. The grid has no gap, so neighbouring cells touch and the Divider reads as
-   one line rather than two edges. Stacked, the Divider is a bottom border with vertical padding
-   either side of it, so the first cell drops its top padding and the last its bottom padding and
-   its Divider; from `lg` the row returns, the padding goes and the Divider becomes a right border
-   on every cell but the last. #}
 
 {% set blockClasses = {
     grid: [
@@ -58,8 +46,6 @@
 } %}
 
 {# Output #}
-
-{# A Block whose Statistics all lack a number renders nothing at all, section included. #}
 
 {% if statistics|length %}
 

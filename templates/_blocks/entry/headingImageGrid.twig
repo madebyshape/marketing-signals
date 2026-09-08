@@ -11,10 +11,6 @@
 
 {# Options #}
 
-{# Every image the editor added becomes a Tile in a two-column grid. A lone Tile spans both
-   columns, so a half-filled field reads as intentional; with two or more the grid flows, which
-   leaves an odd last Tile at half width on the left. #}
-
 {% set blockOptions = {
     tile: {
         span: 'rounded-[20px] | md:col-span-2',
@@ -24,9 +20,6 @@
 } %}
 
 {# Classes #}
-
-{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
-   named apart from it. #}
 
 {% set images = entry.images.all() %}
 
@@ -41,8 +34,6 @@
 } %}
 
 {# Output #}
-
-{# Either half renders on its own, and a Block with neither renders nothing at all. #}
 
 {% if entry.heading|striptags|trim|length or images|length %}
 

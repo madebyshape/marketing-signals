@@ -11,36 +11,11 @@
 
 {# Case Studies #}
 
-{# One Slide per enabled Case Study the editor picked, in the field's order. A disabled Case
-   Study has no page to link to, so it never becomes a Slide. #}
-
 {% set caseStudies = entry.entriesCaseStudy.all() %}
 
 {# Classes #}
 
-{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
-   named apart from it. The section's horizontal padding is off and the Block places the panel
-   itself: the site margin on the outside, then a black panel with the design's 20px corners
-   clipping its own overflow, so the Slides are cut at its rounded edge.
-
-   The rows carry their own bottom margin rather than sharing a gap, because each is only
-   rendered when it has something to say: an empty Eyebrow or heading takes its spacing with it
-   and the rows below close up.
-
-   From `md` the row of Slides is pulled out to the panel's edges by negative margins the size of
-   the side padding, so the Slides run under the padding and the neighbours peek to the panel's
-   edge while the Eyebrow, heading and Controls stay inside it. Below `md` there is no pull-out
-   and no neighbour to show, so the one card is the panel's inner width and lines up with the
-   heading above it. The carousel component's wrapper is full width, and a percentage width is
-   read from the padded box whatever the margins do, so the pull-out comes with `w-auto` to let
-   the wrapper take the width its negative margins give it. Served, Swiper's own layout stands:
-   the Slides in a row from the panel's left edge, clipped at the panel, the Controls visible but
-   inert.
-
-   The card is 3x4 portrait below `md` and 16x10 landscape from `md`, which makes it the design's
-   750 by 469 at 1600. The Thumbnail fills it at 90% under two shades, the top one fading from
-   black at half to nothing over the first 37% and the bottom one from nothing to black at four
-   fifths over the last 46%, as the node's two gradient assets measure. #}
+{# Slides pull out under the panel padding from `md`; `w-auto` so the negative margins widen the wrapper #}
 
 {% set blockClasses = {
     margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
@@ -119,8 +94,6 @@
 
 {# Output #}
 
-{# A Block with no Case Studies renders nothing at all, section included. #}
-
 {% if caseStudies|length %}
 
     {% embed '_components/section'
@@ -137,8 +110,6 @@
 
                 <div class="{{ blockClasses.panel|join(' ')|trim }}">
 
-                    {# An empty Eyebrow drops the whole row, Rule included. #}
-
                     {% if entry.eyebrow|trim|length %}
 
                         {% include '_components/eyebrow' with {
@@ -152,9 +123,6 @@
                         } only %}
 
                     {% endif %}
-
-                    {# An empty heading drops its row. The heading takes the first eight of the
-                       panel's twelve columns from `lg` and the full width below. #}
 
                     {% if entry.heading|striptags|trim|length %}
 
@@ -175,15 +143,7 @@
 
                     {% endif %}
 
-                    {# The carousel component owns the Alpine scope, so the Controls go in its
-                       after-content slot where their `prev` and `next` refs resolve, and the
-                       Slides in its slide slot. Swiper writes each Slide's width itself from
-                       `slidesPerView`, so the Block sets the counts and the gap and nothing else
-                       measures the row.
-
-                       Looping needs more Slides than the row shows at once to have something to
-                       wrap, and two per view makes three the floor: two Case Studies page to
-                       their ends and dim the button there instead. #}
+                    {# Loop needs 3+ Slides to have something to wrap at two per view #}
 
                     {% embed '_components/carousel'
                         with {
@@ -219,18 +179,6 @@
 
                         {% block slideContent %}
 
-                            {# The whole card is the link, so the Slide has one link and no link
-                               inside it. Its accessible name is what the card holds — the
-                               Category, the Logo's alt and the Tag Line — so no `aria-label`
-                               overrides it.
-
-                               Entering the card raises the Cursor Label the global layout mounts
-                               and leaving lowers it, whether the Slide is the centre one or a
-                               peeking neighbour; the event goes to the window, so the Block never
-                               reaches for the cursor's markup. A coarse pointer fires these too
-                               and the cursor component ignores them there, which is what leaves
-                               the touch visitor a plain card and a tap. #}
-
                             <a
                                 href="{{ item.url }}"
                                 class="{{ blockClasses.card|join(' ')|trim }}"
@@ -241,11 +189,6 @@
                                 {% set thumbnail = item.thumbnail.one() %}
                                 {% set logo = item.logo.one() %}
                                 {% set category = item.categoriesCaseStudy.one() %}
-
-                                {# A Case Study without a Thumbnail renders its card on solid
-                                   black, so the placeholder holds the card's shape in its place.
-                                   The photograph is decorative: its alt is empty and the Logo
-                                   names the client. #}
 
                                 {% if thumbnail %}
 
@@ -282,10 +225,6 @@
                                 <div class="{{ blockClasses.shadeTop }}"></div>
                                 <div class="{{ blockClasses.shadeBottom }}"></div>
 
-                                {# A Case Study with no Logo shows the Thumbnail and the Tag Line
-                                   alone. The Logo is the Slide's visible title, so its alt is the
-                                   Case Study's. #}
-
                                 {% if logo %}
 
                                     <div class="{{ blockClasses.logo }}">
@@ -304,9 +243,6 @@
 
                                 {% endif %}
 
-                                {# The badge shows the first Category's title only. A Case Study
-                                   with no Category shows no badge. #}
-
                                 {% if category %}
 
                                     <div class="{{ blockClasses.badge|join(' ')|trim }}">
@@ -323,10 +259,7 @@
 
                                 {% endif %}
 
-                                {# A link inside the Slide's link is invalid HTML and a heading
-                                   here would compete with the Block's, so the Tag Line keeps its
-                                   italic Highlight, bold and line breaks and renders as a
-                                   paragraph. #}
+                                {# Tag Line renders as a `p`: a link or heading inside the card's link is invalid #}
 
                                 {% set tagLine = item.tagLine|striptags('<em><i><strong><b><br>') %}
 
@@ -354,9 +287,6 @@
                         {% endblock %}
 
                         {% block afterContent %}
-
-                            {# One Case Study is a single static card: there is nowhere to page
-                               to, so it gets no Controls and the carousel wires no navigation. #}
 
                             {% if caseStudies|length > 1 %}
 

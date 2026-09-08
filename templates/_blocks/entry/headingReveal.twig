@@ -11,17 +11,11 @@
 
 {# Classes #}
 
-{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
-   named apart from it. The heading's base size comes from the component; the ramp above it is
-   passed as classes, so the size steps with the screen from a phone to the 82px of the design. #}
-
 {% set blockClasses = {
     heading: 'md:text-7xl | lg:text-9xl | 2xl:text-10xl'
 } %}
 
 {# Output #}
-
-{# Either half renders on its own, and a Block with neither renders nothing at all. #}
 
 {% if entry.eyebrow|trim|length or entry.heading|striptags|trim|length %}
 

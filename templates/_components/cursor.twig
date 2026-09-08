@@ -25,10 +25,7 @@
 
 {# Classes #}
 
-{# The pointer is the element GSAP moves, so its transform is the component's alone and the pill
-   inside it keeps the class-driven scale that raises and lowers it; one element could not hold
-   both without GSAP's inline transform wiping the scale. It is served hidden and shown on fine
-   pointers only, so a touch visitor never carries a label their pointer cannot place. #}
+{# GSAP moves the pointer; the pill keeps the class scale GSAP's inline transform would wipe. #}
 
 {% set classes = {
     pointer: [
@@ -46,9 +43,7 @@
 
 {# Output #}
 
-{# A caller raises the label by dispatching the window event with the text, an icon, or both;
-   every part of the detail is read afresh each time, so a caller that sends only text never
-   inherits the icon the last one sent. #}
+{# Every part of the detail is read afresh, so a caller sending only text never inherits the last icon. #}
 
 <div
     x-data="{{ params.component }}"
@@ -98,18 +93,12 @@
                 const _self = this;
                 const pointer = _self.$refs.pointer;
 
-                // A coarse pointer has nothing to follow and no native cursor to hide, so the
-                // component listens to nothing at all there.
                 if (!window.matchMedia('(pointer: fine)').matches) {
                     return;
                 }
 
-                // The pill is centred on the pointer by its own transform rather than by half its
-                // width, so its size can change with the caller's text without the maths.
                 gsap.set(pointer, { xPercent: -50, yPercent: -50 });
 
-                // One quick tween for each axis: a pointer move retargets a running tween instead
-                // of writing left and top, so a frame costs a transform and no layout.
                 const moveX = gsap.quickTo(pointer, 'x', { duration: 0.3, ease: 'power3' });
                 const moveY = gsap.quickTo(pointer, 'y', { duration: 0.3, ease: 'power3' });
 
