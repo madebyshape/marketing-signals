@@ -77,11 +77,7 @@
     x-on:keydown.escape.window="mobileMenu = false"
 >
 
-    {# The bar takes js-modal while the Mobile Menu is open so Lenis leaves scrolling over it
-       to the browser, which the hidden overflow on the document element then blocks. #}
-
-    {# The bar is transparent over the hero. It slides away transparent, takes its background
-       while it is off screen, and returns solid so it covers whatever it passes over. #}
+    {# js-modal while the Mobile Menu is open so Lenis leaves scrolling to the browser. #}
 
     <header
         class="{{ classes.wrapper|join(' ')|trim }}"
@@ -245,8 +241,6 @@
             mobileMenu: false,
             init() {
 
-                // Seed from the current position so a page loaded already scrolled
-                // (a refresh, a back navigation, an anchor link) starts in the right state.
                 this.scrollPosition = window.scrollY;
                 this.isPastThreshold = window.scrollY > this.threshold;
                 this.hasBackground = this.isPastThreshold;
@@ -263,9 +257,7 @@
 
                 }, { passive: true });
 
-                // The background switches on once the bar has finished sliding off screen
-                // (matching motion-safe:duration-500), so it never appears over the hero,
-                // and switches off as soon as the page is back within the threshold.
+                // Background switches on only once the bar has slid off screen (matches duration-500).
                 this.$watch('isVisible', (value) => {
 
                     if (value) {

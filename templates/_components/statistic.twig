@@ -1,37 +1,3 @@
-{# Usage #}
-
-{#
-    @component Statistic
-    
-    @description A reusable statistic component
-
-    @param {string} id - The component ID
-    @param {string} statistic - The statistic text
-    @param {string} size - The statistic size
-    @param {string} style - The statistic style
-    @param {string} delay - The statistic delay
-    @param {string} class - Additional CSS classes
-    @param {array} characterArray - The character array
-    @param {string} startingCharacter - The starting character
-    @param {boolean} animate - Whether to animate the statistic
-
-    @example
-    {% include '_components/statistic' with {
-        params: {
-            id: 'statistic-id',
-            statistic: '1000',
-            size: '9xl',
-            style: 'base',
-            delay: random(0, 0.9),
-            class: null,
-            characterArray: ['1','2','3','4','5','6','7','8','9','0',':','%','.','+',',','£','M','B','K'],
-            startingCharacter: '-',
-            animate: true
-        }
-    } %}
-
-#}
-
 {# Default Params #}
 
 {% set defaultParams = {
@@ -52,9 +18,7 @@
 
 {# Animation #}
 
-{# The animation scrolls a column of the characters in the component's own array, so a figure
-   holding anything else — an editor's "1.5bn" — has no character to stop on. Checking the figure
-   against the array first sends it down the static branch instead of animating to nothing. #}
+{# A figure holding a character outside the array has nothing to stop on, so it renders static. #}
 
 {% set supportedCharacters = params.characterArray|map(character => character|upper) %}
 {% set unsupportedCharacters = (params.statistic ?: '')|upper|split('')|filter(character => character not in supportedCharacters) %}
@@ -139,7 +103,6 @@
                     });
                 };
 
-                // Initial update after a brief delay to ensure proper rendering
                 setTimeout(updateStatistics, 100);
 
                 let resizeTimer;
@@ -172,8 +135,7 @@
         }"
         x-init="countUp('{{ params.id }}')"
     >
-        {# The animation scrolls every character in the array past the reader, so the characters are
-           hidden from assistive technology and the figure is given once as text. #}
+        {# The characters scroll past the reader, so they are hidden from AT and the figure given once as text. #}
 
         <span class="sr-only">{{ params.statistic }}</span>
 

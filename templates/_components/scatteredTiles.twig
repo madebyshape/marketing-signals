@@ -22,10 +22,6 @@
 
 {# Options #}
 
-{# The Drift's three speeds as multipliers. They are looked up here rather than in the Alpine
-   data so the speeds stay with the slots that name them, and each Tile carries its own
-   multiplier as a data attribute for the Drift to read. #}
-
 {% set options = {
     speed: {
         slow: 0.1,
@@ -38,9 +34,7 @@
 
 {% set tiles = params.images|slice(0, params.slots|length) %}
 
-{# The layer only places the Tiles: it is the parent that clips them where they pass its edges.
-   It ignores the pointer so a Tile drifting over a button never takes the click, and it is
-   unselectable so a drag across the page does not highlight it. #}
+{# The parent clips the Tiles; the layer ignores the pointer so a drifting Tile never takes a click. #}
 
 {% set classes = {
     layer: [
@@ -66,9 +60,7 @@
         x-ref="layer"
     >
 
-        {# Each Tile takes the slot at its own place in the list, so the editor's first image
-           fills the first slot and a half-filled field simply leaves the later slots empty. The
-           Tiles all sit in the first viewport, so none of them is lazy loaded. #}
+        {# All Tiles sit in the first viewport, so none is lazy loaded. #}
 
         {% for image in tiles %}
 
@@ -110,9 +102,6 @@
                 const tiles = Array.from(layer.children);
                 const speeds = tiles.map((tile) => parseFloat(tile.dataset.speed));
 
-                // Everything is created inside the media context, so a changed preference or a
-                // pointer type that arrives later is handled without a reload: GSAP reverts
-                // what it made and runs the branch that now matches.
                 gsap.matchMedia().add({
                     motion: '(prefers-reduced-motion: no-preference)',
                     finePointer: '(pointer: fine)'
@@ -120,16 +109,10 @@
 
                     const { motion, finePointer } = context.conditions;
 
-                    // Reduced motion gets no Drift at all: the Tiles sit exactly where they
-                    // were laid out, for the pointer and for the scroll.
                     if (!motion) {
                         return;
                     }
 
-                    // The scroll Drift runs wherever motion is allowed, touch included. One
-                    // scrubbed tween per Tile, tied to the layer passing through the viewport,
-                    // moves it down by a fraction of its own height so the Tiles separate as
-                    // the page scrolls towards the Footer.
                     tiles.forEach((tile, index) => {
                         gsap.to(tile, {
                             yPercent: speeds[index] * 10,
@@ -143,8 +126,6 @@
                         });
                     });
 
-                    // A coarse pointer has nothing to follow, and following a tap would jump
-                    // the Tiles under the finger.
                     if (!finePointer) {
                         return;
                     }
@@ -153,18 +134,12 @@
                         willChange: 'transform'
                     });
 
-                    // One `quickTo` per Tile per axis, made once and fed the new target on
-                    // every move: the tween already exists, so a move costs a number rather
-                    // than a tween, and the Tile eases towards the pointer for the rest of its
-                    // duration however fast the pointer crosses the page.
                     const drifts = tiles.map((tile) => ({
                         x: gsap.quickTo(tile, 'x', { duration: 0.6, ease: 'power3' }),
                         y: gsap.quickTo(tile, 'y', { duration: 0.6, ease: 'power3' })
                     }));
 
-                    // The pointer is measured against the centre of the layer and clamped to
-                    // half of it either way, so the furthest a Tile travels is its multiplier
-                    // of 200px: 36px for the fastest.
+                    // Clamped to half the layer either way, so a Tile travels at most its multiplier of 200px.
                     const clamp = gsap.utils.clamp(-0.5, 0.5);
 
                     const onPointerMove = (event) => {
@@ -180,9 +155,7 @@
 
                     };
 
-                    // On the window rather than the layer: the layer ignores the pointer, and
-                    // the Tiles should answer a pointer anywhere on the page. Passive, since
-                    // the Drift never cancels the move.
+                    // On the window, since the layer ignores the pointer.
                     window.addEventListener('mousemove', onPointerMove, { passive: true });
 
                     return () => window.removeEventListener('mousemove', onPointerMove);

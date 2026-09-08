@@ -6,8 +6,7 @@
         vars: vars
     }) }}
 
-    {# Rendering the Blocks as one call rather than looping over them keeps a second Block from
-       rendering the whole page a second time. #}
+    {# Rendered as one call rather than a loop so a second Block never re-renders the page. #}
 
     {{ entry.blocks.render({
         vars: vars

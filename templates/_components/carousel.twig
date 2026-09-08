@@ -29,8 +29,7 @@
 
 {# Classes #}
 
-{# Swiper's stylesheet is unlayered, so it beats a Tailwind utility of the same specificity; the
-   classes that replace one of its own declarations carry the `!` suffix to reach it. #}
+{# Swiper's stylesheet is unlayered, so utilities overriding it carry the ! suffix. #}
 
 {% set classes = {
     wrapper: [
@@ -55,9 +54,7 @@
 
 {# Output #}
 
-{# The carousel is one Alpine scope: the caller's Controls go in the after-content slot, inside
-   it, so the `prev` and `next` refs they carry resolve here and two carousels on one page never
-   reach for each other's buttons. #}
+{# The Controls go in the after-content slot so their prev/next refs resolve in this Alpine scope. #}
 
 {% if params.items|length %}
 
@@ -102,16 +99,13 @@
                 const { prev, next } = _self.$refs;
                 const options = { ...props };
 
-                // A visitor who asked for less motion still pages the row; it just lands the
-                // next Slide rather than sliding to it.
                 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                     options.speed = 0;
                 }
 
                 const swiper = new Swiper(_self.$refs.swiper, {
                     ...options,
-                    // A caller that leaves the after-content slot empty has no buttons to wire,
-                    // and Swiper handed a missing element would throw on the first press.
+                    // Swiper handed a missing navigation element throws on the first press.
                     ...(prev && next ? {
                         navigation: {
                             prevEl: prev,

@@ -40,6 +40,5 @@ lenis.on('scroll', () => {
 });
 
 // Global
-// Exposed after Lenis is built so a Block can scroll the window through the same instance the
-// page already scrolls with, rather than a native scroll Lenis would fight.
+// Exposed after Lenis is built so Blocks scroll through the same instance the page does.
 window.lenis = lenis;

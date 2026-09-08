@@ -132,12 +132,7 @@
 
 {% elseif params.svgInline and params.image['extension'] is defined and params.image.extension == 'svg' %}
 
-    {# The file's own markup is written into the page rather than linked, so the text colour
-       around it reaches its shapes. It is sanitised, and its ids are namespaced so two logos
-       exported with the same mask id never clash on one page. Hex fills become `currentColor`
-       for the same reason; `none` and `white` are left alone, since a full-size white path is
-       how the exports carry a luminance mask. The `imgClass` lands on the root SVG, which is the
-       only element a caller can size or colour. #}
+    {# Inlined so text colour reaches it; hex fills become currentColor, none and white stay for masks. #}
 
     {% set inlineSvg = svg(params.image, true, true)|replace('/fill="#[0-9a-fA-F]{3,8}"/', 'fill="currentColor"') %}
 

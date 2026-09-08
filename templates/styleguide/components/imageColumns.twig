@@ -1,7 +1,6 @@
 {# Image Columns · one column and two, on each panel #}
 
-{# The styleguide has no field to read, so the newest images in the volume stand in for an
-   editor's columns. Three per column is the minimum the field instructions ask for. #}
+{# No field to read, so the newest volume images stand in; three per column is the field minimum. #}
 
 {% set images = craft.assets.kind('image').limit(6).all() %}
 

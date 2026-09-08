@@ -12,11 +12,7 @@
 
 {# Options #}
 
-{# `social` fixes the Social Column's order and its labels against the SEO "same as" handles.
-   `menuSlot` gives the Menu Columns their desktop slots by order, so the columns take fixed
-   positions whatever order editors add them in, and a missing block leaves its slot empty.
-   `credit` is the studio credit in the Footer Bottom, hardcoded because there is no field
-   for it. #}
+{# menuSlot fixes each Menu Column's desktop slot by order; credit is hardcoded, there is no field. #}
 
 {% set options = {
     social: {
@@ -70,9 +66,7 @@
 
 <footer class="{{ classes.wrapper|join(' ')|trim }}">
 
-    {# The Squiggle hangs off the Footer's bottom edge, so it never reaches its own
-       `bottom bottom` — the Footer is passed as the trigger instead. `isolate` on the Footer
-       keeps the negative z-index inside it, above the black background and behind the columns. #}
+    {# The Squiggle hangs off the bottom edge, so the Footer is passed as its trigger. #}
 
     {% include '_components/squiggle' with {
         params: {

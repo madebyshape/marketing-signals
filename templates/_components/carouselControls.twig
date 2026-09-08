@@ -13,9 +13,6 @@
 
 {# Options #}
 
-{# One entry per colour pair rather than one colour for both buttons, because the pair is the
-   house style: Previous reads as the quieter of the two and Next as the one to press. #}
-
 {% set options = {
     colour: {
         base: {
@@ -26,9 +23,6 @@
 } %}
 
 {# Classes #}
-
-{# Swiper puts its disabled class on a button at an end of a row that does not loop and, because
-   these are `button` elements, disables them outright; the class only has to say so. #}
 
 {% set classes = {
     wrapper: [
@@ -42,8 +36,7 @@
 
 {# Output #}
 
-{# The refs are read by the carousel component's own Alpine scope, so the Controls belong in its
-   after-content slot and nowhere else. #}
+{# The refs are read by the carousel's Alpine scope, so the Controls belong in its after-content slot. #}
 
 <div class="{{ classes.wrapper|join(' ')|trim }}">
 

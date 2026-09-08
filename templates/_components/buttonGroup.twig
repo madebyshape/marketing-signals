@@ -41,9 +41,7 @@
 
     <div class="{{ classes.wrapper|join(' ')|trim }}">
 
-        {# The colour list is matched to the buttons by index and its last colour repeats, so a
-           caller names only as many colours as the sequence needs: one solid button followed by
-           any number of outlined ones is two colours, however many buttons the editor adds. #}
+        {# Colours match the buttons by index and the last colour repeats. #}
 
         {% for button in params.buttons %}
 

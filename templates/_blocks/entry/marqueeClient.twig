@@ -11,10 +11,6 @@
 
 {# Clients #}
 
-{# A Client is a title and a Logo, and a Logo is what a Logo Cell shows, so a Client without one
-   is left out of the rows and out of the list a screen reader hears. The Logo is resolved once
-   here rather than again in the rows, where each Client is drawn several times over. #}
-
 {% set clients = [] %}
 
 {% for client in entry.entriesClient.all() %}
@@ -34,10 +30,7 @@
 
 {# Logo Rows #}
 
-{# The Clients are split in listed order, the first half rounded up filling the first row. Each
-   row then repeats its Clients in order until it holds at least six Logo Cells, so a row is at
-   least 1920px wide at the desktop cell size and the widest supported viewport never shows a
-   gap at the end of it. #}
+{# Each row repeats its Clients to 6+ cells so the widest viewport never shows a gap #}
 
 {% set split = (clients|length / 2)|round(0, 'ceil') %}
 
@@ -48,19 +41,13 @@
 
 {% set cellMinimum = 6 %}
 
-{# Both rows Crawl at the same speed, held here so it can be tuned without touching the marquee
-   component every other caller shares. 0.4 on the component's scale is 40 pixels a second. #}
+{# 0.4 on the marquee's scale is 40px a second #}
 
 {% set crawlSpeed = 0.4 %}
 
 {# Options #}
 
-{# The two rows differ in where they start, which way they Crawl and which edges they draw. The
-   first row starts at the viewport's left edge and Crawls leftwards; the second is shifted left
-   by half a cell and Crawls rightwards, so the two read as brickwork rather than a grid and as
-   two streams rather than one conveyor. Every cell draws its top and left edges, and a
-   second-row cell its bottom too, so the two rows together draw the design's grid: the line
-   between them is the second row's top edge alone, and no border is ever doubled. #}
+{# Cells draw top and left edges only, so the two rows share lines and no border doubles #}
 
 {% set blockOptions = {
     row: {
@@ -79,22 +66,7 @@
 
 {# Classes #}
 
-{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
-   named apart from it. The section's horizontal padding is off: the Section Header and Section
-   Footer carry the site margin themselves and the Logo Rows run edge to edge without it.
-
-   The header carries the gap to the rows on its own bottom margin, so a Block with no Eyebrow
-   and no heading takes that spacing with it and the rows sit at the top of the section. The
-   Eyebrow's own margin is only there when a heading follows it.
-
-   A row is wider than the viewport by design and the second starts outside it, so the rows are
-   clipped by their wrapper rather than pushing the page sideways.
-
-   The hover fill is the cell's own background and text colour under a fine pointer, and the Logo
-   is inline and takes `currentColor`, so the one transition carries both. The long duration is
-   the fade out, which the pointer's own hover shortens to 150ms, so the fill arrives at once and
-   lingers behind the pointer as it sweeps on. No per-cell state, and a coarse pointer never
-   matches the variant, so a tap leaves nothing lit. #}
+{# The 2000ms is the hover fade-out; hover itself shortens it to 150ms so the fill arrives at once #}
 
 {% set blockClasses = {
     margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
@@ -127,10 +99,6 @@
 
 {# Output #}
 
-{# One Client is a single Logo Cell and an empty second row, which is not a marquee, so the field
-   asks for two and a Block left with fewer renderable Clients renders nothing at all, section
-   included. #}
-
 {% if clients|length >= 2 %}
 
     {% embed '_components/section'
@@ -149,8 +117,6 @@
             {% if hasEyebrow or hasHeading %}
 
                 <div class="{{ blockClasses.margin }} {{ blockClasses.header|join(' ')|trim }}">
-
-                    {# An empty Eyebrow drops its row, and an empty heading drops its own. #}
 
                     {% if hasEyebrow %}
 
@@ -183,10 +149,7 @@
 
             {% endif %}
 
-            {# Every cell repeats and the Clients are split across two rows, so reading the rows
-               out would name each Client several times over and in an order nobody sees. The
-               rows are hidden from assistive technology and this list stands in for them,
-               naming each renderable Client once, in the order the editor set. #}
+            {# The rows repeat each Client, so this list names each once for screen readers #}
 
             <ul class="sr-only">
 
@@ -208,12 +171,7 @@
                     {% set rowStyle = loop.first ? blockOptions.row.first : blockOptions.row.second %}
                     {% set repeats = (cellMinimum / row|length)|round(0, 'ceil') %}
 
-                    {# The offset is a margin on this wrapper rather than on the marquee, because
-                       a block-level box with no stated width grows by what its negative margin
-                       takes: the row still reaches the right-hand edge instead of ending half a
-                       cell short of it. Each row is its own marquee under its own Alpine name,
-                       taken from the Block handle and the row's index, so two Client Marquees on
-                       one page keep their loops and their pauses apart. #}
+                    {# Offset on the wrapper, not the marquee: an unsized block widens by its negative margin #}
 
                     <div class="{{ rowStyle.offset }}">
 
@@ -235,15 +193,6 @@
                                     {% for client in row %}
 
                                         <div class="{{ [rowStyle.cell]|merge(blockClasses.cell)|join(' ')|trim }}">
-
-                                            {# The Logo is written into the page rather than
-                                               linked, so the cell's hover fill recolours it by
-                                               moving the text colour it takes. It is capped at
-                                               40% of the cell's width and 20% of its height,
-                                               which is the room the design leaves around the
-                                               widest and the tallest of them. The rows are
-                                               hidden from assistive technology, so the Logo
-                                               carries no alt of its own. #}
 
                                             {% include '_components/picture' with {
                                                 params: {
@@ -271,9 +220,6 @@
                 {% endfor %}
 
             </div>
-
-            {# A button with no link, or an Avatar Group with no name, drops that item; both
-               missing drops the row. #}
 
             {% set avatar = entry.avatarGroup %}
 

@@ -1,19 +1,4 @@
-{#
-   Font loading — modern pattern (woff2 only, preload + font-display: swap).
-
-   Add your fonts to the map below and drop the matching `.woff2` files in
-   `src/public/fonts/` (served from `/dist/fonts/` after the Vite build).
-   Only list fonts that are needed for the initial render here — every entry is
-   preloaded, so keep it to your critical above-the-fold weights.
-
-   Example:
-   {% set fonts = {
-       inter: [
-           { file: 'inter-regular', weight: 400, style: 'normal' },
-           { file: 'inter-bold',    weight: 700, style: 'normal' },
-       ],
-   } %}
-#}
+{# Fonts live in src/public/fonts/ as woff2; every entry is preloaded, so list only critical faces. #}
 
 {% set fonts = {
     'Noi Grotesk': [

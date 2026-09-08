@@ -12,12 +12,6 @@
 
 {# Options #}
 
-{# The card is a twelve column grid. With Image Columns filling columns 1 to 5 the content
-   starts at column 6 and keeps only its right padding, since the grid gap already separates
-   the two; with none, the content spans the whole card and carries the padding on both sides.
-   The Image Columns bleed to the card's edges rather than sitting inside its padding, so the
-   card's radius clips them. #}
-
 {% set options = {
     content: {
         withImages: 'lg:col-start-6 lg:col-span-7 lg:pl-0 lg:pr-15',
@@ -26,9 +20,6 @@
 } %}
 
 {# Classes #}
-
-{# The content's grid slot depends on whether any Image Column has images, so the columns are
-   resolved before the classes that read them. #}
 
 {% set cta = site.footerCta %}
 {% set imageColumns = cta.imageColumns.all()|map(column => column.images.all())|filter(images => images|length) %}
@@ -59,9 +50,7 @@
 
         {% if imageColumns|length %}
 
-            {# The slot is empty of flow content so it never sizes the card's row: the card's
-               height still comes from the content's padding, and the Image Columns fill the
-               slot from inside it. #}
+            {# Empty of flow content so it never sizes the card's row. #}
 
             <div class="{{ classes.imageColumnsSlot }}">
 

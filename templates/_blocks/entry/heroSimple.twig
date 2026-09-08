@@ -11,13 +11,7 @@
 
 {# Classes #}
 
-{# `classes` is the name the embedded section uses for its own map, so the Hero's classes are
-   named apart from it.
-
-   The header is fixed and takes no document space (ADR-0001), so the section's top padding is
-   the header height from the shared map and the Breadcrumb starts on the header's bottom edge.
-   The grid's top margin is the gap from the Breadcrumb down to the heading: 60px below `xl` and
-   130px from `xl`, which is where the design puts the heading's cap top. #}
+{# The header is fixed (ADR-0001), so the section's top padding is the header height #}
 
 {% set blockClasses = {
     grid: 'grid grid-cols-12 gap-x-5 gap-y-7.5 mt-15 | lg:items-end xl:mt-[130px]',
@@ -36,9 +30,6 @@
     }
 %}
     {% block sectionContent %}
-
-        {# The Hero's own entry is the block; the page it opens is its owner, and that is the
-           entry the trail is derived from. #}
 
         {% include '_components/breadcrumb' with {
             params: {
