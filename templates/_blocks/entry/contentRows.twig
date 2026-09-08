@@ -1,0 +1,218 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content Rows #}
+
+{% set rows = [] %}
+
+{% for row in entry.contentRows.all() %}
+
+    {% set video = row.mediaType.value == 'video' ? row.video : null %}
+    {% set image = row.mediaType.value == 'image' ? row.image.one() : null %}
+
+    {% set hasVideo = video and (video.videoUrl|trim|length or video.videoFile.one() or video.videoThumbnail.one()) %}
+
+    {% set buttons = row.buttonGroup.all() %}
+
+    {% set hasContent = row.heading|striptags|trim|length
+        or row.text|striptags|trim|length
+        or buttons|length %}
+
+    {% if image or hasVideo or hasContent %}
+
+        {% set rows = rows|merge([{
+            row: row,
+            image: image,
+            video: hasVideo ? video : null,
+            buttons: buttons,
+            hasMedia: image or hasVideo,
+            hasContent: hasContent
+        }]) %}
+
+    {% endif %}
+
+{% endfor %}
+
+{# Options #}
+
+{% set blockOptions = {
+    order: {
+        mediaFirst: {
+            media: 'lg:col-start-1 lg:col-span-6 lg:row-start-1',
+            content: 'lg:col-start-8 lg:col-span-5 lg:row-start-1'
+        },
+        contentFirst: {
+            media: 'lg:col-start-7 lg:col-span-6 lg:row-start-1',
+            content: 'lg:col-start-1 lg:col-span-5 lg:row-start-1'
+        }
+    },
+    sizes: '(min-width: 1024px) 50vw, 100vw'
+} %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    headingRow: [
+        'grid grid-cols-12 gap-5 mb-10',
+        '|',
+        'lg:mb-12.5'
+    ],
+    heading: [
+        'col-span-12 text-center text-balance font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:col-start-3 lg:col-span-8 lg:text-8xl'
+    ],
+    rows: [
+        'flex flex-col gap-12.5',
+        '|',
+        'lg:gap-17.5'
+    ],
+    row: [
+        'grid grid-cols-1 gap-7.5',
+        '|',
+        'lg:grid-cols-12 lg:items-center lg:gap-5'
+    ],
+    media: 'relative aspect-square overflow-hidden rounded-[20px] bg-black',
+    contentFull: 'lg:col-span-12',
+    rowHeading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'lg:text-6xl'
+    ],
+    text: 'mt-7.5',
+    buttons: 'mt-10'
+} %}
+
+{# Output #}
+
+{% if rows|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {% if entry.heading|striptags|trim|length %}
+
+                <div class="{{ blockClasses.headingRow|join(' ')|trim }}">
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h2',
+                            heading: entry.heading,
+                            size: '5xl',
+                            class: blockClasses.heading|join(' ')|trim
+                        }
+                    } only %}
+
+                </div>
+
+            {% endif %}
+
+            <div class="{{ blockClasses.rows|join(' ')|trim }}">
+
+                {% for item in rows %}
+
+                    {% set order = blockOptions.order[item.row.contentOrder.value ?? 'mediaFirst'] ?? blockOptions.order.mediaFirst %}
+
+                    <div class="{{ blockClasses.row|join(' ')|trim }}">
+
+                        {# The Media leads in the DOM so it is always on top below `lg`; the Content Order is column placement only. #}
+
+                        {% if item.hasMedia %}
+
+                            <div class="{{ [blockClasses.media, order.media]|join(' ')|trim }}">
+
+                                {% if item.image %}
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: item.image,
+                                            alt: '',
+                                            transform: '1x1',
+                                            ratio: false,
+                                            focalPoint: true,
+                                            sizes: blockOptions.sizes
+                                        }
+                                    } only %}
+
+                                {% else %}
+
+                                    {# The inline Player Type is a later ticket, so every video opens the Video Modal. #}
+
+                                    {% include '_components/videoPlayer/base' with {
+                                        params: {
+                                            video: item.video,
+                                            transform: '1x1',
+                                            playerType: 'modal',
+                                            modalLabel: 'Video player',
+                                            class: 'h-full'
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                            </div>
+
+                        {% endif %}
+
+                        {% if item.hasContent %}
+
+                            <div class="{{ (item.hasMedia ? order.content : blockClasses.contentFull)|trim }}">
+
+                                {% include '_components/headingAlternate' with {
+                                    params: {
+                                        tag: 'h3',
+                                        heading: item.row.heading,
+                                        size: '4xl',
+                                        class: blockClasses.rowHeading|join(' ')|trim
+                                    }
+                                } only %}
+
+                                {% if item.row.text|striptags|trim|length %}
+
+                                    {% include '_components/richText' with {
+                                        params: {
+                                            content: item.row.text,
+                                            colour: 'black',
+                                            size: 'base',
+                                            class: item.row.heading|striptags|trim|length ? blockClasses.text
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                                {% include '_components/buttonGroup' with {
+                                    params: {
+                                        buttons: item.buttons,
+                                        colours: ['secondary', 'creme-300-outline'],
+                                        class: (item.row.heading|striptags|trim|length or item.row.text|striptags|trim|length) ? blockClasses.buttons
+                                    }
+                                } only %}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

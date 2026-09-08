@@ -100,6 +100,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 4155d79e-8997-463c-8e4f-8e9fea348e1e # Content Rows
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - d1bfe36b-4da4-4c86-a162-fa22d76b4ed8 # Template
         -
           - group
