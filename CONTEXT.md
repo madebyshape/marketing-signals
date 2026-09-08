@@ -386,6 +386,32 @@ _Avoid_: Position, cell, placement, scheme
 The behaviour of a Testimonial Grid's heading and Review Badge from the desktop breakpoint: they hold still below the Header while the Testimonial Cards scroll over them, then dim out behind the page colour towards the bottom of the cards. Below the desktop breakpoint the heading is in flow.
 _Avoid_: Sticky heading, fade, parallax, pin
 
+### FAQ Accordion
+
+**FAQ**:
+An entry in the FAQ section: a question, its Answer and an optional Button Group. It has no page.
+_Avoid_: Question entry, help article, Q&A
+
+**FAQ Accordion**:
+A Block of a heading with the Highlight beside a list of Questions, one per FAQ the editor picked, in a creme panel inside the site margins, with Load More beneath when there are more than seven. From the desktop breakpoint the heading Follows.
+_Avoid_: FAQ block, FAQs, accordion block, questions section
+
+**Question**:
+One row in a FAQ Accordion: the FAQ's question with a toggle at its right. Opening one closes any other.
+_Avoid_: Accordion item, row, panel, FAQ item
+
+**Answer**:
+The text an open Question reveals, with the FAQ's Button Group beneath it when one is set.
+_Avoid_: Content, body, description, response
+
+**Load More**:
+The button beneath the Questions that loads every remaining Question in one click, shown only while some are not yet on the page.
+_Avoid_: Show more, pagination, view all, expand
+
+**Follow**:
+The behaviour of a FAQ Accordion's heading from the desktop breakpoint: it holds still below the Header while the Questions scroll past it. Unlike the Sink it never dims. Below the desktop breakpoint the heading is in flow.
+_Avoid_: Sticky, pin, sink, parallax
+
 ### Seeding
 
 **Seed**:
