@@ -9,15 +9,30 @@
 
 {% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
 
+{# Work Tiles #}
+
+{% set workTiles = entry.images.all() %}
+
+{# The row repeats its Tiles to 12+ so the widest viewport never shows a gap #}
+
+{% set tileMinimum = 12 %}
+{% set repeats = workTiles|length ? (tileMinimum / workTiles|length)|round(0, 'ceil') : 0 %}
+
+{# 0.4 on the marquee's scale is 40px a second, the Client Marquee's Crawl #}
+
+{% set crawlSpeed = 0.4 %}
+
 {# Classes #}
 
 {# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
 
 {# The content column's bottom padding reserves the band the Work Marquee takes #}
 
+{# The row is 120% of the panel so the tilt never brings an end inside the edge #}
+
 {% set blockClasses = {
     panel: [
-        'w-full min-h-svh overflow-hidden rounded-b-[30px] bg-black',
+        'relative w-full min-h-svh overflow-hidden rounded-b-[30px] bg-black',
         vars is defined ? vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]'
     ],
     content: [
@@ -28,7 +43,18 @@
     ],
     heading: 'mt-7.5 max-w-[1263px] font-semibold leading-0.97 tracking-tighter | md:text-8xl lg:text-10xl xl:mt-10 xl:text-12xl xl:leading-0.92',
     text: 'mt-7.5',
-    buttons: 'mt-7.5'
+    buttons: 'mt-7.5',
+    marquee: [
+        'pointer-events-none absolute -bottom-[52px] left-[-10%] w-[120%] rotate-[-7deg]',
+        '|',
+        'lg:-bottom-[83px]'
+    ],
+    tile: [
+        'h-[253px] w-[150px] rounded-[10px] object-cover',
+        '|',
+        'lg:h-[408px] lg:w-[242px]'
+    ],
+    fade: 'pointer-events-none absolute inset-x-0 bottom-0 h-[118px] bg-linear-to-b from-transparent to-black'
 } %}
 
 {# Output #}
@@ -76,6 +102,55 @@
                 } only %}
 
             </div>
+
+            {% if workTiles|length %}
+
+                <div
+                    class="{{ blockClasses.marquee|join(' ')|trim }}"
+                    aria-hidden="true"
+                >
+
+                    {% embed '_components/marquee' with {
+                        params: {
+                            component: params.handle ~ 'Marquee',
+                            gap: 'sm',
+                            props: {
+                                speed: crawlSpeed
+                            }
+                        }
+                    } %}
+                        {% block marqueeContent %}
+
+                            {% for repeat in 1..repeats %}
+
+                                {% set isFirstSet = loop.first %}
+
+                                {% for image in workTiles %}
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: image,
+                                            alt: '',
+                                            transform: '3x5',
+                                            sizes: '(min-width: 1024px) 242px, 150px',
+                                            lazy: not isFirstSet,
+                                            ratio: false,
+                                            imgClass: blockClasses.tile|join(' ')|trim
+                                        }
+                                    } only %}
+
+                                {% endfor %}
+
+                            {% endfor %}
+
+                        {% endblock %}
+                    {% endembed %}
+
+                </div>
+
+                <div class="{{ blockClasses.fade }}"></div>
+
+            {% endif %}
 
         </div>
 
