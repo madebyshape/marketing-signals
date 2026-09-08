@@ -22,6 +22,8 @@
 
 {% set crawlSpeed = 0.4 %}
 
+{% set component = entry.type.handle %}
+
 {# Classes #}
 
 {# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
@@ -44,13 +46,14 @@
     heading: 'mt-7.5 max-w-[1263px] font-semibold leading-0.97 tracking-tighter | md:text-8xl lg:text-10xl xl:mt-10 xl:text-12xl xl:leading-0.92',
     text: 'mt-7.5',
     buttons: 'mt-7.5',
+    buttonsRegion: 'w-fit',
     marquee: [
-        'pointer-events-none absolute -bottom-[52px] left-[-10%] w-[120%] rotate-[-7deg]',
+        'absolute -bottom-[52px] left-[-10%] w-[120%] rotate-[-7deg]',
         '|',
         'lg:-bottom-[83px]'
     ],
     tile: [
-        'h-[253px] w-[150px] rounded-[10px] object-cover',
+        'pointer-events-none h-[253px] w-[150px] rounded-[10px] object-cover',
         '|',
         'lg:h-[408px] lg:w-[242px]'
     ],
@@ -69,7 +72,13 @@
 %}
     {% block sectionContent %}
 
-        <div class="{{ blockClasses.panel|join(' ')|trim }}">
+        <div
+            class="{{ blockClasses.panel|join(' ')|trim }}"
+            x-data="{{ component }}"
+            x-on:pointerenter="raise()"
+            x-on:pointerleave="lower()"
+            x-on:click="scrollPast()"
+        >
 
             <div class="{{ blockClasses.content|join(' ')|trim }}">
 
@@ -93,13 +102,22 @@
                     }
                 } only %}
 
-                {% include '_components/buttonGroup' with {
-                    params: {
-                        buttons: entry.buttonGroup.all(),
-                        colours: ['creme-100', 'creme-100-outline'],
-                        class: blockClasses.buttons
-                    }
-                } only %}
+                <div
+                    class="{{ blockClasses.buttonsRegion }}"
+                    x-on:pointerenter="lower()"
+                    x-on:pointerleave="raise()"
+                    x-on:click.stop
+                >
+
+                    {% include '_components/buttonGroup' with {
+                        params: {
+                            buttons: entry.buttonGroup.all(),
+                            colours: ['creme-100', 'creme-100-outline'],
+                            class: blockClasses.buttons
+                        }
+                    } only %}
+
+                </div>
 
             </div>
 
@@ -108,6 +126,9 @@
                 <div
                     class="{{ blockClasses.marquee|join(' ')|trim }}"
                     aria-hidden="true"
+                    x-on:pointerenter="lower()"
+                    x-on:pointerleave="raise()"
+                    x-on:click.stop
                 >
 
                     {% embed '_components/marquee' with {
@@ -156,3 +177,48 @@
 
     {% endblock %}
 {% endembed %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            fine: false,
+            init() {
+
+                this.fine = window.matchMedia('(pointer: fine)').matches;
+
+            },
+            raise() {
+
+                if (!this.fine) {
+                    return;
+                }
+
+                this.$dispatch('component-cursor', { active: true, text: 'Scroll', icon: 'fa-arrow-down', style: 'outline' });
+
+            },
+            lower() {
+
+                if (!this.fine) {
+                    return;
+                }
+
+                this.$dispatch('component-cursor', { active: false });
+
+            },
+            scrollPast() {
+
+                if (!this.fine) {
+                    return;
+                }
+
+                // Lenis owns the page's scroll, so the move goes through it.
+                window.lenis.scrollTo(this.$el.getBoundingClientRect().bottom + window.scrollY);
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
