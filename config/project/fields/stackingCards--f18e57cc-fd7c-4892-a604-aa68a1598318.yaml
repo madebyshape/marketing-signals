@@ -1,0 +1,26 @@
+columnSuffix: null
+handle: stackingCards
+instructions: 'Two or more cards that stack as the visitor scrolls. Each card is coloured and tilted by its position: white, black, secondary, fluro, then round again.'
+name: 'Stacking Cards'
+searchable: false
+settings:
+  createButtonLabel: 'New Stacking Card'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - ea300912-bfa1-429b-9212-ba39329d1960 # Stacking Card
+  includeTableView: false
+  maxEntries: null
+  minEntries: 2
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

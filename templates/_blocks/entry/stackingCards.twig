@@ -1,0 +1,631 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Stacking Cards #}
+
+{# A card with no heading has nothing to name it in the pile, so it is dropped before the pile is
+   built and the cards that are left keep their positions in the Card Scheme cycle. Two or more
+   are a pile: one card has nothing to sit beneath it, so it stays the plain column at every
+   width, which is the layout the Stack falls back to as well. #}
+
+{% set cards = entry.stackingCards.all()|filter(card => card.heading|striptags|trim|length) %}
+{% set stacked = cards|length > 1 %}
+
+{# The Alpine data is named for the Block's handle, so two Stacking Cards Blocks on one page each
+   keep their own state and their own refs, as the Service Carousel does. #}
+
+{% set component = entry.type.handle %}
+
+{# Options #}
+
+{# The Card Scheme comes from the card's position, never from the editor: four schemes cycled
+   past the fourth card. `tilt` is the sheet's angle in the pile and applies from `lg` only,
+   because below `lg` every card is square to the page. #}
+
+{% set blockOptions = {
+    scheme: [
+        {
+            card: 'bg-white',
+            heading: 'base',
+            text: 'black',
+            button: 'creme-300-outline',
+            tilt: 'lg:rotate-2'
+        },
+        {
+            card: 'bg-black',
+            heading: 'fluro',
+            text: 'white',
+            button: 'white-30-outline',
+            tilt: 'lg:-rotate-1'
+        },
+        {
+            card: 'bg-secondary',
+            heading: 'base',
+            text: 'black',
+            button: 'black-outline',
+            tilt: 'lg:rotate-0'
+        },
+        {
+            card: 'bg-fluro',
+            heading: 'base',
+            text: 'black',
+            button: 'black-outline',
+            tilt: 'lg:-rotate-2'
+        }
+    ],
+    sizes: {
+        column: '100vw',
+        row: '(min-width: 1024px) 25vw, 100vw'
+    }
+} %}
+
+{# Classes #}
+
+{# `classes` is the name the embedded section uses for its own map, so the Block's classes are
+   named apart from it.
+
+   From `lg` the frame is a twelve column grid: the Section Header in columns one to four, the
+   pile in five to twelve, and the Section Footer beneath the pile in the same columns. Below
+   `lg` the grid is one column and the three fall into order with the design's own spacing.
+
+   Every one of those `lg` rules is behind `motion-safe`, the row card and its two image slots
+   with them, because the two column frame exists to be Stacked and a visitor who has asked for
+   reduced motion never Stacks. They get the one column layout at every width instead: the
+   heading and text above a plain column of full width cards, each with its photograph above its
+   content, and the button and Avatar Group beneath.
+
+   Served, the pile is a column and the cards fall down it with the design's 20px between them;
+   the Block's own state turns it into a single grid cell every card occupies, so the cell takes
+   the tallest card's height and every card stretches to fill it and the sheets share one height,
+   as the design's do. Every one of those classes lives in `stacked` below, none of them carrying
+   a group pipe, because Alpine reads them as a class list. That is what leaves reduced motion,
+   a width below `lg` and a page whose script has not run the plain column.
+
+   The tilt goes with them: a fanned sheet is the pile's, and a column of tilted cards is not a
+   layout the design has. Paint order would leave the last card on top, so the depth is the one
+   thing the Block hands to GSAP rather than to Alpine — a z-index counting down from the first
+   card, written and reverted with the transforms. #}
+
+{% set blockClasses = {
+    grid: [
+        'grid grid-cols-1',
+        '|',
+        'motion-safe:lg:grid-cols-12 motion-safe:lg:gap-5'
+    ],
+    header: 'motion-safe:lg:col-span-4',
+    heading: 'font-semibold leading-0.97 tracking-tighter | motion-safe:lg:text-7xl',
+    text: 'max-w-[365px] mt-7.5',
+    pile: [
+        'flex flex-col gap-5 mt-10',
+        '|',
+        'motion-safe:lg:col-start-5 motion-safe:lg:col-span-8 motion-safe:lg:mt-0'
+    ],
+    card: {
+        base: 'relative flex flex-col overflow-hidden rounded-[20px]',
+        row: 'motion-safe:lg:flex-row'
+    },
+    slot: [
+        'relative overflow-hidden m-1.25 rounded-[15px] aspect-[4/3]',
+        '|',
+        'motion-safe:lg:w-[36%] motion-safe:lg:shrink-0 motion-safe:lg:aspect-auto'
+    ],
+    image: {
+        base: 'absolute inset-0',
+        shown: 'opacity-100',
+        hidden: 'opacity-0',
+        hook: 'js-stacking-cards-image',
+        column: 'motion-safe:lg:hidden',
+        row: 'hidden | motion-safe:lg:block'
+    },
+    content: [
+        'flex flex-1 flex-col justify-center p-7.5',
+        '|',
+        'motion-safe:lg:p-25'
+    ],
+    cardHeading: 'font-semibold leading-0.97 tracking-tighter | motion-safe:lg:text-5xl',
+    cardText: 'mt-6.25',
+    cardButton: 'mt-7.5',
+    footer: [
+        'flex flex-wrap items-center gap-5 mt-10',
+        '|',
+        'motion-safe:lg:col-start-5 motion-safe:lg:col-span-8 motion-safe:lg:mt-15 motion-safe:lg:justify-center'
+    ],
+    stacked: {
+        frame: 'lg:h-screen lg:content-center-safe',
+        pile: 'lg:grid lg:grid-cols-1 lg:grid-rows-1 lg:gap-0',
+        card: 'lg:col-start-1 lg:row-start-1'
+    }
+} %}
+
+{# Output #}
+
+{# A Block whose cards all lack a heading has no pile to hold, so it renders nothing at all,
+   section included. #}
+
+{% if cards|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {# The frame is the Section Header, the pile and the Section Footer together: the one
+               element the Pin holds still, and the one the ScrollTrigger is triggered by. While
+               it is stacked it takes a viewport of height and centres its rows in it, as the
+               Service Carousel's does, so the cards travel from the middle of the screen and the
+               tilted corners are not clipped by its top edge. The centring is safe: when the
+               frame is taller than the viewport it aligns to the top instead, so an over-tall
+               pile is read from its heading down rather than losing its top above the screen
+               where a stuck frame cannot be scrolled to. #}
+
+            <div
+                class="{{ blockClasses.grid|join(' ')|trim }}"
+                x-data="{{ component }}"
+                {% if stacked %}x-bind:class="{ '{{ blockClasses.stacked.frame }}': stacked }"{% endif %}
+                x-ref="frame"
+            >
+
+                {# An empty heading drops the Section Header and the pile moves up; an empty text
+                   drops the text alone. #}
+
+                {% if entry.heading|striptags|trim|length %}
+
+                    <div class="{{ blockClasses.header }}">
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                heading: entry.heading,
+                                size: '5xl',
+                                class: blockClasses.heading
+                            }
+                        } only %}
+
+                        {% if entry.text|striptags|trim|length %}
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: entry.text,
+                                    colour: 'black',
+                                    class: blockClasses.text
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+                <div
+                    class="{{ blockClasses.pile|join(' ')|trim }}"
+                    {% if stacked %}x-bind:class="{ '{{ blockClasses.stacked.pile }}': stacked }"{% endif %}
+                    x-ref="pile"
+                >
+
+                    {% for card in cards %}
+
+                        {% set scheme = cycle(blockOptions.scheme, loop.index0) %}
+
+                        {% set cardClasses = [
+                            blockClasses.card.base,
+                            scheme.card,
+                            '|',
+                            blockClasses.card.row
+                        ] %}
+
+                        {# The card is a panel, not a link: its button is the only link in it. #}
+
+                        <div
+                            class="{{ cardClasses|join(' ')|trim }}"
+                            {% if stacked %}x-bind:class="{ '{{ blockClasses.stacked.card }} {{ scheme.tilt }}': stacked }"{% endif %}
+                        >
+
+                            {# A card with no Card Images keeps its slot, so the content stays in
+                               its place and the slot shows the card's own colour. The photograph
+                               is decorative: its alt is empty and the card's heading names the
+                               industry. The row's slot is the design's 360 by 437 and the
+                               column's is 4x3, so each is cropped to fill rather than letterboxed
+                               into the other's shape. #}
+
+                            <div class="{{ blockClasses.slot|join(' ')|trim }}">
+
+                                {# Every Card Image is laid on top of the last, filling the slot,
+                                   with only the first opaque, so the Image Cycle has nothing to
+                                   lay out and nothing to reflow: it fades one image out and the
+                                   next in. A card with one image renders exactly the same way
+                                   and simply never has a timeline built for it, and so does
+                                   every card for a visitor who prefers reduced motion, which is
+                                   the first image and no cross-fade at any width. #}
+
+                                {% for image in card.images.all() %}
+
+                                    <div class="{{ [
+                                        blockClasses.image.base,
+                                        loop.first ? blockClasses.image.shown : blockClasses.image.hidden,
+                                        '||',
+                                        blockClasses.image.hook
+                                    ]|join(' ')|trim }}">
+
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: image,
+                                                alt: '',
+                                                transform: '4x3',
+                                                ratio: false,
+                                                focalPoint: true,
+                                                sizes: blockOptions.sizes.column,
+                                                wrapperClass: blockClasses.image.column
+                                            }
+                                        } only %}
+
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: image,
+                                                alt: '',
+                                                transform: '3x4',
+                                                ratio: false,
+                                                focalPoint: true,
+                                                sizes: blockOptions.sizes.row,
+                                                wrapperClass: blockClasses.image.row
+                                            }
+                                        } only %}
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                            <div class="{{ blockClasses.content|join(' ')|trim }}">
+
+                                {% include '_components/headingAlternate' with {
+                                    params: {
+                                        tag: 'h3',
+                                        heading: card.heading,
+                                        colour: scheme.heading,
+                                        size: '4xl',
+                                        class: blockClasses.cardHeading
+                                    }
+                                } only %}
+
+                                {% if card.text|striptags|trim|length %}
+
+                                    {% include '_components/richText' with {
+                                        params: {
+                                            content: card.text,
+                                            colour: scheme.text,
+                                            class: blockClasses.cardText
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                                {% if card.button|length %}
+
+                                    <div class="{{ blockClasses.cardButton }}">
+
+                                        {# Tabbing to a button inside the pinned frame would leave
+                                           the visitor focused on a card that has already been
+                                           scrolled away, so the button hands the Block its card's
+                                           position and the Block scrolls back to it. #}
+
+                                        {% include '_components/button' with {
+                                            params: {
+                                                button: card.button,
+                                                colour: scheme.button,
+                                                attributes: 'x-on:focus="focusCard(' ~ loop.index0 ~ ')"'
+                                            }
+                                        } only %}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {# A button with no link, or an Avatar Group with no name, drops that item; both
+                   missing drops the Section Footer row. #}
+
+                {% set avatar = entry.avatarGroup %}
+
+                {% if entry.button|length or avatar.avatarName|length %}
+
+                    <div class="{{ blockClasses.footer|join(' ')|trim }}">
+
+                        {% include '_components/button' with {
+                            params: {
+                                button: entry.button,
+                                colour: 'secondary'
+                            }
+                        } only %}
+
+                        {% if avatar.avatarName|length %}
+
+                            {% include '_components/user' with {
+                                params: {
+                                    image: avatar.avatar.one(),
+                                    heading: avatar.avatarName,
+                                    subHeading: avatar.avatarJobRole,
+                                    size: 'sm'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => {
+
+            // How much scrolling each card in the pile is given, as a share of the viewport
+            // height. At 0.85 a card tracks the visitor's scroll at roughly one to one: it leaves
+            // the screen at about the speed the page would have moved it. This is the one number
+            // the pacing is dialled with and everything else below is derived from it, so the
+            // sequence can be slowed or quickened without restructuring anything.
+            const SCROLL_PER_CARD = 0.85;
+
+            // A card is finished when it is off the top of the screen, not when its last pixel is
+            // level with it. These few pixels past the edge are what make the difference between
+            // the two invisible, and cover the fraction of a pixel that rounding a rotated
+            // bounding box can leave behind.
+            const CLEARANCE = 24;
+
+            // The Image Cycle's two figures, in seconds: how long a Card Image is held before
+            // the card moves on to the next, and how long the cross-fade between the two takes.
+            // The hold is the beat the photograph is read for; the fade is long enough to read
+            // as a dissolve rather than a cut.
+            const IMAGE_HOLD = 3;
+            const IMAGE_FADE = 0.8;
+
+            // The Card Images are reached by a hook class rather than a ref, because a ref names
+            // one element per Alpine component and every card in the pile has its own set.
+            const IMAGE = '.{{ blockClasses.image.hook }}';
+
+            // The ScrollTrigger is held outside the data object, because Alpine makes everything
+            // in there reactive and nothing renders from the instance: only the Block reads it.
+            let trigger = null;
+
+            return {
+                stacked: false,
+                init() {
+
+                    // One matchMedia for the Block, so the Stack and the Image Cycle are two
+                    // contexts under one watcher: they answer different queries, and a changed
+                    // width or motion preference re-evaluates both together.
+                    const media = gsap.matchMedia();
+
+                    // One query rather than a matching pair, and the motion preference folded
+                    // into it: below `lg`, and for a visitor who has asked for reduced motion at
+                    // any width, it never matches, nothing is applied and the column in the
+                    // markup is what they get. Both are watched as well as read, so crossing the
+                    // breakpoint or changing the preference re-evaluates the query and the
+                    // cleanup the context returns puts the column back.
+                    media.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', (context) => {
+
+                        // One card has nothing to reveal beneath it, so it keeps the column the
+                        // server sent: no pile, no Pin and no ScrollTrigger. The gate is here
+                        // rather than around both contexts, because a lone card's Card Images
+                        // cycle like any other card's.
+                        if (this.$refs.pile.children.length < 2) {
+                            return;
+                        }
+
+                        this.stacked = true;
+
+                        // Alpine writes the pile's classes on the next tick, so the cards are
+                        // measured in the single cell they will share rather than in the column
+                        // it replaced. `context.add` keeps the late work inside the media context,
+                        // so the cleanup still reverts every transform it wrote.
+                        this.$nextTick(() => context.add(() => {
+
+                            const cards = Array.from(this.$refs.pile.children);
+
+                            // Reverse depth order, so the first card is the one on top of the
+                            // pile and each card is revealed by the one above it leaving. Paint
+                            // order alone would put the last on top.
+                            gsap.set(cards, { zIndex: (index) => cards.length - index });
+
+                            // The frame is the trigger and the frame is what is pinned, as the
+                            // Service Carousel's is. The end is measured rather than fixed and
+                            // the trigger invalidates on refresh, so a resize re-measures the
+                            // travel and the end instead of animating to figures taken at the
+                            // width the page loaded at.
+                            const timeline = gsap.timeline({
+                                scrollTrigger: {
+                                    trigger: this.$refs.frame,
+                                    pin: this.$refs.frame,
+                                    start: 'top top',
+                                    end: () => '+=' + this.end(cards.length),
+                                    scrub: true,
+                                    invalidateOnRefresh: true
+                                }
+                            });
+
+                            // One tween per card, each a whole unit of the timeline long and
+                            // starting where the one before it finished. That sequencing is what
+                            // holds the cards to one at a time: a card is completely gone before
+                            // the next is touched, and the card beneath is not in the timeline at
+                            // all until its turn, so nothing scales, fades or straightens while
+                            // it waits. The last card is left out: it arrives and stays.
+                            cards.slice(0, -1).forEach((card, index) => {
+                                timeline.to(card, {
+                                    y: () => -this.travel(card),
+                                    ease: 'none',
+                                    duration: 1
+                                }, index);
+                            });
+
+                            // A card's worth of nothing, so the pinned length runs one unit past
+                            // the last card's arrival: the beat the pile is held on that last
+                            // card before the frame releases and the page moves on.
+                            timeline.to({}, { duration: 1 });
+
+                            trigger = timeline.scrollTrigger;
+
+                        }));
+
+                        return () => {
+
+                            this.stacked = false;
+                            trigger = null;
+
+                            // The context reverts the tweens to the transform each card started
+                            // on, and a tilted card started on one: GSAP folds a `rotate` property
+                            // into the transform it writes, so the revert leaves the tilt behind
+                            // as an inline style the column has no `lg:` rule to cancel. Cleared
+                            // outright, so the cards go back to the plain square column the
+                            // markup describes.
+                            gsap.set(Array.from(this.$refs.pile.children), { clearProps: 'all' });
+
+                        };
+
+                    });
+
+                    // The Image Cycle is not the Stack's: it is asked for at every width, on the
+                    // pile and on the plain column alike, and only a visitor who prefers reduced
+                    // motion goes without. Its own context under the same matchMedia is what
+                    // holds the two apart, so a phone cross-fades and a stilled page does not.
+                    media.add('(prefers-reduced-motion: no-preference)', () => {
+
+                        Array.from(this.$refs.pile.children).forEach((card) => {
+
+                            const images = card.querySelectorAll(IMAGE);
+
+                            // One photograph is not a cycle: no timeline is built for it, so a
+                            // card with a single Card Image costs nothing and never moves.
+                            if (images.length < 2) {
+                                return;
+                            }
+
+                            // One repeating timeline for the card: every hold, the image showing
+                            // fades out while the next fades in over the same 0.8 seconds, the
+                            // last handing back to the first so the cycle closes. It is paused on
+                            // creation, so a card the visitor has not reached does no work until
+                            // its trigger plays it.
+                            const timeline = gsap.timeline({ repeat: -1, paused: true });
+
+                            images.forEach((image, index) => {
+
+                                timeline
+                                    .to(image, {
+                                        opacity: 0,
+                                        duration: IMAGE_FADE,
+                                        ease: 'none'
+                                    }, (index + 1) * IMAGE_HOLD)
+                                    .to(images[(index + 1) % images.length], {
+                                        opacity: 1,
+                                        duration: IMAGE_FADE,
+                                        ease: 'none'
+                                    }, '<');
+
+                            });
+
+                            // The card's own trigger is the switch: the cycle runs while the card
+                            // is in the viewport and is paused the moment it leaves, so a Block
+                            // the visitor has scrolled past animates nothing. While the frame is
+                            // pinned the card is held on screen long after the flow position the
+                            // trigger was measured at, so the Pin's length is added to the end;
+                            // without it the cycle would stop under the visitor's eyes partway
+                            // through the Stack. The card is measured last of everything on the
+                            // page, because a Block that Pins above this one lengthens the page
+                            // as it is refreshed, and a card measured before that lands a whole
+                            // Pin short of where it really sits.
+                            ScrollTrigger.create({
+                                trigger: card,
+                                start: 'top bottom',
+                                end: () => '+=' + (window.innerHeight + card.offsetHeight + this.hold()),
+                                refreshPriority: -1,
+                                onToggle: (self) => (self.isActive ? timeline.play() : timeline.pause())
+                            });
+
+                        });
+
+                    });
+
+                },
+                hold() {
+
+                    // How long the frame holds a card still beyond its own place in the flow:
+                    // the whole of the Pin while the Stack exists, and nothing at all without
+                    // it, where a card is only ever on screen for the space it takes.
+                    return this.stacked ? this.end(this.$refs.pile.children.length) : 0;
+
+                },
+                step() {
+
+                    // One card's worth of scroll: the unit the sequence is spent in, and the
+                    // distance between one card showing and the next.
+                    return SCROLL_PER_CARD * window.innerHeight;
+
+                },
+                end(count) {
+
+                    // Every card gets its unit, the last one included, because its unit is the
+                    // beat it is held for rather than a journey it makes.
+                    return count * this.step();
+
+                },
+                travel(card) {
+
+                    // How far a card has to travel to be gone: half a viewport, half the card and
+                    // the clearance. The card is measured through its bounding box, which is the
+                    // tilted height rather than the upright one, because a turned sheet hangs
+                    // below the box it was cut from.
+                    return ((window.innerHeight + card.getBoundingClientRect().height) / 2) + CLEARANCE;
+
+                },
+                focusCard(index) {
+
+                    // Only while the Pin exists: without it the card the visitor tabbed to is in
+                    // the flow and the browser has brought it into view itself.
+                    if (!trigger) {
+                        return;
+                    }
+
+                    // A card is showing once the cards above it have taken their units, so its
+                    // own offset is the Pin's start plus a unit for each of them. Lenis owns the
+                    // page's scroll, so the move goes through it rather than fighting it.
+                    window.lenis.scrollTo(trigger.start + index * this.step());
+
+                    // Hidden overflow is still a scroll container, so the browser may shunt the
+                    // frame sideways to reveal the focused button. The Pin owns that axis.
+                    this.$refs.frame.scrollLeft = 0;
+
+                }
+            };
+
+        })
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
