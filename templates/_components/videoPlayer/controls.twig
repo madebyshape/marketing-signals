@@ -1,0 +1,87 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'grid gap-y-2.5',
+        params.class
+    ],
+    times: [
+        'flex items-center justify-between text-xs leading-1.33 text-white'
+    ],
+    buttons: [
+        'flex items-center gap-x-6'
+    ],
+    button: [
+        'inline-flex cursor-pointer items-center justify-center text-white motion-safe:transition',
+        '|',
+        'focus:outline-none focus:ring-2 focus:ring-white/60 pointer-fine:hover:opacity-70'
+    ],
+    icon: [
+        'fa-sharp fa-regular text-base leading-none'
+    ],
+    buttonEnd: [
+        'ml-auto'
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+
+    <div class="{{ classes.times|join(' ')|trim }}">
+        <span x-text="formatTime(currentTime)">0:00</span>
+        <span x-text="formatTime(duration)">0:00</span>
+    </div>
+
+    {% include '_components/videoPlayer/progress' only %}
+
+    <div class="{{ classes.buttons|join(' ')|trim }}">
+
+        {# Both glyphs render and toggle, because the Font Awesome kit replaces the icon at load. #}
+
+        <button
+            type="button"
+            class="{{ classes.button|join(' ')|trim }}"
+            x-bind:aria-label="playing ? 'Pause' : 'Play'"
+            x-bind:aria-pressed="playing"
+            x-on:click="togglePlay()"
+        >
+            <span x-show="!playing" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-play" aria-hidden="true"></i></span>
+            <span x-show="playing" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-pause" aria-hidden="true"></i></span>
+        </button>
+
+        <button
+            type="button"
+            class="{{ classes.button|join(' ')|trim }}"
+            x-bind:aria-label="muted ? 'Unmute' : 'Mute'"
+            x-bind:aria-pressed="!muted"
+            x-on:click="toggleMute()"
+        >
+            <span x-show="muted" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-volume-xmark" aria-hidden="true"></i></span>
+            <span x-show="!muted" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-volume-high" aria-hidden="true"></i></span>
+        </button>
+
+        <button
+            type="button"
+            class="{{ classes.button|merge(classes.buttonEnd)|join(' ')|trim }}"
+            x-bind:aria-label="fullscreen ? 'Exit fullscreen' : 'Enter fullscreen'"
+            x-bind:aria-pressed="fullscreen"
+            x-on:click="toggleFullscreen()"
+        >
+            <span x-show="!fullscreen" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-expand-wide" aria-hidden="true"></i></span>
+            <span x-show="fullscreen" x-cloak><i class="{{ classes.icon|join(' ')|trim }} fa-compress-wide" aria-hidden="true"></i></span>
+        </button>
+
+    </div>
+
+</div>

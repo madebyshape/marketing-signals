@@ -1,0 +1,115 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    label: 'Video player',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{# The bar and its gradient rest hidden while the video plays from xl, and return on hover or pause. #}
+
+{% set reveal = {
+    base: 'motion-safe:transition-opacity motion-safe:duration-200',
+    responsive: 'xl:opacity-0 xl:group-hover:opacity-100'
+} %}
+
+{% set classes = {
+    backdrop: [
+        'fixed inset-0 z-100 flex items-center justify-center bg-black/80 backdrop-blur-sm',
+        params.class,
+        '||',
+        'js-modal'
+    ],
+    close: [
+        'absolute top-0 right-0 z-30 m-5'
+    ],
+    panel: [
+        'group relative z-20 isolate w-11/12 max-w-5xl aspect-video overflow-hidden rounded-2xl bg-black',
+        '|',
+        'md:rounded-3xl',
+        '|',
+        '[&:fullscreen]:w-full [&:fullscreen]:max-w-none [&:fullscreen]:h-screen [&:fullscreen]:aspect-auto [&:fullscreen]:rounded-none'
+    ],
+    video: [
+        'absolute inset-0 z-0 [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:size-full'
+    ],
+    gradient: [
+        'absolute inset-x-0 bottom-0 z-10 h-40 pointer-events-none bg-linear-to-t from-black/80 to-transparent',
+        reveal.base,
+        '|',
+        reveal.responsive
+    ],
+    controls: [
+        'absolute inset-x-0 bottom-0 z-20 px-6 pb-5',
+        reveal.base,
+        '|',
+        'xl:px-10 xl:pb-7',
+        reveal.responsive
+    ]
+} %}
+
+{# Output #}
+
+<div
+    class="{{ classes.backdrop|join(' ')|trim }}"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{ params.label }}"
+    x-cloak
+    x-show="visible"
+    x-transition:enter="motion-safe:transition-opacity motion-safe:ease-out motion-safe:duration-200"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="motion-safe:transition-opacity motion-safe:ease-in motion-safe:duration-150"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    x-on:click.self="close()"
+    x-on:keydown.escape.window="close()"
+>
+
+    {# buttonShape is relative, so the corner placement sits on a wrapper. #}
+
+    {% set closeAttributes = 'aria-label="Close video" x-ref="close" x-on:click="close()"' %}
+
+    <div class="{{ classes.close|join(' ')|trim }}">
+
+        {% include '_components/buttonShape' with {
+            params: {
+                type: 'button',
+                button: { value: '#' },
+                colour: 'creme-100',
+                icon: 'fa-sharp fa-regular fa-xmark',
+                attributes: closeAttributes
+            }
+        } only %}
+
+    </div>
+
+    <div class="{{ classes.panel|join(' ')|trim }}" x-ref="panel">
+
+        {# The Provider fills this on the first open. #}
+
+        <div class="{{ classes.video|join(' ')|trim }}" x-ref="video"></div>
+
+        <div
+            class="{{ classes.gradient|join(' ')|trim }}"
+            x-bind:class="{ 'xl:opacity-100': !playing }"
+        ></div>
+
+        <div
+            class="{{ classes.controls|join(' ')|trim }}"
+            x-bind:class="{ 'xl:opacity-100': !playing }"
+        >
+
+            {% include '_components/videoPlayer/controls' only %}
+
+        </div>
+
+    </div>
+
+</div>

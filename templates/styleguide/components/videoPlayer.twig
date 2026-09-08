@@ -1,0 +1,26 @@
+{# Video Player · a Vimeo Poster that opens the Video Modal #}
+
+{# No field to read, so the newest volume image stands in as the Poster. #}
+
+{% set poster = craft.assets.kind('image').one() %}
+
+<section class="grid gap-y-10" id="videoPlayer">
+
+    <h2 class="text-2xl font-medium leading-1.2 tracking-tighter">Video Player</h2>
+
+    <div class="grid gap-y-8 p-10 rounded-md | bg-black text-white">
+
+        <h3 class="text-xs opacity-60">Vimeo · Modal Player Type</h3>
+
+        {% include '_components/videoPlayer/base' with {
+            params: {
+                videoUrl: 'https://vimeo.com/822986690',
+                poster: poster,
+                posterClass: 'rounded-[15px]',
+                class: 'w-full max-w-[420px] aspect-3/4'
+            }
+        } only %}
+
+    </div>
+
+</section>

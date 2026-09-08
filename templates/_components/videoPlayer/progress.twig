@@ -1,0 +1,48 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'flex w-full h-2.5 items-center cursor-pointer',
+        params.class
+    ],
+    track: [
+        'relative flex w-full h-0.5 items-center bg-white/30'
+    ],
+    fill: [
+        'h-0.5 bg-white w-(--video-player-progress)'
+    ],
+    dot: [
+        'absolute top-1/2 z-10 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white left-(--video-player-progress)'
+    ]
+} %}
+
+{# Output #}
+
+{# The played fraction reaches both the fill and the dot as a custom property. #}
+
+<div
+    class="{{ classes.wrapper|join(' ')|trim }}"
+    role="presentation"
+    x-bind:style="'--video-player-progress: ' + progress + '%'"
+    x-on:click="seek($event)"
+>
+
+    <div class="{{ classes.track|join(' ')|trim }}">
+
+        <div class="{{ classes.fill|join(' ')|trim }}"></div>
+
+        <div class="{{ classes.dot|join(' ')|trim }}"></div>
+
+    </div>
+
+</div>
