@@ -1,4 +1,4 @@
-dateModified: 1788792898
+dateModified: 1788882802
 elementSources:
   craft\elements\Entry:
     -
@@ -151,6 +151,7 @@ meta:
     1fca19db-a5b4-4b81-addd-5d2fa40bb83d: 'Button - No Label' # Button - No Label
     2a8d639a-2f4a-4d25-9385-ddac09ecc1ce: 'Footer Columns' # Footer Columns
     2a539981-3459-4d5f-8713-9d29353feafe: 'Longform Video' # Longform Video
+    2b6ef296-14ae-4934-80de-4094433f69aa: Blog # Blog
     2c91993f-dfdf-4328-8eb3-a4a6adbe44cb: 'Heading Image Grid' # Heading Image Grid
     2cc195a7-75c4-4cb5-baba-42a69362e622: 'Dropdown - Video Display Type' # Dropdown - Video Display Type
     2fa69ca1-0da9-4b6b-910a-16d9b40d3cad: File # File
@@ -206,6 +207,7 @@ meta:
     4580bc09-b5c8-40a2-bff5-95f715403f50: Video # Video
     5200f937-8d03-490c-bebc-4fb1e0c06c4a: 'Menu Item' # Menu Item
     6708a79d-c929-45c4-82f1-b440db7d759d: 'Dropdown - Video Type' # Dropdown - Video Type
+    7754a8a1-7a07-4f58-903a-10ae9e993341: 'Categories - Blog' # Categories - Blog
     8921f4cc-6d1a-4c1f-bf13-bcdf8b992806: Links # Links
     13116ff7-bb9e-4f5b-989d-48a287e4b53c: 'Text - Code' # Text - Code
     41118d3a-a4e2-4b8e-8d11-b0a93f26deeb: 'Lightswitch - On' # Lightswitch - On

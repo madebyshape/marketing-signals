@@ -1,0 +1,22 @@
+columnSuffix: null
+handle: categoriesBlog
+instructions: null
+name: 'Categories - Blog'
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  selectionLabel: null
+  showSearchInput: true
+  showSiteMenu: false
+  source: 'group:2b6ef296-14ae-4934-80de-4094433f69aa' # Blog
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list-inline
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Categories
