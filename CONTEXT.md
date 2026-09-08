@@ -125,12 +125,28 @@ The single entry at the top of a page, from the Hero field, always rendered befo
 _Avoid_: Hero block, banner, page header, masthead
 
 **Hero Layout**:
-One entry type the Hero field offers an editor. Hero Simple is the first; Hero Template is the scaffold developers copy and is not offered to editors.
+One entry type the Hero field offers an editor. Hero Simple and Hero Home are the two; Hero Template is the scaffold developers copy and is not offered to editors. The Hero Layout on a page decides its Header Colour.
 _Avoid_: Hero type, hero variant, hero block
 
 **Hero Simple**:
 The Hero Layout of a Breadcrumb over a large heading with the Highlight, and a short text beside it.
 _Avoid_: Simple hero, text hero, default hero
+
+**Hero Home**:
+The full-screen black Hero Layout of a very large heading with the Highlight, a short text beneath it, a Button Group, and a Work Marquee along its bottom edge, with the Scroll Cue over it. Made for the Home page, offered on any page.
+_Avoid_: Home hero, homepage hero, landing hero, full-screen hero
+
+**Work Marquee**:
+The row of Work Tiles that Crawls leftwards along the bottom of a Hero Home, tilted and running off both edges, fading into the black beneath. Decoration, not a link.
+_Avoid_: Image marquee, work slider, card strip, image ticker, gallery
+
+**Work Tile**:
+One portrait image in a Work Marquee, from the editor's Images field. The Work Tiles repeat until the row is long enough to Crawl without a gap.
+_Avoid_: Card, slide, image, photo, cell
+
+**Scroll Cue**:
+The Cursor Label over a Hero Home that reads "Scroll" beside a small circled down arrow, inviting the visitor down the page. Clicking it scrolls to the first Block.
+_Avoid_: Scroll indicator, scroll hint, scroll button, mouse icon
 
 **Breadcrumb**:
 The trail of Crumbs at the top of a Hero: Home, then the page's parents in order, then the page itself. Derived from the page, never set by editors.
@@ -237,7 +253,7 @@ The row of bars in the Service Carousel, one per Slide, each filling as the visi
 _Avoid_: Pagination, dots, progress bar, indicator, counter
 
 **Cursor Label**:
-The custom cursor that follows the pointer over a Slide on fine-pointer devices, naming what the Slide links to, such as "Find Out More" or "View Case Study". Where a Slide gives no other cue, a button on the Slide says the same on coarse-pointer devices.
+The custom cursor that follows the pointer over an element on fine-pointer devices, saying what a click there does: on a Slide, what it links to, such as "Find Out More" or "View Case Study"; on a Hero Home, the Scroll Cue. Where a Slide gives no other cue, a button on the Slide says the same on coarse-pointer devices.
 _Avoid_: Hover cursor, cursor follower, tooltip, CTA
 
 ### Case Study Carousel
@@ -315,7 +331,7 @@ One bordered square in a Logo Row holding a Client's Logo, which fills black wit
 _Avoid_: Tile, card, slot, item, logo box
 
 **Crawl**:
-The continuous sideways motion of a Logo Row that never stops, leftwards in the first row and rightwards in the second, pausing while the pointer is over the row. Under reduced motion the rows sit still.
+The continuous sideways motion of a row that never stops: a Logo Row, leftwards in the first row and rightwards in the second and pausing while the pointer is over it, or a Work Marquee, leftwards and never pausing. Under reduced motion the row sits still.
 _Avoid_: Marquee, scroll, ticker, autoplay, loop
 
 ### Video Content
