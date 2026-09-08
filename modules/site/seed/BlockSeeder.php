@@ -13,10 +13,10 @@ use craft\models\EntryType;
 
 /**
  * Applies a Seed: sets the fields it names on the target entry, and adds its Blocks to that
- * entry's Matrix field, skipping any Block it has already added. A Block goes on the end unless
- * it names the entry type it follows, in which case it is inserted after the last Block of that
- * type. The entry itself is found — or created, or switched to another type — by the EntrySeeder
- * first.
+ * entry's Matrix field, skipping any Block it has already added, or removing every Block there
+ * first when the Seed replaces the field. A Block goes on the end unless it names the entry type
+ * it follows, in which case it is inserted after the last Block of that type. The entry itself is
+ * found — or created, or switched to another type — by the EntrySeeder first.
  *
  * Every Block is built and validated before anything is written, and the entry is saved once,
  * so a bad Seed cannot half-apply. A dry run does the same work and saves nothing.
@@ -44,11 +44,19 @@ class BlockSeeder
         }
 
         $field = $this->findField($entry, $seed->field);
-        $blocks = $this->existingBlocks($entry, $field);
+        $existing = $this->existingBlocks($entry, $field);
+
+        // “replace” empties the field first, so the Seed's Blocks are added as if it had none.
+        $removed = $seed->replace ? $existing : [];
+        $blocks = $seed->replace ? [] : $existing;
         $keys = array_map(fn(Entry $block): string => $this->keyFor($block->getType(), $this->matchTextOf($block)), $blocks);
 
-        $outcomes = [];
-        $created = false;
+        $outcomes = array_map(
+            fn(Entry $block): SeedOutcome => SeedOutcome::removed($block->getType()->handle, $this->matchTextOf($block)),
+            $removed,
+        );
+
+        $written = $removed !== [];
 
         foreach ($seed->blocks as $seedBlock) {
             $resolved = $resolver->block($field, $seedBlock);
@@ -73,11 +81,11 @@ class BlockSeeder
             }
 
             $keys[] = $key;
-            $created = true;
+            $written = true;
             $outcomes[] = SeedOutcome::created($type->handle, $text, $after, $at !== null);
         }
 
-        if (!$dryRun && $created) {
+        if (!$dryRun && $written) {
             $this->save($entry, $field, $blocks);
         }
 
@@ -256,7 +264,7 @@ class BlockSeeder
     /**
      * Saves the entry once with the new Blocks in the order the placement worked out. The
      * existing Blocks are passed through untouched, in their own order, since Craft deletes any
-     * nested entry the saved value leaves out.
+     * nested entry the saved value leaves out — which is how “replace” removes them.
      *
      * @param Entry[] $blocks
      * @throws SeedException

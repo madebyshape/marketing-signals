@@ -22,6 +22,13 @@ use yii\console\ExitCode;
  */
 class SeedController extends Controller
 {
+    /** The colour each Block outcome is printed in. */
+    private const COLOURS = [
+        SeedOutcome::CREATED => Console::FG_GREEN,
+        SeedOutcome::REMOVED => Console::FG_RED,
+        SeedOutcome::SKIPPED => Console::FG_YELLOW,
+    ];
+
     /**
      * @var bool Resolve and validate the Seed, print what it would do, and write nothing.
      */
@@ -34,7 +41,7 @@ class SeedController extends Controller
 
     /**
      * Sets a Seed's entry fields and adds its Blocks to the entry it names, skipping any Block
-     * already seeded.
+     * already seeded, or removing the field's Blocks first when the Seed replaces them.
      *
      * @param string $path Path to the Seed file.
      */
@@ -75,8 +82,9 @@ class SeedController extends Controller
         }
 
         $this->stdout(sprintf(
-            "%d created, %d skipped, %d uploaded, %d reused, %d resolved, %d set%s.\n",
+            "%d created, %d removed, %d skipped, %d uploaded, %d reused, %d resolved, %d set%s.\n",
             count(array_filter($report->blocks, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::CREATED)),
+            count(array_filter($report->blocks, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::REMOVED)),
             count(array_filter($report->blocks, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::SKIPPED)),
             count(array_filter($report->images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::UPLOADED)),
             count(array_filter($report->images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::REUSED)),
@@ -130,7 +138,7 @@ class SeedController extends Controller
 
     private function outputOutcome(SeedOutcome $outcome): void
     {
-        $this->stdout(sprintf('%-9s', $outcome->action), $outcome->action === SeedOutcome::CREATED ? Console::FG_GREEN : Console::FG_YELLOW);
+        $this->stdout(sprintf('%-9s', $outcome->action), self::COLOURS[$outcome->action]);
         $this->stdout("{$outcome->type}  ");
         $this->stdout(
             $outcome->key !== null

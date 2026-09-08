@@ -3,9 +3,9 @@
 namespace modules\site\seed;
 
 /**
- * What the command did with one Block: created it, or skipped it because its match key was
- * already on the entry. `$key` is null for a Block whose entry type has no text field, which
- * matches on its type alone.
+ * What the command did with one Block: created it, skipped it because its match key was already
+ * on the entry, or removed it because the Seed replaces the field. `$key` is null for a Block
+ * whose entry type has no text field, which matches on its type alone.
  *
  * A created Block also carries where it went: `$after` is the neighbour type its Seed named, if
  * any, and `$placedAfter` says whether the entry had one to follow.
@@ -14,6 +14,7 @@ readonly class SeedOutcome
 {
     public const CREATED = 'created';
     public const SKIPPED = 'skipped';
+    public const REMOVED = 'removed';
 
     private function __construct(
         public string $action,
@@ -41,5 +42,13 @@ readonly class SeedOutcome
     public static function skipped(string $type, ?string $key): self
     {
         return new self(self::SKIPPED, $type, $key, null, false);
+    }
+
+    /**
+     * A Block the Seed's “replace” key emptied out of the field before adding its own.
+     */
+    public static function removed(string $type, ?string $key): self
+    {
+        return new self(self::REMOVED, $type, $key, null, false);
     }
 }
