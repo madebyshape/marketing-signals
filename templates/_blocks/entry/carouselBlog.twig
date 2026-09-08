@@ -1,0 +1,291 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Blogs #}
+
+{# A pick is shown exactly as it is; only an empty pick falls back, and it never tops a short one up. #}
+
+{% set blogs = entry.entriesBlog.all() %}
+
+{% if not blogs|length %}
+
+    {% set blogs = craft.entries()
+        .section('blog')
+        .orderBy('postDate DESC')
+        .limit(9)
+        .all() %}
+
+{% endif %}
+
+{% set sets = blogs|batch(3) %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    eyebrow: [
+        'mb-7.5',
+        '|',
+        'lg:mb-17.5'
+    ],
+    headingRow: [
+        'flex flex-col items-start gap-y-5 mb-7.5',
+        '|',
+        'lg:grid lg:grid-cols-12 lg:items-end lg:gap-5 lg:mb-10'
+    ],
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:col-span-6 lg:text-7xl | xl:text-9xl'
+    ],
+    button: [
+        'lg:col-start-7 lg:col-span-6 lg:flex lg:justify-end'
+    ],
+    carousel: {
+        desktop: 'hidden | lg:block',
+        mobile: 'block | lg:hidden'
+    },
+    set: 'grid w-full grid-cols-2 gap-5',
+    setColumn: 'grid grid-rows-2 gap-5',
+    controls: [
+        'flex flex-row items-center gap-x-10 mt-7.5',
+        '|',
+        'lg:mt-10'
+    ],
+    progress: 'min-w-0 flex-1'
+} %}
+
+{# Output #}
+
+{% if blogs|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                {% if entry.eyebrow|trim|length %}
+
+                    {% include '_components/eyebrow' with {
+                        params: {
+                            text: entry.eyebrow,
+                            colour: 'black',
+                            rule: true,
+                            ruleColour: 'creme-300',
+                            class: blockClasses.eyebrow|join(' ')|trim
+                        }
+                    } only %}
+
+                {% endif %}
+
+                {% if entry.heading|striptags|trim|length or entry.button|length %}
+
+                    <div class="{{ blockClasses.headingRow|join(' ')|trim }}">
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                colour: 'base',
+                                size: '4xl',
+                                alternateStyle: 'base',
+                                class: blockClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                        {% if entry.button|length %}
+
+                            <div class="{{ blockClasses.button|join(' ')|trim }}">
+
+                                {% include '_components/button' with {
+                                    params: {
+                                        button: entry.button,
+                                        colour: 'secondary'
+                                    }
+                                } only %}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+                {# Swiper lays Slides in one row, so the Sets and the single cards are two carousels. #}
+
+                {% embed '_components/carousel'
+                    with {
+                        params: {
+                            id: params.handle ~ 'Desktop',
+                            items: sets,
+                            tag: 'ul',
+                            slideTag: 'li',
+                            ease: 'smooth',
+                            class: blockClasses.carousel.desktop,
+                            props: {
+                                slidesPerView: 1,
+                                spaceBetween: 20,
+                                speed: 600,
+                                loop: sets|length >= 2,
+                                simulateTouch: true,
+                                allowTouchMove: true,
+                                preventClicks: true,
+                                preventClicksPropagation: true,
+                                a11y: {
+                                    enabled: true,
+                                    containerRole: 'region',
+                                    slideRole: 'group'
+                                }
+                            }
+                        }
+                    }
+                %}
+
+                    {% block slideContent %}
+
+                        <div class="{{ blockClasses.set }}">
+
+                            {% include '_components/blogCardLarge' with {
+                                params: {
+                                    blog: item|first
+                                }
+                            } only %}
+
+                            {# A short last Set keeps the grid; the missing cards leave their cells empty. #}
+
+                            <div class="{{ blockClasses.setColumn }}">
+
+                                {% for blog in item|slice(1, 2) %}
+
+                                    {% include '_components/blogCard' with {
+                                        params: {
+                                            blog: blog
+                                        }
+                                    } only %}
+
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+
+                    {% endblock %}
+
+                    {% block afterContent %}
+
+                        {% if sets|length > 1 %}
+
+                            <div class="{{ blockClasses.controls|join(' ')|trim }}">
+
+                                {% include '_components/carouselProgress' with {
+                                    params: {
+                                        count: sets|length,
+                                        class: blockClasses.progress
+                                    }
+                                } only %}
+
+                                {% include '_components/carouselControls' with {
+                                    params: {
+                                        colour: 'black'
+                                    }
+                                } only %}
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endblock %}
+
+                {% endembed %}
+
+                {% embed '_components/carousel'
+                    with {
+                        params: {
+                            id: params.handle ~ 'Mobile',
+                            items: blogs,
+                            tag: 'ul',
+                            slideTag: 'li',
+                            ease: 'smooth',
+                            class: blockClasses.carousel.mobile,
+                            props: {
+                                slidesPerView: 1,
+                                spaceBetween: 20,
+                                speed: 600,
+                                loop: blogs|length >= 2,
+                                simulateTouch: true,
+                                allowTouchMove: true,
+                                preventClicks: true,
+                                preventClicksPropagation: true,
+                                breakpoints: {
+                                    768: { slidesPerView: 1.5 }
+                                },
+                                a11y: {
+                                    enabled: true,
+                                    containerRole: 'region',
+                                    slideRole: 'group'
+                                }
+                            }
+                        }
+                    }
+                %}
+
+                    {% block slideContent %}
+
+                        {% include '_components/blogCardLarge' with {
+                            params: {
+                                blog: item,
+                                sizes: '(min-width: 768px) 60vw, 90vw'
+                            }
+                        } only %}
+
+                    {% endblock %}
+
+                    {% block afterContent %}
+
+                        {% if blogs|length > 1 %}
+
+                            <div class="{{ blockClasses.controls|join(' ')|trim }}">
+
+                                {% include '_components/carouselProgress' with {
+                                    params: {
+                                        count: blogs|length,
+                                        class: blockClasses.progress
+                                    }
+                                } only %}
+
+                                {% include '_components/carouselControls' with {
+                                    params: {
+                                        colour: 'black'
+                                    }
+                                } only %}
+
+                            </div>
+
+                        {% endif %}
+
+                    {% endblock %}
+
+                {% endembed %}
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
