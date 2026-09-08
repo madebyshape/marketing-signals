@@ -28,6 +28,7 @@ settings:
       __assoc__:
         -
           - uid
+          - 823de6d3-c67e-4f53-b852-0983c35aab97 # Elements - FAQ
           - ed7d1592-7563-4406-aba9-cbdf547d198d # Elements - Testimonial
         -
           - group
