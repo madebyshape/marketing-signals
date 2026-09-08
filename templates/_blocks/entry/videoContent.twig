@@ -1,0 +1,201 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set video = entry.video %}
+{% set poster = video ? video.videoThumbnail.one() : null %}
+{% set hasVideo = video and (video.videoUrl|trim|length or video.videoFile.one()) %}
+{% set hasSlot = hasVideo or poster %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+
+{% set textColumns = [entry.textColumnOne, entry.textColumnTwo]|filter(column => column|striptags|trim|length) %}
+{% set buttons = entry.buttonGroup.all() %}
+
+{# Squiggle #}
+
+{# The trigger carries the entry id, so two of these Blocks on a page never share one. #}
+
+{% set trigger = 'js-' ~ params.handle ~ '-' ~ entry.id %}
+
+{# Classes #}
+
+{# The Poster is absolute from `lg` so its 3:4 width follows the panel height the content sets. #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: [
+        'relative isolate overflow-hidden rounded-[20px] bg-black p-1.25',
+        '|',
+        'lg:grid lg:grid-cols-12 lg:gap-5',
+        '|| ' ~ trigger
+    ],
+    squiggle: 'absolute right-0 bottom-0 -z-10 w-[37%] translate-x-[28%] translate-y-[40%]',
+    posterSlot: [
+        'w-full',
+        '|',
+        'lg:relative lg:col-span-5'
+    ],
+    poster: [
+        'aspect-4/3 rounded-[15px]',
+        '|',
+        'lg:absolute lg:inset-y-0 lg:left-0 lg:aspect-3/4 lg:w-auto'
+    ],
+    content: [
+        'p-6.25',
+        '|',
+        'lg:col-span-7 lg:pt-11.25 lg:pr-8.75 lg:pb-11.25 lg:pl-0'
+    ],
+    contentFull: [
+        'p-6.25',
+        '|',
+        'lg:col-span-12 lg:p-11.25'
+    ],
+    eyebrow: [
+        'mb-12.5',
+        '|',
+        'lg:mb-32.5'
+    ],
+    heading: [
+        'mb-10 font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'lg:text-5xl'
+    ],
+    textColumns: [
+        'grid grid-cols-1 gap-5',
+        '|',
+        'md:grid-cols-2'
+    ],
+    buttons: [
+        'mt-10',
+        '|',
+        'lg:mt-12.5'
+    ]
+} %}
+
+{# Output #}
+
+{% if hasSlot or hasHeading or textColumns|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+                    {% include '_components/squiggle' with {
+                        params: {
+                            props: {
+                                trigger: '.' ~ trigger
+                            },
+                            class: blockClasses.squiggle
+                        }
+                    } only %}
+
+                    {% if hasSlot %}
+
+                        <div class="{{ blockClasses.posterSlot|join(' ')|trim }}">
+
+                            {% include '_components/videoPlayer/base' with {
+                                params: {
+                                    video: video,
+                                    transform: '3x4',
+                                    posterClass: 'rounded-[15px]',
+                                    modalLabel: 'Video player',
+                                    class: blockClasses.poster|join(' ')|trim
+                                }
+                            } only %}
+
+                        </div>
+
+                    {% endif %}
+
+                    <div class="{{ (hasSlot ? blockClasses.content : blockClasses.contentFull)|join(' ')|trim }}">
+
+                        {% if hasEyebrow %}
+
+                            {% include '_components/eyebrow' with {
+                                params: {
+                                    text: entry.eyebrow,
+                                    colour: 'white',
+                                    rule: true,
+                                    ruleColour: 'white-30',
+                                    class: blockClasses.eyebrow|join(' ')|trim
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% if hasHeading %}
+
+                            {% include '_components/headingAlternate' with {
+                                params: {
+                                    tag: 'h2',
+                                    heading: entry.heading,
+                                    colour: 'white',
+                                    size: '4xl',
+                                    alternateStyle: 'fluro',
+                                    class: blockClasses.heading|join(' ')|trim
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% if textColumns|length %}
+
+                            {# The grid keeps two cells from `md`, so a lone Text Column stays half width. #}
+
+                            <div class="{{ blockClasses.textColumns|join(' ')|trim }}">
+
+                                {% for column in textColumns %}
+
+                                    {% include '_components/richText' with {
+                                        params: {
+                                            content: column,
+                                            colour: 'creme-100',
+                                            size: 'base'
+                                        }
+                                    } only %}
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        {% include '_components/buttonGroup' with {
+                            params: {
+                                buttons: buttons,
+                                colours: ['creme-100', 'creme-100-outline'],
+                                class: blockClasses.buttons|join(' ')|trim
+                            }
+                        } only %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
