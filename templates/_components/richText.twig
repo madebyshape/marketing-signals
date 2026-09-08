@@ -13,7 +13,7 @@
 
 {# Options #}
 
-{# On creme-100, black and white, italic is the highlight marker and takes the alternate colour. #}
+{# Except on base, italic is the highlight marker and takes the alternate colour. #}
 
 {% set options = {
     colour: {
@@ -31,6 +31,14 @@
             paragraph: 'text-creme-100',
             italic: 'not-italic text-secondary',
             list: 'text-creme-100 marker:text-secondary',
+            blockquote: 'bg-creme-100/10 text-creme-100'
+        },
+        secondary: {
+            heading: 'text-secondary',
+            link: 'text-creme-100 decoration-creme-100/50 hover:decoration-creme-100',
+            paragraph: 'text-secondary',
+            italic: 'not-italic text-creme-100',
+            list: 'text-secondary marker:text-creme-100',
             blockquote: 'bg-creme-100/10 text-creme-100'
         },
         black: {

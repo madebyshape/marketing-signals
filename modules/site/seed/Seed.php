@@ -19,7 +19,7 @@ readonly class Seed
     public const DEFAULT_VOLUME = 'images';
 
     /** Keys a Seed may carry. */
-    private const KEYS = ['entry', 'field', 'volume', 'section', 'type', 'title', 'parent', 'fields', 'blocks'];
+    private const KEYS = ['entry', 'field', 'volume', 'section', 'type', 'title', 'parent', 'replace', 'fields', 'blocks'];
 
     /**
      * @param string|null $section the section the entry lives in. Given, the command creates the
@@ -30,6 +30,8 @@ readonly class Seed
      * @param string|null $title the title a created entry is given.
      * @param string|null $parent the slug, in the same section, a created entry is placed under.
      *                            Missing, it goes at the end of the structure.
+     * @param bool $replace whether every Block already in the target field is removed before the
+     *                      Seed's Blocks are added.
      * @param array<string, mixed> $fields the fields set on the entry itself, handle to raw
      *                                     value, resolved by the same rules as a Block's fields.
      *                                     Empty for a Seed that only adds Blocks.
@@ -44,6 +46,7 @@ readonly class Seed
         public ?string $type,
         public ?string $title,
         public ?string $parent,
+        public bool $replace,
         public array $fields,
         public array $blocks,
     ) {
@@ -118,6 +121,12 @@ readonly class Seed
             }
         }
 
+        $replace = $data['replace'] ?? false;
+
+        if (!is_bool($replace)) {
+            throw new SeedException('Seed’s “replace” must be true or false.');
+        }
+
         $fields = $data['fields'] ?? [];
 
         if (!is_array($fields) || ($fields !== [] && array_is_list($fields))) {
@@ -134,6 +143,11 @@ readonly class Seed
             );
         }
 
+        // “replace” empties the target field, which only a Seed that writes Blocks to it asks for.
+        if ($replace && $blocks === []) {
+            throw new SeedException('Seed’s “replace” only applies to a Seed that carries Blocks.');
+        }
+
         return new self(
             $path,
             $data['entry'],
@@ -143,6 +157,7 @@ readonly class Seed
             $type,
             $title,
             $parent,
+            $replace,
             $fields,
             SeedBlock::listFromArray($blocks),
         );

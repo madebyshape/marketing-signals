@@ -1,0 +1,224 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'bottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Work Tiles #}
+
+{% set workTiles = entry.images.all() %}
+
+{# The row repeats its Tiles to 12+ so the widest viewport never shows a gap #}
+
+{% set tileMinimum = 12 %}
+{% set repeats = workTiles|length ? (tileMinimum / workTiles|length)|round(0, 'ceil') : 0 %}
+
+{# 0.4 on the marquee's scale is 40px a second, the Client Marquee's Crawl #}
+
+{% set crawlSpeed = 0.4 %}
+
+{% set component = entry.type.handle %}
+
+{# Classes #}
+
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
+
+{# The content column's bottom padding reserves the band the Work Marquee takes #}
+
+{# The row is 120% of the panel so the tilt never brings an end inside the edge #}
+
+{% set blockClasses = {
+    panel: [
+        'relative w-full min-h-svh overflow-hidden rounded-b-[30px] bg-black',
+        vars is defined ? vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]'
+    ],
+    content: [
+        'pb-[230px]',
+        vars is defined ? vars.class.siteMargin.x : 'px-10',
+        '|',
+        'lg:pb-[370px]'
+    ],
+    heading: 'mt-7.5 max-w-[1263px] font-semibold leading-0.97 tracking-tighter | md:text-8xl lg:text-10xl xl:mt-10 xl:text-12xl xl:leading-0.92',
+    text: 'mt-7.5',
+    buttons: 'mt-7.5',
+    buttonsRegion: 'w-fit',
+    marquee: [
+        'absolute -bottom-[52px] left-[-10%] w-[120%] rotate-[-7deg]',
+        '|',
+        'lg:-bottom-[83px]'
+    ],
+    tile: [
+        'pointer-events-none h-[253px] w-[150px] rounded-[10px] object-cover',
+        '|',
+        'lg:h-[408px] lg:w-[242px]'
+    ],
+    fade: 'pointer-events-none absolute inset-x-0 bottom-0 h-[118px] bg-linear-to-b from-transparent to-black'
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: params|merge({
+            paddingY: params.padding,
+            paddingX: 'none'
+        })
+    }
+%}
+    {% block sectionContent %}
+
+        <div
+            class="{{ blockClasses.panel|join(' ')|trim }}"
+            x-data="{{ component }}"
+            x-on:pointerenter="raise()"
+            x-on:pointerleave="lower()"
+            x-on:click="scrollPast()"
+        >
+
+            <div class="{{ blockClasses.content|join(' ')|trim }}">
+
+                {% include '_components/headingAlternate' with {
+                    params: {
+                        tag: 'h1',
+                        heading: entry.heading,
+                        colour: 'creme-100',
+                        size: '5xl',
+                        alternateStyle: 'secondary',
+                        class: blockClasses.heading
+                    }
+                } only %}
+
+                {% include '_components/richText' with {
+                    params: {
+                        content: entry.text,
+                        colour: 'secondary',
+                        size: '3xl',
+                        class: blockClasses.text
+                    }
+                } only %}
+
+                <div
+                    class="{{ blockClasses.buttonsRegion }}"
+                    x-on:pointerenter="lower()"
+                    x-on:pointerleave="raise()"
+                    x-on:click.stop
+                >
+
+                    {% include '_components/buttonGroup' with {
+                        params: {
+                            buttons: entry.buttonGroup.all(),
+                            colours: ['creme-100', 'creme-100-outline'],
+                            class: blockClasses.buttons
+                        }
+                    } only %}
+
+                </div>
+
+            </div>
+
+            {% if workTiles|length %}
+
+                <div
+                    class="{{ blockClasses.marquee|join(' ')|trim }}"
+                    aria-hidden="true"
+                    x-on:pointerenter="lower()"
+                    x-on:pointerleave="raise()"
+                    x-on:click.stop
+                >
+
+                    {% embed '_components/marquee' with {
+                        params: {
+                            component: params.handle ~ 'Marquee',
+                            gap: 'sm',
+                            props: {
+                                speed: crawlSpeed
+                            }
+                        }
+                    } %}
+                        {% block marqueeContent %}
+
+                            {% for repeat in 1..repeats %}
+
+                                {% set isFirstSet = loop.first %}
+
+                                {% for image in workTiles %}
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: image,
+                                            alt: '',
+                                            transform: '3x5',
+                                            sizes: '(min-width: 1024px) 242px, 150px',
+                                            lazy: not isFirstSet,
+                                            ratio: false,
+                                            imgClass: blockClasses.tile|join(' ')|trim
+                                        }
+                                    } only %}
+
+                                {% endfor %}
+
+                            {% endfor %}
+
+                        {% endblock %}
+                    {% endembed %}
+
+                </div>
+
+                <div class="{{ blockClasses.fade }}"></div>
+
+            {% endif %}
+
+        </div>
+
+    {% endblock %}
+{% endembed %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            fine: false,
+            init() {
+
+                this.fine = window.matchMedia('(pointer: fine)').matches;
+
+            },
+            raise() {
+
+                if (!this.fine) {
+                    return;
+                }
+
+                this.$dispatch('component-cursor', { active: true, text: 'Scroll', icon: 'fa-arrow-down', style: 'outline' });
+
+            },
+            lower() {
+
+                if (!this.fine) {
+                    return;
+                }
+
+                this.$dispatch('component-cursor', { active: false });
+
+            },
+            scrollPast() {
+
+                if (!this.fine) {
+                    return;
+                }
+
+                // Lenis owns the page's scroll, so the move goes through it.
+                window.lenis.scrollTo(this.$el.getBoundingClientRect().bottom + window.scrollY);
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}

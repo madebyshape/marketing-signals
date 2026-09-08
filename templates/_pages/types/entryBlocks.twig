@@ -1,5 +1,16 @@
 {% extends '_layouts/global' %}
 
+{# Header Colour #}
+
+{# The Header follows the page's Hero Layout (ADR-0004), so an editor never sets it. #}
+
+{% set headerColours = {
+    heroHome: 'black'
+} %}
+
+{% set hero = entry.hero.one() %}
+{% set headerColour = hero ? headerColours[hero.type.handle]|default('creme-100') : 'creme-100' %}
+
 {% block site %}
 
     {{ entry.hero.render({

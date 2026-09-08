@@ -1,0 +1,133 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  39ad4a93-2632-4c95-a17d-b7196f4e1183:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 4148505b-d45f-444e-a67d-9511fd5768ea
+            userCondition: null
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: 'Make words italic to highlight them. Shift and Enter breaks the line.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 00f00758-ed61-4457-a236-35184f5965f0
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8b0a7979-de41-4aa3-92b7-6c0955108fc4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 640dfff9-1e99-4ea1-ba3e-d9c1e7dcb569
+            userCondition: null
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5cbe08b7-b4bd-4a6b-be41-de9647b5eb19 # Images
+            handle: null
+            instructions: 'Portrait images for the row along the bottom. They repeat to fill the row.'
+            label: 'Work Tiles'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 16c3994c-8337-4e02-979e-37f9777bd55b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 84f87a07-71fa-4658-96dd-fb706cb4c9d5
+            userCondition: null
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 298fa7b6-abc0-4c80-a004-8fa35a30bf35 # Button Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 66298abb-4990-4a85-858d-d6f146c60546
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 49997133-32de-4436-82a9-ce3870c913a9
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 9c2880cd-7d0d-494f-aeeb-4c0b30575fb5 # Padding - Hero
+            handle: padding
+            instructions: null
+            label: Padding
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: edd0104c-16c8-46b2-98b9-c7056d6d518a
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 85fccf50-20c5-49d0-9bab-f2761a75f80c
+        userCondition: null
+    thumbFieldKey: null
+handle: heroHome
+hasTitleField: false
+icon: heading
+name: 'Hero - Home'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
