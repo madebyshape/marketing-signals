@@ -194,6 +194,10 @@ _Avoid_: Card, thumbnail, cell, slot
 Words an editor marks italic in a heading or text, rendered in the accent colour rather than slanted.
 _Avoid_: Emphasis, accent words, coloured words, italic
 
+**Linked Card**:
+A card whose whole surface is one link to its entry. Any pill inside it says where the link goes and is not a control of its own. Every Slide is one; so are the Blog Card and the Blog Large Card.
+_Avoid_: Clickable card, card link, CTA card
+
 **Heading Reveal**:
 A Block of an Eyebrow with a Rule over a large heading whose words Reveal as the visitor scrolls.
 _Avoid_: Text reveal, scroll text, intro statement, manifesto
@@ -249,7 +253,7 @@ The scroll-driven behaviour of the Service Carousel: the Block holds still on sc
 _Avoid_: Scroll-jack, horizontal scroll, sticky section, scrub, snap
 
 **Slide Progress**:
-The row of bars in the Service Carousel, one per Slide, each filling as the visitor scrolls through its Slide.
+The indicator beneath a carousel saying how far through its Slides the visitor is: a row of bars in the Service Carousel, one per Slide, each filling as the visitor scrolls through its Slide; a single line in the Blog Carousel, filled to the Slide in view.
 _Avoid_: Pagination, dots, progress bar, indicator, counter
 
 **Cursor Label**:
@@ -427,6 +431,32 @@ _Avoid_: Show more, pagination, view all, expand
 **Follow**:
 The behaviour of a FAQ Accordion's heading from the desktop breakpoint: it holds still below the Header while the Questions scroll past it. Unlike the Sink it never dims. Below the desktop breakpoint the heading is in flow.
 _Avoid_: Sticky, pin, sink, parallax
+
+### Blog Carousel
+
+**Blog**:
+An entry in the Blog section: one article, with a Thumbnail, a Description and Categories of its own, published at `/insights/`.
+_Avoid_: Insight, article, post, news item
+
+**Blog Carousel**:
+A Block of an Eyebrow with a Rule, a heading and a button over a row of Blog Sets, one Set per three Blogs the editor picked, or the nine latest Blogs when none are picked. The visitor moves it with the Carousel Controls or by dragging, and it loops. Below the desktop breakpoint it is a row of Blog Large Cards instead, one per Blog.
+_Avoid_: Insights carousel, blog slider, latest posts, news carousel
+
+**Blog Set**:
+A Slide in the Blog Carousel: one Blog Large Card beside two Blog Cards stacked, filling the content width. A last Set with fewer than three Blogs keeps its shape with the gaps empty.
+_Avoid_: Group, page, batch, trio
+
+**Blog Card**:
+A Linked Card for a Blog: its date and read time, its title and a "Continue Reading" pill beside its Thumbnail on the right. Two sit stacked in a Blog Set.
+_Avoid_: Landscape card, small card, post card, article card
+
+**Blog Large Card**:
+A Linked Card for a Blog: its Thumbnail across the top over its date and read time, its title, its Description and a "Continue Reading" pill. One leads a Blog Set, and it is the only card below the desktop breakpoint.
+_Avoid_: Featured card, big card, hero card, exterior
+
+**Zoom**:
+The hover behaviour of a Blog Card and a Blog Large Card on fine-pointer devices: the Thumbnail grows a little inside its rounded frame while the pill lights up. Nothing moves under reduced motion.
+_Avoid_: Scale, hover effect, image hover, ken burns
 
 ### Seeding
 
