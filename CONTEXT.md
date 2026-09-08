@@ -458,6 +458,44 @@ _Avoid_: Featured card, big card, hero card, exterior
 The hover behaviour of a Blog Card and a Blog Large Card on fine-pointer devices: the Thumbnail grows a little inside its rounded frame while the pill lights up. Nothing moves under reduced motion.
 _Avoid_: Scale, hover effect, image hover, ken burns
 
+### Content Rows
+
+**Content Rows**:
+A Block of a centred heading with the Highlight over a stack of Content Rows, as many as the editor adds.
+_Avoid_: Half and half, image and text block, alternating rows, zigzag
+
+**Content Row**:
+One row in a Content Rows Block: the Media on one side of the grid and, on the other, a heading, Text, Accordion Items and a Button Group, all optional. From the desktop breakpoint the two sides sit side by side in the editor's Content Order; below it the Media is always above the content.
+_Avoid_: Row, section, half, split
+
+**Media**:
+The image or video side of a Content Row: an Image, or a Video that is either a Poster opening the Video Modal or an Inline Video.
+_Avoid_: Asset, visual, picture side, thumbnail
+
+**Content Order**:
+The editor's choice per Content Row of which side leads from the desktop breakpoint: Media First or Content First. It has no effect below the desktop breakpoint.
+_Avoid_: Flip, reverse, alignment, image position
+
+**Check List**:
+A bulleted list in a Content Row's Text, drawn as a check mark in a secondary circle before each item, in two columns from the tablet breakpoint.
+_Avoid_: Ticks, features list, bullet points, USPs
+
+**Accordion Item**:
+One row beneath a Content Row's Text: a heading with a toggle at its right that reveals its text. Opening one closes any other in the same Content Row. Unlike a Question it has no Button Group and is not an entry.
+_Avoid_: Question, accordion, FAQ, panel, dropdown
+
+**Inline Video**:
+A Video in a Content Row's Media that plays in place rather than in the Video Modal, muted, with the Time Ring at its bottom right. Chosen by the Video field's Display Type.
+_Avoid_: Background video, autoplay video, embedded video, looping video
+
+**Hover Play**:
+The behaviour of an Inline Video on fine-pointer devices: it plays while the pointer is over it and pauses when the pointer leaves, unless the Time Ring's button has pinned it. Nothing plays on hover under reduced motion.
+_Avoid_: Autoplay, preview, hover effect, mouseover
+
+**Time Ring**:
+The button at the bottom right of an Inline Video: a white ring that empties as the video plays, holding a play or pause glyph. Pressing it plays or pauses the video and holds that state until the next Hover Play.
+_Avoid_: Loader, progress circle, pause button, spinner
+
 ### Seeding
 
 **Seed**:
