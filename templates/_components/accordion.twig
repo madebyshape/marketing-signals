@@ -79,6 +79,7 @@
     {% set visible = params.visibleIndex is not null ? "'" ~ params.items[params.visibleIndex].id ~ "'" : 'null' %}
 
     <div
+        {% if params.id %}id="{{ params.id }}"{% endif %}
         class="{{ classes.wrapper|join(' ')|trim }}"
         x-data="{ visible: {{ visible|raw }} }"
     >
@@ -94,6 +95,7 @@
             <div
                 class="{{ classes.item|join(' ')|trim }}"
                 x-bind:class="{ '{{- classes.itemOpen|join(' ')|trim -}}': {{ open|raw }} }"
+                data-accordion-item
             >
 
                 <h3>
@@ -102,6 +104,7 @@
                         id="{{ questionId }}"
                         class="{{ classes.question|join(' ')|trim }}"
                         aria-controls="{{ answerId }}"
+                        {% if item.focus is defined and item.focus %}autofocus{% endif %}
                         x-bind:aria-expanded="{{ open|raw }} ? 'true' : 'false'"
                         x-on:click="visible = {{ open|raw }} ? null : '{{ item.id }}'"
                     >

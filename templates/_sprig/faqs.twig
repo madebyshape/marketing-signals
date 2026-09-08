@@ -1,0 +1,87 @@
+{# Default Variables #}
+
+{% set offset = offset ?? 0 %}
+{% set limit = limit ?? 7 %}
+
+{# FAQs #}
+
+{% set faqs = [] %}
+
+{% for faq in craft.entries.section('faq').id(ids|split(',')).fixedOrder().all() %}
+
+    {% if faq.text|striptags|trim|length %}
+
+        {% set faqs = faqs|merge([faq]) %}
+
+    {% endif %}
+
+{% endfor %}
+
+{% set page = faqs|slice(offset, limit ?: null) %}
+
+{% set items = [] %}
+
+{% for faq in page %}
+
+    {% set items = items|merge([{
+        id: faq.id,
+        heading: faq.title,
+        content: faq.text,
+        buttons: faq.buttonGroup.all(),
+        focus: offset > 0 and loop.first
+    }]) %}
+
+{% endfor %}
+
+{# Classes #}
+
+{% set classes = {
+    more: 'mt-10 flex justify-center',
+    button: '[&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50'
+} %}
+
+{# Attributes #}
+
+{# A `>` anywhere in an s-* value truncates Sprig's tag match, so the selection goes through a hook. #}
+
+{% set attributes = [
+    'sprig',
+    's-val:offset="' ~ (offset + page|length) ~ '"',
+    's-val:limit=""',
+    's-target="#' ~ prefix ~ '"',
+    's-select="#' ~ prefix ~ ' [data-accordion-item]"',
+    's-swap="beforeend"',
+    's-select-oob="#' ~ prefix ~ '-more"',
+    's-indicator="this"'
+] %}
+
+{# Output #}
+
+{% include '_components/accordion' with {
+    params: {
+        id: prefix,
+        items: items
+    }
+} only %}
+
+{% if offset + page|length < faqs|length %}
+
+    <div id="{{ prefix }}-more" class="{{ classes.more }}">
+
+        {% include '_components/button' with {
+            params: {
+                type: 'button',
+                button: { label: 'Load More Questions' },
+                icon: 'fa-sharp fa-regular fa-arrow-down',
+                class: classes.button,
+                attributes: attributes|join(' ')
+            }
+        } only %}
+
+    </div>
+
+{% else %}
+
+    <div id="{{ prefix }}-more"></div>
+
+{% endif %}

@@ -11,22 +11,19 @@
 
 {# FAQs #}
 
-{% set faqs = [] %}
+{% set faqIds = [] %}
 
 {% for faq in entry.entriesFaq.all() %}
 
     {% if faq.text|striptags|trim|length %}
 
-        {% set faqs = faqs|merge([{
-            id: faq.id,
-            heading: faq.title,
-            content: faq.text,
-            buttons: faq.buttonGroup.all()
-        }]) %}
+        {% set faqIds = faqIds|merge([faq.id]) %}
 
     {% endif %}
 
 {% endfor %}
+
+{% set prefix = params.handle ~ '-' ~ entry.id %}
 
 {# Classes #}
 
@@ -52,7 +49,7 @@
 
 {# Output #}
 
-{% if faqs|length %}
+{% if faqIds|length %}
 
     {% embed '_components/section'
         with {
@@ -81,13 +78,13 @@
 
                     </div>
 
-                    {% include '_components/accordion' with {
-                        params: {
-                            id: params.handle ~ '-' ~ entry.id,
-                            items: faqs,
-                            class: blockClasses.accordion
-                        }
-                    } only %}
+                    {{ sprig('_sprig/faqs', {
+                        ids: faqIds|join(','),
+                        prefix: prefix
+                    }, {
+                        id: prefix ~ '-sprig',
+                        class: blockClasses.accordion
+                    }) }}
 
                 </div>
 
