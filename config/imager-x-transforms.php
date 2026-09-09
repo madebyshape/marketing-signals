@@ -44,6 +44,16 @@ return [
             'ratio' => 2/1
         ]
     ],
+    '2x3' => [
+        'transforms' => [
+            ['width' => 400],
+            ['width' => 800],
+            ['width' => 1200]
+        ],
+        'defaults' => [
+            'ratio' => 2/3
+        ]
+    ],
     '3x4' => [
         'transforms' => [
             ['width' => 400],
