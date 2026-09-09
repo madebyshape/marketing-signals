@@ -1,0 +1,203 @@
+{% set component = 'serviceCard' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    service: null,
+    number: 1,
+    scheme: 'white',
+    sizes: '100vw',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    scheme: {
+        white: {
+            card: 'bg-white',
+            number: 'black',
+            rule: 'creme-300',
+            title: 'base',
+            text: 'black',
+            include: 'text-black',
+            tag: 'creme-300-outline'
+        },
+        black: {
+            card: 'bg-black',
+            number: 'white',
+            rule: 'white-30',
+            title: 'fluro',
+            text: 'creme-100',
+            include: 'text-secondary',
+            tag: 'white-30-outline'
+        },
+        secondary: {
+            card: 'bg-secondary',
+            number: 'black',
+            rule: 'black',
+            title: 'base',
+            text: 'black',
+            include: 'text-black',
+            tag: 'black-outline'
+        },
+        fluro: {
+            card: 'bg-fluro',
+            number: 'black',
+            rule: 'black',
+            title: 'base',
+            text: 'black',
+            include: 'text-black',
+            tag: 'black-outline'
+        },
+        'creme-200': {
+            card: 'bg-creme-200',
+            number: 'black',
+            rule: 'black',
+            title: 'base',
+            text: 'black',
+            include: 'text-black',
+            tag: 'black-outline'
+        }
+    }
+} %}
+
+{% set scheme = options.scheme[params.scheme] %}
+
+{# Classes #}
+
+{% set classes = {
+    card: [
+        'group grid grid-cols-1 gap-5 overflow-hidden rounded-[20px] p-5',
+        scheme.card,
+        '|',
+        'lg:grid-cols-12 lg:p-10',
+        params.class
+    ],
+    thumbnail: [
+        'overflow-hidden rounded-[15px] aspect-[4/3]',
+        '|',
+        'lg:col-start-8 lg:col-span-5 lg:row-start-1 lg:h-full lg:aspect-auto lg:rounded-[20px]'
+    ],
+    text: [
+        'flex flex-col',
+        '|',
+        'lg:col-start-1 lg:col-span-6 lg:row-start-1'
+    ],
+    body: 'mt-auto pt-10 | lg:pt-[150px]',
+    title: 'font-semibold leading-0.97 tracking-tighter | lg:text-6xl',
+    description: 'mt-7.5 | lg:max-w-[588px]',
+    include: [
+        'text-base font-medium leading-1.33 mt-12.5',
+        scheme.include
+    ],
+    tags: 'flex flex-wrap gap-1.25 mt-5'
+} %}
+
+{# Output #}
+
+{% if params.service %}
+
+    {% set thumbnail = params.service.thumbnail.one() %}
+    {% set categories = params.service.categoriesService.all() %}
+
+    {# Nested links are invalid HTML, so the Description keeps only inline formatting. #}
+
+    {% set description = params.service.description|striptags('<p><strong><b><em><i><br>') %}
+
+    <a
+        href="{{ params.service.url }}"
+        class="{{ classes.card|join(' ')|trim }}"
+    >
+
+        {# The Thumbnail leads in the DOM so it stands above the text below lg; at lg both take row one. #}
+
+        {% if thumbnail %}
+
+            <div class="{{ classes.thumbnail|join(' ')|trim }}">
+
+                {% include '_components/picture' with {
+                    params: {
+                        image: thumbnail,
+                        alt: '',
+                        transform: '4x3',
+                        ratio: false,
+                        focalPoint: true,
+                        sizes: params.sizes
+                    }
+                } only %}
+
+            </div>
+
+        {% endif %}
+
+        <div class="{{ classes.text|join(' ')|trim }}">
+
+            {% include '_components/eyebrow' with {
+                params: {
+                    text: '%02d'|format(params.number),
+                    colour: scheme.number,
+                    rule: true,
+                    ruleColour: scheme.rule
+                }
+            } only %}
+
+            <div class="{{ classes.body }}">
+
+                {# The title renders as a `p`: a heading inside the card's link is the pattern the Case Study Card avoids. #}
+
+                {% include '_components/headingAlternate' with {
+                    params: {
+                        tag: 'p',
+                        heading: params.service.title,
+                        colour: scheme.title,
+                        size: '3xl',
+                        class: classes.title
+                    }
+                } only %}
+
+                {% if description|striptags|trim|length %}
+
+                    {% include '_components/richText' with {
+                        params: {
+                            content: description,
+                            colour: scheme.text,
+                            class: classes.description
+                        }
+                    } only %}
+
+                {% endif %}
+
+                {% if categories|length %}
+
+                    <div class="{{ classes.include|join(' ')|trim }}">Services include</div>
+
+                    <div class="{{ classes.tags }}">
+
+                        {% for category in categories %}
+
+                            {% include '_components/badge' with {
+                                params: {
+                                    badge: category.title,
+                                    colour: scheme.tag,
+                                    size: 'lg'
+                                }
+                            } only %}
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </a>
+
+{% endif %}
