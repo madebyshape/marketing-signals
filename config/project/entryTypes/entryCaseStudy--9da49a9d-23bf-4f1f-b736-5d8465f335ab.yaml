@@ -59,7 +59,7 @@ fieldLayouts:
             elementEditCondition: null
             fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
             handle: logo
-            instructions: null
+            instructions: 'Upload an SVG so the logo can be shown in black.'
             label: Logo
             required: false
             tip: null
@@ -285,7 +285,7 @@ fieldLayouts:
             dismissible: false
             elementCondition: null
             style: tip
-            tip: 'Case Study Sidebar gets show here'
+            tip: 'The Case Study Sidebar renders here from the Overview tab.'
             type: craft\fieldlayoutelements\Tip
             uid: dbff5698-114e-4ff0-b04b-945a29169a40
             userCondition: null

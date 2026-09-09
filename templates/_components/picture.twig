@@ -132,12 +132,16 @@
 
 {% elseif params.svgInline and params.image['extension'] is defined and params.image.extension == 'svg' %}
 
-    {# Inlined so text colour reaches it; hex fills become currentColor, none and white stay for masks. #}
+    {# Inlined so text colour reaches it; hex and white fills become currentColor, none stays for masks. #}
 
-    {% set inlineSvg = svg(params.image, true, true)|replace('/fill="#[0-9a-fA-F]{3,8}"/', 'fill="currentColor"') %}
+    {% set inlineSvg = svg(params.image, true, true)|replace('/fill="(#[0-9a-fA-F]{3,8}|white)"/', 'fill="currentColor"') %}
+
+    {# An alt names the mark for screen readers; without one it stays the decorative graphic it is. #}
 
     {{ inlineSvg|attr({
-        class: classes.svg|join(' ')|trim
+        class: classes.svg|join(' ')|trim,
+        role: params.alt|length ? 'img' : null,
+        'aria-label': params.alt|length ? params.alt : null
     }) }}
 
 {% else %}
