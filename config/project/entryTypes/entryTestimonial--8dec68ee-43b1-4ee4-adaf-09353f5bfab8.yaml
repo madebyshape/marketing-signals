@@ -116,6 +116,78 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-09T15:26:28+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: e09df1c8-18b1-4598-ad75-812ac48e1b9c # Dropdown - Media Type
+            handle: null
+            instructions: null
+            label: 'Media Type'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 50aabda7-3a9c-49b6-85ad-ebcfe600cad2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T15:26:28+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\OptionsFieldConditionRule
+                  fieldUid: e09df1c8-18b1-4598-ad75-812ac48e1b9c # Dropdown - Media Type
+                  layoutElementUid: 50aabda7-3a9c-49b6-85ad-ebcfe600cad2
+                  operator: in
+                  uid: 2a281752-a857-48cc-9e3d-a4ec8f594913
+                  values:
+                    - video
+              elementType: craft\elements\Entry
+              fieldContext: global
+            elementEditCondition: null
+            fieldUid: 4580bc09-b5c8-40a2-bff5-95f715403f50 # Video
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4415d7b5-f768-4cb4-a431-94484d443391
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T15:26:28+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\OptionsFieldConditionRule
+                  fieldUid: e09df1c8-18b1-4598-ad75-812ac48e1b9c # Dropdown - Media Type
+                  layoutElementUid: 50aabda7-3a9c-49b6-85ad-ebcfe600cad2
+                  operator: in
+                  uid: fbfca322-4ff7-4c24-b434-40e2a24b815c
+                  values:
+                    - image
+              elementType: craft\elements\Entry
+              fieldContext: global
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d242a917-7495-4098-a906-71dbbf13eb88
+            userCondition: null
+            warning: null
+            width: 100
         name: 'Element Content'
         uid: 61c6a497-5cd7-43bb-877c-0c682cac4712
         userCondition: null
