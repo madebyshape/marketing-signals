@@ -6,9 +6,101 @@
 
 {% set headerColour = 'black' %}
 
+{# Case Study Intro #}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+
+{% set hasIntro = hasEyebrow or hasHeading or hasText %}
+
+{# Classes #}
+
+{% set pageClasses = {
+    grid: [
+        'grid grid-cols-1 gap-5',
+        '|',
+        'lg:grid-cols-12'
+    ],
+    intro: [
+        'col-span-full',
+        '|',
+        'lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:pt-15'
+    ],
+    eyebrow: 'mb-12.5',
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'lg:text-6xl'
+    ],
+    text: 'mt-7.5'
+} %}
+
 {% block site %}
 
     {# Hero Case Study #}
+
+    {# Case Study Intro #}
+
+    {% if hasIntro %}
+
+        {% embed '_components/section'
+            with {
+                params: {
+                    paddingY: 'bottom'
+                }
+            }
+        %}
+            {% block sectionContent %}
+
+                <div class="{{ pageClasses.grid|join(' ')|trim }}">
+
+                    {# The Case Study Sidebar takes columns 10 to 12 of this row, leaving 8 and 9 empty. #}
+
+                    <div class="{{ pageClasses.intro|join(' ')|trim }}">
+
+                        {% if hasEyebrow %}
+
+                            {% include '_components/eyebrow' with {
+                                params: {
+                                    text: entry.eyebrow,
+                                    rule: true,
+                                    class: pageClasses.eyebrow
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                size: '4xl',
+                                class: pageClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                        {% if hasText %}
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: entry.text,
+                                    colour: 'black',
+                                    list: 'check',
+                                    class: (hasEyebrow or hasHeading) ? pageClasses.text
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endblock %}
+        {% endembed %}
+
+    {% endif %}
 
     {# Blocks #}
     {{ entry.blocks.render({
