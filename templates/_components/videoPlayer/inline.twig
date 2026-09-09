@@ -3,6 +3,7 @@
 {% set defaultParams = {
     poster: null,
     transform: '1x1',
+    shade: false,
     class: null
 } %}
 
@@ -30,6 +31,9 @@
     ],
     poster: [
         'absolute inset-0 z-10 pointer-events-none motion-safe:transition-opacity motion-safe:duration-300'
+    ],
+    posterImage: [
+        params.shade ? 'opacity-60'
     ],
     button: [
         'absolute right-5 bottom-5 z-20 flex size-[42px] cursor-pointer items-center justify-center text-white motion-safe:transition',
@@ -76,7 +80,8 @@
                     alt: '',
                     transform: params.transform,
                     focalPoint: true,
-                    ratio: false
+                    ratio: false,
+                    wrapperClass: classes.posterImage|join(' ')|trim
                 }
             } only %}
 
