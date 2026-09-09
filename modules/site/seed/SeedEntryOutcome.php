@@ -7,8 +7,8 @@ use DateTimeInterface;
 /**
  * What the command did with the entry a Seed targets, before it wrote a single Block: created it
  * because its section had no entry with the Seed's slug, gave a created entry its post date,
- * found the one already there, switched its entry type, or left a type that already matched
- * alone.
+ * found the one already there, switched its entry type, mended its title, or left a type or
+ * title that already matched alone.
  *
  * A Seed without the entry keys reports nothing here, since the entry it names has always had to
  * exist and saying so every run would be noise.
@@ -63,6 +63,23 @@ readonly class SeedEntryOutcome
     public static function switched(string $slug, string $from, string $to): self
     {
         return new self(self::SWITCHED, $slug, "$from → $to");
+    }
+
+    /**
+     * The title an entry that already exists was mended to. The title it carried is left out of
+     * the line, since a title being mended is one that carries a line break.
+     */
+    public static function retitled(string $slug, string $title): self
+    {
+        return new self(self::SET, $slug, "title “{$title}”");
+    }
+
+    /**
+     * An entry whose title is the one the Seed names, so there is nothing to mend.
+     */
+    public static function titled(string $slug, string $title): self
+    {
+        return new self(self::SKIPPED, $slug, "title is already “{$title}”");
     }
 
     /**
