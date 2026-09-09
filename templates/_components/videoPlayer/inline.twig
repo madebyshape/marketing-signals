@@ -94,18 +94,18 @@
 
         {# The arc is drawn from twelve o'clock and its dash offset empties it clockwise. #}
 
-        <svg class="{{ classes.ring|join(' ')|trim }}" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+        <svg viewBox="0 0 42 42" fill="none" class="{{ classes.ring|join(' ')|trim }}" aria-hidden="true">
 
-            <circle class="{{ classes.track|join(' ')|trim }}" cx="21" cy="21" r="20" stroke-width="2"></circle>
+            <circle cx="21" cy="21" r="20" stroke-width="2" class="{{ classes.track|join(' ')|trim }}"></circle>
 
             <circle
-                class="{{ classes.arc|join(' ')|trim }}"
                 cx="21"
                 cy="21"
                 r="20"
                 stroke-width="2"
                 stroke-dasharray="{{ circumference }}"
                 transform="rotate(-90 21 21)"
+                class="{{ classes.arc|join(' ')|trim }}"
                 x-bind:stroke-dashoffset="-({{ circumference }} * progress / 100)"
             ></circle>
 

@@ -156,7 +156,7 @@
 
                         {% if item.hasMedia %}
 
-                            <div class="{{ [blockClasses.media, order.media]|join(' ')|trim }}">
+                            <div class="{{ [blockClasses.media, '|', order.media]|join(' ')|trim }}">
 
                                 {% if item.image %}
 
