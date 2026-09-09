@@ -1,0 +1,83 @@
+{% set component = 'filterButton' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    label: null,
+    name: 'category',
+    value: '',
+    checked: false,
+    attributes: '',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{# The input sits inside its label, so the checked look reaches the pill with `has` and the dots as peers. #}
+
+{% set options = {
+    look: {
+        base: 'border-creme-300',
+        active: 'has-checked:border-primary',
+        hover: 'pointer-fine:hover:border-primary'
+    },
+    radar: {
+        base: 'text-creme-300 peer-checked:hidden',
+        active: 'hidden text-primary peer-checked:block'
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    label: [
+        'inline-flex flex-shrink-0 items-center gap-2 py-2.5 pl-3.75 pr-5 rounded-full border text-base font-medium leading-none cursor-pointer ring-primary/50 motion-safe:transition',
+        options.look.base,
+        '|',
+        options.look.active,
+        options.look.hover,
+        'has-focus-visible:ring-3',
+        params.class
+    ],
+    input: 'peer sr-only',
+    radar: {
+        base: [
+            'flex-shrink-0',
+            options.radar.base
+        ],
+        active: [
+            'flex-shrink-0',
+            options.radar.active
+        ]
+    }
+} %}
+
+{# Output #}
+
+{% if params.label %}
+
+    <label class="{{ classes.label|join(' ')|trim }}">
+
+        <input type="radio" name="{{ params.name }}" value="{{ params.value }}" class="{{ classes.input }}"{{ params.checked ? ' checked' }} {{ params.attributes|raw }}>
+
+        {{ svg('@templates/_svg/radarInactive.svg')|attr({
+            class: classes.radar.base|join(' ')|trim,
+            'aria-hidden': 'true',
+            focusable: 'false'
+        }) }}
+
+        {{ svg('@templates/_svg/radar.svg')|attr({
+            class: classes.radar.active|join(' ')|trim,
+            'aria-hidden': 'true',
+            focusable: 'false'
+        }) }}
+
+        {{ params.label }}
+
+    </label>
+
+{% endif %}

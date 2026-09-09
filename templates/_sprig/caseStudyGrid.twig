@@ -2,6 +2,7 @@
 
 {% set category = category ?? '' %}
 {% set page = page ?? 1 %}
+{% set scroll = scroll ?? 0 %}
 
 {# Case Studies #}
 
@@ -12,6 +13,7 @@
 {% set page = page matches '/^[0-9]+$/' ? page + 0 : 1 %}
 
 {% set activeCategory = category|length ? craft.categories.group('caseStudy').slug(category).one() : null %}
+{% set activeSlug = activeCategory ? activeCategory.slug : '' %}
 
 {% set query = craft.entries.section('caseStudy').status('enabled').relatedTo(activeCategory).limit(perPage) %}
 
@@ -19,6 +21,22 @@
 
 {% set pageInfo = sprig.paginate(query, page) %}
 {% set caseStudies = query.offset(perPage * (pageInfo.currentPage - 1)).all() %}
+
+{# Categories #}
+
+{# A Category only earns a Filter Button while an enabled Case Study points at it. #}
+
+{% set categories = craft.categories.group('caseStudy').relatedTo({
+    sourceElement: craft.entries.section('caseStudy').status('enabled')
+}).all() %}
+
+{% set filters = [{ label: 'All Work', value: '' }] %}
+
+{% for item in categories %}
+
+    {% set filters = filters|merge([{ label: item.title, value: item.slug }]) %}
+
+{% endfor %}
 
 {# Options #}
 
@@ -60,10 +78,20 @@
     's-indicator="#' ~ gridId ~ '"'
 ] %}
 
+{# Only a page change scrolls, so a Filter Button leaves the viewport where it is. #}
+
+{% set pageAttributes = attributes|merge([
+    's-val:category="' ~ activeSlug ~ '"',
+    's-val:scroll="1"'
+]) %}
+
+{% set pageUrl = activeSlug ? '?category=' ~ activeSlug ~ '&page=' : '?page=' %}
+
 {# Classes #}
 
 {% set classes = {
-    rule: 'mb-10 h-px w-full bg-creme-300 scroll-mt-20 | xl:scroll-mt-[123px]',
+    filter: 'mb-10 flex flex-wrap items-center gap-2.5 scroll-mt-20 | xl:scroll-mt-[123px]',
+    rule: 'mb-10 h-px w-full bg-creme-300',
     grid: 'grid grid-cols-12 gap-5 [&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50',
     item: 'col-span-12',
     empty: 'text-base'
@@ -71,9 +99,32 @@
 
 {# Output #}
 
-{# A swap scrolls the rule beneath the Header, whose height is the rule's scroll margin. #}
+{# A paged swap scrolls the filter beneath the Header, whose height is the filter's scroll margin. #}
 
-<div class="{{ classes.rule }}"{% if sprig.isRequest %} x-data x-init="window.lenis.scrollTo($el)"{% endif %}></div>
+<fieldset class="{{ classes.filter }}"{% if sprig.isRequest and scroll %} x-data x-init="window.lenis.scrollTo($el)"{% endif %}>
+
+    <legend class="sr-only">Filter by category</legend>
+
+    {% for filter in filters %}
+
+        {% include '_components/filterButton' with {
+            params: {
+                label: filter.label,
+                value: filter.value,
+                checked: filter.value == activeSlug,
+                attributes: attributes|merge([
+                    's-val:category="' ~ filter.value ~ '"',
+                    's-val:page="1"',
+                    's-push-url="?category=' ~ filter.value ~ '"'
+                ])|join(' ')
+            }
+        } only %}
+
+    {% endfor %}
+
+</fieldset>
+
+<div class="{{ classes.rule }}"></div>
 
 {% if caseStudies|length %}
 
@@ -108,7 +159,8 @@
     {% include '_components/pagination' with {
         params: {
             pageInfo: pageInfo,
-            attributes: attributes
+            attributes: pageAttributes,
+            pageUrl: pageUrl
         }
     } only %}
 
