@@ -226,6 +226,10 @@ _Avoid_: Text reveal, scroll text, intro statement, manifesto
 The scroll-linked fade of a heading's words from faint to full, a few words at a time, in reading order. It follows the scroll in both directions.
 _Avoid_: Fade in, animate in, scroll effect, highlight scroll
 
+**Eyebrow Heading Text**:
+A Block of an Eyebrow with a Rule over a large heading with the Highlight beside a short text, with an optional Button Group beneath the text. Below the desktop breakpoint the heading, text and buttons stack.
+_Avoid_: Intro block, text block, heading and text, two-column text, results block
+
 **Statistics**:
 A Block of two to four Statistics in a row, each separated from the next by a Divider.
 _Avoid_: Stats, numbers, counters, figures, stat row
@@ -418,7 +422,7 @@ _Avoid_: Marquee, scroll, ticker, autoplay, loop
 
 **Video Content**:
 A Block of a Poster beside an Eyebrow with a Rule, a heading with the Highlight, two Text Columns and a Button Group, set in a black panel inside the site margins with the Squiggle at its bottom right. Clicking the Poster opens the Video Modal.
-_Avoid_: Video block, video and text, media text, feature video
+_Avoid_: Video and text, media text, feature video
 
 **Poster**:
 The still image that stands in for a video before it plays, with the Play Button over it. Set by editors on the Video field.
@@ -571,6 +575,34 @@ _Avoid_: Autoplay, preview, hover effect, mouseover
 **Time Ring**:
 The button at the bottom right of an Inline Video: a white ring that empties as the video plays, holding a play or pause glyph. Pressing it plays or pauses the video and holds that state until the next Hover Play.
 _Avoid_: Loader, progress circle, pause button, spinner
+
+### Video
+
+**Video**:
+A Block of one video from the Video field, 16:9 across the content width inside the site margins, that plays in place or in the Video Modal by its Display Type. With no video it shows its Poster alone, and with neither it shows nothing.
+_Avoid_: Video block, full-width video, video embed, media block
+
+**Shade**:
+The 40% darkening over a Poster at rest that says a video is there. It fades away with the Poster when an Inline Video first plays. A Poster with no video has no Shade.
+_Avoid_: Overlay, tint, dim, gradient, darken
+
+### Icon Grid
+
+**Icon Grid**:
+A Block of a Section Header over a grid of Icon Cards, three across on a desktop, two on a tablet and one on a phone, with a Button and an Avatar Group centred beneath.
+_Avoid_: Feature grid, services grid, approach grid, icon boxes, USP grid
+
+**Icon Card**:
+One white rounded card in an Icon Grid: an Icon over a centred heading and a short text.
+_Avoid_: Feature, tile, box, item, cell
+
+**Icon**:
+The large primary-coloured mark at the top of an Icon Card, chosen by its Icon Type. Decoration: the heading names the card.
+_Avoid_: Glyph, symbol, pictogram, illustration
+
+**Icon Type**:
+Which of the two sources an Icon comes from: a Font Awesome icon named by the editor and always shown in the Sharp Duotone Light style, or an Image the editor uploads.
+_Avoid_: Icon style, icon source, media type
 
 ### Seeding
 
