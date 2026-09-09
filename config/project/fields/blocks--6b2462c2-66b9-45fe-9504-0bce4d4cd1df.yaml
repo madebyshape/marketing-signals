@@ -60,6 +60,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 79e1a77d-effa-4dd3-bdb7-0887b8151560 # Featured Testimonial
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 8a84de3a-19bd-4528-a47b-1d207eda9858 # Heading
         -
           - group

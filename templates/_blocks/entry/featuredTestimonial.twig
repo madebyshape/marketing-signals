@@ -1,0 +1,202 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set testimonial = entry.entryTestimonial.one() %}
+{% set hasQuote = testimonial and testimonial.text|striptags|trim|length %}
+
+{% set avatar = hasQuote ? testimonial.avatar.one() : null %}
+{% set logo = hasQuote ? testimonial.logo.one() : null %}
+
+{% set image = hasQuote and testimonial.dropdownMediaType.value == 'image' ? testimonial.image.one() : null %}
+{% set video = hasQuote and testimonial.dropdownMediaType.value == 'video' ? testimonial.video : null %}
+
+{# A Video with a Poster but no source plays nothing, so it is not a Media. #}
+
+{% set hasVideo = video and (video.videoUrl|trim|length or video.videoFile.one()) %}
+{% set hasMedia = image or hasVideo %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasCaption = hasQuote and (testimonial.testimonialName|length or avatar or logo) %}
+
+{# Options #}
+
+{% set blockOptions = {
+    sizes: '(min-width: 1024px) 33vw, 100vw'
+} %}
+
+{# Classes #}
+
+{# The Media's ratio sets the row heights from `lg`, so a long quote grows the panel and the Media with it. #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: [
+        'overflow-hidden rounded-[20px] bg-black p-1.25',
+        '|',
+        'lg:grid lg:grid-cols-12 lg:gap-5'
+    ],
+    eyebrow: [
+        'px-8.75 pt-8.75',
+        '|',
+        'lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:pr-0'
+    ],
+    quote: [
+        'px-8.75 pb-8.75',
+        hasEyebrow ? '' : 'pt-8.75',
+        '|',
+        'lg:col-start-1 lg:col-span-7 lg:row-start-2 lg:self-end lg:pr-0 lg:pt-0'
+    ],
+    blockquote: '[hanging-punctuation:first]',
+    caption: 'flex flex-wrap items-center gap-5 mt-12.5 text-white',
+    logo: 'h-auto max-h-[45px] w-auto max-w-[120px] shrink-0 ml-auto',
+    media: [
+        'relative overflow-hidden rounded-[15px] bg-black aspect-4/3 my-7.5',
+        '|',
+        'lg:col-start-9 lg:col-span-4 lg:row-start-1 lg:row-span-2 lg:my-0 lg:aspect-2/3'
+    ]
+} %}
+
+{# Output #}
+
+{% if hasQuote %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+                    {% if hasEyebrow %}
+
+                        <div class="{{ blockClasses.eyebrow|join(' ')|trim }}">
+
+                            {% include '_components/eyebrow' with {
+                                params: {
+                                    text: entry.eyebrow,
+                                    colour: 'white',
+                                    rule: true,
+                                    ruleColour: 'white-30'
+                                }
+                            } only %}
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if hasMedia %}
+
+                        <div class="{{ blockClasses.media|join(' ')|trim }}">
+
+                            {% if image %}
+
+                                {% include '_components/picture' with {
+                                    params: {
+                                        image: image,
+                                        alt: '',
+                                        transform: '2x3',
+                                        ratio: false,
+                                        focalPoint: true,
+                                        sizes: blockOptions.sizes
+                                    }
+                                } only %}
+
+                            {% else %}
+
+                                {% include '_components/videoPlayer/base' with {
+                                    params: {
+                                        video: video,
+                                        transform: '2x3',
+                                        playerType: video.videoDisplayType.value == 'inlinePlayer' ? 'inline' : 'modal',
+                                        posterClass: 'rounded-[15px]',
+                                        modalLabel: 'Video player',
+                                        class: 'h-full'
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
+
+                    <figure class="{{ blockClasses.quote|join(' ')|trim }}">
+
+                        <blockquote class="{{ blockClasses.blockquote }}">
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: testimonial.text,
+                                    colour: 'white',
+                                    size: '5xl'
+                                }
+                            } only %}
+
+                        </blockquote>
+
+                        {% if hasCaption %}
+
+                            <figcaption class="{{ blockClasses.caption }}">
+
+                                {% if testimonial.testimonialName|length or avatar %}
+
+                                    {% include '_components/user' with {
+                                        params: {
+                                            image: avatar,
+                                            heading: testimonial.testimonialName,
+                                            subHeading: testimonial.testimonialJobRole,
+                                            colour: 'creme-100',
+                                            size: 'lg'
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                                {% if logo %}
+
+                                    {# Inline so the Logo takes the caption's white text colour. #}
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: logo,
+                                            alt: testimonial.title,
+                                            transform: 'noRatio',
+                                            ratio: false,
+                                            svgInline: true,
+                                            imgClass: blockClasses.logo
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                            </figcaption>
+
+                        {% endif %}
+
+                    </figure>
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

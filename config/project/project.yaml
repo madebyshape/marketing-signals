@@ -1,4 +1,4 @@
-dateModified: 1788967588
+dateModified: 1788987584
 elementSources:
   craft\elements\Entry:
     -
@@ -194,6 +194,7 @@ meta:
     74eb57f4-3401-46b7-a35b-e2a75fee9c63: Button # Button
     75cd72a0-08d7-4e62-987d-3380ee5a0722: 'Entry - FAQ Listing' # Entry - FAQ Listing
     77b77dda-5b66-418a-8f88-158a1830c6cd: 'Entry - Blog Listing' # Entry - Blog Listing
+    79e1a77d-effa-4dd3-bdb7-0887b8151560: 'Featured Testimonial' # Featured Testimonial
     87b41f87-eee1-44ce-8484-cae9e5b58b3b: 'Entries - Client' # Entries - Client
     93bb0c13-89fe-4d68-9853-576b7d1238a6: 'Entry Site' # Entry Site
     101f8024-59d6-48df-9744-ccf3da6ef824: 'Dropdown - Star Rating' # Dropdown - Star Rating
@@ -256,6 +257,7 @@ meta:
     d5189384-3a6a-441f-9f4b-cb171f279337: Heading # Heading
     d8925826-0e82-41f9-91e8-bb798d884868: 'Carousel - Blog' # Carousel - Blog
     da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21: Form # Form
+    db56c11b-226d-42e6-9b9b-b449f0ac99df: 'Entry - Testimonial' # Entry - Testimonial
     dd193fca-6353-485f-a383-668951cbb602: Blog # Blog
     e09df1c8-18b1-4598-ad75-812ac48e1b9c: 'Dropdown - Media Type' # Dropdown - Media Type
     e3078af5-a566-4561-af12-e529edd7980f: 'Entry - Team' # Entry - Team
