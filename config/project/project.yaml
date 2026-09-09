@@ -141,6 +141,7 @@ fs:
     url: 'https://cdn2.assets-servd.host/'
 meta:
   __names__:
+    0acf1fd0-9723-4b0b-905b-b873b17bfdf7: 'Eyebrow, Heading & Text' # Eyebrow, Heading & Text
     0b4c11ad-51c9-43b6-a7cd-47a988cc8821: 'Contact Column' # Contact Column
     0b199c11-0b79-4e4b-b931-f9c85e23a667: Button # Button
     1d852893-eb82-4886-afbd-030682a843f8: 'Entries - Testimonial' # Entries - Testimonial

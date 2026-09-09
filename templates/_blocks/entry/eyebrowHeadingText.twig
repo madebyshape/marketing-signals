@@ -1,0 +1,119 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set buttons = entry.buttonGroup.all() %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    eyebrow: 'mb-12.5',
+    grid: [
+        'grid grid-cols-1 gap-x-5',
+        '|',
+        'lg:grid-cols-12'
+    ],
+    heading: [
+        'col-span-full font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:text-6xl'
+    ],
+    textColumn: [
+        'col-span-full',
+        '|',
+        'lg:col-start-9 lg:col-span-4 lg:row-start-1'
+    ],
+    textColumnOffset: 'mt-7.5 lg:mt-0',
+    buttons: 'mt-10'
+} %}
+
+{# Output #}
+
+{% if hasEyebrow or hasHeading or hasText or buttons|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {% if hasEyebrow %}
+
+                {% include '_components/eyebrow' with {
+                    params: {
+                        text: entry.eyebrow,
+                        rule: true,
+                        class: blockClasses.eyebrow
+                    }
+                } only %}
+
+            {% endif %}
+
+            {% if hasHeading or hasText or buttons|length %}
+
+                <div class="{{ blockClasses.grid|join(' ')|trim }}">
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h2',
+                            heading: entry.heading,
+                            size: '5xl',
+                            class: blockClasses.heading|join(' ')|trim
+                        }
+                    } only %}
+
+                    {% if hasText or buttons|length %}
+
+                        {# The row gap is zero so the stacked offset below `lg` is this margin alone. #}
+
+                        <div class="{{ [blockClasses.textColumn|join(' '), hasHeading ? blockClasses.textColumnOffset]|join(' ')|trim }}">
+
+                            {% if hasText %}
+
+                                {% include '_components/richText' with {
+                                    params: {
+                                        content: entry.text,
+                                        colour: 'black',
+                                        size: 'base',
+                                        list: 'base'
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                            {% include '_components/buttonGroup' with {
+                                params: {
+                                    buttons: buttons,
+                                    colours: ['secondary', 'creme-300-outline'],
+                                    class: hasText ? blockClasses.buttons
+                                }
+                            } only %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
