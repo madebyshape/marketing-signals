@@ -13,6 +13,34 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
+            fieldUid: 6c529af8-e2a5-4453-b9fb-1ba91313d2ea # Dropdown - Icon Type
+            handle: dropdownIconType
+            instructions: null
+            label: 'Icon Type'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a8ef2a45-a6f8-4ac4-9699-dd2109e27ccd
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\OptionsFieldConditionRule
+                  fieldUid: 6c529af8-e2a5-4453-b9fb-1ba91313d2ea # Dropdown - Icon Type
+                  layoutElementUid: a8ef2a45-a6f8-4ac4-9699-dd2109e27ccd
+                  operator: in
+                  uid: 375e8e79-f739-4219-8461-cdbfff84ac16
+                  values:
+                    - fontAwesome
+              elementType: craft\elements\Entry
+              fieldContext: global
+            elementEditCondition: null
             fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
             handle: icon
             instructions: 'The Font Awesome icon name, e.g. bullseye-arrow. Always shown in the Sharp Duotone Light style.'
@@ -21,6 +49,34 @@ fieldLayouts:
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: 5f5202b0-f328-4b9c-b172-e4247bc6c1e2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\OptionsFieldConditionRule
+                  fieldUid: 6c529af8-e2a5-4453-b9fb-1ba91313d2ea # Dropdown - Icon Type
+                  layoutElementUid: a8ef2a45-a6f8-4ac4-9699-dd2109e27ccd
+                  operator: in
+                  uid: 68169672-562a-4fc0-aa57-6473c8f60217
+                  values:
+                    - image
+              elementType: craft\elements\Entry
+              fieldContext: global
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: iconImage
+            instructions: 'Upload an SVG so it takes the icon colour.'
+            label: 'Icon Image'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b214b4a7-2524-4c23-90c4-f697f40a85e8
             userCondition: null
             warning: null
             width: 100
