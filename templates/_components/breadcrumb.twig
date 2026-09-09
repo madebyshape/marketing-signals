@@ -5,6 +5,7 @@
 {% set defaultParams = {
     entry: null,
     items: null,
+    colour: 'base',
     class: null
 } %}
 
@@ -19,6 +20,18 @@
 {% set options = {
     listingType: {
         caseStudy: 'entryCaseStudyListing'
+    },
+    colour: {
+        base: {
+            link: 'text-creme-500 transition-colors | hover:text-black focus:text-black',
+            current: 'text-black underline',
+            chevron: 'text-creme-500'
+        },
+        white: {
+            link: 'text-white/70 transition-colors | hover:text-white focus:text-white',
+            current: 'text-white underline',
+            chevron: 'text-white/70'
+        }
     }
 } %}
 
@@ -95,13 +108,14 @@
         'flex items-center gap-3.75 text-base font-medium leading-1.33'
     ],
     link: [
-        'text-creme-500 transition-colors | hover:text-black focus:text-black'
+        options.colour[params.colour].link
     ],
     current: [
-        'text-black underline'
+        options.colour[params.colour].current
     ],
     chevron: [
-        'fa-sharp fa-regular fa-angle-right | text-xs text-creme-500'
+        'fa-sharp fa-regular fa-angle-right | text-xs',
+        options.colour[params.colour].chevron
     ]
 } %}
 
