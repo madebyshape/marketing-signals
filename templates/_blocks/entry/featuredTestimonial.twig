@@ -17,9 +17,13 @@
 {% set avatar = hasQuote ? testimonial.avatar.one() : null %}
 {% set logo = hasQuote ? testimonial.logo.one() : null %}
 
-{# Media Type Video is the next ticket, so only an Image is a Media here. #}
-
 {% set image = hasQuote and testimonial.dropdownMediaType.value == 'image' ? testimonial.image.one() : null %}
+{% set video = hasQuote and testimonial.dropdownMediaType.value == 'video' ? testimonial.video : null %}
+
+{# A Video with a Poster but no source plays nothing, so it is not a Media. #}
+
+{% set hasVideo = video and (video.videoUrl|trim|length or video.videoFile.one()) %}
+{% set hasMedia = image or hasVideo %}
 
 {% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
 {% set hasCaption = hasQuote and (testimonial.testimonialName|length or avatar or logo) %}
@@ -97,20 +101,37 @@
 
                     {% endif %}
 
-                    {% if image %}
+                    {% if hasMedia %}
 
                         <div class="{{ blockClasses.media|join(' ')|trim }}">
 
-                            {% include '_components/picture' with {
-                                params: {
-                                    image: image,
-                                    alt: '',
-                                    transform: '2x3',
-                                    ratio: false,
-                                    focalPoint: true,
-                                    sizes: blockOptions.sizes
-                                }
-                            } only %}
+                            {% if image %}
+
+                                {% include '_components/picture' with {
+                                    params: {
+                                        image: image,
+                                        alt: '',
+                                        transform: '2x3',
+                                        ratio: false,
+                                        focalPoint: true,
+                                        sizes: blockOptions.sizes
+                                    }
+                                } only %}
+
+                            {% else %}
+
+                                {% include '_components/videoPlayer/base' with {
+                                    params: {
+                                        video: video,
+                                        transform: '2x3',
+                                        playerType: video.videoDisplayType.value == 'inlinePlayer' ? 'inline' : 'modal',
+                                        posterClass: 'rounded-[15px]',
+                                        modalLabel: 'Video player',
+                                        class: 'h-full'
+                                    }
+                                } only %}
+
+                            {% endif %}
 
                         </div>
 
