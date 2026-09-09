@@ -10,6 +10,13 @@
 
     {# Hero #}
 
+    {% include '_components/heroService' with {
+        params: {
+            entry: entry,
+            vars: vars
+        }
+    } only %}
+
     {# Blocks #}
     {{ entry.blocks.render({
         vars: vars

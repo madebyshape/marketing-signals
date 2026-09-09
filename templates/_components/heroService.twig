@@ -1,0 +1,144 @@
+{% set component = 'heroService' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    vars: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{# Named apart from `params` and `classes`, which the section embed shadows #}
+
+{% set service = params.entry %}
+{% set heading = service.heroHeading|striptags|trim|length ? service.heroHeading : service.title %}
+{% set text = service.heroText %}
+{% set button = service.heroButton %}
+{% set avatar = service.heroAvatarGroup %}
+
+{# Classes #}
+
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
+
+{% set heroClasses = {
+    panel: [
+        'w-full overflow-hidden rounded-b-[30px] bg-black pb-10',
+        params.vars ? params.vars.class.siteMargin.x : 'px-10',
+        params.vars ? params.vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        params.class
+    ],
+    grid: [
+        'grid grid-cols-12 gap-5 mt-15',
+        '|',
+        'xl:mt-[130px]'
+    ],
+    content: [
+        'col-span-12 grid grid-cols-1 gap-7.5',
+        '|',
+        'lg:col-span-7 lg:grid-cols-7 lg:gap-x-5'
+    ],
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-7xl lg:col-span-7 lg:text-9xl xl:text-11xl'
+    ],
+    text: [
+        'lg:col-span-6'
+    ],
+    actions: [
+        'flex flex-wrap items-center gap-5',
+        '|',
+        'lg:col-span-7'
+    ]
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: {
+            paddingY: 'bottom',
+            paddingX: 'none'
+        }
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ heroClasses.panel|join(' ')|trim }}">
+
+            {% include '_components/breadcrumb' with {
+                params: {
+                    entry: service,
+                    colour: 'creme-500'
+                }
+            } only %}
+
+            <div class="{{ heroClasses.grid|join(' ')|trim }}">
+
+                <div class="{{ heroClasses.content|join(' ')|trim }}">
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h1',
+                            heading: heading,
+                            colour: 'creme-100',
+                            size: '5xl',
+                            alternateStyle: 'secondary',
+                            class: heroClasses.heading|join(' ')|trim
+                        }
+                    } only %}
+
+                    {% if text|striptags|trim|length %}
+
+                        {% include '_components/richText' with {
+                            params: {
+                                content: text,
+                                colour: 'creme-100',
+                                class: heroClasses.text|join(' ')|trim
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    {% if button|length or avatar.avatarName|length %}
+
+                        <div class="{{ heroClasses.actions|join(' ')|trim }}">
+
+                            {% include '_components/button' with {
+                                params: {
+                                    button: button
+                                }
+                            } only %}
+
+                            {% if avatar.avatarName|length %}
+
+                                {% include '_components/user' with {
+                                    params: {
+                                        image: avatar.avatar.one(),
+                                        heading: avatar.avatarName,
+                                        subHeading: avatar.avatarJobRole,
+                                        colour: 'creme-100',
+                                        size: 'sm'
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+{% endembed %}

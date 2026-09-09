@@ -104,7 +104,7 @@ fieldLayouts:
             elementEditCondition: null
             fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
             handle: heroHeading
-            instructions: null
+            instructions: 'Make words italic to highlight them.'
             label: 'Hero Heading'
             required: false
             tip: null
