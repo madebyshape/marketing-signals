@@ -163,6 +163,7 @@ meta:
     5edf3cb2-e081-444a-a9c1-bdab388c26f3: 'Dropdown - Aspect Ratio' # Dropdown - Aspect Ratio
     6b543e86-8407-40c1-a8c3-f313ed625200: 'Entry - Form Success' # Entry - Form Success
     6b2462c2-66b9-45fe-9504-0bce4d4cd1df: Blocks # Blocks
+    6c529af8-e2a5-4453-b9fb-1ba91313d2ea: 'Dropdown - Icon Type' # Dropdown - Icon Type
     6c903676-c7fc-4096-874c-68b19495c33a: 'Entry - Service' # Entry - Service
     6d792fe4-471d-48ed-bc45-5fe112ba7e46: Image # Image
     6f7c5bc5-e419-4241-8b4e-4598a736cafd: 'Entry - Team Listing' # Entry - Team Listing
@@ -185,6 +186,7 @@ meta:
     17c07940-d39d-4d93-801d-5a752b9c40ec: 'Entry - Career' # Entry - Career
     17e2f019-d6ee-4f54-83a2-a32091caa96d: 'Button Group (Unlimited)' # Button Group (Unlimited)
     19d6d897-1cde-4d59-914a-2bf8a23e7916: 'Public Schema' # Public Schema
+    34e8bb72-5cc9-4fa5-a269-e556b5cd8fd2: 'Icon Card' # Icon Card
     42eea3c2-2f84-43d8-a495-647d4994a8d5: 'Text - Multiline' # Text - Multiline
     68e3deec-735b-4dca-b597-68e68e8777f0: Accordions # Accordions
     72cd3ad5-6f02-4c3b-b431-be5e96bda8e9: 'Entry - Playbook' # Entry - Playbook
@@ -259,6 +261,7 @@ meta:
     e746909c-3d0f-4818-9497-14651dc6ee16: 'Entry - Text' # Entry - Text
     ea300912-bfa1-429b-9212-ba39329d1960: 'Stacking Card' # Stacking Card
     eb5e339e-d658-4112-9895-62287412dd93: 'Image Columns (Max 2)' # Image Columns (Max 2)
+    eb6e087e-6699-4170-b63e-4ffb637101be: 'Icon Grid' # Icon Grid
     ecf96135-0c9d-4684-888c-9e3bd7def9bc: 'Longform Button Group' # Longform Button Group
     ed7d1592-7563-4406-aba9-cbdf547d198d: 'Elements - Testimonial' # Elements - Testimonial
     ee7c6ba5-113d-47b8-aac7-4d8e6018f645: 'Heading Reveal' # Heading Reveal
@@ -269,6 +272,7 @@ meta:
     f54fdb7f-5fd1-41e9-a4c3-63791f1316b8: 'Marquee - Client' # Marquee - Client
     fa2d89b4-fa6d-48d3-b36a-7169022cd64d: Client # Client
     fb0420bb-0fbf-46d2-afd2-f7992c60c886: 'Contact Form' # Contact Form
+    fc1aa366-1ece-49df-90bc-917b65b70e7d: 'Icon Grid' # Icon Grid
 plugins:
   blitz:
     edition: standard

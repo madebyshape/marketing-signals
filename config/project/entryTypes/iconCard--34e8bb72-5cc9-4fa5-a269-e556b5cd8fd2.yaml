@@ -1,0 +1,130 @@
+allowLineBreaksInTitles: false
+color: purple
+description: null
+fieldLayouts:
+  27803a41-d675-4bd9-8518-e52cec7f5b67:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6c529af8-e2a5-4453-b9fb-1ba91313d2ea # Dropdown - Icon Type
+            handle: dropdownIconType
+            instructions: null
+            label: 'Icon Type'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a8ef2a45-a6f8-4ac4-9699-dd2109e27ccd
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\OptionsFieldConditionRule
+                  fieldUid: 6c529af8-e2a5-4453-b9fb-1ba91313d2ea # Dropdown - Icon Type
+                  layoutElementUid: a8ef2a45-a6f8-4ac4-9699-dd2109e27ccd
+                  operator: in
+                  uid: 375e8e79-f739-4219-8461-cdbfff84ac16
+                  values:
+                    - fontAwesome
+              elementType: craft\elements\Entry
+              fieldContext: global
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: icon
+            instructions: 'The Font Awesome icon name, e.g. bullseye-arrow. Always shown in the Sharp Duotone Light style.'
+            label: Icon
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5f5202b0-f328-4b9c-b172-e4247bc6c1e2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\OptionsFieldConditionRule
+                  fieldUid: 6c529af8-e2a5-4453-b9fb-1ba91313d2ea # Dropdown - Icon Type
+                  layoutElementUid: a8ef2a45-a6f8-4ac4-9699-dd2109e27ccd
+                  operator: in
+                  uid: 68169672-562a-4fc0-aa57-6473c8f60217
+                  values:
+                    - image
+              elementType: craft\elements\Entry
+              fieldContext: global
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: iconImage
+            instructions: 'Upload an SVG so it takes the icon colour.'
+            label: 'Icon Image'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b214b4a7-2524-4c23-90c4-f697f40a85e8
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: heading
+            instructions: null
+            label: Heading
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c9c9ccc9-3a8d-4b65-9adc-908e2ea1b0a4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d916ceeb-4780-4a9d-bc8d-d19743d9fca9
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 0415f72c-a4e8-4ba9-8a1c-1835957ba0ed
+        userCondition: null
+    thumbFieldKey: null
+handle: iconCard
+hasTitleField: false
+icon: star
+name: 'Icon Card'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{heading}'
