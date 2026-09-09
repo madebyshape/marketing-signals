@@ -1,0 +1,97 @@
+{# Default Variables #}
+
+{% set category = category ?? '' %}
+{% set page = page ?? 1 %}
+
+{# Case Studies #}
+
+{% set perPage = 8 %}
+
+{# A `page` from the query string arrives as a string and the paginator takes an int. #}
+
+{% set page = page matches '/^[0-9]+$/' ? page + 0 : 1 %}
+
+{% set activeCategory = category|length ? craft.categories.group('caseStudy').slug(category).one() : null %}
+
+{% set query = craft.entries.section('caseStudy').status('enabled').relatedTo(activeCategory).limit(perPage) %}
+
+{# The paginator clamps a page beyond the last to the last. #}
+
+{% set pageInfo = sprig.paginate(query, page) %}
+{% set caseStudies = query.offset(perPage * (pageInfo.currentPage - 1)).all() %}
+
+{# Options #}
+
+{# Each Slot carries its Card Size and the columns the Card spans from `md`. #}
+
+{% set options = {
+    slot: [
+        { size: 'large', span: 'md:col-span-12' },
+        { size: 'half', span: 'md:col-span-6' },
+        { size: 'half', span: 'md:col-span-6' },
+        { size: 'half', span: 'md:col-span-6' },
+        { size: 'half', span: 'md:col-span-6' },
+        { size: 'large', span: 'md:col-span-12' },
+        { size: 'half', span: 'md:col-span-6' },
+        { size: 'half', span: 'md:col-span-6' }
+    ],
+    sizes: {
+        large: {
+            portrait: '95vw',
+            landscape: '95vw'
+        },
+        half: {
+            portrait: '95vw',
+            landscape: '(min-width: 768px) 47vw, 95vw'
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    rule: 'mb-10 h-px w-full bg-creme-300',
+    grid: 'grid grid-cols-12 gap-5',
+    item: 'col-span-12',
+    empty: 'text-base'
+} %}
+
+{# Output #}
+
+<div class="{{ classes.rule }}"></div>
+
+{% if caseStudies|length %}
+
+    <ul class="{{ classes.grid }}">
+
+        {% for caseStudy in caseStudies %}
+
+            {% set slot = cycle(options.slot, loop.index0) %}
+
+            {% set itemClasses = [
+                classes.item,
+                '|',
+                slot.span
+            ] %}
+
+            <li class="{{ itemClasses|join(' ')|trim }}">
+
+                {% include '_components/caseStudyCard' with {
+                    params: {
+                        caseStudy: caseStudy,
+                        size: slot.size,
+                        sizes: options.sizes[slot.size]
+                    }
+                } only %}
+
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+{% else %}
+
+    <p class="{{ classes.empty }}">No case studies found</p>
+
+{% endif %}
