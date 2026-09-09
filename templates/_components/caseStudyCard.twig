@@ -1,0 +1,212 @@
+{% set component = 'caseStudyCard' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    caseStudy: null,
+    size: 'half',
+    sizes: {
+        portrait: '100vw',
+        landscape: '100vw'
+    },
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    size: {
+        half: {
+            portraitTransform: '3x4',
+            landscapeTransform: '16x10',
+            placeholder: [
+                'aspect-[3/4]',
+                '|',
+                'md:aspect-[16/10]'
+            ],
+            tagLineSize: '2xl',
+            tagLineText: [
+                'font-medium leading-1.2 tracking-tighter',
+                '|',
+                'lg:text-3xl'
+            ]
+        },
+        large: {
+            portraitTransform: '4x3',
+            landscapeTransform: '2x1',
+            placeholder: [
+                'aspect-[4/3]',
+                '|',
+                'md:aspect-[2/1]'
+            ],
+            tagLineSize: '3xl',
+            tagLineText: [
+                'font-semibold leading-0.97 tracking-tighter',
+                '|',
+                'lg:text-6xl'
+            ]
+        }
+    }
+} %}
+
+{% set size = options.size[params.size] %}
+
+{# Classes #}
+
+{# The Zoom scales the Thumbnail wrapper; the card's clipped corners are the frame it grows inside. #}
+
+{% set classes = {
+    card: [
+        'group relative block w-full overflow-hidden rounded-[20px] bg-black',
+        '|',
+        'pointer-fine:hover:cursor-none',
+        params.class
+    ],
+    thumbnail: {
+        portrait: [
+            'opacity-90 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out',
+            '|',
+            'motion-safe:pointer-fine:group-hover:scale-105',
+            '|',
+            'md:hidden'
+        ],
+        landscape: [
+            'hidden opacity-90 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out',
+            '|',
+            'motion-safe:pointer-fine:group-hover:scale-105',
+            '|',
+            'md:block'
+        ]
+    },
+    placeholder: size.placeholder,
+    shadeTop: 'absolute inset-x-0 top-0 z-10 h-[37%] bg-linear-to-b from-black/50 to-transparent',
+    shadeBottom: 'absolute inset-x-0 bottom-0 z-10 h-[46%] bg-linear-to-t from-black/80 to-transparent',
+    badge: [
+        'absolute left-5 top-5 z-20',
+        '|',
+        'lg:left-7.5 lg:top-7.5'
+    ],
+    logo: 'absolute inset-0 z-20 flex items-center justify-center',
+    logoImage: 'h-auto max-h-[20%] w-auto max-w-[30%]',
+    tagLine: [
+        'absolute inset-x-5 bottom-5 z-20',
+        '|',
+        'lg:inset-x-10 lg:bottom-10'
+    ],
+    tagLineText: size.tagLineText
+} %}
+
+{# Output #}
+
+{% if params.caseStudy %}
+
+    {% set thumbnail = params.caseStudy.thumbnail.one() %}
+    {% set logo = params.caseStudy.logo.one() %}
+    {% set category = params.caseStudy.categoriesCaseStudy.one() %}
+
+    {# Tag Line renders as a `p`: a link or heading inside the card's link is invalid #}
+
+    {% set tagLine = params.caseStudy.tagLine|striptags('<em><i><strong><b><br>') %}
+
+    <a
+        href="{{ params.caseStudy.url }}"
+        class="{{ classes.card|join(' ')|trim }}"
+        x-on:mouseenter="$dispatch('component-cursor', { active: true, text: 'View Case Study' })"
+        x-on:mouseleave="$dispatch('component-cursor', { active: false })"
+    >
+
+        {% if thumbnail %}
+
+            {% include '_components/picture' with {
+                params: {
+                    image: thumbnail,
+                    alt: '',
+                    transform: size.portraitTransform,
+                    ratio: true,
+                    focalPoint: true,
+                    sizes: params.sizes.portrait,
+                    wrapperClass: classes.thumbnail.portrait|join(' ')|trim
+                }
+            } only %}
+
+            {% include '_components/picture' with {
+                params: {
+                    image: thumbnail,
+                    alt: '',
+                    transform: size.landscapeTransform,
+                    ratio: true,
+                    focalPoint: true,
+                    sizes: params.sizes.landscape,
+                    wrapperClass: classes.thumbnail.landscape|join(' ')|trim
+                }
+            } only %}
+
+        {% else %}
+
+            <div class="{{ classes.placeholder|join(' ')|trim }}"></div>
+
+        {% endif %}
+
+        <div class="{{ classes.shadeTop }}"></div>
+        <div class="{{ classes.shadeBottom }}"></div>
+
+        {% if logo %}
+
+            <div class="{{ classes.logo }}">
+
+                {% include '_components/picture' with {
+                    params: {
+                        image: logo,
+                        alt: params.caseStudy.title,
+                        transform: 'noRatio',
+                        ratio: false,
+                        imgClass: classes.logoImage
+                    }
+                } only %}
+
+            </div>
+
+        {% endif %}
+
+        {% if category %}
+
+            <div class="{{ classes.badge|join(' ')|trim }}">
+
+                {% include '_components/badge' with {
+                    params: {
+                        badge: category.title,
+                        colour: 'white-20',
+                        size: 'sm'
+                    }
+                } only %}
+
+            </div>
+
+        {% endif %}
+
+        {% if tagLine|striptags|trim|length %}
+
+            <div class="{{ classes.tagLine|join(' ')|trim }}">
+
+                {% include '_components/headingAlternate' with {
+                    params: {
+                        tag: 'p',
+                        heading: tagLine,
+                        colour: 'white',
+                        size: size.tagLineSize,
+                        alternateStyle: 'fluro',
+                        class: classes.tagLineText|join(' ')|trim
+                    }
+                } only %}
+
+            </div>
+
+        {% endif %}
+
+    </a>
+
+{% endif %}

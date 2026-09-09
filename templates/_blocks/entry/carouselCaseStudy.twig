@@ -48,47 +48,6 @@
         'mt-7.5',
         '|',
         'lg:mt-12.5'
-    ],
-    card: [
-        'relative block w-full overflow-hidden rounded-[20px] bg-black',
-        '|',
-        'pointer-fine:hover:cursor-none'
-    ],
-    thumbnail: {
-        portrait: [
-            'opacity-90',
-            '|',
-            'md:hidden'
-        ],
-        landscape: [
-            'hidden opacity-90',
-            '|',
-            'md:block'
-        ]
-    },
-    placeholder: [
-        'aspect-[3/4]',
-        '|',
-        'md:aspect-[16/10]'
-    ],
-    shadeTop: 'absolute inset-x-0 top-0 z-10 h-[37%] bg-linear-to-b from-black/50 to-transparent',
-    shadeBottom: 'absolute inset-x-0 bottom-0 z-10 h-[46%] bg-linear-to-t from-black/80 to-transparent',
-    badge: [
-        'absolute left-5 top-5 z-20',
-        '|',
-        'lg:left-7.5 lg:top-7.5'
-    ],
-    logo: 'absolute inset-0 z-20 flex items-center justify-center',
-    logoImage: 'h-auto max-h-[20%] w-auto max-w-[30%]',
-    tagLine: [
-        'absolute inset-x-5 bottom-5 z-20',
-        '|',
-        'lg:inset-x-10 lg:bottom-10'
-    ],
-    tagLineText: [
-        'font-medium leading-1.2 tracking-tighter',
-        '|',
-        'lg:text-3xl'
     ]
 } %}
 
@@ -179,110 +138,16 @@
 
                         {% block slideContent %}
 
-                            <a
-                                href="{{ item.url }}"
-                                class="{{ blockClasses.card|join(' ')|trim }}"
-                                x-on:mouseenter="$dispatch('component-cursor', { active: true, text: 'View Case Study' })"
-                                x-on:mouseleave="$dispatch('component-cursor', { active: false })"
-                            >
-
-                                {% set thumbnail = item.thumbnail.one() %}
-                                {% set logo = item.logo.one() %}
-                                {% set category = item.categoriesCaseStudy.one() %}
-
-                                {% if thumbnail %}
-
-                                    {% include '_components/picture' with {
-                                        params: {
-                                            image: thumbnail,
-                                            alt: '',
-                                            transform: '3x4',
-                                            ratio: true,
-                                            focalPoint: true,
-                                            sizes: '85vw',
-                                            wrapperClass: blockClasses.thumbnail.portrait|join(' ')|trim
-                                        }
-                                    } only %}
-
-                                    {% include '_components/picture' with {
-                                        params: {
-                                            image: thumbnail,
-                                            alt: '',
-                                            transform: '16x10',
-                                            ratio: true,
-                                            focalPoint: true,
-                                            sizes: '(min-width: 1024px) 47vw, 60vw',
-                                            wrapperClass: blockClasses.thumbnail.landscape|join(' ')|trim
-                                        }
-                                    } only %}
-
-                                {% else %}
-
-                                    <div class="{{ blockClasses.placeholder|join(' ')|trim }}"></div>
-
-                                {% endif %}
-
-                                <div class="{{ blockClasses.shadeTop }}"></div>
-                                <div class="{{ blockClasses.shadeBottom }}"></div>
-
-                                {% if logo %}
-
-                                    <div class="{{ blockClasses.logo }}">
-
-                                        {% include '_components/picture' with {
-                                            params: {
-                                                image: logo,
-                                                alt: item.title,
-                                                transform: 'noRatio',
-                                                ratio: false,
-                                                imgClass: blockClasses.logoImage
-                                            }
-                                        } only %}
-
-                                    </div>
-
-                                {% endif %}
-
-                                {% if category %}
-
-                                    <div class="{{ blockClasses.badge|join(' ')|trim }}">
-
-                                        {% include '_components/badge' with {
-                                            params: {
-                                                badge: category.title,
-                                                colour: 'white-20',
-                                                size: 'sm'
-                                            }
-                                        } only %}
-
-                                    </div>
-
-                                {% endif %}
-
-                                {# Tag Line renders as a `p`: a link or heading inside the card's link is invalid #}
-
-                                {% set tagLine = item.tagLine|striptags('<em><i><strong><b><br>') %}
-
-                                {% if tagLine|striptags|trim|length %}
-
-                                    <div class="{{ blockClasses.tagLine|join(' ')|trim }}">
-
-                                        {% include '_components/headingAlternate' with {
-                                            params: {
-                                                tag: 'p',
-                                                heading: tagLine,
-                                                colour: 'white',
-                                                size: '2xl',
-                                                alternateStyle: 'fluro',
-                                                class: blockClasses.tagLineText|join(' ')|trim
-                                            }
-                                        } only %}
-
-                                    </div>
-
-                                {% endif %}
-
-                            </a>
+                            {% include '_components/caseStudyCard' with {
+                                params: {
+                                    caseStudy: item,
+                                    size: 'half',
+                                    sizes: {
+                                        portrait: '85vw',
+                                        landscape: '(min-width: 1024px) 47vw, 60vw'
+                                    }
+                                }
+                            } only %}
 
                         {% endblock %}
 
