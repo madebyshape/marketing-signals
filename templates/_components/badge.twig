@@ -26,20 +26,34 @@
 			text: 'text-white',
 			bg: 'bg-white/20 backdrop-blur-[2px]',
 			border: 'border-transparent'
+		},
+		'creme-300-outline': {
+			text: 'text-black',
+			bg: 'bg-transparent',
+			border: 'border-creme-300'
 		}
 	},
 	size: {
 		base: {
 			text: 'text-xs lg:text-sm',
+			weight: 'font-normal',
 			gap: 'gap-x-1.5 lg:gap-x-2.5',
 			padding: 'px-2 py-1 lg:py-2 lg:px-2.5',
 			border: 'border'
 		},
 		sm: {
 			text: 'text-xs tracking-tight',
+			weight: 'font-normal',
 			gap: 'gap-x-1.5',
 			padding: 'px-2.5 py-1.75',
 			border: 'border-0'
+		},
+		lg: {
+			text: 'text-base',
+			weight: 'font-medium',
+			gap: 'gap-x-2.5',
+			padding: 'px-5 py-2.5',
+			border: 'border'
 		}
 	}
 } %}
@@ -48,8 +62,9 @@
 
 {% set classes = {
    badge: [
-		'inline-flex items-center font-sans-primary font-normal leading-none rounded-full',
+		'inline-flex items-center font-sans-primary leading-none rounded-full',
 		options.size[params.size].text,
+		options.size[params.size].weight,
 		options.size[params.size].gap,
 		options.size[params.size].padding,
 		options.size[params.size].border,
