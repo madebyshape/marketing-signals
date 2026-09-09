@@ -1,0 +1,179 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Icon Cards #}
+
+{% set cards = entry.iconGrid.all()|filter(card => card.heading|trim|length or card.text|striptags|trim|length) %}
+
+{% set avatar = entry.avatarGroup %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+
+{% set hasHeader = hasEyebrow or hasHeading or hasText %}
+{% set hasFooter = entry.button|length or avatar.avatarName|length %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    eyebrow: 'mb-15',
+    headingRow: 'lg:grid lg:grid-cols-12 lg:gap-5',
+    heading: 'font-semibold leading-0.97 tracking-tighter | md:text-6xl | lg:col-span-8 lg:text-7xl',
+    text: 'mt-7.5 | lg:col-start-10 lg:col-span-3 lg:mt-0',
+    grid: 'grid grid-cols-1 gap-5 | md:grid-cols-2 lg:grid-cols-3',
+    gridSpacing: 'mt-12.5',
+    card: 'flex flex-col items-center rounded-[20px] bg-white px-7.5 py-10 text-center | lg:px-10 lg:pt-10 lg:pb-12.5',
+    icon: {
+        style: 'fa-sharp-duotone fa-light',
+        size: 'mb-12.5 text-[80px] text-primary [--fa-secondary-opacity:0.2] | lg:text-[104px]'
+    },
+    cardHeading: 'font-medium leading-1.2 tracking-tighter',
+    cardText: 'mt-3.75',
+    footer: 'flex flex-wrap items-center justify-center gap-5 mt-12.5'
+} %}
+
+{# Output #}
+
+{% if hasHeader or cards|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {% if hasEyebrow %}
+
+                {% include '_components/eyebrow' with {
+                    params: {
+                        text: entry.eyebrow,
+                        rule: true,
+                        class: blockClasses.eyebrow
+                    }
+                } only %}
+
+            {% endif %}
+
+            {% if hasHeading or hasText %}
+
+                <div class="{{ blockClasses.headingRow }}">
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            heading: entry.heading,
+                            size: '5xl',
+                            class: blockClasses.heading
+                        }
+                    } only %}
+
+                    {% if hasText %}
+
+                        {% include '_components/richText' with {
+                            params: {
+                                content: entry.text,
+                                colour: 'black',
+                                class: blockClasses.text
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+            {% if cards|length %}
+
+                <div class="{{ [blockClasses.grid, hasHeader ? blockClasses.gridSpacing]|join(' ')|trim }}">
+
+                    {% for card in cards %}
+
+                        {# The last word with any `fa-` prefix dropped, so a pasted class string still works. #}
+
+                        {% set icon = card.icon|trim|split(' ')|last|trim %}
+                        {% set icon = icon starts with 'fa-' ? icon|slice(3) : icon %}
+
+                        <div class="{{ blockClasses.card }}">
+
+                            {% if icon|length %}
+
+                                <i
+                                    class="{{ blockClasses.icon.style }} fa-{{ icon }} | {{ blockClasses.icon.size }}"
+                                    aria-hidden="true"
+                                ></i>
+
+                            {% endif %}
+
+                            {% include '_components/heading' with {
+                                params: {
+                                    tag: 'h3',
+                                    heading: card.heading,
+                                    size: '2xl',
+                                    class: blockClasses.cardHeading
+                                }
+                            } only %}
+
+                            {% if card.text|striptags|trim|length %}
+
+                                {% include '_components/richText' with {
+                                    params: {
+                                        content: card.text,
+                                        colour: 'black',
+                                        size: 'sm',
+                                        class: blockClasses.cardText
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+            {% if hasFooter %}
+
+                <div class="{{ blockClasses.footer }}">
+
+                    {% include '_components/button' with {
+                        params: {
+                            button: entry.button
+                        }
+                    } only %}
+
+                    {% if avatar.avatarName|length %}
+
+                        {% include '_components/user' with {
+                            params: {
+                                image: avatar.avatar.one(),
+                                heading: avatar.avatarName,
+                                subHeading: avatar.avatarJobRole,
+                                size: 'sm'
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

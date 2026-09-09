@@ -1,0 +1,165 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  1cfd44e5-ca29-4d21-a670-cdbac39649d6:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 5c9d0bcb-32d4-465f-8504-be9277d6a2cd
+            userCondition: null
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1a6e1b75-5d2c-41a7-8e89-0a4c517f1f5f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9da49b65-7436-4842-ac5a-cf9c730bbfd6
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f44c87f2-2905-41d9-a1df-9b80e9327903
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: b1050fa4-8168-4bab-8597-068ae780c755
+            userCondition: null
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: fc1aa366-1ece-49df-90bc-917b65b70e7d # Icon Grid
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9e171924-1d50-43cd-a353-d080d624a169
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 2471ea15-8777-4b79-b91c-641cf6eb0f67
+            userCondition: null
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9e38ecae-5a03-43f1-bfe7-4f4b5cd925e6
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c08276b4-951f-4222-9e12-73622b78b6e0 # Avatar Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 37c03b7c-0319-45e5-94c1-54aefebd4aaf
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 21c779ea-336c-4165-8f89-85714c480660
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0ca6d18b-fdeb-4530-b0d7-bf7d4130b974
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 6542220a-7a9b-4274-a8d6-567ac3719097
+        userCondition: null
+    thumbFieldKey: null
+handle: iconGrid
+hasTitleField: false
+icon: icons
+name: 'Icon Grid'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

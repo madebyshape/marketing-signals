@@ -1,0 +1,26 @@
+columnSuffix: null
+handle: iconGrid
+instructions: 'Cards of an icon over a heading and text. Three across on a desktop, two on a tablet, one on a phone.'
+name: 'Icon Grid'
+searchable: false
+settings:
+  createButtonLabel: 'New Icon Card'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 34e8bb72-5cc9-4fa5-a269-e556b5cd8fd2 # Icon Card
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

@@ -76,6 +76,14 @@ settings:
       __assoc__:
         -
           - uid
+          - eb6e087e-6699-4170-b63e-4ffb637101be # Icon Grid
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - f54fdb7f-5fd1-41e9-a4c3-63791f1316b8 # Marquee - Client
         -
           - group
