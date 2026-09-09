@@ -1,0 +1,94 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  ccccabd8-5152-43ba-b26e-b88f70d0be2a:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 607abcb7-d92d-4754-8af6-b1eeb101a066
+            userCondition: null
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9816b122-6f9d-4857-b8fd-3c5652a8b5f3
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 33c97ec9-8902-490f-9ed6-aac69664a479
+            userCondition: null
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: db56c11b-226d-42e6-9b9b-b449f0ac99df # Entry - Testimonial
+            handle: null
+            instructions: 'One Testimonial. Its Media Type decides whether its Image or its Video fills the right of the panel.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f05bc3a2-21a2-44ed-b48b-a34b4acb36e3
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: d25fa2a2-6868-4a18-9826-8bea5cdfd449
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 55b5b64d-e6f9-427e-b810-62b3bc3f3b5a
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 49feac6b-7002-45c0-b794-c0928e6157a5
+        userCondition: null
+    thumbFieldKey: null
+handle: featuredTestimonial
+hasTitleField: false
+icon: comment-quote
+name: 'Featured Testimonial'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
