@@ -1,0 +1,45 @@
+columnSuffix: null
+handle: dropdownContentOrder
+instructions: null
+name: 'Dropdown - Content Order'
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - 'Media First'
+        -
+          - value
+          - mediaFirst
+        -
+          - icon
+          - ''
+        -
+          - color
+          - ''
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - 'Content First'
+        -
+          - value
+          - contentFirst
+        -
+          - icon
+          - ''
+        -
+          - color
+          - ''
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

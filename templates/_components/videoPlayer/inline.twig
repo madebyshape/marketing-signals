@@ -1,0 +1,121 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    poster: null,
+    transform: '1x1',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Ring #}
+
+{# A 42px ring with a 2px stroke has a radius of 20, so its arc is 2πr long. #}
+
+{% set circumference = 125.664 %}
+
+{# Classes #}
+
+{# The video slot ignores the pointer, so a Provider's own hover chrome never appears over the Time Ring. #}
+
+{% set classes = {
+    wrapper: [
+        'absolute inset-0 overflow-hidden',
+        params.class
+    ],
+    video: [
+        'absolute inset-0 z-0 pointer-events-none [&_iframe]:absolute [&_iframe]:top-1/2 [&_iframe]:left-1/2 [&_iframe]:h-full [&_iframe]:w-auto [&_iframe]:min-w-full [&_iframe]:aspect-video [&_iframe]:-translate-x-1/2 [&_iframe]:-translate-y-1/2 [&_video]:absolute [&_video]:inset-0 [&_video]:size-full [&_video]:object-cover'
+    ],
+    poster: [
+        'absolute inset-0 z-10 pointer-events-none motion-safe:transition-opacity motion-safe:duration-300'
+    ],
+    button: [
+        'absolute right-5 bottom-5 z-20 flex size-[42px] cursor-pointer items-center justify-center text-white motion-safe:transition',
+        '|',
+        'focus:outline-none focus:ring-2 focus:ring-white/60 pointer-fine:hover:opacity-70',
+        '|',
+        'lg:right-10 lg:bottom-10'
+    ],
+    ring: [
+        'absolute inset-0 size-full'
+    ],
+    track: [
+        'stroke-white/30'
+    ],
+    arc: [
+        'stroke-white'
+    ],
+    glyph: [
+        'relative'
+    ],
+    iconGlyph: 'fa-sharp fa-regular',
+    iconStyle: 'text-[12px] leading-none'
+} %}
+
+{# Output #}
+
+<div
+    class="{{ classes.wrapper|join(' ')|trim }}"
+    x-on:pointerenter="hoverPlay()"
+    x-on:pointerleave="hoverPause()"
+>
+
+    {# The Provider fills this on the first play. #}
+
+    <div class="{{ classes.video|join(' ')|trim }}" x-ref="video"></div>
+
+    {% if params.poster %}
+
+        <div class="{{ classes.poster|join(' ')|trim }}" x-bind:class="{ 'opacity-0': started }">
+
+            {% include '_components/picture' with {
+                params: {
+                    image: params.poster,
+                    alt: '',
+                    transform: params.transform,
+                    focalPoint: true,
+                    ratio: false
+                }
+            } only %}
+
+        </div>
+
+    {% endif %}
+
+    <button
+        type="button"
+        class="{{ classes.button|join(' ')|trim }}"
+        x-bind:aria-label="(playing ? 'Pause video, ' : 'Play video, ') + remaining + ' left'"
+        x-bind:aria-pressed="playing"
+        x-on:click="toggleInline()"
+    >
+
+        {# The arc is drawn from twelve o'clock and its dash offset empties it clockwise. #}
+
+        <svg viewBox="0 0 42 42" fill="none" class="{{ classes.ring|join(' ')|trim }}" aria-hidden="true">
+
+            <circle cx="21" cy="21" r="20" stroke-width="2" class="{{ classes.track|join(' ')|trim }}"></circle>
+
+            <circle
+                cx="21"
+                cy="21"
+                r="20"
+                stroke-width="2"
+                stroke-dasharray="{{ circumference }}"
+                transform="rotate(-90 21 21)"
+                class="{{ classes.arc|join(' ')|trim }}"
+                x-bind:stroke-dashoffset="-({{ circumference }} * progress / 100)"
+            ></circle>
+
+        </svg>
+
+        {# Both glyphs render and toggle, because the Font Awesome kit replaces the icon at load. #}
+
+        <span class="{{ classes.glyph|join(' ')|trim }}" x-show="!playing" x-cloak><i class="{{ classes.iconGlyph }} fa-play | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
+        <span class="{{ classes.glyph|join(' ')|trim }}" x-show="playing" x-cloak><i class="{{ classes.iconGlyph }} fa-pause | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
+
+    </button>
+
+</div>

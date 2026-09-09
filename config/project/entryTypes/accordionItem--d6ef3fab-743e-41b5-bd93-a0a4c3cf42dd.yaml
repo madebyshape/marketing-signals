@@ -1,0 +1,58 @@
+allowLineBreaksInTitles: false
+color: purple
+description: null
+fieldLayouts:
+  21c873c1-a25e-4309-8657-cf0b8df15b6e:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a6dea5b3-5f8c-42aa-8e63-809a2bedc573
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 952d8266-c554-48a5-9000-7d85bb7034b5
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: eb58ee2f-1b49-4bfc-8da8-fd778dd3432c
+        userCondition: null
+    thumbFieldKey: null
+handle: accordionItem
+hasTitleField: false
+icon: rectangle-list
+name: 'Accordion Item'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{heading|striptags}'

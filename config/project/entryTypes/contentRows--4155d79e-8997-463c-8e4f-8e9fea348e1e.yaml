@@ -1,0 +1,94 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  e2329a98-21d3-463f-9da4-03cff32764ea:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 9939880f-6cb3-4251-b43e-900fb444e0e4
+            userCondition: null
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4e8b01ca-d15e-46b7-8044-543df0e7a6a5
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 232dac57-618f-41b5-bbb1-7f715373bc83
+            userCondition: null
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 924b795e-4490-4ca2-8b11-42c1f2ff31f1 # Content Rows
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ad958c52-dd3c-46f3-9212-5dec149ab7fd
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 8fe795e4-2a6a-4bdd-9bac-0bb126307830
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 97989680-5261-4605-92ef-fc21f29efe46
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: b20943f6-c0af-4992-ab8c-52396bab4f50
+        userCondition: null
+    thumbFieldKey: null
+handle: contentRows
+hasTitleField: false
+icon: table-rows
+name: 'Content Rows'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

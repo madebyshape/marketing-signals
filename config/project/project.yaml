@@ -186,6 +186,7 @@ meta:
     17e2f019-d6ee-4f54-83a2-a32091caa96d: 'Button Group (Unlimited)' # Button Group (Unlimited)
     19d6d897-1cde-4d59-914a-2bf8a23e7916: 'Public Schema' # Public Schema
     42eea3c2-2f84-43d8-a495-647d4994a8d5: 'Text - Multiline' # Text - Multiline
+    68e3deec-735b-4dca-b597-68e68e8777f0: Accordions # Accordions
     72cd3ad5-6f02-4c3b-b431-be5e96bda8e9: 'Entry - Playbook' # Entry - Playbook
     74eb57f4-3401-46b7-a35b-e2a75fee9c63: Button # Button
     75cd72a0-08d7-4e62-987d-3380ee5a0722: 'Entry - FAQ Listing' # Entry - FAQ Listing
@@ -198,13 +199,16 @@ meta:
     453f9294-407d-405a-b73b-d5b63aec2eaa: SEO # SEO
     502c0610-e74d-4359-8524-5652307ada64: Padding # Padding
     507a5f9c-bcbc-410d-a04f-48829ea6f806: 'Case Study' # Case Study
+    637e921f-8b1c-495b-af4e-4ad4d4402c04: 'Content Row' # Content Row
     823de6d3-c67e-4f53-b852-0983c35aab97: 'Elements - FAQ' # Elements - FAQ
+    924b795e-4490-4ca2-8b11-42c1f2ff31f1: 'Content Rows' # Content Rows
     0935a4e9-bdf6-4843-a0bf-d8b3bcaa919b: 'Carousel - Case Study' # Carousel - Case Study
     01475e1b-7d73-4ffa-868e-7dbcb87d00a9: 'Heading - Inline Images' # Heading - Inline Images
     2173f8fc-5044-44ea-a7ca-a776fbdca208: 'Stacking Cards' # Stacking Cards
     2451f9f6-405a-429f-9abb-a2acde87159a: 'Entries - Services' # Entries - Services
     2634aee9-724f-4029-a0fb-d1e3b7d3fc38: 'Main Menu' # Main Menu
     3731f571-53b0-4cf2-a89a-dbc6a4adc351: 'Longform Image' # Longform Image
+    4155d79e-8997-463c-8e4f-8e9fea348e1e: 'Content Rows' # Content Rows
     4580bc09-b5c8-40a2-bff5-95f715403f50: Video # Video
     5200f937-8d03-490c-bebc-4fb1e0c06c4a: 'Menu Item' # Menu Item
     6708a79d-c929-45c4-82f1-b440db7d759d: 'Dropdown - Video Type' # Dropdown - Video Type
@@ -218,6 +222,7 @@ meta:
     868256be-34c2-4060-9427-94a7d25d97a2: 'Entry - Service Listing' # Entry - Service Listing
     6940873f-5b46-423d-9177-02a507f9772d: Service # Service
     8053567b-728a-491a-9206-0c9a6c6b1b12: 'Footer CTA' # Footer CTA
+    9096937b-3ea8-4e92-a2bc-2a4b495b2b9c: 'Dropdown - Content Order' # Dropdown - Content Order
     13285537-5457-4f1f-ad8c-66fd187f8f09: 'Rich Text - Full' # Rich Text - Full
     76599613-117c-4ce5-b344-172d2aff2194: 'Entries - Case Study' # Entries - Case Study
     a5b03fa9-9f1f-47a5-ba3e-9a3c61f706d5: 'Case Study' # Case Study
@@ -241,12 +246,14 @@ meta:
     ce59fcb1-fb86-46a3-81a4-f7d745761454: 'Entry - Case Study Listing' # Entry - Case Study Listing
     cfeb9855-4c2c-423d-b40b-57d2dd12b46e: Team # Team
     d1bfe36b-4da4-4c86-a162-fa22d76b4ed8: Template # Template
+    d6ef3fab-743e-41b5-bd93-a0a4c3cf42dd: 'Accordion Item' # Accordion Item
     d35d937a-07ca-4c88-bd62-1f65c807aa15: Statistics # Statistics
     d99bf7af-1eb1-4b77-814e-624eeec1a0e3: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
     d5189384-3a6a-441f-9f4b-cb171f279337: Heading # Heading
     d8925826-0e82-41f9-91e8-bb798d884868: 'Carousel - Blog' # Carousel - Blog
     da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21: Form # Form
     dd193fca-6353-485f-a383-668951cbb602: Blog # Blog
+    e09df1c8-18b1-4598-ad75-812ac48e1b9c: 'Dropdown - Media Type' # Dropdown - Media Type
     e3078af5-a566-4561-af12-e529edd7980f: 'Entry - Team' # Entry - Team
     e746909c-3d0f-4818-9497-14651dc6ee16: 'Entry - Text' # Entry - Text
     ea300912-bfa1-429b-9212-ba39329d1960: 'Stacking Card' # Stacking Card

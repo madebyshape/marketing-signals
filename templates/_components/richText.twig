@@ -4,6 +4,7 @@
     content: '',
     colour: 'base',
     size: 'base',
+    list: 'base',
     class: null,
 } %}
 
@@ -72,6 +73,16 @@
         md: 'text-md font-normal leading-1.33',
         xl: 'text-xl font-medium leading-1.33 tracking-tighter',
         '3xl': 'text-2xl font-medium leading-1.2 tracking-tighter | lg:text-3xl'
+    },
+    list: {
+        base: {
+            list: 'list-outside leading-relaxed pl-4 mb-5',
+            item: 'list-disc'
+        },
+        check: {
+            list: 'grid grid-cols-1 gap-y-3.75 mb-5 text-base leading-1.33 | md:grid-cols-2 md:gap-x-5',
+            item: 'flex items-start gap-[7px]'
+        }
     }
 } %}
 
@@ -96,15 +107,31 @@
         options.colour[params.colour].paragraph
     ],
     italic: options.colour[params.colour].italic,
-    list: [
-        'list-outside leading-relaxed pl-4 mb-5',
+    numberList: [
+        options.list.base.list,
         options.colour[params.colour].list
     ],
+    bulletList: [
+        options.list[params.list].list,
+        options.colour[params.colour].list
+    ],
+    bulletItem: options.list[params.list].item,
+    mark: 'flex shrink-0 items-center justify-center order-first size-[19px] mt-px rounded-full bg-secondary text-[10px] text-black',
     blockquote: [
         'relative text-2xl text-pretty font-light rounded-lg py-10 px-7 mb-5',
         options.colour[params.colour].blockquote
     ]
 } %}
+
+{# Mark #}
+
+{# The tick is injected here rather than authored in CKEditor, so the stored value stays plain. #}
+
+{# It is injected after the italic pass, which would otherwise overwrite the icon's classes. #}
+
+{% set mark %}<span class="{{ classes.mark }}" aria-hidden="true"><i class="fa-sharp fa-solid fa-check"></i></span>{% endset %}
+
+{% set marks = params.list == 'check' ? [['inject', 'ul li', mark|trim]] : [] %}
 
 {# Output #}
 
@@ -119,14 +146,15 @@
         ['attr', 'h6', { class: 'text-lg' }, false],
         ['attr', 'a', { class: classes.link|join(' ')|trim }],
         ['attr', 'p', { class: classes.paragraph|join(' ')|trim }, false],
-        ['attr', ['ul', 'ol'], { class: classes.list|join(' ')|trim }],
-        ['attr', 'ul li', { class: 'list-disc' }],
+        ['attr', 'ol', { class: classes.numberList|join(' ')|trim }],
         ['attr', 'ol li', { class: 'list-decimal' }],
+        ['attr', 'ul', { class: classes.bulletList|join(' ')|trim }],
+        ['attr', 'ul li', { class: classes.bulletItem }],
         ['attr', ['p:last-of-type'], { class: '!mb-0' }, false],
         ['attr', 'strong', { class: 'font-semibold' }],
         ['attr', ['em', 'i'], { class: classes.italic }],
         ['attr', 'img', { class: 'w-full h-auto rounded-lg mb-5', loading: 'lazy' }],
         ['attr', 'blockquote', { class: classes.blockquote|join(' ')|trim }]
-    ]) }}
+    ]|merge(marks)) }}
 </div>
 

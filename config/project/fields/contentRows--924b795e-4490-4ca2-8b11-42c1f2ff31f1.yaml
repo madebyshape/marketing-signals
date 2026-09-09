@@ -1,0 +1,26 @@
+columnSuffix: null
+handle: contentRows
+instructions: 'One or more rows. From the desktop breakpoint each row is the Media beside its content in the order chosen; below it the Media is always on top.'
+name: 'Content Rows'
+searchable: false
+settings:
+  createButtonLabel: 'New Content Row'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 637e921f-8b1c-495b-af4e-4ad4d4402c04 # Content Row
+  includeTableView: false
+  maxEntries: null
+  minEntries: 1
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

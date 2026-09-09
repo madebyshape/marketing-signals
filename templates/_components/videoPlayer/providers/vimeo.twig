@@ -15,8 +15,9 @@
             const player = new Vimeo.Player(element, {
                 id: options.videoId,
                 h: options.videoHash || undefined,
-                autoplay: true,
-                muted: false,
+                // Vimeo refuses a later play() on a player created unmuted, so muting is a creation option.
+                autoplay: options.muted !== true,
+                muted: options.muted === true,
                 controls: false,
                 playsinline: true,
                 autopause: false,
