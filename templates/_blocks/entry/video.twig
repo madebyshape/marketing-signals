@@ -1,0 +1,54 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set video = entry.video %}
+{% set poster = video ? video.videoThumbnail.one() : null %}
+{% set hasVideo = video and (video.videoUrl|trim|length or video.videoFile.one()) %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    box: 'relative w-full aspect-video overflow-hidden rounded-[20px] bg-black'
+} %}
+
+{# Output #}
+
+{% if hasVideo or poster %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.box }}">
+
+                {% include '_components/videoPlayer/base' with {
+                    params: {
+                        video: video,
+                        transform: '16x9',
+                        playerType: video.videoDisplayType.value == 'inlinePlayer' ? 'inline' : 'modal',
+                        modalLabel: 'Video player',
+                        class: 'size-full'
+                    }
+                } only %}
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

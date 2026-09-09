@@ -1,0 +1,71 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  e78ab17e-95b1-4b25-b391-19fe8abb4189:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 7f564e20-0678-4775-8824-3d274aeab598
+            userCondition: null
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4580bc09-b5c8-40a2-bff5-95f715403f50 # Video
+            handle: null
+            instructions: 'Modal Popup opens the video in the overlay. Inline Player plays it in place, muted, on hover. YouTube videos always open in the overlay. A Poster with no video shows as a picture.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5fcbdcdb-0974-4349-9032-350feff6d37a
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: bbbd875b-b06e-450c-aaca-0693a40630b3
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-09T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: bc4b22db-363a-44fd-90e1-5e7d4cc7316f
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: c5db38b0-b772-43e3-8df2-5f956ade48bb
+        userCondition: null
+    thumbFieldKey: null
+handle: video
+hasTitleField: false
+icon: video
+name: Video
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
