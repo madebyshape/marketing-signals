@@ -21,6 +21,10 @@
 {% set text = service.heroText %}
 {% set button = service.heroButton %}
 {% set avatar = service.heroAvatarGroup %}
+{% set video = service.heroVideo %}
+{% set poster = video ? video.videoThumbnail.one() : null %}
+{% set hasSource = video and (video.videoUrl|trim|length or video.videoFile.one()) %}
+{% set hasMedia = hasSource or poster %}
 
 {# Classes #}
 
@@ -31,17 +35,25 @@
         'w-full overflow-hidden rounded-b-[30px] bg-black pb-10',
         params.vars ? params.vars.class.siteMargin.x : 'px-10',
         params.vars ? params.vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        hasMedia ? 'lg:flex lg:min-h-svh lg:flex-col',
         params.class
     ],
     grid: [
-        'grid grid-cols-12 gap-5 mt-15',
+        'grid grid-cols-12 gap-x-5',
         '|',
-        'xl:mt-[130px]'
+        hasMedia ? 'lg:grow lg:grid-rows-[auto_1fr]'
+    ],
+    breadcrumb: [
+        'col-span-12',
+        '|',
+        'lg:col-span-7'
     ],
     content: [
-        'col-span-12 grid grid-cols-1 gap-7.5',
+        'col-span-12 mt-15 grid grid-cols-1 gap-7.5',
         '|',
-        'lg:col-span-7 lg:grid-cols-7 lg:gap-x-5'
+        'lg:col-span-7 lg:grid-cols-7 lg:gap-x-5 lg:row-start-2',
+        '|',
+        hasMedia ? 'lg:mt-0 lg:self-center' : 'xl:mt-[130px]'
     ],
     heading: [
         'font-semibold leading-0.97 tracking-tighter',
@@ -55,6 +67,16 @@
         'flex flex-wrap items-center gap-5',
         '|',
         'lg:col-span-7'
+    ],
+    media: [
+        'col-span-12 mt-10',
+        '|',
+        'lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1 lg:mt-0'
+    ],
+    video: [
+        'aspect-3/4 w-full rounded-[20px]',
+        '|',
+        'lg:aspect-auto lg:h-full'
     ]
 } %}
 
@@ -72,14 +94,17 @@
 
         <div class="{{ heroClasses.panel|join(' ')|trim }}">
 
-            {% include '_components/breadcrumb' with {
-                params: {
-                    entry: service,
-                    colour: 'creme-500'
-                }
-            } only %}
+            {# The Breadcrumb is the grid's first row so the media beside it starts on the header's edge. #}
 
             <div class="{{ heroClasses.grid|join(' ')|trim }}">
+
+                {% include '_components/breadcrumb' with {
+                    params: {
+                        entry: service,
+                        colour: 'creme-500',
+                        class: heroClasses.breadcrumb|join(' ')|trim
+                    }
+                } only %}
 
                 <div class="{{ heroClasses.content|join(' ')|trim }}">
 
@@ -135,6 +160,24 @@
                     {% endif %}
 
                 </div>
+
+                {% if hasMedia %}
+
+                    <div class="{{ heroClasses.media|join(' ')|trim }}">
+
+                        {% include '_components/videoPlayer/base' with {
+                            params: {
+                                video: video,
+                                transform: '3x4',
+                                playerType: video.videoDisplayType.value == 'inlinePlayer' ? 'inline' : 'modal',
+                                posterClass: 'rounded-[20px]',
+                                class: heroClasses.video|join(' ')|trim
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endif %}
 
             </div>
 
