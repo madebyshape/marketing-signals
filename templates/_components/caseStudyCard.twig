@@ -115,6 +115,7 @@
     <a
         href="{{ params.caseStudy.url }}"
         class="{{ classes.card|join(' ')|trim }}"
+        x-data
         x-on:mouseenter="$dispatch('component-cursor', { active: true, text: 'View Case Study' })"
         x-on:mouseleave="$dispatch('component-cursor', { active: false })"
     >
