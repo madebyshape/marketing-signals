@@ -140,8 +140,8 @@
 
     {{ inlineSvg|attr({
         class: classes.svg|join(' ')|trim,
-        role: params.alt|length ? 'img',
-        'aria-label': params.alt|length ? params.alt
+        role: params.alt|length ? 'img' : null,
+        'aria-label': params.alt|length ? params.alt : null
     }) }}
 
 {% else %}
