@@ -98,18 +98,82 @@ fieldLayouts:
             uid: f6d87d5d-6960-4ab0-962a-c1a9cd4314f6
             userCondition: null
           -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-09-09T22:09:41+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: ab214509-2da1-4b0b-b7a3-33dac1c86ce9 # Hero
-            handle: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: heroHeading
             instructions: null
-            label: null
+            label: 'Hero Heading'
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: ecdce01a-3bab-43fc-a073-a76510ad47fe
+            uid: 6d9dc1bf-d29d-4811-bd9c-ab990f2815ab
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T22:09:41+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: heroText
+            instructions: null
+            label: 'Hero Text'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 115d7909-2f4b-4048-82b5-257d91aba071
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T22:09:41+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            handle: heroButton
+            instructions: null
+            label: 'Hero Button'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5eb8669e-e872-47d1-898b-c914f1f4b544
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T22:09:41+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c08276b4-951f-4222-9e12-73622b78b6e0 # Avatar Group
+            handle: heroAvatarGroup
+            instructions: null
+            label: 'Hero Avatar Group'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: dc93eb8e-1218-440a-aa90-5c05310be9ab
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T22:09:41+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4580bc09-b5c8-40a2-bff5-95f715403f50 # Video
+            handle: heroVideo
+            instructions: null
+            label: 'Hero Video'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6aaa7273-bd13-4985-acda-75781d8e2ca7
             userCondition: null
             warning: null
             width: 100
