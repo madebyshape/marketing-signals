@@ -1,0 +1,18 @@
+{% extends '_layouts/global' %}
+
+{# Header Colour #}
+
+{# The Header follows the page's Hero Layout (ADR-0004), so an editor never sets it. #}
+
+{% set headerColour = 'black' %}
+
+{% block site %}
+
+    {# Hero #}
+
+    {# Blocks #}
+    {{ entry.blocks.render({
+        vars: vars
+    }) }}
+
+{% endblock %}
