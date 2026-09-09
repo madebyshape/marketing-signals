@@ -257,7 +257,7 @@ The indicator beneath a carousel saying how far through its Slides the visitor i
 _Avoid_: Pagination, dots, progress bar, indicator, counter
 
 **Cursor Label**:
-The custom cursor that follows the pointer over an element on fine-pointer devices, saying what a click there does: on a Slide, what it links to, such as "Find Out More" or "View Case Study"; on a Hero Home, the Scroll Cue. Where a Slide gives no other cue, a button on the Slide says the same on coarse-pointer devices.
+The custom cursor that follows the pointer over an element on fine-pointer devices, saying what a click there does: on a Slide or a Case Study Card, what it links to, such as "Find Out More" or "View Case Study"; on a Hero Home, the Scroll Cue. Where a Slide gives no other cue, a button on the Slide says the same on coarse-pointer devices.
 _Avoid_: Hover cursor, cursor follower, tooltip, CTA
 
 ### Case Study Carousel
@@ -270,12 +270,16 @@ _Avoid_: Work, project, portfolio item, success story
 A Block of an Eyebrow and a heading over a row of Slides, one per Case Study the editor picked, that the visitor moves with the Carousel Controls or by dragging. It sits in a black panel inside the site margins.
 _Avoid_: Work carousel, featured work, case study slider, work exterior
 
+**Case Study Card**:
+The Linked Card for a Case Study: its Thumbnail darkened behind its Category Badge, its Logo and its Tag Line, with a Cursor Label and a Zoom on hover. Shown as a Case Study Slide in the Case Study Carousel and at a Card Size in the Case Study Grid.
+_Avoid_: Work card, project tile, case study tile, exterior
+
 **Case Study Slide**:
-A Slide in the Case Study Carousel: the Case Study's Thumbnail darkened behind its Category Badge, its Logo and its Tag Line.
-_Avoid_: Case study card, work card, project tile
+A Case Study Card shown as a Slide in the Case Study Carousel.
+_Avoid_: Work card, project tile
 
 **Category Badge**:
-The small translucent pill at the top left of a Case Study Slide naming the Case Study's first Category.
+The small translucent pill at the top left of a Case Study Card naming the Case Study's first Category.
 _Avoid_: Tag, label, chip, pill
 
 **Tag Line**:
@@ -289,6 +293,40 @@ _Avoid_: Client logo, brand, mark, icon
 **Carousel Controls**:
 The Previous and Next pills beneath a carousel's Slides that move the row one Slide at a time.
 _Avoid_: Arrows, nav buttons, pagination, prev/next
+
+### Case Study Grid
+
+**Case Study Grid**:
+The grid of every Case Study on the Case Studies page, narrowed by the Category Filter and read eight at a time through its Pagination. It sits between the page's Hero and its Blocks.
+_Avoid_: Work grid, listing, archive, index, case study listing
+
+**Card Size**:
+Whether a Case Study Card in the Case Study Grid is Large (the full grid width) or Half (six columns). It follows the card's position on its page, first and sixth Large, so an editor never sets it.
+_Avoid_: Featured, hero card, variant, span
+
+**Category Filter**:
+The row of Filter Buttons above the Case Study Grid, one per Category that at least one Case Study belongs to, led by All Work. Exactly one Filter Button is active at a time. Where the row is wider than the page it scrolls sideways under a pair of arrows.
+_Avoid_: Tags, tabs, category nav, filter bar, facets
+
+**Filter Button**:
+One button in the Category Filter, a radar dot beside a Category's name, that narrows the Case Study Grid to that Category and returns it to page one.
+_Avoid_: Tag, pill, chip, tab, toggle
+
+**All Work**:
+The first Filter Button, active on arrival, that shows every Case Study regardless of Category.
+_Avoid_: All, reset, clear, show all
+
+**Pagination**:
+The row beneath the Case Study Grid of a Previous button, the Page Window and a Next button. Previous and Next are shown on every page and disabled at the ends.
+_Avoid_: Pager, page nav, load more, infinite scroll
+
+**Page Number**:
+One numbered circle in the Page Window that opens that page of the Case Study Grid. The current page's Page Number is filled.
+_Avoid_: Page link, dot, step
+
+**Page Window**:
+The up-to-five Page Numbers shown at once, sliding so the current page stays central once there are more than five pages.
+_Avoid_: Page range, ellipsis pages, truncated pagination
 
 ### Stacking Cards
 
@@ -455,7 +493,7 @@ A Linked Card for a Blog: its Thumbnail across the top over its date and read ti
 _Avoid_: Featured card, big card, hero card, exterior
 
 **Zoom**:
-The hover behaviour of a Blog Card and a Blog Large Card on fine-pointer devices: the Thumbnail grows a little inside its rounded frame while the pill lights up. Nothing moves under reduced motion.
+The hover behaviour of a Blog Card, a Blog Large Card and a Case Study Card on fine-pointer devices: the Thumbnail grows a little inside its rounded frame while any pill lights up. Nothing moves under reduced motion.
 _Avoid_: Scale, hover effect, image hover, ken burns
 
 ### Content Rows

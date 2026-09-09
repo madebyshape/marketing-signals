@@ -124,7 +124,7 @@ There is no test suite. Evidence replaces tests: the command's own output, and t
 - Updating an entry's title, slug or parent once it exists. The entry keys create and switch type, nothing else.
 - Committing Seeds or images to the repo, or running Seeds on any environment but development.
 - A control panel or web route for seeding. It is a console command only.
-- Users, categories, globals or any element type other than Blocks on an entry.
+- Users, globals or any element type other than Blocks on an entry. Categories fields are set by title, and a missing Category created, since the Case Study Grid spec.
 - Translations or multi-site propagation beyond what Craft does by default on save.
 - Field types the project does not have. They fail loudly and are added when a Block needs them.
 
