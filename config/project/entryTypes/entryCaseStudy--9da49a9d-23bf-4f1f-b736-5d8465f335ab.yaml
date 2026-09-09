@@ -85,6 +85,54 @@ fieldLayouts:
             warning: null
             width: 50
           -
+            dateAdded: '2026-09-09T08:47:48+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: description
+            instructions: null
+            label: Description
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 56c0a21a-f5fd-44bb-93b0-efb6dd8cf6be
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-09-09T08:47:48+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: industry
+            instructions: null
+            label: Industry
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 45795f56-c3a4-4db7-96d0-3f4e68859de3
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-09-09T08:47:48+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: year
+            instructions: null
+            label: Year
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f3fd30bc-ac50-4395-832d-5bcc33ce88f4
+            userCondition: null
+            warning: null
+            width: 50
+          -
             dateAdded: '2026-09-07T14:47:02+00:00'
             editCondition: null
             elementCondition: null
@@ -114,21 +162,117 @@ fieldLayouts:
             uid: d3ff6186-bdf1-48b5-a704-8fae1c3d9d74
             userCondition: null
           -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-09-09T08:40:44+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: ab214509-2da1-4b0b-b7a3-33dac1c86ce9 # Hero
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: heroLogo
+            instructions: 'Automatically pulls through the logo from the "Overview" tab if left empty.'
+            label: 'Hero Logo'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 08fbae67-aadb-4506-93a6-bd62e22c4418
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T08:40:44+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: heroImage
+            instructions: null
+            label: 'Hero Image'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 817a745c-198c-4ed6-999a-6f47773960ed
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T08:40:44+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: heroHeading
+            instructions: null
+            label: 'Hero Heading'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 05eea0ae-9112-4475-8ab6-bdfbdd0fd443
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T08:40:44+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: heroText
+            instructions: null
+            label: 'Hero Text'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 82f8aadf-826c-405a-a57d-58b7b87ba6e4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T08:47:48+00:00'
+            elementCondition: null
+            heading: 'Intro Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 7e6e2def-7036-4c35-9584-d080550f6b1f
+            userCondition: null
+          -
+            dateAdded: '2026-09-09T08:47:48+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
             handle: null
             instructions: null
             label: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: c90776ec-e5ff-40d2-b2a3-b617627fbaa5
+            uid: 543a63de-c320-44c9-80ae-c18e1a176e31
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-09T08:47:48+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 13285537-5457-4f1f-ad8c-66fd187f8f09 # Rich Text - Full
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: fd58d400-bb3a-4e77-b6b1-bbefa89ebdc9
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-09T08:47:48+00:00'
+            dismissible: false
+            elementCondition: null
+            style: tip
+            tip: 'Case Study Sidebar gets show here'
+            type: craft\fieldlayoutelements\Tip
+            uid: dbff5698-114e-4ff0-b04b-945a29169a40
+            userCondition: null
           -
             dateAdded: '2026-08-28T13:42:12+00:00'
             elementCondition: null

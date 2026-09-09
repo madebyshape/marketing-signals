@@ -1,3 +1,18 @@
-{# A case study renders exactly as a page does. #}
+{% extends '_layouts/global' %}
 
-{% include '_pages/types/entryBlocks' %}
+{# Header Colour #}
+
+{# The Header follows the page's Hero Layout (ADR-0004), so an editor never sets it. #}
+
+{% set headerColour = 'black' %}
+
+{% block site %}
+
+    {# Hero Case Study #}
+
+    {# Blocks #}
+    {{ entry.blocks.render({
+        vars: vars
+    }) }}
+
+{% endblock %}
