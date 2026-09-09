@@ -104,6 +104,9 @@
 
     {% set thumbnail = params.service.thumbnail.one() %}
     {% set categories = params.service.categoriesService.all() %}
+    {% set shownCategories = categories|slice(0, 4) %}
+    {% set hiddenCategories = categories|slice(4) %}
+    {% set hiddenTitles = hiddenCategories|map(category => category.title)|join(', ') %}
 
     {# Nested links are invalid HTML, so the Description keeps only inline formatting. #}
 
@@ -178,7 +181,7 @@
 
                     <div class="{{ classes.tags }}">
 
-                        {% for category in categories %}
+                        {% for category in shownCategories %}
 
                             {% include '_components/badge' with {
                                 params: {
@@ -189,6 +192,32 @@
                             } only %}
 
                         {% endfor %}
+
+                        {% if hiddenCategories|length %}
+
+                            {% embed '_components/tooltip' with {
+                                params: {
+                                    content: hiddenTitles
+                                }
+                            } %}
+                                {% block button %}
+
+                                    {% include '_components/badge' with {
+                                        params: {
+                                            badge: '+' ~ hiddenCategories|length,
+                                            colour: scheme.tag,
+                                            size: 'lg'
+                                        }
+                                    } only %}
+
+                                {% endblock %}
+                            {% endembed %}
+
+                            {# The Overflow Tag sits inside the link and takes no focus, so the hidden titles are read from the text. #}
+
+                            <span class="sr-only">{{ hiddenTitles }}</span>
+
+                        {% endif %}
 
                     </div>
 
