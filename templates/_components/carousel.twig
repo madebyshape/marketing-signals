@@ -94,6 +94,9 @@
         Alpine.data('{{ component }}', (props) => ({
             activeIndex: 0,
             slideCount: 0,
+            isBeginning: true,
+            isEnd: false,
+            isLocked: false,
             init() {
 
                 const _self = this;
@@ -116,6 +119,18 @@
                 });
 
                 _self.slideCount = swiper.slides.length;
+
+                // Free mode never fires slideChange, so the edges follow the translate.
+
+                const syncEdges = () => {
+                    _self.isBeginning = swiper.isBeginning;
+                    _self.isEnd = swiper.isEnd;
+                    _self.isLocked = swiper.isLocked;
+                };
+
+                syncEdges();
+
+                swiper.on('progress resize update lock unlock', syncEdges);
 
                 swiper.on('slideChange', () => {
                     _self.activeIndex = swiper.realIndex;
