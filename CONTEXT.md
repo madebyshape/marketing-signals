@@ -455,7 +455,7 @@ _Avoid_: Body copy, two-col text, paragraphs, intro text
 ### Testimonial Grid
 
 **Testimonial**:
-An entry in the Testimonial section: one client's quote, with the person's name, job role and avatar and their company's Logo. It has no page.
+An entry in the Testimonial section: one client's quote, with the person's name, job role and avatar, their company's Logo and, when the editor adds it, its Media. It has no page.
 _Avoid_: Review, quote, reference, case study quote
 
 **Testimonial Grid**:
@@ -485,6 +485,12 @@ _Avoid_: Position, cell, placement, scheme
 **Sink**:
 The behaviour of a Testimonial Grid's heading and Review Badge from the desktop breakpoint: they hold still below the Header while the Testimonial Cards scroll over them, then dim out behind the page colour towards the bottom of the cards. Below the desktop breakpoint the heading is in flow.
 _Avoid_: Sticky heading, fade, parallax, pin
+
+### Featured Testimonial
+
+**Featured Testimonial**:
+A Block of one Testimonial in a black panel inside the site margins: an Eyebrow with a Rule over the quote, the Avatar Group and the Logo beneath it, and the Testimonial's Media filling the right of the panel. Below the desktop breakpoint the Media sits between the Eyebrow and the quote.
+_Avoid_: Testimonial block, single testimonial, quote block, hero testimonial, client quote
 
 ### FAQ Accordion
 
@@ -549,8 +555,12 @@ One row in a Content Rows Block: the Media on one side of the grid and, on the o
 _Avoid_: Row, section, half, split
 
 **Media**:
-The image or video side of a Content Row: an Image, or a Video that is either a Poster opening the Video Modal or an Inline Video.
+The image or video side of a Content Row, or the image or video on a Testimonial: an Image, or a Video that is either a Poster opening the Video Modal or an Inline Video.
 _Avoid_: Asset, visual, picture side, thumbnail
+
+**Media Type**:
+The editor's choice, on a Content Row or a Testimonial, of whether its Media is an Image or a Video. The one not chosen is hidden and never read.
+_Avoid_: Media kind, asset type, format, video toggle
 
 **Content Order**:
 The editor's choice per Content Row of which side leads from the desktop breakpoint: Media First or Content First. It has no effect below the desktop breakpoint.
