@@ -29,8 +29,11 @@
     headingRow: 'lg:grid lg:grid-cols-12 lg:gap-5',
     heading: 'font-semibold leading-0.97 tracking-tighter | md:text-6xl | lg:col-span-8 lg:text-7xl',
     text: 'mt-7.5 | lg:col-start-10 lg:col-span-3 lg:mt-0',
-    grid: 'grid grid-cols-1 gap-5 | md:grid-cols-2 lg:grid-cols-3',
-    gridSpacing: 'mt-12.5',
+    grid: {
+        base: 'grid grid-cols-1 gap-5',
+        spacing: 'mt-12.5',
+        columns: 'md:grid-cols-2 lg:grid-cols-3'
+    },
     card: 'flex flex-col items-center rounded-[20px] bg-white px-7.5 py-10 text-center | lg:px-10 lg:pt-10 lg:pb-12.5',
     icon: {
         style: 'fa-sharp-duotone fa-light',
@@ -98,7 +101,7 @@
 
             {% if cards|length %}
 
-                <div class="{{ [blockClasses.grid, hasHeader ? blockClasses.gridSpacing]|join(' ')|trim }}">
+                <div class="{{ [blockClasses.grid.base, hasHeader ? blockClasses.grid.spacing, '|', blockClasses.grid.columns]|join(' ')|trim }}">
 
                     {% for card in cards %}
 
