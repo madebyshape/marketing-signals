@@ -1,3 +1,5 @@
+{% set component = 'pagination' %}
+
 {# Default Params #}
 
 {% set defaultParams = {
@@ -23,17 +25,32 @@
     {% set windowStart = totalPages > 5 ? min(max(currentPage - 2, 1), totalPages - 4) : 1 %}
     {% set windowEnd = min(windowStart + 4, totalPages) %}
 
+    {% set options = {
+        number: {
+            current: [
+                'bg-secondary border-transparent text-black'
+            ],
+            trigger: [
+                'border-creme-300 text-black ring-creme-300/50 cursor-pointer motion-safe:transition',
+                '|',
+                'focus:outline-none focus:ring-3 pointer-fine:hover:bg-secondary pointer-fine:hover:border-transparent'
+            ]
+        }
+    } %}
+
     {# Classes #}
 
     {% set classes = {
         nav: [
-            'mt-17.5 flex items-center justify-center-safe gap-2.5 overflow-x-auto | md:overflow-x-visible',
+            'mt-17.5 flex items-center justify-center-safe gap-2.5 overflow-x-auto',
+            '|',
+            'md:overflow-x-visible',
             params.class
         ],
         end: 'disabled:opacity-30 disabled:pointer-events-none',
-        number: 'inline-flex flex-shrink-0 items-center justify-center size-10.5 rounded-full border text-base font-medium leading-none',
-        current: 'bg-secondary border-transparent text-black',
-        trigger: 'border-creme-300 text-black ring-creme-300/50 cursor-pointer motion-safe:transition focus:outline-none focus:ring-3 pointer-fine:hover:bg-secondary pointer-fine:hover:border-transparent'
+        number: [
+            'inline-flex flex-shrink-0 items-center justify-center size-10.5 rounded-full border text-base font-medium leading-none'
+        ]
     } %}
 
     {# Output #}
@@ -61,7 +78,7 @@
 
             {% if page == currentPage %}
 
-                <span class="{{ classes.number }} {{ classes.current }}" aria-current="page">{{ page }}</span>
+                <span class="{{ classes.number|merge(options.number.current)|join(' ')|trim }}" aria-current="page">{{ page }}</span>
 
             {% else %}
 
@@ -70,7 +87,7 @@
                     's-push-url="' ~ params.pageUrl ~ page ~ '"'
                 ]) %}
 
-                <button type="button" class="{{ classes.number }} {{ classes.trigger }}" {{ trigger|join(' ')|raw }}>{{ page }}</button>
+                <button type="button" class="{{ classes.number|merge(options.number.trigger)|join(' ')|trim }}" {{ trigger|join(' ')|raw }}>{{ page }}</button>
 
             {% endif %}
 
