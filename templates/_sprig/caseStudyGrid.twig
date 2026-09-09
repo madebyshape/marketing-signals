@@ -47,22 +47,37 @@
     }
 } %}
 
+{# Attributes #}
+
+{# The grid is the indicator, so a trigger dims it by id. #}
+
+{% set gridId = 'caseStudyGridItems' %}
+
+{# A `>` anywhere in an s-* value truncates Sprig's tag match. #}
+
+{% set attributes = [
+    'sprig',
+    's-indicator="#' ~ gridId ~ '"'
+] %}
+
 {# Classes #}
 
 {% set classes = {
-    rule: 'mb-10 h-px w-full bg-creme-300',
-    grid: 'grid grid-cols-12 gap-5',
+    rule: 'mb-10 h-px w-full bg-creme-300 scroll-mt-20 | xl:scroll-mt-[123px]',
+    grid: 'grid grid-cols-12 gap-5 [&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50',
     item: 'col-span-12',
     empty: 'text-base'
 } %}
 
 {# Output #}
 
-<div class="{{ classes.rule }}"></div>
+{# A swap scrolls the rule beneath the Header, whose height is the rule's scroll margin. #}
+
+<div class="{{ classes.rule }}"{% if sprig.isRequest %} x-data x-init="window.lenis.scrollTo($el)"{% endif %}></div>
 
 {% if caseStudies|length %}
 
-    <ul class="{{ classes.grid }}">
+    <ul id="{{ gridId }}" class="{{ classes.grid }}">
 
         {% for caseStudy in caseStudies %}
 
@@ -89,6 +104,13 @@
         {% endfor %}
 
     </ul>
+
+    {% include '_components/pagination' with {
+        params: {
+            pageInfo: pageInfo,
+            attributes: attributes
+        }
+    } only %}
 
 {% else %}
 

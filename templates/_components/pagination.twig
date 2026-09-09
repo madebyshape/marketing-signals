@@ -1,0 +1,98 @@
+{# Default Params #}
+
+{% set defaultParams = {
+    pageInfo: null,
+    attributes: [],
+    pageUrl: '?page=',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{% if params.pageInfo and params.pageInfo.totalPages > 1 %}
+
+    {% set currentPage = params.pageInfo.currentPage %}
+    {% set totalPages = params.pageInfo.totalPages %}
+
+    {# Options #}
+
+    {# The window of five starts two before the current page and never runs past either end. #}
+
+    {% set windowStart = totalPages > 5 ? min(max(currentPage - 2, 1), totalPages - 4) : 1 %}
+    {% set windowEnd = min(windowStart + 4, totalPages) %}
+
+    {# Classes #}
+
+    {% set classes = {
+        nav: [
+            'mt-17.5 flex items-center justify-center-safe gap-2.5 overflow-x-auto | md:overflow-x-visible',
+            params.class
+        ],
+        end: 'disabled:opacity-30 disabled:pointer-events-none',
+        number: 'inline-flex flex-shrink-0 items-center justify-center size-10.5 rounded-full border text-base font-medium leading-none',
+        current: 'bg-secondary border-transparent text-black',
+        trigger: 'border-creme-300 text-black ring-creme-300/50 cursor-pointer motion-safe:transition focus:outline-none focus:ring-3 pointer-fine:hover:bg-secondary pointer-fine:hover:border-transparent'
+    } %}
+
+    {# Output #}
+
+    <nav class="{{ classes.nav|join(' ')|trim }}" aria-label="Pagination">
+
+        {% include '_components/button' with {
+            params: {
+                type: 'button',
+                button: { label: 'Previous' },
+                colour: currentPage > 1 ? 'secondary' : 'creme-300-outline',
+                icon: 'fa-sharp fa-regular fa-arrow-left',
+                iconPosition: 'before',
+                class: classes.end,
+                attributes: currentPage > 1
+                    ? params.attributes|merge([
+                        's-val:page="' ~ (currentPage - 1) ~ '"',
+                        's-push-url="' ~ params.pageUrl ~ (currentPage - 1) ~ '"'
+                    ])|join(' ')
+                    : 'disabled'
+            }
+        } only %}
+
+        {% for page in windowStart..windowEnd %}
+
+            {% if page == currentPage %}
+
+                <span class="{{ classes.number }} {{ classes.current }}" aria-current="page">{{ page }}</span>
+
+            {% else %}
+
+                {% set trigger = params.attributes|merge([
+                    's-val:page="' ~ page ~ '"',
+                    's-push-url="' ~ params.pageUrl ~ page ~ '"'
+                ]) %}
+
+                <button type="button" class="{{ classes.number }} {{ classes.trigger }}" {{ trigger|join(' ')|raw }}>{{ page }}</button>
+
+            {% endif %}
+
+        {% endfor %}
+
+        {% include '_components/button' with {
+            params: {
+                type: 'button',
+                button: { label: 'Next' },
+                colour: currentPage < totalPages ? 'secondary' : 'creme-300-outline',
+                icon: 'fa-sharp fa-regular fa-arrow-right',
+                iconPosition: 'after',
+                class: classes.end,
+                attributes: currentPage < totalPages
+                    ? params.attributes|merge([
+                        's-val:page="' ~ (currentPage + 1) ~ '"',
+                        's-push-url="' ~ params.pageUrl ~ (currentPage + 1) ~ '"'
+                    ])|join(' ')
+                    : 'disabled'
+            }
+        } only %}
+
+    </nav>
+
+{% endif %}

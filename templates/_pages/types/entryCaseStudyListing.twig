@@ -33,7 +33,8 @@
                 category: craft.app.request.getQueryParam('category') ?? '',
                 page: craft.app.request.getQueryParam('page') ?? 1
             }, {
-                id: 'caseStudyGrid'
+                id: 'caseStudyGrid',
+                'aria-live': 'polite'
             }) }}
 
         {% endblock %}
