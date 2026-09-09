@@ -52,6 +52,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 0acf1fd0-9723-4b0b-905b-b873b17bfdf7 # Eyebrow, Heading & Text
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 8a84de3a-19bd-4528-a47b-1d207eda9858 # Heading
         -
           - group
