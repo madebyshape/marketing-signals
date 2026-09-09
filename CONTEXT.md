@@ -121,7 +121,7 @@ _Avoid_: Button row, CTA group, actions
 ### Heroes
 
 **Hero**:
-The single entry at the top of a page, from the Hero field, always rendered before the Blocks. A page has at most one.
+The top of a page, always rendered before the Blocks. On a page it is the single entry from the Hero field; on a Case Study it is the Case Study Hero. A page has at most one.
 _Avoid_: Hero block, banner, page header, masthead
 
 **Hero Layout**:
@@ -147,6 +147,26 @@ _Avoid_: Card, slide, image, photo, cell
 **Scroll Cue**:
 The Cursor Label over a Hero Home that reads "Scroll" beside a small circled down arrow, inviting the visitor down the page. Clicking it scrolls to the first Block.
 _Avoid_: Scroll indicator, scroll hint, scroll button, mouse icon
+
+**Case Study Hero**:
+The full-screen Hero at the top of every Case Study page, built from the Case Study's own Hero Image, Hero Logo, Hero Heading and Hero Text rather than a Hero Layout, so an editor never picks it. The Breadcrumb sits at its top and the Logo, heading and text sit at its bottom.
+_Avoid_: Case study banner, project hero, hero layout
+
+**Hero Image**:
+The photograph that fills a Case Study Hero behind its content, darkened by shades at its top and bottom. Without one the Case Study Hero is plain black.
+_Avoid_: Background image, cover image, banner image
+
+**Hero Logo**:
+The client's Logo shown in white at the bottom of a Case Study Hero. When an editor leaves it empty the Case Study's own Logo is shown instead.
+_Avoid_: Client logo, hero brand, white logo
+
+**Hero Heading**:
+The heading of a Case Study Hero, with its Highlight in fluro. When empty the Tag Line stands in, then the title, so the page always has a heading.
+_Avoid_: Hero title, banner heading
+
+**Hero Text**:
+The short paragraph beside the Hero Heading in a Case Study Hero. Empty means nothing is shown.
+_Avoid_: Hero copy, intro, strapline
 
 **Breadcrumb**:
 The trail of Crumbs at the top of a Hero: Home, then the page's parents in order, then the page itself. Derived from the page, never set by editors.
@@ -263,7 +283,7 @@ _Avoid_: Hover cursor, cursor follower, tooltip, CTA
 ### Case Study Carousel
 
 **Case Study**:
-An entry in the Case Study section: one piece of client work, with a Thumbnail, a Logo, a Tag Line and a Category of its own.
+An entry in the Case Study section: one piece of client work, with a Thumbnail, a Logo, a Tag Line and a Category of its own, and a Case Study Hero at the top of its page.
 _Avoid_: Work, project, portfolio item, success story
 
 **Case Study Carousel**:
@@ -327,6 +347,24 @@ _Avoid_: Page link, dot, step
 **Page Window**:
 The up-to-five Page Numbers shown at once, sliding so the current page stays central once there are more than five pages.
 _Avoid_: Page range, ellipsis pages, truncated pagination
+
+### Case Study Intro
+
+**Case Study Intro**:
+The column on a Case Study page between its Hero and its Blocks: an Eyebrow with a Rule over a large heading with the Highlight, and the Text beneath, with the Case Study Sidebar beside it.
+_Avoid_: Intro block, challenge section, case study content, intro section
+
+**Case Study Sidebar**:
+The white card beside the Case Study Intro showing the Case Study's Overview: its Logo in black, its Description and its Sidebar Rows. It sits above the Case Study Intro below the desktop breakpoint.
+_Avoid_: Aside, info card, meta card, details panel, sticky sidebar
+
+**Overview**:
+The Case Study's own facts that every surface reads rather than an editor re-entering them: its Logo, Description, Industry, Year and Categories.
+_Avoid_: Meta, entry details, overview tab, case study info
+
+**Sidebar Row**:
+One label-and-value line in the Case Study Sidebar, under a thin line: Industry, Year or Services. The Services row shows the Case Study's first Category as an outlined pill. A Sidebar Row with no value is left out.
+_Avoid_: Meta row, detail, stat, spec line
 
 ### Stacking Cards
 
