@@ -14,6 +14,17 @@
 
 {% set hasIntro = hasEyebrow or hasHeading or hasText %}
 
+{# Case Study Sidebar #}
+
+{% set logo = entry.logo.one() %}
+{% set category = entry.categoriesCaseStudy.one() %}
+
+{% set hasDescription = entry.description|striptags|trim|length > 0 %}
+{% set hasIndustry = entry.industry|trim|length > 0 %}
+{% set hasYear = entry.year|trim|length > 0 %}
+
+{% set hasSidebar = logo or hasDescription or hasIndustry or hasYear or category %}
+
 {# Classes #}
 
 {% set pageClasses = {
@@ -33,7 +44,22 @@
         '|',
         'lg:text-6xl'
     ],
-    text: 'mt-7.5'
+    text: 'mt-7.5',
+    sidebar: [
+        'col-span-full',
+        '|',
+        'lg:col-start-10 lg:col-span-3 lg:row-start-1'
+    ],
+    card: 'rounded-[20px] bg-white p-7.5',
+    logo: 'text-black',
+    logoImage: 'h-auto max-h-[75px] w-auto max-w-full',
+    description: 'mt-7.5',
+    rows: 'mt-6.25',
+    row: 'grid grid-cols-[120px_1fr] items-center border-t border-creme-300',
+    rowPadding: 'py-5',
+    rowPaddingPill: 'py-6.25',
+    rowLabel: 'text-base leading-1.33 text-creme-500',
+    rowValue: 'text-base leading-1.33 text-black'
 } %}
 
 {% block site %}
@@ -42,7 +68,7 @@
 
     {# Case Study Intro #}
 
-    {% if hasIntro %}
+    {% if hasIntro or hasSidebar %}
 
         {% embed '_components/section'
             with {
@@ -55,45 +81,137 @@
 
                 <div class="{{ pageClasses.grid|join(' ')|trim }}">
 
-                    {# The Case Study Sidebar takes columns 10 to 12 of this row, leaving 8 and 9 empty. #}
+                    {# First in the DOM so it stacks above the Intro; columns 8 and 9 stay empty. #}
 
-                    <div class="{{ pageClasses.intro|join(' ')|trim }}">
+                    {% if hasSidebar %}
 
-                        {% if hasEyebrow %}
+                        <div class="{{ pageClasses.sidebar|join(' ')|trim }}">
 
-                            {% include '_components/eyebrow' with {
+                            <div class="{{ pageClasses.card }}">
+
+                                {% if logo %}
+
+                                    <div class="{{ pageClasses.logo }}">
+
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: logo,
+                                                alt: entry.title,
+                                                transform: 'noRatio',
+                                                ratio: false,
+                                                svgInline: true,
+                                                imgClass: pageClasses.logoImage
+                                            }
+                                        } only %}
+
+                                    </div>
+
+                                {% endif %}
+
+                                {% if hasDescription %}
+
+                                    {% include '_components/richText' with {
+                                        params: {
+                                            content: entry.description,
+                                            colour: 'black',
+                                            class: logo ? pageClasses.description
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                                {% if hasIndustry or hasYear or category %}
+
+                                    <div class="{{ (logo or hasDescription) ? pageClasses.rows }}">
+
+                                        {% if hasIndustry %}
+
+                                            <div class="{{ pageClasses.row }} {{ pageClasses.rowPadding }}">
+                                                <div class="{{ pageClasses.rowLabel }}">Industry</div>
+                                                <div class="{{ pageClasses.rowValue }}">{{ entry.industry }}</div>
+                                            </div>
+
+                                        {% endif %}
+
+                                        {% if hasYear %}
+
+                                            <div class="{{ pageClasses.row }} {{ pageClasses.rowPadding }}">
+                                                <div class="{{ pageClasses.rowLabel }}">Year</div>
+                                                <div class="{{ pageClasses.rowValue }}">{{ entry.year }}</div>
+                                            </div>
+
+                                        {% endif %}
+
+                                        {% if category %}
+
+                                            <div class="{{ pageClasses.row }} {{ pageClasses.rowPaddingPill }}">
+                                                <div class="{{ pageClasses.rowLabel }}">Services</div>
+                                                <div>
+
+                                                    {% include '_components/badge' with {
+                                                        params: {
+                                                            badge: category.title,
+                                                            colour: 'creme-300-outline',
+                                                            size: 'lg'
+                                                        }
+                                                    } only %}
+
+                                                </div>
+                                            </div>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if hasIntro %}
+
+                        <div class="{{ pageClasses.intro|join(' ')|trim }}">
+
+                            {% if hasEyebrow %}
+
+                                {% include '_components/eyebrow' with {
+                                    params: {
+                                        text: entry.eyebrow,
+                                        rule: true,
+                                        class: pageClasses.eyebrow
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                            {% include '_components/headingAlternate' with {
                                 params: {
-                                    text: entry.eyebrow,
-                                    rule: true,
-                                    class: pageClasses.eyebrow
+                                    tag: 'h2',
+                                    heading: entry.heading,
+                                    size: '4xl',
+                                    class: pageClasses.heading|join(' ')|trim
                                 }
                             } only %}
 
-                        {% endif %}
+                            {% if hasText %}
 
-                        {% include '_components/headingAlternate' with {
-                            params: {
-                                tag: 'h2',
-                                heading: entry.heading,
-                                size: '4xl',
-                                class: pageClasses.heading|join(' ')|trim
-                            }
-                        } only %}
+                                {% include '_components/richText' with {
+                                    params: {
+                                        content: entry.text,
+                                        colour: 'black',
+                                        list: 'check',
+                                        class: (hasEyebrow or hasHeading) ? pageClasses.text
+                                    }
+                                } only %}
 
-                        {% if hasText %}
+                            {% endif %}
 
-                            {% include '_components/richText' with {
-                                params: {
-                                    content: entry.text,
-                                    colour: 'black',
-                                    list: 'check',
-                                    class: (hasEyebrow or hasHeading) ? pageClasses.text
-                                }
-                            } only %}
+                        </div>
 
-                        {% endif %}
-
-                    </div>
+                    {% endif %}
 
                 </div>
 
