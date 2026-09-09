@@ -68,6 +68,22 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-09T21:49:03+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 94a26b89-4e28-433a-91e9-894a0248710f # Categories - Service
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f0d36ff6-4b57-487a-b2c4-8c3e5a408ae8
+            userCondition: null
+            warning: null
+            width: 100
         name: 'Overview Content'
         uid: 2c15df9d-c8e3-45e6-8eda-7ff23d9d47f3
         userCondition: null
