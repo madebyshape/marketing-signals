@@ -1,0 +1,94 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  d4776204-95e4-4b81-b19a-6356372a2452:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 022921ec-c6b8-4663-9fbb-f7ad807ce7d8
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 06671b15-259d-49bd-b50e-0d4fd6d46e78
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: a615ba98-4634-47c2-b604-0928c6ffba2e
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5cbe08b7-b4bd-4a6b-be41-de9647b5eb19 # Images
+            handle: logos
+            instructions: 'SVG logos in the order they should Crawl past. Each renders in black.'
+            label: Logos
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d8cc8004-9494-4fde-a32c-69fc0a2cabad
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 747bee8c-40c3-44f5-b2b8-641ac5ae1e0b
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: cb402fef-487d-4735-8d6c-1dca449453b7
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 84c0e22c-882c-4b47-8620-c20718f9011d
+        userCondition: null
+    thumbFieldKey: null
+handle: marqueeLogos
+hasTitleField: false
+icon: grip
+name: 'Marquee - Logos'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
