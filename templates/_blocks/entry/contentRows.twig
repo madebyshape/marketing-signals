@@ -173,13 +173,11 @@
 
                                 {% else %}
 
-                                    {# The inline Player Type is a later ticket, so every video opens the Video Modal. #}
-
                                     {% include '_components/videoPlayer/base' with {
                                         params: {
                                             video: item.video,
                                             transform: '1x1',
-                                            playerType: 'modal',
+                                            playerType: item.video.videoDisplayType.value == 'inlinePlayer' ? 'inline' : 'modal',
                                             modalLabel: 'Video player',
                                             class: 'h-full'
                                         }

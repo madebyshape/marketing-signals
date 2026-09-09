@@ -15,6 +15,10 @@
             duration: 0,
             fullscreen: false,
             adapter: null,
+            pinned: false,
+            started: false,
+            ended: false,
+            wanted: false,
 
             init() {
 
@@ -47,15 +51,23 @@
                     videoId: props.videoId,
                     videoHash: props.videoHash,
                     videoSrc: props.videoSrc,
+                    muted: props.inline === true,
                     onReady: (duration) => {
                         this.ready = true;
                         this.duration = duration || 0;
+
+                        // Inline, the pointer may have left again while the player was loading.
+                        if (props.inline) {
+                            this.wanted ? this.adapter.play() : this.adapter.pause();
+                            return;
+                        }
+
                         this.adapter.unmute();
                         this.adapter.play();
                     },
-                    onPlay: () => { this.playing = true; },
+                    onPlay: () => { this.playing = true; this.started = true; this.ended = false; },
                     onPause: () => { this.playing = false; },
-                    onEnded: () => { this.playing = false; },
+                    onEnded: () => { this.playing = false; this.ended = true; },
                     onTimeUpdate: (current, duration) => {
                         this.currentTime = current || 0;
                         if (duration) this.duration = duration;
@@ -127,6 +139,45 @@
 
             },
 
+            hoverPlay() {
+                if (!this.hoverable) return;
+                this.pinned = false;
+                this.playInline();
+            },
+
+            hoverPause() {
+                if (!this.hoverable || this.pinned) return;
+                this.pauseInline();
+            },
+
+            // The Time Ring pins what it did, so the pointer leaving or staying cannot undo it.
+            toggleInline() {
+
+                this.pinned = true;
+
+                if (this.playing) {
+                    this.pauseInline();
+                    return;
+                }
+
+                // Nothing loops, so the ring's play glyph at the end starts the video again.
+                if (this.ended && this.adapter) this.adapter.seek(0);
+
+                this.playInline();
+
+            },
+
+            // The player is only created by the first play, so the page loads without an embed.
+            playInline() {
+                this.wanted = true;
+                this.adapter ? this.adapter.play() : this.create();
+            },
+
+            pauseInline() {
+                this.wanted = false;
+                if (this.adapter) this.adapter.pause();
+            },
+
             formatTime(seconds) {
 
                 const total = Math.floor(!seconds || isNaN(seconds) || seconds < 0 ? 0 : seconds);
@@ -142,6 +193,16 @@
 
             get progress() {
                 return this.duration ? (this.currentTime / this.duration) * 100 : 0;
+            },
+
+            // Read at the time of the event, so a pointer plugged in later is honoured.
+            get hoverable() {
+                return window.matchMedia('(hover: hover) and (pointer: fine)').matches
+                    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            },
+
+            get remaining() {
+                return this.formatTime(this.duration - this.currentTime);
             }
 
         }))

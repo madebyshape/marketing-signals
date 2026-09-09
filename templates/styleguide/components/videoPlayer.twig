@@ -1,4 +1,4 @@
-{# Video Player · a Poster per Provider, each opening the Video Modal #}
+{# Video Player · a Poster per Provider opening the Video Modal, and one Inline Video #}
 
 {# No field to read, so the newest volume image stands in as the Poster. #}
 
@@ -41,6 +41,22 @@
             </div>
 
         {% endfor %}
+
+        <div class="grid gap-y-8 content-start">
+
+            <h3 class="text-xs opacity-60">File · Inline Player Type</h3>
+
+            {% include '_components/videoPlayer/base' with {
+                params: {
+                    videoFile: videoFile,
+                    poster: poster,
+                    transform: '1x1',
+                    playerType: 'inline',
+                    class: 'w-full aspect-square overflow-hidden rounded-[20px] bg-black'
+                }
+            } only %}
+
+        </div>
 
     </div>
 

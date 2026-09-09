@@ -64,11 +64,18 @@
 
 {% set provider = videoFile ? 'file' : (vimeoId ? 'vimeo' : (youtubeId ? 'youtube' : null)) %}
 
+{# Player Type #}
+
+{# YouTube never plays in place, so an inline Video of one falls back to the Video Modal. #}
+
+{% set playerType = (params.playerType == 'inline' and provider != 'youtube') ? 'inline' : 'modal' %}
+
 {% set props = {
     provider: provider,
     videoId: vimeoId ?? youtubeId,
     videoHash: videoHash,
-    videoSrc: videoFile ? videoFile.url : null
+    videoSrc: videoFile ? videoFile.url : null,
+    inline: playerType == 'inline'
 } %}
 
 {# Classes #}
@@ -93,20 +100,33 @@
         x-data='{{ component }}({{ props|json_encode|raw }})'
     >
 
-        {% include '_components/videoPlayer/poster' with {
-            params: {
-                image: poster,
-                transform: params.transform,
-                label: params.label,
-                class: params.posterClass
-            }
-        } only %}
+        {% if playerType == 'inline' %}
 
-        {% include '_components/videoPlayer/' ~ params.playerType with {
-            params: {
-                label: params.modalLabel
-            }
-        } only %}
+            {% include '_components/videoPlayer/inline' with {
+                params: {
+                    poster: poster,
+                    transform: params.transform
+                }
+            } only %}
+
+        {% else %}
+
+            {% include '_components/videoPlayer/poster' with {
+                params: {
+                    image: poster,
+                    transform: params.transform,
+                    label: params.label,
+                    class: params.posterClass
+                }
+            } only %}
+
+            {% include '_components/videoPlayer/modal' with {
+                params: {
+                    label: params.modalLabel
+                }
+            } only %}
+
+        {% endif %}
 
     </div>
 
