@@ -385,7 +385,7 @@ The one or more images an editor adds to a Stacking Card, shown one at a time in
 _Avoid_: Gallery, slideshow, image carousel, thumbnails
 
 **Card Scheme**:
-The colour and tilt a Stacking Card takes from its position in the pile: white, black, secondary and fluro in turn, repeating past four. Never chosen by editors.
+The colour a card takes from its position, in the sequence its block defines, repeating past the end. Never chosen by editors. A Stacking Card also takes its tilt from it: white, black, secondary and fluro in turn. A Service Card runs white, black, secondary, fluro and creme-200.
 _Avoid_: Theme, variant, colour option, style
 
 **Stack**:
@@ -613,6 +613,44 @@ _Avoid_: Glyph, symbol, pictogram, illustration
 **Icon Type**:
 Which of the two sources an Icon comes from: a Font Awesome icon named by the editor and always shown in the Sharp Duotone Light style, or an Image the editor uploads.
 _Avoid_: Icon style, icon source, media type
+
+### Service List
+
+**Service Listing page**:
+The Page whose entry type is Service Listing, holding the Hero, the Service List, the List Footer and the Blocks. There is one, found by its entry type (ADR-0003).
+_Avoid_: Services page, services index
+
+**Service List**:
+The run of Service Cards between the Hero and the Blocks on the Service Listing page, one per enabled Service in structure order, with the List Footer beneath. It has no Block and no field: Services pull through on their own.
+_Avoid_: Service grid, services stack, service cards block
+
+**Service Card**:
+The Linked Card for a Service on the Service List: its Card Number, title, Description and Category Tags beside its Thumbnail, coloured by its Card Scheme, with a Cursor Label and a Zoom on hover. Not a Service Slide.
+_Avoid_: Service panel, service tile, service row
+
+**Card Number**:
+The two-digit position of a Service Card in the Service List, such as "01", above a Rule. Unlike a Slide Number it has no brackets.
+_Avoid_: Index, counter, eyebrow number
+
+**Category Tag**:
+An outlined pill naming one of a Service's Categories, under the words "Services include" on a Service Card. A Service Card shows four, then an Overflow Tag.
+_Avoid_: Tag, chip, badge, category pill
+
+**Overflow Tag**:
+The Category Tag reading "+N" after the fourth, where N is how many Categories are not shown. Absent when four or fewer exist.
+_Avoid_: More pill, plus badge, counter
+
+**Tag Tooltip**:
+The small dark panel that appears above the Overflow Tag on hover, listing the hidden Categories comma separated. The same list is read out to screen readers without it.
+_Avoid_: Popover, hover card, popup
+
+**Overlap**:
+The scroll behaviour of the Service List from the desktop breakpoint: each Service Card holds at the top of the screen once it reaches it, and the next slides up over it, every card stopping at the same line. Below the desktop breakpoint, and under reduced motion, the cards are a plain column.
+_Avoid_: Stack, sticky cards, pin, scroll-jack, parallax
+
+**List Footer**:
+The button and Avatar Group centred beneath the Service List, set by editors on the Service Listing page. It renders when either is set, with or without Services.
+_Avoid_: CTA row, footer CTA, services footer
 
 ### Seeding
 
