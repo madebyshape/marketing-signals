@@ -33,14 +33,15 @@ class BlockSeeder
 
         $assets = new AssetResolver($seed->volume, $seed->directory(), $dryRun);
         $relations = new EntriesResolver();
-        $resolver = new ValueResolver($assets, $relations);
+        $categories = new CategoriesResolver($dryRun);
+        $resolver = new ValueResolver($assets, $relations, $categories);
 
         $fields = $this->applyEntryFields($entry, $seed, $resolver, $dryRun);
 
         // A Seed that only sets entry fields never looks for a Matrix field, so it can target an
         // entry type that has none.
         if ($seed->blocks === []) {
-            return new SeedReport($entries->outcomes(), $fields, [], $assets->outcomes(), $relations->outcomes());
+            return new SeedReport($entries->outcomes(), $fields, [], $assets->outcomes(), $relations->outcomes(), $categories->outcomes());
         }
 
         $field = $this->findField($entry, $seed->field);
@@ -89,7 +90,7 @@ class BlockSeeder
             $this->save($entry, $field, $blocks);
         }
 
-        return new SeedReport($entries->outcomes(), $fields, $outcomes, $assets->outcomes(), $relations->outcomes());
+        return new SeedReport($entries->outcomes(), $fields, $outcomes, $assets->outcomes(), $relations->outcomes(), $categories->outcomes());
     }
 
     /**

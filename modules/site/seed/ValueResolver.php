@@ -5,6 +5,7 @@ namespace modules\site\seed;
 use craft\base\FieldInterface;
 use craft\ckeditor\Field as CkeditorField;
 use craft\fields\Assets as AssetsField;
+use craft\fields\Categories as CategoriesField;
 use craft\fields\ContentBlock as ContentBlockField;
 use craft\fields\Date as DateField;
 use craft\fields\Dropdown;
@@ -38,6 +39,7 @@ class ValueResolver
     public function __construct(
         private readonly AssetResolver $assets,
         private readonly EntriesResolver $entries,
+        private readonly CategoriesResolver $categories,
     ) {
         $this->links = new LinkResolver($this->assets, $this->entries);
     }
@@ -90,6 +92,7 @@ class ValueResolver
             $field instanceof DateField => $this->date($field, $value),
             $field instanceof AssetsField => $this->assets->resolve($field, $value),
             $field instanceof EntriesField => $this->entries->resolve($field, $value),
+            $field instanceof CategoriesField => $this->categories->resolve($field, $value),
             $field instanceof LinkField => $this->links->resolve($field, $value),
             $field instanceof Matrix => $this->matrix($field, $value),
             $field instanceof ContentBlockField => $this->contentBlock($field, $value),

@@ -1,0 +1,264 @@
+{# Default Variables #}
+
+{% set category = category ?? '' %}
+{% set page = page ?? 1 %}
+{% set scroll = scroll ?? 0 %}
+
+{# Case Studies #}
+
+{% set perPage = 8 %}
+
+{# A `page` from the query string arrives as a string and the paginator takes an int. #}
+
+{% set page = page matches '/^[0-9]+$/' ? page + 0 : 1 %}
+
+{% set activeCategory = category|length ? craft.categories.group('caseStudy').slug(category).one() : null %}
+{% set activeSlug = activeCategory ? activeCategory.slug : '' %}
+
+{% set query = craft.entries.section('caseStudy').status('enabled').relatedTo(activeCategory).limit(perPage) %}
+
+{# The paginator clamps a page beyond the last to the last. #}
+
+{% set pageInfo = sprig.paginate(query, page) %}
+{% set caseStudies = query.offset(perPage * (pageInfo.currentPage - 1)).all() %}
+
+{# Categories #}
+
+{# A Category only earns a Filter Button while an enabled Case Study points at it. #}
+
+{% set categories = craft.categories.group('caseStudy').relatedTo({
+    sourceElement: craft.entries.section('caseStudy').status('enabled')
+}).all() %}
+
+{# Options #}
+
+{# Each Slot carries its Card Size and the columns the Card spans from `md`. #}
+
+{% set options = {
+    slot: [
+        { size: 'large', span: 'md:col-span-12' },
+        { size: 'half', span: 'md:col-span-6' },
+        { size: 'half', span: 'md:col-span-6' },
+        { size: 'half', span: 'md:col-span-6' },
+        { size: 'half', span: 'md:col-span-6' },
+        { size: 'large', span: 'md:col-span-12' },
+        { size: 'half', span: 'md:col-span-6' },
+        { size: 'half', span: 'md:col-span-6' }
+    ],
+    sizes: {
+        large: {
+            portrait: '95vw',
+            landscape: '95vw'
+        },
+        half: {
+            portrait: '95vw',
+            landscape: '(min-width: 768px) 47vw, 95vw'
+        }
+    }
+} %}
+
+{# Attributes #}
+
+{# The grid is the indicator, so a trigger dims it by id. #}
+
+{% set gridId = 'caseStudyGridItems' %}
+
+{# A `>` anywhere in an s-* value truncates Sprig's tag match. #}
+
+{% set attributes = [
+    'sprig',
+    's-indicator="#' ~ gridId ~ '"'
+] %}
+
+{# Only a page change scrolls, so a Filter Button leaves the viewport where it is. #}
+
+{% set pageAttributes = attributes|merge([
+    's-val:category="' ~ activeSlug ~ '"',
+    's-val:scroll="1"'
+]) %}
+
+{% set pageUrl = activeSlug ? '?category=' ~ activeSlug ~ '&page=' : '?page=' %}
+
+{# Filters #}
+
+{# All Work leads the row, then a Category per Filter Button, each carrying its own trigger. #}
+
+{% set filters = [] %}
+{% set checkedIndex = 0 %}
+
+{% for item in [{ title: 'All Work', slug: '' }]|merge(categories) %}
+
+    {% if item.slug == activeSlug %}
+
+        {% set checkedIndex = loop.index0 %}
+
+    {% endif %}
+
+    {% set filters = filters|merge([{
+        label: item.title,
+        value: item.slug,
+        checked: item.slug == activeSlug,
+        attributes: attributes|merge([
+            's-val:category="' ~ item.slug ~ '"',
+            's-val:page="1"',
+            's-push-url="?category=' ~ item.slug ~ '"'
+        ])|join(' ')
+    }]) %}
+
+{% endfor %}
+
+{# Arrows #}
+
+{# `classes` is shadowed inside the carousel embed, so the arrows carry their own. #}
+
+{% set arrows = [
+    {
+        ref: 'prev',
+        show: '!(isLocked || isBeginning)',
+        icon: 'fa-sharp fa-regular fa-arrow-left',
+        label: 'Scroll categories left',
+        class: 'pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pr-10 bg-linear-to-r from-creme-100 to-transparent'
+    },
+    {
+        ref: 'next',
+        show: '!(isLocked || isEnd)',
+        icon: 'fa-sharp fa-regular fa-arrow-right',
+        label: 'Scroll categories right',
+        class: 'pointer-events-none absolute inset-y-0 right-0 z-10 flex items-center pl-10 bg-linear-to-l from-creme-100 to-transparent'
+    }
+] %}
+
+{# Classes #}
+
+{% set classes = {
+    filter: 'mb-10 min-w-0 scroll-mt-20 | xl:scroll-mt-[123px]',
+    rule: 'mb-10 h-px w-full bg-creme-300',
+    grid: 'grid grid-cols-12 gap-5 [&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50',
+    item: 'col-span-12',
+    empty: 'text-base'
+} %}
+
+{# Output #}
+
+{# A paged swap scrolls the filter beneath the Header, whose height is the filter's scroll margin. #}
+
+<fieldset class="{{ classes.filter }}"{% if sprig.isRequest and scroll %} x-data x-init="window.lenis.scrollTo($el)"{% endif %}>
+
+    <legend class="sr-only">Filter by category</legend>
+
+    {# Overflow watching locks a row that fits, which is what takes the arrows away. #}
+
+    {% embed '_components/carousel'
+        with {
+            params: {
+                id: 'caseStudyFilter',
+                items: filters,
+                slideClass: 'w-auto!',
+                props: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 10,
+                    initialSlide: checkedIndex,
+                    speed: 400,
+                    freeMode: { enabled: true },
+                    watchOverflow: true,
+                    watchSlidesProgress: true,
+                    preventClicks: true,
+                    preventClicksPropagation: true,
+                    a11y: {
+                        enabled: true,
+                        slideRole: null,
+                        slideLabelMessage: '',
+                        wrapperLiveRegion: false,
+                        prevSlideMessage: 'Scroll categories left',
+                        nextSlideMessage: 'Scroll categories right'
+                    }
+                }
+            }
+        }
+    %}
+
+        {% block slideContent %}
+
+            {% include '_components/filterButton' with {
+                params: {
+                    label: item.label,
+                    value: item.value,
+                    checked: item.checked,
+                    attributes: item.attributes
+                }
+            } only %}
+
+        {% endblock %}
+
+        {% block afterContent %}
+
+            {% for arrow in arrows %}
+
+                <div class="{{ arrow.class }}" x-show="{{ arrow.show }}" x-cloak>
+
+                    {% include '_components/buttonShape' with {
+                        params: {
+                            type: 'button',
+                            button: { value: '#' },
+                            colour: 'creme-300-outline',
+                            icon: arrow.icon,
+                            class: 'pointer-events-auto bg-creme-100',
+                            attributes: 'x-ref="' ~ arrow.ref ~ '" aria-label="' ~ arrow.label ~ '"'
+                        }
+                    } only %}
+
+                </div>
+
+            {% endfor %}
+
+        {% endblock %}
+
+    {% endembed %}
+
+</fieldset>
+
+<div class="{{ classes.rule }}"></div>
+
+{% if caseStudies|length %}
+
+    <ul id="{{ gridId }}" class="{{ classes.grid }}">
+
+        {% for caseStudy in caseStudies %}
+
+            {% set slot = cycle(options.slot, loop.index0) %}
+
+            {% set itemClasses = [
+                classes.item,
+                '|',
+                slot.span
+            ] %}
+
+            <li class="{{ itemClasses|join(' ')|trim }}">
+
+                {% include '_components/caseStudyCard' with {
+                    params: {
+                        caseStudy: caseStudy,
+                        size: slot.size,
+                        sizes: options.sizes[slot.size]
+                    }
+                } only %}
+
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+    {% include '_components/pagination' with {
+        params: {
+            pageInfo: pageInfo,
+            attributes: pageAttributes,
+            pageUrl: pageUrl
+        }
+    } only %}
+
+{% else %}
+
+    <p class="{{ classes.empty }}">No case studies found</p>
+
+{% endif %}

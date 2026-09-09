@@ -4,8 +4,8 @@ namespace modules\site\seed;
 
 /**
  * Everything one run of a Seed did, for the command to print: what became of the target entry
- * and its own fields, what became of each Block, and what became of each image and each related
- * entry they named.
+ * and its own fields, what became of each Block, and what became of each image, related
+ * entry and category they named.
  */
 readonly class SeedReport
 {
@@ -16,6 +16,8 @@ readonly class SeedReport
      * @param SeedImageOutcome[] $images one per image named, in the order they were resolved.
      * @param SeedRelationOutcome[] $relations one per entry an Entries field named, in the order
      *                                         they were resolved.
+     * @param SeedCategoryOutcome[] $categories one per category a Categories field named, in the
+     *                                          order they were resolved.
      */
     public function __construct(
         public array $entries,
@@ -23,6 +25,7 @@ readonly class SeedReport
         public array $blocks,
         public array $images,
         public array $relations,
+        public array $categories,
     ) {
     }
 }
