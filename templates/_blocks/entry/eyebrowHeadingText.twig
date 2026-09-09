@@ -33,10 +33,11 @@
     ],
     textColumn: [
         'col-span-full',
+        hasHeading ? 'mt-7.5',
         '|',
-        'lg:col-start-9 lg:col-span-4 lg:row-start-1'
+        'lg:col-start-9 lg:col-span-4 lg:row-start-1',
+        hasHeading ? 'lg:mt-0'
     ],
-    textColumnOffset: 'mt-7.5 lg:mt-0',
     buttons: 'mt-10'
 } %}
 
@@ -80,9 +81,7 @@
 
                     {% if hasText or buttons|length %}
 
-                        {# The row gap is zero so the stacked offset below `lg` is this margin alone. #}
-
-                        <div class="{{ [blockClasses.textColumn|join(' '), hasHeading ? blockClasses.textColumnOffset]|join(' ')|trim }}">
+                        <div class="{{ blockClasses.textColumn|join(' ')|trim }}">
 
                             {% if hasText %}
 
