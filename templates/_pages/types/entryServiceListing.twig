@@ -27,6 +27,8 @@
 
 {% set pageClasses = {
     list: 'flex flex-col gap-5',
+    item: 'lg:motion-safe:sticky lg:motion-safe:top-[100px] lg:motion-safe:h-[min(760px,calc(100vh-120px))]',
+    card: 'lg:motion-safe:h-full',
     footer: [
         'flex flex-col items-center justify-center gap-5',
         services|length ? 'mt-12.5' : '',
@@ -57,14 +59,15 @@
 
                         {% for service in services %}
 
-                            <li>
+                            <li class="{{ pageClasses.item }}">
 
                                 {% include '_components/serviceCard' with {
                                     params: {
                                         service: service,
                                         number: loop.index,
                                         scheme: cycle(pageOptions.schemes, loop.index0),
-                                        sizes: pageOptions.sizes
+                                        sizes: pageOptions.sizes,
+                                        class: pageClasses.card
                                     }
                                 } only %}
 
