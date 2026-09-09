@@ -1,0 +1,176 @@
+{% set component = 'heroCaseStudy' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    vars: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{# Named apart from `params` and `classes`, which the section embed shadows #}
+
+{% set caseStudy = params.entry %}
+{% set logo = caseStudy.heroLogo.one() ?? caseStudy.logo.one() %}
+{% set image = caseStudy.heroImage.one() %}
+{% set heading = caseStudy.heroHeading|striptags|trim|length ? caseStudy.heroHeading : (caseStudy.tagLine|striptags|trim|length ? caseStudy.tagLine : caseStudy.title) %}
+{% set text = caseStudy.heroText %}
+
+{# Classes #}
+
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
+
+{% set heroClasses = {
+    panel: [
+        'relative flex min-h-svh w-full flex-col overflow-hidden rounded-b-[30px] bg-black pb-10',
+        params.vars ? params.vars.class.siteMargin.x : 'px-10',
+        params.vars ? params.vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        params.class
+    ],
+    image: [
+        'absolute inset-0 z-0'
+    ],
+    shadeTop: [
+        'pointer-events-none absolute inset-x-0 top-0 z-10 h-[270px] bg-linear-to-b from-black/50 to-transparent'
+    ],
+    shadeBottom: [
+        'pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[443px] bg-linear-to-t from-black to-transparent'
+    ],
+    breadcrumb: [
+        'relative z-20'
+    ],
+    content: [
+        'relative z-20 mt-auto flex flex-col gap-7.5',
+        '|',
+        'lg:grid lg:grid-cols-12 lg:items-end lg:gap-5'
+    ],
+    headingGroup: [
+        'lg:col-span-6'
+    ],
+    logo: [
+        'mb-7.5 text-white'
+    ],
+    logoImage: [
+        'h-auto max-h-10 w-auto max-w-[120px]',
+        '|',
+        'lg:max-h-[50px] lg:max-w-[140px]'
+    ],
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl lg:text-7xl'
+    ],
+    text: [
+        'lg:col-span-4 lg:col-start-9'
+    ]
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: {
+            paddingY: 'bottom',
+            paddingX: 'none'
+        }
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ heroClasses.panel|join(' ')|trim }}">
+
+            {% if image %}
+
+                <div class="{{ heroClasses.image|join(' ')|trim }}">
+
+                    {# The panel is full-bleed, so the widths run to twice the 1600 frame #}
+
+                    {% include '_components/picture' with {
+                        params: {
+                            image: image,
+                            alt: '',
+                            transform: 'noRatioLarge',
+                            ratio: false,
+                            focalPoint: true,
+                            lazy: false,
+                            sizes: '100vw'
+                        }
+                    } only %}
+
+                </div>
+
+            {% endif %}
+
+            <div class="{{ heroClasses.shadeTop|join(' ')|trim }}" aria-hidden="true"></div>
+
+            <div class="{{ heroClasses.shadeBottom|join(' ')|trim }}" aria-hidden="true"></div>
+
+            {% include '_components/breadcrumb' with {
+                params: {
+                    entry: caseStudy,
+                    colour: 'white',
+                    class: heroClasses.breadcrumb|join(' ')|trim
+                }
+            } only %}
+
+            <div class="{{ heroClasses.content|join(' ')|trim }}">
+
+                <div class="{{ heroClasses.headingGroup|join(' ')|trim }}">
+
+                    {% if logo %}
+
+                        <div class="{{ heroClasses.logo|join(' ')|trim }}">
+
+                            {% include '_components/picture' with {
+                                params: {
+                                    image: logo,
+                                    alt: caseStudy.title,
+                                    transform: 'noRatio',
+                                    ratio: false,
+                                    lazy: false,
+                                    svgInline: true,
+                                    imgClass: heroClasses.logoImage|join(' ')|trim
+                                }
+                            } only %}
+
+                        </div>
+
+                    {% endif %}
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h1',
+                            heading: heading,
+                            colour: 'white',
+                            size: '5xl',
+                            alternateStyle: 'fluro',
+                            class: heroClasses.heading|join(' ')|trim
+                        }
+                    } only %}
+
+                </div>
+
+                {% if text|striptags|trim|length %}
+
+                    {% include '_components/richText' with {
+                        params: {
+                            content: text,
+                            colour: 'white',
+                            class: heroClasses.text|join(' ')|trim
+                        }
+                    } only %}
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+{% endembed %}

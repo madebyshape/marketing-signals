@@ -8,7 +8,12 @@
 
 {% block site %}
 
-    {# Hero Case Study #}
+    {% include '_components/heroCaseStudy' with {
+        params: {
+            entry: entry,
+            vars: vars
+        }
+    } only %}
 
     {# Blocks #}
     {{ entry.blocks.render({
