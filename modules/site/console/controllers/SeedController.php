@@ -6,6 +6,7 @@ use craft\console\Controller;
 use craft\helpers\Console;
 use modules\site\seed\BlockSeeder;
 use modules\site\seed\Seed;
+use modules\site\seed\SeedCategoryOutcome;
 use modules\site\seed\SeedEntryOutcome;
 use modules\site\seed\SeedException;
 use modules\site\seed\SeedFieldOutcome;
@@ -61,14 +62,18 @@ class SeedController extends Controller
             $this->outputEntry($entry);
         }
 
-        // Images and related entries follow, as they are resolved before the Block that names
-        // them is built.
+        // Images, related entries and categories follow, as they are resolved before the Block
+        // or the field that names them is written.
         foreach ($report->images as $image) {
             $this->outputImage($image);
         }
 
         foreach ($report->relations as $relation) {
             $this->outputRelation($relation);
+        }
+
+        foreach ($report->categories as $category) {
+            $this->outputCategory($category);
         }
 
         // The entry's own fields follow the images they name, and come before the Blocks, which
@@ -88,7 +93,7 @@ class SeedController extends Controller
             count(array_filter($report->blocks, static fn(SeedOutcome $o): bool => $o->action === SeedOutcome::SKIPPED)),
             count(array_filter($report->images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::UPLOADED)),
             count(array_filter($report->images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::REUSED)),
-            count($report->relations),
+            count($report->relations) + count($report->categories),
             count($report->fields),
             $this->dryRun ? ' — dry run, nothing written' : '',
         ));
@@ -134,6 +139,18 @@ class SeedController extends Controller
         $this->stdout("{$relation->field}  ");
         $this->stdout("“{$relation->slug}”", Console::FG_GREY);
         $this->stdout("  {$relation->title}\n", Console::FG_CYAN);
+    }
+
+    /**
+     * One line per category a Categories field named, so the Seed's titles can be read off
+     * against the group each was found in, or created in.
+     */
+    private function outputCategory(SeedCategoryOutcome $category): void
+    {
+        $this->stdout(sprintf('%-9s', $category->action), $category->action === SeedCategoryOutcome::CREATED ? Console::FG_GREEN : Console::FG_YELLOW);
+        $this->stdout("{$category->field}  ");
+        $this->stdout("“{$category->title}”", Console::FG_GREY);
+        $this->stdout("  in “{$category->group}”\n", Console::FG_CYAN);
     }
 
     private function outputOutcome(SeedOutcome $outcome): void
