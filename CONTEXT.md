@@ -121,7 +121,7 @@ _Avoid_: Button row, CTA group, actions
 ### Heroes
 
 **Hero**:
-The top of a page, always rendered before the Blocks. On a page it is the single entry from the Hero field; on a Case Study it is the Case Study Hero. A page has at most one.
+The top of a page, always rendered before the Blocks. On a page it is the single entry from the Hero field; on a Case Study it is the Case Study Hero; on a Service it is the Service Hero. A page has at most one.
 _Avoid_: Hero block, banner, page header, masthead
 
 **Hero Layout**:
@@ -161,12 +161,24 @@ The client's Logo shown in white at the bottom of a Case Study Hero. When an edi
 _Avoid_: Client logo, hero brand, white logo
 
 **Hero Heading**:
-The heading of a Case Study Hero, with its Highlight in fluro. When empty the Tag Line stands in, then the title, so the page always has a heading.
+The heading of a Case Study Hero or a Service Hero, with its Highlight in fluro on a Case Study and in secondary on a Service. When empty the title stands in, on a Case Study after the Tag Line, so the page always has a heading.
 _Avoid_: Hero title, banner heading
 
 **Hero Text**:
-The short paragraph beside the Hero Heading in a Case Study Hero. Empty means nothing is shown.
+The short paragraph beside the Hero Heading in a Case Study Hero, or beneath it in a Service Hero. Empty means nothing is shown.
 _Avoid_: Hero copy, intro, strapline
+
+**Service Hero**:
+The full-screen black Hero at the top of every Service page, built from the Service's own Hero Heading, Hero Text, Hero Button, Hero Avatar Group and Hero Video rather than a Hero Layout, so an editor never picks it. The Breadcrumb sits at its top; the heading, text, button and Avatar Group sit in the left column with the Hero Video filling the right.
+_Avoid_: Service banner, service page hero, hero layout
+
+**Hero Button**:
+The single button beneath the Hero Text in a Service Hero, with the Avatar Group beside it. Empty means nothing is shown.
+_Avoid_: Hero CTA, hero link
+
+**Hero Video**:
+The Video field of a Service Hero, filling the right of the panel. With a Provider it is a Poster with the Play Button; with only a Poster it is a plain image; with neither the panel holds the content alone.
+_Avoid_: Hero image, hero media, side video
 
 **Breadcrumb**:
 The trail of Crumbs at the top of a Hero: Home, then the page's parents in order, then the page itself. Derived from the page, never set by editors.
@@ -253,7 +265,7 @@ _Avoid_: Border, separator, rule, line
 ### Service Carousel
 
 **Service**:
-An entry in the Service section: one of the agency's digital marketing services, with a Description and a Thumbnail of its own.
+An entry in the Service section: one of the agency's digital marketing services, with a Description and a Thumbnail of its own, and a Service Hero at the top of its page.
 _Avoid_: Service page, offering, product
 
 **Service Carousel**:
