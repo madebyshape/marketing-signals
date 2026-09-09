@@ -419,16 +419,26 @@ A Block of an Eyebrow and a centred heading over two Logo Rows, one per half of 
 _Avoid_: Logo carousel, logo grid, client logos, brand ticker
 
 **Logo Row**:
-One of the two full-width rows of Logo Cells in a Client Marquee, offset from the other by half a cell.
+A full-width row of Logo Cells that Crawls: one of the two in a Client Marquee, offset from the other by half a cell, or the single row in a Logo Marquee.
 _Avoid_: Track, strip, band, ticker, lane
 
-**Logo Cell**:
-One bordered square in a Logo Row holding a Client's Logo, which fills black with the Logo in fluro while the pointer is over it. Not a link.
-_Avoid_: Tile, card, slot, item, logo box
-
 **Crawl**:
-The continuous sideways motion of a row that never stops: a Logo Row, leftwards in the first row and rightwards in the second and pausing while the pointer is over it, or a Work Marquee, leftwards and never pausing. Under reduced motion the row sits still.
+The continuous sideways motion of a row that never stops: a Client Marquee's Logo Rows, leftwards in the first and rightwards in the second and pausing while the pointer is over them; a Logo Marquee's Logo Row, leftwards and never pausing; or a Work Marquee, leftwards and never pausing. Under reduced motion the row sits still.
 _Avoid_: Marquee, scroll, ticker, autoplay, loop
+
+### Logo Marquee
+
+**Logo Marquee**:
+A Block of a Rule Label over one Logo Row of Logos the editor uploaded, that Crawls leftwards without pausing. Decoration for a Service page; it picks no Clients.
+_Avoid_: Logo carousel, logo strip, brand ticker, client logos, logo bar
+
+**Rule Label**:
+A short centred sentence sitting on a Rule that runs the full content width behind it, with part of the sentence in a heavier weight. The Logo Marquee is its first use.
+_Avoid_: Divider heading, line heading, section label, eyebrow
+
+**Logo Cell**:
+One fixed-width space in a Logo Row holding a Logo centred: bordered and lit under the pointer in a Client Marquee, plain in a Logo Marquee. Not a link.
+_Avoid_: Tile, card, slot, item, logo box
 
 ### Video Content
 
