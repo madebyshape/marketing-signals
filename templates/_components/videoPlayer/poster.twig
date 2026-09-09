@@ -4,6 +4,7 @@
     image: null,
     transform: '3x4',
     label: 'Play video',
+    shade: false,
     class: null
 } %}
 
@@ -32,6 +33,9 @@
     ],
     icon: [
         'fa-sharp fa-regular fa-play | text-[24px]'
+    ],
+    image: [
+        params.shade ? 'opacity-60'
     ]
 } %}
 
@@ -53,7 +57,8 @@
                 alt: '',
                 transform: params.transform,
                 focalPoint: true,
-                ratio: false
+                ratio: false,
+                wrapperClass: classes.image|join(' ')|trim
             }
         } only %}
 

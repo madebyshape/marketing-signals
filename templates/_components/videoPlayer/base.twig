@@ -11,6 +11,7 @@
     transform: '3x4',
     playerType: 'modal',
     label: 'Play video',
+    shade: false,
     modalLabel: 'Video player',
     class: null
 } %}
@@ -105,7 +106,8 @@
             {% include '_components/videoPlayer/inline' with {
                 params: {
                     poster: poster,
-                    transform: params.transform
+                    transform: params.transform,
+                    shade: params.shade
                 }
             } only %}
 
@@ -116,6 +118,7 @@
                     image: poster,
                     transform: params.transform,
                     label: params.label,
+                    shade: params.shade,
                     class: params.posterClass
                 }
             } only %}
