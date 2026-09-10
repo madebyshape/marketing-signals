@@ -12,7 +12,7 @@ The branch is code-reviewed against this spec before merge.
 
 ## Problem Statement
 
-The About Us page has a Hero and nothing else. The design follows it with "Meet Some Of Our Remote-first Team": a black panel of tall portrait tiles drifting past, each naming a person and their role, that open a profile when clicked. Twelve Team Members exist in the control panel with a portrait, a Job Role and Text, but the only Block that shows them is the Team Carousel, which needs a Quote and a Video and shows one person at a time. Nothing on the site shows the team as a group, nothing opens a person's Text, and every Block that picks entries shows nothing until an editor picks.
+The About Us page has a Hero and nothing else. The design follows it with "Meet Some Of Our Remote-first Team": a black panel of tall portrait tiles drifting past, each naming a person and their role, that open a profile when clicked. Team Members exist in the control panel with an Image, a Job Role, a Quote and Text, but the only Block that shows them is the Team Carousel, which needs a Quote and shows one person at a time. Nothing on the site shows the team as a group, nothing opens a person's Text, and every Block that picks entries shows nothing until an editor picks.
 
 ## Solution
 
