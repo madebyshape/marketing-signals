@@ -19,7 +19,8 @@
 
 {% set options = {
     listingType: {
-        caseStudy: 'entryCaseStudyListing'
+        caseStudy: 'entryCaseStudyListing',
+        service: 'entryServiceListing'
     },
     colour: {
         base: {
@@ -31,6 +32,11 @@
             link: 'text-white/70 transition-colors | hover:text-white focus:text-white',
             current: 'text-white underline',
             chevron: 'text-white/70'
+        },
+        'creme-500': {
+            link: 'text-creme-500 transition-colors | hover:text-white focus:text-white',
+            current: 'text-white underline',
+            chevron: 'text-creme-500'
         }
     }
 } %}

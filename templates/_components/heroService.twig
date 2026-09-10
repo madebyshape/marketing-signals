@@ -1,0 +1,187 @@
+{% set component = 'heroService' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    vars: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{# Named apart from `params` and `classes`, which the section embed shadows #}
+
+{% set service = params.entry %}
+{% set heading = service.heroHeading|striptags|trim|length ? service.heroHeading : service.title %}
+{% set text = service.heroText %}
+{% set button = service.heroButton %}
+{% set avatar = service.heroAvatarGroup %}
+{% set video = service.heroVideo %}
+{% set poster = video ? video.videoThumbnail.one() : null %}
+{% set hasSource = video and (video.videoUrl|trim|length or video.videoFile.one()) %}
+{% set hasMedia = hasSource or poster %}
+
+{# Classes #}
+
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
+
+{% set heroClasses = {
+    panel: [
+        'w-full overflow-hidden rounded-b-[30px] bg-black pb-10',
+        params.vars ? params.vars.class.siteMargin.x : 'px-10',
+        params.vars ? params.vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        hasMedia ? 'lg:flex lg:min-h-svh lg:flex-col',
+        params.class
+    ],
+    grid: [
+        'grid grid-cols-12 gap-x-5',
+        '|',
+        hasMedia ? 'lg:grow lg:grid-rows-[auto_1fr]'
+    ],
+    breadcrumb: [
+        'col-span-12',
+        '|',
+        'lg:col-span-7'
+    ],
+    content: [
+        'col-span-12 mt-15 grid grid-cols-1 gap-7.5',
+        '|',
+        'lg:col-span-7 lg:grid-cols-7 lg:gap-x-5 lg:row-start-2',
+        '|',
+        hasMedia ? 'lg:mt-0 lg:self-center' : 'xl:mt-[130px]'
+    ],
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-7xl lg:col-span-7 lg:text-9xl xl:text-11xl'
+    ],
+    text: [
+        'lg:col-span-6'
+    ],
+    actions: [
+        'flex flex-wrap items-center gap-5',
+        '|',
+        'lg:col-span-7'
+    ],
+    media: [
+        'col-span-12 mt-10',
+        '|',
+        'lg:col-span-5 lg:col-start-8 lg:row-span-2 lg:row-start-1 lg:mt-0'
+    ],
+    video: [
+        'aspect-3/4 w-full rounded-[20px]',
+        '|',
+        'lg:aspect-auto lg:h-full'
+    ]
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: {
+            paddingY: 'bottom',
+            paddingX: 'none'
+        }
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ heroClasses.panel|join(' ')|trim }}">
+
+            {# The Breadcrumb is the grid's first row so the media beside it starts on the header's edge. #}
+
+            <div class="{{ heroClasses.grid|join(' ')|trim }}">
+
+                {% include '_components/breadcrumb' with {
+                    params: {
+                        entry: service,
+                        colour: 'creme-500',
+                        class: heroClasses.breadcrumb|join(' ')|trim
+                    }
+                } only %}
+
+                <div class="{{ heroClasses.content|join(' ')|trim }}">
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h1',
+                            heading: heading,
+                            colour: 'creme-100',
+                            size: '5xl',
+                            alternateStyle: 'secondary',
+                            class: heroClasses.heading|join(' ')|trim
+                        }
+                    } only %}
+
+                    {% if text|striptags|trim|length %}
+
+                        {% include '_components/richText' with {
+                            params: {
+                                content: text,
+                                colour: 'creme-100',
+                                class: heroClasses.text|join(' ')|trim
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    {% if button|length or avatar.avatarName|length %}
+
+                        <div class="{{ heroClasses.actions|join(' ')|trim }}">
+
+                            {% include '_components/button' with {
+                                params: {
+                                    button: button
+                                }
+                            } only %}
+
+                            {% if avatar.avatarName|length %}
+
+                                {% include '_components/user' with {
+                                    params: {
+                                        image: avatar.avatar.one(),
+                                        heading: avatar.avatarName,
+                                        subHeading: avatar.avatarJobRole,
+                                        colour: 'creme-100',
+                                        size: 'sm'
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+                {% if hasMedia %}
+
+                    <div class="{{ heroClasses.media|join(' ')|trim }}">
+
+                        {% include '_components/videoPlayer/base' with {
+                            params: {
+                                video: video,
+                                transform: '3x4',
+                                playerType: video.videoDisplayType.value == 'inlinePlayer' ? 'inline' : 'modal',
+                                posterClass: 'rounded-[20px]',
+                                class: heroClasses.video|join(' ')|trim
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+{% endembed %}
