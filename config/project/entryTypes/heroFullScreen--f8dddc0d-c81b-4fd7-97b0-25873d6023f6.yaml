@@ -1,0 +1,133 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  d4b45790-c29b-4149-a205-78ae99b9b764:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 72e85afe-000c-4968-8e6e-5477f53536d9
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: 'Make words italic to highlight them. Shift and Enter breaks the line; lines after the first sit to the right.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: bc71e906-6f19-4b64-abe5-d18afaab8f0e
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9fb1b350-01e3-4502-aadf-549b1c4e5ef4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 80538e86-6428-49c2-91e1-9bec388619fb
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: null
+            instructions: 'Fills the hero behind the content, darkened. Empty is plain black.'
+            label: 'Background Image'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: cec63364-cbf3-405b-aece-aed93753e184
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4580bc09-b5c8-40a2-bff5-95f715403f50 # Video
+            handle: null
+            instructions: 'Modal Popup opens the video in the overlay. Inline Player plays it in place, muted, on hover. YouTube videos always open in the overlay. A Poster with no video shows as a picture.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8b5ab7fd-7e09-4949-9b0e-898ca023f600
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 76eddf97-1e60-49d1-b07e-b6b2895eab47
+            userCondition: null
+        name: Content
+        uid: 15e37422-b9ca-4cb6-8f52-2d42f82a9e14
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 9c2880cd-7d0d-494f-aeeb-4c0b30575fb5 # Padding - Hero
+            handle: padding
+            instructions: null
+            label: Padding
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 36a6c323-ea40-4187-8678-8be4d423dca3
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: fdfad223-f433-4d45-b8c5-c2cc9b3df887
+        userCondition: null
+    thumbFieldKey: null
+handle: heroFullScreen
+hasTitleField: false
+icon: heading
+name: 'Hero - Full Screen'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
