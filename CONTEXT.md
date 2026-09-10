@@ -259,7 +259,7 @@ The line beneath a Statistic saying what it counts.
 _Avoid_: Label, caption, description
 
 **Divider**:
-The 1px black line between Statistics: vertical when they sit in a row, horizontal when they stack.
+The 1px line between siblings: black between Statistics, vertical when they sit in a row and horizontal when they stack; white between a Video CTA's heading and its Avatar Group.
 _Avoid_: Border, separator, rule, line
 
 ### Service Carousel
@@ -327,7 +327,7 @@ The client's logo image: on a Case Study, shown centred on its Slide as the Slid
 _Avoid_: Client logo, brand, mark, icon
 
 **Carousel Controls**:
-The Previous and Next pills beneath a carousel's Slides that move the row one Slide at a time.
+The Previous and Next buttons that move a carousel one Slide at a time: the text pills beneath the Slides by default, or the two icon circles where the design draws them.
 _Avoid_: Arrows, nav buttons, pagination, prev/next
 
 ### Case Study Grid
@@ -451,7 +451,7 @@ The still image that stands in for a video before it plays, with the Play Button
 _Avoid_: Thumbnail, cover, placeholder, video image
 
 **Play Button**:
-The lilac circle with a play glyph centred on a Poster.
+The lilac circle with a play glyph, centred on a Poster or at the bottom left of a Video CTA. It opens the Video Modal.
 _Avoid_: Play icon, CTA, trigger
 
 **Video Modal**:
@@ -513,6 +513,20 @@ _Avoid_: Sticky heading, fade, parallax, pin
 **Featured Testimonial**:
 A Block of one Testimonial in a black panel inside the site margins: an Eyebrow with a Rule over the quote, the Avatar Group and the Logo beneath it, and the Testimonial's Media filling the right of the panel. Below the desktop breakpoint the Media sits between the Eyebrow and the quote.
 _Avoid_: Testimonial block, single testimonial, quote block, hero testimonial, client quote
+
+### Team Carousel
+
+**Team Member**:
+An entry in the Team section: a person's name, Job Role, Image and Quote, with a Video when the editor adds one.
+_Avoid_: Staff, employee, author, person
+
+**Team Carousel**:
+A Block of Team Slides in a black panel inside the site margins, one Slide per Team Member the editor picked, with a fixed Eyebrow and Rule above them and the Carousel Controls at the end of the Avatar Group row.
+_Avoid_: Team testimonial, careers carousel, featured team, staff slider
+
+**Team Slide**:
+One Team Member's Quote with their Avatar Group beneath it and their Video or Image filling the right of the panel. Below the desktop breakpoint the media sits between the Eyebrow and the Quote.
+_Avoid_: Team card, testimonial slide, member slide
 
 ### FAQ Accordion
 
@@ -617,6 +631,20 @@ _Avoid_: Video block, full-width video, video embed, media block
 **Shade**:
 The 40% darkening over a Poster at rest that says a video is there. It fades away with the Poster when an Inline Video first plays. A Poster with no video has no Shade.
 _Avoid_: Overlay, tint, dim, gradient, darken
+
+### Video CTA
+
+**Video CTA**:
+A Block of an Eyebrow with a Rule at the top of a black panel inside the site margins, with the heading, a Divider and an Avatar Group along its bottom right and the Play Button at its bottom left. Its Video - Only field plays as an Ambient Video behind the content, or shows the Poster alone when there is no video.
+_Avoid_: Video banner, video hero, autoplay block, CTA video, background video block
+
+**Ambient Video**:
+A video that plays by itself behind a Block's content, muted and looping, with no Controls, from the moment the Block comes into view. It never plays under reduced motion, pauses while the Video Modal is open, and is never a YouTube video. The Video CTA is its first use.
+_Avoid_: Background video, autoplay video, hero video, looping video, inline video
+
+**Video Shadows**:
+The two gradients over a Video CTA's media, a light one at the top and a heavy one at the bottom, that keep the Eyebrow and the heading readable over the video. They stay while the Ambient Video plays.
+_Avoid_: Shade, overlay, gradient, vignette, fade
 
 ### Icon Grid
 
