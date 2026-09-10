@@ -26,23 +26,29 @@
 {% set blockClasses = {
     margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
     panel: [
-        'relative isolate rounded-[20px] bg-black',
+        'relative isolate flow-root rounded-[20px] bg-black',
         '|',
         '2xl:grid 2xl:grid-cols-12 2xl:gap-5'
     ],
     clip: 'absolute inset-0 -z-10 overflow-hidden rounded-[20px]',
     squiggle: 'absolute right-0 bottom-0 w-[34%] translate-x-[28%] translate-y-[40%]',
     cutout: [
-        'max-w-[393px]',
+        '-mt-15 ml-6.25 max-w-[min(60%,393px)]',
         '|',
-        '2xl:absolute 2xl:bottom-0 2xl:left-30 2xl:w-[393px]'
+        'md:ml-10',
+        '|',
+        'xl:-mt-25',
+        '|',
+        '2xl:absolute 2xl:bottom-0 2xl:left-30 2xl:m-0 2xl:w-[393px]'
     ],
     content: [
-        'flex flex-col items-start gap-7.5 p-6.25',
+        'box-content flex max-w-[778px] flex-col items-start gap-7.5 p-6.25',
         '|',
-        '2xl:col-start-6 2xl:col-end-13 2xl:max-w-[778px] 2xl:px-0 2xl:py-30'
+        'md:p-10',
+        '|',
+        image ? '2xl:col-start-6 2xl:col-end-13 2xl:px-0 2xl:py-30' : '2xl:col-span-full 2xl:px-25 2xl:py-30'
     ],
-    heading: 'font-semibold leading-0.97 tracking-tighter'
+    heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl | 2xl:text-9xl'
 } %}
 
 {# Output #}
@@ -86,7 +92,7 @@
                                 alt: '',
                                 transform: '3x5',
                                 position: 'top-center',
-                                sizes: '(min-width: 1536px) 393px, 100vw',
+                                sizes: '(min-width: 768px) 393px, 60vw',
                                 wrapperClass: blockClasses.cutout|join(' ')|trim,
                                 imgClass: 'w-full h-full object-cover'
                             }
@@ -101,7 +107,7 @@
                                 tag: 'h2',
                                 heading: entry.heading,
                                 colour: 'creme-100',
-                                size: '9xl',
+                                size: '5xl',
                                 alternateStyle: 'secondary',
                                 class: blockClasses.heading
                             }
