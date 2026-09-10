@@ -59,6 +59,54 @@ fieldLayouts:
             uid: bb82166d-ad08-4d55-8062-aaf6737370ea
             userCondition: null
           -
+            dateAdded: '2026-09-10T15:24:52+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d597df6b-0bcc-4778-ba58-b286b6889fb2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T15:24:52+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d04a4542-8915-4ec5-8f5e-1d26474603de
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T15:24:52+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c08276b4-951f-4222-9e12-73622b78b6e0 # Avatar Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8415b793-6902-48aa-9980-6212d99dd8fc
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2026-08-28T12:04:14+00:00'
             dismissible: false
             elementCondition: null
