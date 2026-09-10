@@ -202,7 +202,9 @@ meta:
     93bb0c13-89fe-4d68-9853-576b7d1238a6: 'Entry Site' # Entry Site
     94a26b89-4e28-433a-91e9-894a0248710f: 'Categories - Service' # Categories - Service
     101f8024-59d6-48df-9744-ccf3da6ef824: 'Dropdown - Star Rating' # Dropdown - Star Rating
+    250a614d-a573-422d-aeed-1716dd6d4d5e: 'Scrolling Cards' # Scrolling Cards
     298fa7b6-abc0-4c80-a004-8fa35a30bf35: 'Button Group' # Button Group
+    419fd065-b523-4ca1-b185-1b82546c312b: 'Scrolling Cards' # Scrolling Cards
     443a1739-83a4-481f-bcf4-71cd0d14bb00: 'Entry - Blog' # Entry - Blog
     453f9294-407d-405a-b73b-d5b63aec2eaa: SEO # SEO
     502c0610-e74d-4359-8524-5652307ada64: Padding # Padding
@@ -279,6 +281,7 @@ meta:
     eebfd246-f9aa-4d59-99e5-d4aaba54acba: 'Entry - Brand Guidelines' # Entry - Brand Guidelines
     f3e544b8-88bf-4761-8df2-d767fa1502b7: Text # Text
     f7b5b560-85eb-4827-a39b-b24c863ae5c3: 'Links To - No Label' # Links To - No Label
+    f7b9ffb6-c3c5-4bef-98aa-844c0fe6f842: 'Scrolling Card' # Scrolling Card
     f8dddc0d-c81b-4fd7-97b0-25873d6023f6: 'Hero - Full Screen' # Hero - Full Screen
     f18e57cc-fd7c-4892-a604-aa68a1598318: 'Stacking Cards' # Stacking Cards
     f54fdb7f-5fd1-41e9-a4c3-63791f1316b8: 'Marquee - Client' # Marquee - Client

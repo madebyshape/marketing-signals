@@ -1,0 +1,133 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  42f1054c-29b8-40eb-aebf-7fd0519ec20b:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 2212511c-f432-41ee-a08a-bc31d625a60a
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 2b2ce16f-1c89-4d0e-9f3d-b379c8bba24c
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 439706e5-af2d-41b6-8315-7892feb8c228
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 250a614d-a573-422d-aeed-1716dd6d4d5e # Scrolling Cards
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b5661eb3-8b0f-4f8c-808d-745192dcec48
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: ef095ef0-ab6b-4e62-b33d-827dd9c5e5f0
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b696b009-258c-4de6-9634-77d6c7011ab9
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c08276b4-951f-4222-9e12-73622b78b6e0 # Avatar Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: acb57004-4251-40e5-9ee8-fe3c232344d8
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: de2874a8-9ae1-4887-9afd-78013d2c7ca2
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c877f5aa-0fab-43be-ab0b-ba250481e9af
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 37339fbc-959e-4453-9d1e-11052771a9eb
+        userCondition: null
+    thumbFieldKey: null
+handle: scrollingCards
+hasTitleField: false
+icon: cards-blank
+name: 'Scrolling Cards'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
