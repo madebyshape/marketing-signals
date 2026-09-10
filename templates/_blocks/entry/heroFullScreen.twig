@@ -31,7 +31,7 @@
     ],
     background: 'pointer-events-none absolute inset-0',
     overlay: 'pointer-events-none absolute inset-0 bg-black/75',
-    breadcrumb: 'relative',
+    breadcrumbRegion: 'relative w-fit',
     headingBlock: 'relative flex grow flex-col justify-center py-10',
     heading: 'font-semibold leading-0.97 tracking-tighter | md:text-8xl lg:text-10xl xl:text-12xl xl:leading-0.92',
     firstLine: 'block',
@@ -69,7 +69,13 @@
 %}
     {% block sectionContent %}
 
-        <div class="{{ blockClasses.panel|join(' ')|trim }}">
+        <div
+            class="{{ blockClasses.panel|join(' ')|trim }}"
+            x-data="scrollCue"
+            x-on:pointerenter="raise()"
+            x-on:pointerleave="lower()"
+            x-on:click="scrollPast()"
+        >
 
             {% if backgroundImage %}
 
@@ -93,13 +99,21 @@
 
             {% endif %}
 
-            {% include '_components/breadcrumb' with {
-                params: {
-                    entry: entry.owner,
-                    colour: 'white',
-                    class: blockClasses.breadcrumb
-                }
-            } only %}
+            <div
+                class="{{ blockClasses.breadcrumbRegion }}"
+                x-on:pointerenter="lower()"
+                x-on:pointerleave="raise()"
+                x-on:click.stop
+            >
+
+                {% include '_components/breadcrumb' with {
+                    params: {
+                        entry: entry.owner,
+                        colour: 'white'
+                    }
+                } only %}
+
+            </div>
 
             <div class="{{ blockClasses.headingBlock }}">
 
@@ -128,7 +142,12 @@
 
                 {% if hasVideo or poster %}
 
-                    <div class="{{ blockClasses.video }}">
+                    <div
+                        class="{{ blockClasses.video }}"
+                        x-on:pointerenter="lower()"
+                        x-on:pointerleave="raise()"
+                        x-on:click.stop
+                    >
 
                         {% include '_components/videoPlayer/base' with {
                             params: {
