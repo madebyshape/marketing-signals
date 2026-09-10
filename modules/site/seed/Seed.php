@@ -30,7 +30,8 @@ readonly class Seed
      *                             the entry must already exist.
      * @param string|null $type the entry type to create the entry as, or to switch an existing
      *                          entry to. Missing, a created entry takes its section's only type.
-     * @param string|null $title the title a created entry is given.
+     * @param string|null $title the title a created entry is given, and the title an entry that
+     *                           already exists is mended to.
      * @param string|null $parent the slug, in the same section, a created entry is placed under.
      *                            Missing, it goes at the end of the structure.
      * @param bool $replace whether every Block already in the target field is removed before the
@@ -117,13 +118,18 @@ readonly class Seed
         $postDate = self::postDate($data);
 
         // These describe an entry being created, which only “section” asks for.
-        foreach (['title' => $title, 'parent' => $parent, 'postDate' => $postDate] as $key => $value) {
+        foreach (['parent' => $parent, 'postDate' => $postDate] as $key => $value) {
             if ($value !== null && $section === null) {
                 throw new SeedException(sprintf(
                     'Seed’s “%s” only applies to an entry the command creates, so it needs “section” too.',
                     $key,
                 ));
             }
+        }
+
+        // A title creates an entry or mends the one already there, and both find it in a section.
+        if ($title !== null && $section === null) {
+            throw new SeedException('Seed’s “title” needs “section” too, so that it names one entry.');
         }
 
         $replace = $data['replace'] ?? false;

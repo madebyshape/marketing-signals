@@ -11,13 +11,106 @@
 {% set hero = entry.hero.one() %}
 {% set headerColour = hero ? headerColours[hero.type.handle]|default('creme-100') : 'creme-100' %}
 
+{# Service List #}
+
+{% set services = craft.entries().section('service').all() %}
+{% set avatar = entry.avatarGroup %}
+
+{# Options #}
+
+{% set pageOptions = {
+    schemes: ['white', 'black', 'secondary', 'fluro', 'creme-200'],
+    sizes: '(min-width: 1024px) 40vw, 100vw'
+} %}
+
+{# Classes #}
+
+{% set pageClasses = {
+    list: 'flex flex-col gap-5',
+    item: 'lg:motion-safe:sticky lg:motion-safe:top-[100px] lg:motion-safe:h-[min(760px,calc(100vh-120px))]',
+    card: 'lg:motion-safe:h-full',
+    footer: [
+        'flex flex-col items-center justify-center gap-5',
+        services|length ? 'mt-12.5' : '',
+        '|',
+        'lg:flex-row'
+    ]
+} %}
+
 {% block site %}
 
     {{ entry.hero.render({
         vars: vars
     }) }}
 
-    {# Service Grid #}
+    {% if services|length or entry.button|length or avatar.avatarName|length %}
+
+        {% embed '_components/section' with {
+            params: {
+                paddingY: 'topBottom',
+                paddingYSize: 'base'
+            }
+        } %}
+            {% block sectionContent %}
+
+                {% if services|length %}
+
+                    <ul class="{{ pageClasses.list }}">
+
+                        {% for service in services %}
+
+                            <li class="{{ pageClasses.item }}">
+
+                                {% include '_components/serviceCard' with {
+                                    params: {
+                                        service: service,
+                                        number: loop.index,
+                                        scheme: cycle(pageOptions.schemes, loop.index0),
+                                        sizes: pageOptions.sizes,
+                                        class: pageClasses.card
+                                    }
+                                } only %}
+
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                {% endif %}
+
+                {% if entry.button|length or avatar.avatarName|length %}
+
+                    <div class="{{ pageClasses.footer|join(' ')|trim }}">
+
+                        {% include '_components/button' with {
+                            params: {
+                                button: entry.button,
+                                colour: 'secondary'
+                            }
+                        } only %}
+
+                        {% if avatar.avatarName|length %}
+
+                            {% include '_components/user' with {
+                                params: {
+                                    image: avatar.avatar.one(),
+                                    heading: avatar.avatarName,
+                                    subHeading: avatar.avatarJobRole,
+                                    size: 'sm'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endblock %}
+        {% endembed %}
+
+    {% endif %}
 
     {# Blocks #}
     {{ entry.blocks.render({

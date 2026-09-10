@@ -22,10 +22,10 @@
         left: 'top-1/2 -left-1 -translate-x-full -translate-y-1/2'
     },
     style: {
-        base: 'bg-zinc-900 text-white rounded w-[max-content]'
+        base: 'bg-black text-creme-100 rounded-[5px] w-[max-content]'
     },
     size: {
-        base: 'p-2 text-xs'
+        base: 'px-2.5 py-2 text-sm'
     }
 } %}
 
@@ -40,7 +40,7 @@
         'cursor-pointer'
     ],
     content: [
-        'motion-safe:transition absolute w-[max-content]',
+        'motion-safe:transition-opacity motion-safe:duration-200 absolute w-[max-content]',
         options.style[params.style],
         options.size[params.size],
         options.position[params.position]
@@ -53,9 +53,7 @@
 
     <div x-data="{ visible: false }" class="{{ classes.wrapper|join(' ')|trim }}">
         <div 
-            type="{{ classes.button|join(' ')|trim }}" 
-            aria-label="Tooltip" 
-            class="cursor-pointer" 
+            class="{{ classes.button|join(' ')|trim }}"
             x-on:mouseover="visible = true" 
             x-on:mouseleave="visible = false"
         >

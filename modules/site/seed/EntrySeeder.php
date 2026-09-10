@@ -12,9 +12,9 @@ use craft\models\Section;
  * section holds none with the Seed's slug, so a Seed can reach a page nobody has made yet.
  *
  * A rerun finds what the first run created and skips creation. A `type` on an entry that already
- * exists switches it. Nothing here updates a title, a slug, a parent or a post date: the keys
- * create and switch, and an entry is the editor's from then on. A dry run resolves and reports
- * the same way and saves nothing.
+ * exists switches it, and a `title` mends it. Nothing here updates a slug, a parent or a post
+ * date: the keys create, switch and retitle, and an entry is the editor's from then on. A dry run
+ * resolves and reports the same way and saves nothing.
  */
 class EntrySeeder
 {
@@ -57,6 +57,7 @@ class EntrySeeder
         }
 
         $this->switchType($entry);
+        $this->mendTitle($entry);
 
         return $entry;
     }
@@ -157,6 +158,34 @@ class EntrySeeder
         $entry->setTypeId($type->id);
 
         $this->outcomes[] = SeedEntryOutcome::switched($this->seed->entry, $current->handle, $type->handle);
+
+        if (!$this->dryRun) {
+            $this->save($entry);
+        }
+    }
+
+    /**
+     * Sets the title the Seed names on an entry that already exists, which is how a title copied
+     * from the design with a line break in it is mended. A title that already matches is left
+     * alone, so a rerun writes nothing.
+     *
+     * @throws SeedException
+     */
+    private function mendTitle(Entry $entry): void
+    {
+        if ($this->seed->title === null) {
+            return;
+        }
+
+        if ($entry->title === $this->seed->title) {
+            $this->outcomes[] = SeedEntryOutcome::titled($this->seed->entry, $this->seed->title);
+
+            return;
+        }
+
+        $entry->title = $this->seed->title;
+
+        $this->outcomes[] = SeedEntryOutcome::retitled($this->seed->entry, $this->seed->title);
 
         if (!$this->dryRun) {
             $this->save($entry);
