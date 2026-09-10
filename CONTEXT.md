@@ -437,7 +437,7 @@ A full-width row of Logo Cells that Crawls: one of the two in a Client Marquee, 
 _Avoid_: Track, strip, band, ticker, lane
 
 **Crawl**:
-The continuous sideways motion of a row that never stops: a Client Marquee's Logo Rows, leftwards in the first and rightwards in the second and pausing while the pointer is over them; a Logo Marquee's Logo Row, leftwards and never pausing; or a Work Marquee, leftwards and never pausing. Under reduced motion the row sits still.
+The continuous sideways motion of a row that never stops: a Client Marquee's Logo Rows, leftwards in the first and rightwards in the second and pausing while the pointer is over them; a Logo Marquee's Logo Row, leftwards and never pausing; a Work Marquee, leftwards and never pausing; or a Team Marquee's row of Team Tiles, leftwards and pausing under the pointer, while a Team Tile has focus and while the Team Modal is open. Under reduced motion the row sits still.
 _Avoid_: Marquee, scroll, ticker, autoplay, loop
 
 ### Logo Marquee
@@ -541,6 +541,20 @@ _Avoid_: Team testimonial, careers carousel, featured team, staff slider
 **Team Slide**:
 One Team Member's Quote with their Avatar Group beneath it and their Video or Image filling the right of the panel. Below the desktop breakpoint the media sits between the Eyebrow and the Quote.
 _Avoid_: Team card, testimonial slide, member slide
+
+### Team Marquee
+
+**Team Marquee**:
+A Block of a centred heading with the Highlight over one row of Team Tiles that Crawls, in a black panel inside the site margins. Shows the Team Members the editor picked, or the first eight with an Image when nobody is picked.
+_Avoid_: Team slider, staff carousel, meet the team, team cards
+
+**Team Tile**:
+One Team Member's Image with their name and Job Role over a bottom fade and a plus icon, in a Team Marquee. Clicking it opens the Team Modal. A Team Member without an Image has no Team Tile.
+_Avoid_: Team card, member card, profile card, slide
+
+**Team Modal**:
+The overlay that opens from a Team Tile: the Team Member's Image on the left with the close button over it, and their name, Job Role, a Rule and Text on the right. Closed by its close button, its backdrop or Escape.
+_Avoid_: Lightbox, popup, team pop up, profile modal, dialog
 
 ### FAQ Accordion
 
