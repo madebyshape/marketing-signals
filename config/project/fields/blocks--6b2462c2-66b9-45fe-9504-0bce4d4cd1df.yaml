@@ -124,6 +124,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 9f7a3bdc-1be7-4939-9cb1-6472c41ba7c2 # Marquee - Team
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - a644e662-8b0e-44bd-bbac-da76b709e24f # Statistics
         -
           - group
