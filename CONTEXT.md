@@ -125,7 +125,7 @@ The top of a page, always rendered before the Blocks. On a page it is the single
 _Avoid_: Hero block, banner, page header, masthead
 
 **Hero Layout**:
-One entry type the Hero field offers an editor. Hero Simple and Hero Home are the two; Hero Template is the scaffold developers copy and is not offered to editors. The Hero Layout on a page decides its Header Colour.
+One entry type the Hero field offers an editor. Hero Simple, Hero Home and Hero Full Screen are the three; Hero Template is the scaffold developers copy and is not offered to editors. The Hero Layout on a page decides its Header Colour.
 _Avoid_: Hero type, hero variant, hero block
 
 **Hero Simple**:
@@ -134,7 +134,7 @@ _Avoid_: Simple hero, text hero, default hero
 
 **Hero Home**:
 The full-screen black Hero Layout of a very large heading with the Highlight, a short text beneath it, a Button Group, and a Work Marquee along its bottom edge, with the Scroll Cue over it. Made for the Home page, offered on any page.
-_Avoid_: Home hero, homepage hero, landing hero, full-screen hero
+_Avoid_: Home hero, homepage hero, landing hero
 
 **Work Marquee**:
 The row of Work Tiles that Crawls leftwards along the bottom of a Hero Home, tilted and running off both edges, fading into the black beneath. Decoration, not a link.
@@ -145,15 +145,19 @@ One portrait image in a Work Marquee, from the editor's Images field. The Work T
 _Avoid_: Card, slide, image, photo, cell
 
 **Scroll Cue**:
-The Cursor Label over a Hero Home that reads "Scroll" beside a small circled down arrow, inviting the visitor down the page. Clicking it scrolls to the first Block.
+The Cursor Label over a Hero Home or a Hero Full Screen that reads "Scroll" beside a small circled down arrow, inviting the visitor down the page. Clicking it scrolls to the first Block.
 _Avoid_: Scroll indicator, scroll hint, scroll button, mouse icon
+
+**Hero Full Screen**:
+The full-screen Hero Layout of a Breadcrumb over a two-line heading with the Highlight, the first line against the left margin and the second against the right, with a short text at the bottom left and a Hero Video at the bottom right, all over a Hero Image under a dark overlay, with the Scroll Cue over it.
+_Avoid_: Full-screen hero, video hero, image hero, about hero
 
 **Case Study Hero**:
 The full-screen Hero at the top of every Case Study page, built from the Case Study's own Hero Image, Hero Logo, Hero Heading and Hero Text rather than a Hero Layout, so an editor never picks it. The Breadcrumb sits at its top and the Logo, heading and text sit at its bottom.
 _Avoid_: Case study banner, project hero, hero layout
 
 **Hero Image**:
-The photograph that fills a Case Study Hero behind its content, darkened by shades at its top and bottom. Without one the Case Study Hero is plain black.
+The photograph that fills a Case Study Hero or a Hero Full Screen behind its content, darkened by shades at the top and bottom of a Case Study Hero and by a dark overlay across the whole of a Hero Full Screen. Without one the Hero is plain black.
 _Avoid_: Background image, cover image, banner image
 
 **Hero Logo**:
@@ -177,7 +181,7 @@ The single button beneath the Hero Text in a Service Hero, with the Avatar Group
 _Avoid_: Hero CTA, hero link
 
 **Hero Video**:
-The Video field of a Service Hero, filling the right of the panel. With a Provider it is a Poster with the Play Button; with only a Poster it is a plain image; with neither the panel holds the content alone.
+The Video field of a Service Hero, filling the right of the panel, or of a Hero Full Screen, a small thumbnail at the bottom right. With a Provider it is a Poster with the Play Button; with only a Poster it is a plain image; with neither the panel holds the content alone.
 _Avoid_: Hero image, hero media, side video
 
 **Breadcrumb**:
@@ -293,7 +297,7 @@ The indicator beneath a carousel saying how far through its Slides the visitor i
 _Avoid_: Pagination, dots, progress bar, indicator, counter
 
 **Cursor Label**:
-The custom cursor that follows the pointer over an element on fine-pointer devices, saying what a click there does: on a Slide or a Case Study Card, what it links to, such as "Find Out More" or "View Case Study"; on a Hero Home, the Scroll Cue. Where a Slide gives no other cue, a button on the Slide says the same on coarse-pointer devices.
+The custom cursor that follows the pointer over an element on fine-pointer devices, saying what a click there does: on a Slide or a Case Study Card, what it links to, such as "Find Out More" or "View Case Study"; on a Hero Home or a Hero Full Screen, the Scroll Cue. Where a Slide gives no other cue, a button on the Slide says the same on coarse-pointer devices.
 _Avoid_: Hover cursor, cursor follower, tooltip, CTA
 
 ### Case Study Carousel
