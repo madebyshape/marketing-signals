@@ -1,10 +1,12 @@
+{% set component = 'scrollCue' %}
+
 {# Callers mark lowered regions with lower() on enter, raise() on leave and click.stop #}
 
 {# prettier-ignore-start #}
 {% js %}
 
     document.addEventListener('alpine:init', () => {
-        Alpine.data('scrollCue', () => ({
+        Alpine.data('{{ component }}', () => ({
             fine: false,
             init() {
 
