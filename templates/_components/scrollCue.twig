@@ -1,0 +1,46 @@
+{# Callers mark lowered regions with lower() on enter, raise() on leave and click.stop #}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('scrollCue', () => ({
+            fine: false,
+            init() {
+
+                this.fine = window.matchMedia('(pointer: fine)').matches;
+
+            },
+            raise() {
+
+                if (!this.fine) {
+                    return;
+                }
+
+                this.$dispatch('component-cursor', { active: true, text: 'Scroll', icon: 'fa-arrow-down', style: 'outline' });
+
+            },
+            lower() {
+
+                if (!this.fine) {
+                    return;
+                }
+
+                this.$dispatch('component-cursor', { active: false });
+
+            },
+            scrollPast() {
+
+                if (!this.fine) {
+                    return;
+                }
+
+                // Lenis owns the page's scroll, so the move goes through it.
+                window.lenis.scrollTo(this.$el.getBoundingClientRect().bottom + window.scrollY);
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
