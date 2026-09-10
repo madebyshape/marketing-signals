@@ -72,12 +72,17 @@
 
 {% set playerType = params.playerType == 'ambient' ? 'ambient' : ((params.playerType == 'inline' and provider != 'youtube') ? 'inline' : 'modal') %}
 
+{# Likewise an ambient Video of YouTube keeps its still Poster. #}
+
+{% set ambientVideo = playerType == 'ambient' and provider in ['vimeo', 'file'] %}
+
 {% set props = {
     provider: provider,
     videoId: vimeoId ?? youtubeId,
     videoHash: videoHash,
     videoSrc: videoFile ? videoFile.url : null,
-    inline: playerType == 'inline'
+    inline: playerType == 'inline',
+    ambient: ambientVideo
 } %}
 
 {# Classes #}
@@ -109,7 +114,8 @@
         {% include '_components/videoPlayer/ambient' with {
             params: {
                 poster: poster,
-                transform: params.transform
+                transform: params.transform,
+                video: ambientVideo
             }
         } only %}
 

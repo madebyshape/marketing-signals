@@ -19,6 +19,8 @@
             started: false,
             ended: false,
             wanted: false,
+            ambientAdapter: null,
+            ambientStarted: false,
 
             init() {
 
@@ -37,6 +39,16 @@
                         this.fullscreen = element === this.$refs.panel;
                     });
                 });
+
+                // The Ambient Video waits for the panel to first come into view, so the page loads without an embed.
+                if (props.ambient && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    const observer = new IntersectionObserver((entries) => {
+                        if (!entries.some((entry) => entry.isIntersecting)) return;
+                        observer.disconnect();
+                        this.createAmbient();
+                    });
+                    observer.observe(this.$el);
+                }
 
             },
 
@@ -76,10 +88,36 @@
 
             },
 
+            // A second Provider player that loops muted behind the content, never unmuted and without Controls.
+            createAmbient() {
+
+                const provider = window.videoPlayerProviders ? window.videoPlayerProviders[props.provider] : null;
+
+                if (!provider) return;
+
+                this.ambientAdapter = provider.create(this.$refs.ambient, {
+                    videoId: props.videoId,
+                    videoHash: props.videoHash,
+                    videoSrc: props.videoSrc,
+                    muted: true,
+                    loop: true,
+                    background: true,
+                    // The Video Modal may have opened while the player was loading.
+                    onReady: () => { this.visible ? this.ambientAdapter.pause() : this.ambientAdapter.play(); },
+                    onPlay: () => { this.ambientStarted = true; },
+                    onPause: () => {},
+                    onEnded: () => {},
+                    onTimeUpdate: () => {}
+                });
+
+            },
+
             open() {
 
                 this.visible = true;
                 document.body.classList.add('overflow-hidden');
+
+                if (this.ambientAdapter) this.ambientAdapter.pause();
 
                 // The close button is only focusable once x-show has revealed the modal.
                 this.$nextTick(() => this.$refs.close.focus());
@@ -96,6 +134,7 @@
                 document.body.classList.remove('overflow-hidden');
 
                 if (this.adapter) this.adapter.pause();
+                if (this.ambientAdapter) this.ambientAdapter.play();
 
                 this.$refs.poster.focus();
 
