@@ -764,6 +764,16 @@ _Avoid_: Stack, sticky cards, pin, scroll-jack, parallax
 The button and Avatar Group centred beneath the Service List, set by editors on the Service Listing page. It renders when either is set, with or without Services.
 _Avoid_: CTA row, footer CTA, services footer
 
+### Banner CTA
+
+**Banner CTA**:
+A Block of a black panel inside the site margins holding a heading with the Highlight, a short text and a Button, with a Cutout standing on the panel's bottom edge and the Squiggle in fluro behind the content. Side by side from the wide desktop breakpoint; below it the Cutout sits above the content.
+_Avoid_: CTA banner, promo banner, careers banner, image banner, callout
+
+**Cutout**:
+A photograph of a person with a transparent background that stands on a panel's bottom edge and rises above the panel's top. The Banner CTA is its first use.
+_Avoid_: Person image, portrait, PNG, floating image, sticker
+
 ### Seeding
 
 **Seed**:
