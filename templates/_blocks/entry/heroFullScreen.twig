@@ -1,0 +1,173 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'bottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Background Image #}
+
+{% set backgroundImage = entry.image.one() %}
+
+{# Hero Video #}
+
+{% set video = entry.video %}
+{% set poster = video ? video.videoThumbnail.one() : null %}
+{% set hasVideo = video and (video.videoUrl|trim|length or video.videoFile.one()) %}
+
+{# Classes #}
+
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
+
+{% set blockClasses = {
+    panel: [
+        'relative flex w-full min-h-svh flex-col overflow-hidden rounded-b-[30px] bg-black pb-10',
+        vars is defined ? vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        vars is defined ? vars.class.siteMargin.x : 'px-10'
+    ],
+    background: 'pointer-events-none absolute inset-0',
+    overlay: 'pointer-events-none absolute inset-0 bg-black/75',
+    breadcrumbRegion: 'relative w-fit',
+    headingBlock: 'relative flex grow flex-col justify-center py-10',
+    heading: 'font-semibold leading-0.97 tracking-tighter | md:text-8xl lg:text-10xl xl:text-12xl xl:leading-0.92',
+    firstLine: 'block',
+    laterLine: 'block | lg:text-right',
+    bottomRow: 'relative flex flex-col gap-7.5 | lg:flex-row lg:items-end lg:justify-between',
+    video: 'relative h-[150px] w-[237px] shrink-0 overflow-hidden rounded-[20px] bg-black'
+} %}
+
+{# Heading Lines #}
+
+{# Each line of the editor's break becomes a block span, so the whole heading stays one h1. #}
+
+{% set headingLines = (entry.heading ?? '')|trim
+    |replace('/<\\/?p\\b[^>]*>/', '')
+    |replace('/<br\\s*\\/?>|\\r?\\n/', '<br>')
+    |split('<br>')
+    |filter(line => line|striptags|trim|length)
+%}
+
+{% set headingSpans = [] %}
+
+{% for line in headingLines %}
+    {% set headingSpans = headingSpans|merge(['<span class="' ~ (loop.first ? blockClasses.firstLine : blockClasses.laterLine) ~ '">' ~ line|trim ~ '</span>']) %}
+{% endfor %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: params|merge({
+            paddingY: params.padding,
+            paddingX: 'none'
+        })
+    }
+%}
+    {% block sectionContent %}
+
+        <div
+            class="{{ blockClasses.panel|join(' ')|trim }}"
+            x-data="scrollCue"
+            x-on:pointerenter="raise()"
+            x-on:pointerleave="lower()"
+            x-on:click="scrollPast()"
+        >
+
+            {% if backgroundImage %}
+
+                <div class="{{ blockClasses.background }}">
+
+                    {% include '_components/picture' with {
+                        params: {
+                            image: backgroundImage,
+                            alt: '',
+                            transform: 'noRatioLarge',
+                            lazy: false,
+                            priority: true,
+                            ratio: false,
+                            focalPoint: true
+                        }
+                    } only %}
+
+                </div>
+
+                <div class="{{ blockClasses.overlay }}"></div>
+
+            {% endif %}
+
+            <div
+                class="{{ blockClasses.breadcrumbRegion }}"
+                x-on:pointerenter="lower()"
+                x-on:pointerleave="raise()"
+                x-on:click.stop
+            >
+
+                {% include '_components/breadcrumb' with {
+                    params: {
+                        entry: entry.owner,
+                        colour: 'white'
+                    }
+                } only %}
+
+            </div>
+
+            <div class="{{ blockClasses.headingBlock }}">
+
+                {% include '_components/headingAlternate' with {
+                    params: {
+                        tag: 'h1',
+                        heading: headingSpans|join,
+                        colour: 'creme-100',
+                        size: '5xl',
+                        alternateStyle: 'secondary',
+                        class: blockClasses.heading
+                    }
+                } only %}
+
+            </div>
+
+            <div class="{{ blockClasses.bottomRow }}">
+
+                {% include '_components/richText' with {
+                    params: {
+                        content: entry.text,
+                        colour: 'creme-100',
+                        size: '3xl'
+                    }
+                } only %}
+
+                {% if hasVideo or poster %}
+
+                    <div
+                        class="{{ blockClasses.video }}"
+                        x-on:pointerenter="lower()"
+                        x-on:pointerleave="raise()"
+                        x-on:click.stop
+                    >
+
+                        {% include '_components/videoPlayer/base' with {
+                            params: {
+                                video: video,
+                                transform: '16x10',
+                                playerType: video.videoDisplayType.value == 'inlinePlayer' ? 'inline' : 'modal',
+                                size: 'sm',
+                                posterClass: 'rounded-[20px]',
+                                modalLabel: 'Video player',
+                                class: 'size-full'
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+{% endembed %}

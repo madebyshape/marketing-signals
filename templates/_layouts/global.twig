@@ -65,6 +65,11 @@
 	{# Mounted once and raised by window event, so Blocks need no cursor of their own. #}
     {% include '_components/cursor' %}
 
+	{# Scroll Cue #}
+
+	{# Registered once so every Hero binds x-data="scrollCue" to the same behaviour. #}
+    {% include '_components/scrollCue' %}
+
 	{# Layout Guidelines #}
     {% include '_components/layoutGuidelines' %}
 

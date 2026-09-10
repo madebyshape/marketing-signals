@@ -11,6 +11,7 @@
     transform: '3x4',
     playerType: 'modal',
     label: 'Play video',
+    size: 'base',
     shade: false,
     modalLabel: 'Video player',
     playButtonClass: 'absolute bottom-5 left-5 z-10 | lg:bottom-10 lg:left-10',
@@ -168,6 +169,7 @@
                 params: {
                     poster: poster,
                     transform: params.transform,
+                    size: params.size,
                     shade: params.shade
                 }
             } only %}
@@ -179,6 +181,7 @@
                     image: poster,
                     transform: params.transform,
                     label: params.label,
+                    size: params.size,
                     shade: params.shade,
                     class: params.posterClass
                 }
