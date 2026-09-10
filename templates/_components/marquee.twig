@@ -72,53 +72,77 @@
 {% js %}
 
     document.addEventListener('alpine:init', () => {
-        Alpine.data('{{ params.component }}', (props = {}) => ({
-            init() {
+        Alpine.data('{{ params.component }}', (props = {}) => {
 
-                const tracks = [this.$refs.trackOne, this.$refs.trackTwo];
+            // Held outside the data object so Alpine doesn't make them reactive.
+            let marqueeLoop = null;
+            let held = false;
 
-                const config = {
-                    reversed: props.reversed ?? false,
-                    repeat: props.repeat ?? -1,
-                    speed: props.speed ?? 1,
-                    pauseOnHover: props.pauseOnHover ?? false
-                };
+            const pause = () => {
+                if (marqueeLoop) gsap.to(marqueeLoop, { timeScale: 0, overwrite: true });
+            };
 
-                gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+            // Leaving the row cannot restart a Crawl its caller is holding.
+            const play = () => {
+                if (marqueeLoop && !held) gsap.to(marqueeLoop, { timeScale: 1, overwrite: true });
+            };
 
-                    const marqueeLoop = gsapHorizontalLoop(tracks, {
-                        reversed: config.reversed,
-                        repeat: config.repeat,
-                        speed: config.speed
-                    });
+            return {
+                init() {
 
-                    {% block jsContent %}
-                    {% endblock %}
+                    const tracks = [this.$refs.trackOne, this.$refs.trackTwo];
 
-                    if (!config.pauseOnHover) {
-                        return;
-                    }
-
-                    const pause = () => gsap.to(marqueeLoop, { timeScale: 0, overwrite: true });
-                    const play = () => gsap.to(marqueeLoop, { timeScale: 1, overwrite: true });
-
-                    tracks.forEach((track) => {
-                        track.addEventListener('mouseenter', pause);
-                        track.addEventListener('mouseleave', play);
-                    });
-
-                    return () => {
-                        tracks.forEach((track) => {
-                            track.removeEventListener('mouseenter', pause);
-                            track.removeEventListener('mouseleave', play);
-                        });
+                    const config = {
+                        reversed: props.reversed ?? false,
+                        repeat: props.repeat ?? -1,
+                        speed: props.speed ?? 1,
+                        pauseOnHover: props.pauseOnHover ?? false
                     };
 
-                });
+                    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
 
-            }
+                        marqueeLoop = gsapHorizontalLoop(tracks, {
+                            reversed: config.reversed,
+                            repeat: config.repeat,
+                            speed: config.speed
+                        });
 
-        }))
+                        {% block jsContent %}
+                        {% endblock %}
+
+                        if (!config.pauseOnHover) {
+                            return;
+                        }
+
+                        tracks.forEach((track) => {
+                            track.addEventListener('mouseenter', pause);
+                            track.addEventListener('mouseleave', play);
+                        });
+
+                        return () => {
+                            tracks.forEach((track) => {
+                                track.removeEventListener('mouseenter', pause);
+                                track.removeEventListener('mouseleave', play);
+                            });
+                        };
+
+                    });
+
+                },
+
+                // A caller stops the Crawl through these, as the Team Modal does while it is open.
+                hold() {
+                    held = true;
+                    pause();
+                },
+
+                release() {
+                    held = false;
+                    play();
+                }
+            };
+
+        })
     })
 
 {% endjs %}

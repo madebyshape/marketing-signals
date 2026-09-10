@@ -9,6 +9,10 @@
 
 {% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
 
+{# Component #}
+
+{% set component = params.handle ~ entry.id %}
+
 {# Team Tiles #}
 
 {# A pick is shown as made; only an empty pick falls back to the first eight with an Image, and never tops a short one up. #}
@@ -36,7 +40,8 @@
         {% set tiles = tiles|merge([{
             name: member.title,
             jobRole: member.jobRole,
-            image: image
+            image: image,
+            text: member.text
         }]) %}
 
     {% endif %}
@@ -119,7 +124,7 @@
 %}
     {% block sectionContent %}
 
-        <div class="{{ blockClasses.margin }}">
+        <div class="{{ blockClasses.margin }}" x-data="{{ component }}">
 
             <div class="{{ blockClasses.panel|join(' ')|trim }}">
 
@@ -144,14 +149,17 @@
 
                 {% if tiles|length %}
 
+                    {# The Crawl reads the Block's modal state, so it holds while the Team Modal is open. #}
+
                     {% embed '_components/marquee' with {
                         params: {
-                            component: params.handle ~ entry.id,
+                            component: component ~ 'Crawl',
                             gap: 'none',
                             props: {
                                 speed: crawlSpeed,
                                 pauseOnHover: true
-                            }
+                            },
+                            attributes: 'x-effect="visible ? hold() : release()"'
                         }
                     } %}
                         {% block marqueeContent %}
@@ -165,6 +173,7 @@
                                     <button
                                         type="button"
                                         class="{{ blockClasses.tile|join(' ')|trim }}"
+                                        x-on:click="open({{ loop.index0 }}, $el)"
                                     >
 
                                         {% include '_components/picture' with {
@@ -217,6 +226,13 @@
                         {% endblock %}
                     {% endembed %}
 
+                    {% include '_components/teamModal' with {
+                        params: {
+                            id: component,
+                            members: tiles
+                        }
+                    } only %}
+
                 {% endif %}
 
             </div>
@@ -225,3 +241,44 @@
 
     {% endblock %}
 {% endembed %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+
+            visible: false,
+            opener: null,
+
+            // One Team Modal serves every Tile, filled from the member's hidden template on each open.
+            open(index, opener) {
+
+                this.$refs.content.replaceChildren(this.$refs['member' + index].content.cloneNode(true));
+
+                this.opener = opener;
+                this.visible = true;
+                document.body.classList.add('overflow-hidden');
+
+                // The close button is only focusable once x-show has revealed the modal.
+                this.$nextTick(() => this.$refs.close.focus());
+
+            },
+
+            close() {
+
+                if (!this.visible) return;
+
+                this.visible = false;
+                document.body.classList.remove('overflow-hidden');
+
+                // Scrolling the Tile into view would jump the Crawl's clipped row.
+                this.opener.focus({ preventScroll: true });
+
+            }
+
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
