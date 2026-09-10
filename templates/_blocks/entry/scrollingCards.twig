@@ -30,17 +30,20 @@
         {
             card: 'bg-white',
             heading: 'base',
-            text: 'black'
+            text: 'black',
+            tilt: 'lg:-rotate-2'
         },
         {
             card: 'bg-black',
             heading: 'white',
-            text: 'white'
+            text: 'white',
+            tilt: 'lg:rotate-2'
         },
         {
             card: 'bg-secondary',
             heading: 'base',
-            text: 'black'
+            text: 'black',
+            tilt: 'lg:-rotate-3'
         }
     ]
 } %}
@@ -48,6 +51,8 @@
 {# Classes #}
 
 {% set siteMargin = vars is defined ? vars.class.siteMargin.x : 'px-10' %}
+
+{# `pinned` classes carry no group pipe: Alpine reads them as a class list. #}
 
 {% set blockClasses = {
     frame: 'relative overflow-hidden',
@@ -70,7 +75,17 @@
         siteMargin,
         '|',
         'md:flex-row'
-    ]
+    ],
+    pinned: {
+        frame: 'lg:flex lg:flex-col lg:justify-center-safe lg:h-screen',
+        header: 'lg:mb-19.25',
+        stage: 'lg:pl-[24vw]',
+        track: 'lg:flex-row lg:will-change-transform',
+        card: 'lg:flex-row lg:shrink-0 lg:w-[52vw] lg:min-h-[354px]',
+        slot: 'lg:shrink-0 lg:w-[calc(100%/3_-_14px)] lg:aspect-auto',
+        content: 'lg:pl-12.5 lg:pr-15',
+        footer: 'lg:mt-11.25'
+    }
 } %}
 
 {# Output #}
@@ -90,12 +105,16 @@
             <div
                 class="{{ blockClasses.frame }}"
                 x-data="{{ component }}"
+                x-bind:class="{ '{{ blockClasses.pinned.frame }}': pinned }"
                 x-ref="frame"
             >
 
                 {% if hasEyebrow %}
 
-                    <div class="{{ blockClasses.header|join(' ')|trim }}">
+                    <div
+                        class="{{ blockClasses.header|join(' ')|trim }}"
+                        x-bind:class="{ '{{ blockClasses.pinned.header }}': pinned }"
+                    >
 
                         {% include '_components/eyebrow' with {
                             params: {
@@ -110,20 +129,37 @@
 
                 {% endif %}
 
-                <div class="{{ blockClasses.stage|join(' ')|trim }}" x-ref="stage">
+                <div
+                    class="{{ blockClasses.stage|join(' ')|trim }}"
+                    x-bind:class="{ '{{ blockClasses.pinned.stage }}': pinned }"
+                    x-ref="stage"
+                >
 
-                    <ul class="{{ blockClasses.track }}" x-ref="track">
+                    <ul
+                        class="{{ blockClasses.track }}"
+                        x-bind:class="{ '{{ blockClasses.pinned.track }}': pinned }"
+                        x-ref="track"
+                    >
 
                         {% for card in cards %}
 
                             {% set scheme = cycle(blockOptions.scheme, loop.index0) %}
                             {% set image = card.image.one() %}
 
-                            <li class="{{ [blockClasses.card, scheme.card]|join(' ')|trim }}">
+                            {# Focus inside a card scrolls the pinned row to it. #}
+
+                            <li
+                                class="{{ [blockClasses.card, scheme.card]|join(' ')|trim }}"
+                                x-bind:class="{ '{{ blockClasses.pinned.card }} {{ scheme.tilt }}': pinned }"
+                                x-on:focusin="focusCard({{ loop.index0 }})"
+                            >
 
                                 {% if image %}
 
-                                    <div class="{{ blockClasses.slot }}">
+                                    <div
+                                        class="{{ blockClasses.slot }}"
+                                        x-bind:class="{ '{{ blockClasses.pinned.slot }}': pinned }"
+                                    >
 
                                         {% include '_components/picture' with {
                                             params: {
@@ -140,7 +176,10 @@
 
                                 {% endif %}
 
-                                <div class="{{ blockClasses.content }}">
+                                <div
+                                    class="{{ blockClasses.content }}"
+                                    x-bind:class="{ '{{ blockClasses.pinned.content }}': pinned }"
+                                >
 
                                     {% include '_components/headingAlternate' with {
                                         params: {
@@ -176,7 +215,10 @@
 
                 {% if hasButton or hasAvatar %}
 
-                    <div class="{{ blockClasses.footer|join(' ')|trim }}">
+                    <div
+                        class="{{ blockClasses.footer|join(' ')|trim }}"
+                        x-bind:class="{ '{{ blockClasses.pinned.footer }}': pinned }"
+                    >
 
                         {% if hasButton %}
 
@@ -218,8 +260,74 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('{{ component }}', () => {
 
+            // Held outside the data object so Alpine doesn't make it reactive.
+            let trigger = null;
+
             return {
-                pinned: false
+                pinned: false,
+                init() {
+
+                    if (this.$refs.track.children.length < 2) {
+                        return;
+                    }
+
+                    gsap.matchMedia().add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', (context) => {
+
+                        this.pinned = true;
+
+                        // Next tick so the widths are measured off the row Alpine has just written.
+                        this.$nextTick(() => context.add(() => {
+
+                            const tween = gsap.to(this.$refs.track, {
+                                x: () => -this.travel(),
+                                ease: 'none',
+                                scrollTrigger: {
+                                    trigger: this.$refs.frame,
+                                    pin: this.$refs.frame,
+                                    start: 'top top',
+                                    end: () => '+=' + this.travel(),
+                                    scrub: true,
+                                    invalidateOnRefresh: true
+                                }
+                            });
+
+                            trigger = tween.scrollTrigger;
+
+                        }));
+
+                        return () => {
+                            this.pinned = false;
+                            trigger = null;
+                        };
+
+                    });
+
+                },
+                step() {
+
+                    const track = this.$refs.track;
+
+                    return track.children[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap || 0);
+
+                },
+                travel() {
+
+                    return (this.$refs.track.children.length - 1) * this.step();
+
+                },
+                focusCard(index) {
+
+                    if (!trigger) {
+                        return;
+                    }
+
+                    // Lenis owns the page's scroll, so the move goes through it.
+                    window.lenis.scrollTo(trigger.start + index * this.step());
+
+                    // Hidden overflow still scrolls; stop the browser shunting the frame sideways to reveal focus.
+                    this.$refs.frame.scrollLeft = 0;
+
+                }
             };
 
         })
