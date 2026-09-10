@@ -84,6 +84,38 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-10T08:25:06+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: quote
+            instructions: null
+            label: Quote
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: af26075e-9e7d-4e8a-b347-9d4eab57625f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T08:25:06+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4580bc09-b5c8-40a2-bff5-95f715403f50 # Video
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 704dce5a-aed7-4ac8-9447-3cfe59f564c0
+            userCondition: null
+            warning: null
+            width: 100
         name: 'Element Content'
         uid: 7f6acbd8-1755-4cd7-ba8d-7bf0f4516972
         userCondition: null
