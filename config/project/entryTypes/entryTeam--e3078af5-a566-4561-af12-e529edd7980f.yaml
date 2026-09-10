@@ -101,18 +101,18 @@ fieldLayouts:
             warning: null
             width: 100
           -
-            dateAdded: '2026-09-10T08:25:06+00:00'
+            dateAdded: '2026-09-10T08:42:37+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 4580bc09-b5c8-40a2-bff5-95f715403f50 # Video
-            handle: null
+            fieldUid: 43da3acd-b36b-47e5-b95c-d22e2c6454de # Video - Only
+            handle: video
             instructions: null
-            label: null
+            label: Video
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 704dce5a-aed7-4ac8-9447-3cfe59f564c0
+            uid: 2acbe471-899f-4c9e-b3fd-2040e11182d6
             userCondition: null
             warning: null
             width: 100

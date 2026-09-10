@@ -1,0 +1,168 @@
+columnSuffix: null
+handle: videoOnly
+instructions: null
+name: 'Video - Only'
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - ed608f50-ce6c-4e99-bdbe-55ab3af9436c
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    1:
+                      - uid
+                      - a6262de1-419a-4e4d-88d4-2a915ae4f839
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - videoUrl
+                            2:
+                              - label
+                              - 'Video URL'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-10T08:41:57+00:00'
+                            9:
+                              - uid
+                              - 0ddc2a1e-730c-4e5b-8b49-a76802e10044
+                            11:
+                              - elementCondition
+                              -
+                                __assoc__:
+                                  -
+                                    - elementType
+                                    - craft\elements\ContentBlock
+                                  -
+                                    - fieldContext
+                                    - global
+                                  -
+                                    - class
+                                    - craft\elements\conditions\ElementCondition
+                                  -
+                                    - conditionRules
+                                    -
+                                      - { __assoc__: [[class, craft\fields\conditions\OptionsFieldConditionRule], [uid, 93aea637-d022-43da-9f15-96ca9ca63ec0], [operator, in], [values, [url]], [fieldUid, 6708a79d-c929-45c4-82f1-b440db7d759d], [layoutElementUid, ce284909-5b26-4b52-a75e-68bdf072ac10]] } # Dropdown - Video Type
+                            12:
+                              - fieldUid
+                              - f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - videoFile
+                            2:
+                              - label
+                              - 'Video File'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-10T08:41:57+00:00'
+                            9:
+                              - uid
+                              - 01870460-5031-4105-975a-a220647ade36
+                            11:
+                              - elementCondition
+                              -
+                                __assoc__:
+                                  -
+                                    - elementType
+                                    - craft\elements\ContentBlock
+                                  -
+                                    - fieldContext
+                                    - global
+                                  -
+                                    - class
+                                    - craft\elements\conditions\ElementCondition
+                                  -
+                                    - conditionRules
+                                    -
+                                      - { __assoc__: [[class, craft\fields\conditions\OptionsFieldConditionRule], [uid, dbd631a3-0518-4be3-969f-9391e5f481e2], [operator, in], [values, [file]], [fieldUid, 6708a79d-c929-45c4-82f1-b440db7d759d], [layoutElementUid, ce284909-5b26-4b52-a75e-68bdf072ac10]] } # Dropdown - Video Type
+                            12:
+                              - fieldUid
+                              - 2fa69ca1-0da9-4b6b-910a-16d9b40d3cad # File
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - videoThumbnail
+                            2:
+                              - label
+                              - 'Video Thumbnail'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-10T08:41:57+00:00'
+                            9:
+                              - uid
+                              - 428c68d9-e6f9-489e-ae95-e66132d95b00
+                            12:
+                              - fieldUid
+                              - 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - videoType
+                            2:
+                              - label
+                              - 'Video Type'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-10T08:41:57+00:00'
+                            9:
+                              - uid
+                              - ce284909-5b26-4b52-a75e-68bdf072ac10
+                            12:
+                              - fieldUid
+                              - 6708a79d-c929-45c4-82f1-b440db7d759d # Dropdown - Video Type
+            4:
+              - cardThumbAlignment
+              - end
+  viewMode: grouped
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock
