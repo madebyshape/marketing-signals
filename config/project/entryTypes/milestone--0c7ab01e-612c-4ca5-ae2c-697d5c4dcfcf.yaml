@@ -1,0 +1,90 @@
+allowLineBreaksInTitles: false
+color: purple
+description: null
+fieldLayouts:
+  a9b7300d-7edf-4366-9217-b1ea224ae04d:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: year
+            instructions: 'The year shown above the heading and in the Year Row, such as 2006.'
+            label: Year
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0912167a-083b-44fd-930b-f3737b86090a
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: 'Italic words show in the accent colour.'
+            label: null
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f0a3fab2-2e14-4776-a96c-c1538ea797cf
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4844de29-15ce-4056-873a-098464865e22
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: cb336128-ebff-454c-84e0-9248097d4604 # Images (Max 3)
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: fc1f6041-c1c4-4bb0-bea2-93a3ef0839de
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 0f4abcca-3a51-487c-8b4e-5132f4485b9d
+        userCondition: null
+    thumbFieldKey: null
+handle: milestone
+hasTitleField: false
+icon: calendar
+name: Milestone
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{year}'

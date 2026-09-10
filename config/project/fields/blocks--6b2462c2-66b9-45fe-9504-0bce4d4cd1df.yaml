@@ -156,6 +156,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 7fbdabfa-25d4-4019-acca-997cce421316 # Timeline
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 9bc3b5b3-8512-4246-b1b8-d78eb6798dd5 # Video Content
         -
           - group

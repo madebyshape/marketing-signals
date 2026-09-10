@@ -144,6 +144,7 @@ meta:
     0acf1fd0-9723-4b0b-905b-b873b17bfdf7: 'Eyebrow, Heading & Text' # Eyebrow, Heading & Text
     0b4c11ad-51c9-43b6-a7cd-47a988cc8821: 'Contact Column' # Contact Column
     0b199c11-0b79-4e4b-b931-f9c85e23a667: Button # Button
+    0c7ab01e-612c-4ca5-ae2c-697d5c4dcfcf: Milestone # Milestone
     1d852893-eb82-4886-afbd-030682a843f8: 'Entries - Testimonial' # Entries - Testimonial
     01db3114-eb35-4fde-a697-e47250abb979: Playbook # Playbook
     1e8bf0d4-be2b-4c71-8c62-e6cbe9bc401d: Email # Email
@@ -172,6 +173,7 @@ meta:
     7bf65ac5-9169-4bf8-8825-65fadd566946: New # New
     7da91603-5ded-43ca-b8c9-692b445e049e: 'Rich Text - Longform' # Rich Text - Longform
     7f0dd947-99d8-4456-93f3-4ce4f6162a3f: 'Rich Text - Simple' # Rich Text - Simple
+    7fbdabfa-25d4-4019-acca-997cce421316: Timeline # Timeline
     8a84de3a-19bd-4528-a47b-1d207eda9858: Heading # Heading
     8b233bdd-f329-4553-af8e-2f8f4156f8cf: 'Menu Column' # Menu Column
     08c386f4-5a41-4c9f-8282-f6785af06bfc: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
@@ -255,10 +257,12 @@ meta:
     c354f48d-60f1-4040-825e-be40e03acd40: 'Entries - FAQ' # Entries - FAQ
     c803bdbf-5bdd-43e8-94e2-c7cde210fe37: 'Links To' # Links To
     cb6226c7-5901-41ed-ba28-a78b9504a3df: Images # Images
+    cb336128-ebff-454c-84e0-9248097d4604: 'Images (Max 3)' # Images (Max 3)
     ce59fcb1-fb86-46a3-81a4-f7d745761454: 'Entry - Case Study Listing' # Entry - Case Study Listing
     cf9f3773-3ba1-41d3-b95f-5467d0b9227a: 'Dropdown - Alignment' # Dropdown - Alignment
     cfeb9855-4c2c-423d-b40b-57d2dd12b46e: Team # Team
     d1bfe36b-4da4-4c86-a162-fa22d76b4ed8: Template # Template
+    d2a9f8dd-ebb9-4d78-a006-11ad40465058: Timeline # Timeline
     d6ef3fab-743e-41b5-bd93-a0a4c3cf42dd: 'Accordion Item' # Accordion Item
     d35d937a-07ca-4c88-bd62-1f65c807aa15: Statistics # Statistics
     d99bf7af-1eb1-4b77-814e-624eeec1a0e3: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
