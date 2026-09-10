@@ -1,0 +1,160 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set video = entry.videoOnly %}
+{% set poster = video ? video.videoThumbnail.one() : null %}
+{% set hasVideo = video and (video.videoUrl|trim|length or video.videoFile.one()) %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+
+{% set avatar = entry.avatarGroup %}
+{% set hasAvatar = avatar.avatarName|length > 0 %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: 'relative isolate overflow-hidden rounded-[20px] bg-black',
+    content: [
+        'relative z-10 flex aspect-4/5 flex-col gap-12.5 p-6.25',
+        '|',
+        'lg:aspect-[1520/689] lg:px-12.5 lg:pt-12.5 lg:pb-13'
+    ],
+    cluster: [
+        'mt-auto flex flex-col gap-5',
+        '|',
+        'lg:flex-row lg:items-end lg:justify-end lg:gap-0'
+    ],
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-4xl lg:max-w-[770px] lg:text-right lg:text-5xl'
+    ],
+    row: [
+        'flex items-center justify-between gap-5',
+        '|',
+        'lg:shrink-0'
+    ],
+    divider: [
+        'hidden',
+        '|',
+        'lg:mr-7.75 lg:ml-7.5 lg:block lg:h-19.25 lg:w-px lg:bg-white/50'
+    ],
+    playButton: 'lg:absolute lg:bottom-10 lg:left-10'
+} %}
+
+{# Output #}
+
+{% if hasHeading or poster or hasVideo %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.panel }}">
+
+                    {% embed '_components/videoPlayer/base'
+                        with {
+                            params: {
+                                video: video,
+                                playerType: 'ambient',
+                                transform: '16x9',
+                                modalLabel: 'Video player',
+                                playButtonClass: blockClasses.playButton
+                            }
+                        }
+                    %}
+                        {% block videoPlayerContent %}
+
+                            <div class="{{ blockClasses.content|join(' ')|trim }}">
+
+                                {% if hasEyebrow %}
+
+                                    {% include '_components/eyebrow' with {
+                                        params: {
+                                            text: entry.eyebrow,
+                                            colour: 'white',
+                                            rule: true,
+                                            ruleColour: 'white-30'
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                                <div class="{{ blockClasses.cluster|join(' ')|trim }}">
+
+                                    {% if hasHeading %}
+
+                                        {% include '_components/headingAlternate' with {
+                                            params: {
+                                                tag: 'h2',
+                                                heading: entry.heading,
+                                                colour: 'white',
+                                                size: '3xl',
+                                                alternateStyle: 'secondary',
+                                                class: blockClasses.heading|join(' ')|trim
+                                            }
+                                        } only %}
+
+                                    {% endif %}
+
+                                    {% if hasVideo or hasAvatar %}
+
+                                        <div class="{{ blockClasses.row|join(' ')|trim }}">
+
+                                            {{ parent() }}
+
+                                            {% if hasAvatar %}
+
+                                                <div class="{{ blockClasses.divider|join(' ')|trim }}" aria-hidden="true"></div>
+
+                                                {% include '_components/user' with {
+                                                    params: {
+                                                        image: avatar.avatar.one(),
+                                                        heading: avatar.avatarName,
+                                                        subHeading: avatar.avatarJobRole,
+                                                        colour: 'creme-100',
+                                                        size: 'xl'
+                                                    }
+                                                } only %}
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        {% endblock %}
+                    {% endembed %}
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

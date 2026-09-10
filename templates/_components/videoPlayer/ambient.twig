@@ -1,0 +1,56 @@
+{% set component = 'ambient' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    poster: null,
+    transform: '16x9',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'absolute inset-0 z-0 overflow-hidden bg-black pointer-events-none',
+        params.class
+    ],
+    poster: [
+        'opacity-80'
+    ],
+    shadowTop: [
+        'absolute inset-x-0 top-0 h-[30%] bg-linear-to-b from-black/30 to-transparent'
+    ],
+    shadowBottom: [
+        'absolute inset-x-0 bottom-0 h-[53%] bg-linear-to-t from-black/80 to-transparent'
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}" aria-hidden="true">
+
+    {% if params.poster %}
+
+        {% include '_components/picture' with {
+            params: {
+                image: params.poster,
+                alt: '',
+                transform: params.transform,
+                focalPoint: true,
+                ratio: false,
+                wrapperClass: classes.poster|join(' ')|trim
+            }
+        } only %}
+
+    {% endif %}
+
+    <div class="{{ classes.shadowTop|join(' ')|trim }}"></div>
+
+    <div class="{{ classes.shadowBottom|join(' ')|trim }}"></div>
+
+</div>

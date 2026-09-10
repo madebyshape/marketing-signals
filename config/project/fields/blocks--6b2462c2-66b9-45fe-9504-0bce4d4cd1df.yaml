@@ -160,6 +160,14 @@ settings:
         -
           - group
           - General
+    -
+      __assoc__:
+        -
+          - uid
+          - af21bfea-8fd9-454d-aebe-0a21a6be6d5b # Video - CTA
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: null
   minEntries: null
