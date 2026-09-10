@@ -28,6 +28,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 757798ef-4636-48d7-92ab-a4f0de5f9340 # Carousel - Featured Team
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - c72c0ecf-e02d-4d76-893c-18b1b2d9f1b6 # Carousel - Service
         -
           - group

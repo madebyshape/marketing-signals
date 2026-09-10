@@ -3,6 +3,7 @@
 {# Default Params #}
 
 {% set defaultParams = {
+    style: 'pill',
     colour: 'base',
     class: null,
 } %}
@@ -14,6 +15,10 @@
 {# Options #}
 
 {% set options = {
+    style: {
+        pill: '_components/button',
+        icon: '_components/buttonShape'
+    },
     colour: {
         base: {
             prev: 'creme-100-outline',
@@ -21,6 +26,10 @@
         },
         black: {
             prev: 'black-outline',
+            next: 'secondary'
+        },
+        'white-30-outline': {
+            prev: 'white-30-outline',
             next: 'secondary'
         }
     }
@@ -49,7 +58,9 @@
         { ref: 'next', label: 'Next', icon: 'fa-sharp fa-regular fa-arrow-right', iconPosition: 'after' }
     ] %}
 
-        {% include '_components/button' with {
+        {# The icon circles carry no text, so they take the label as an aria-label. #}
+
+        {% include options.style[params.style] with {
             params: {
                 type: 'button',
                 button: { label: control.label },
@@ -57,7 +68,7 @@
                 icon: control.icon,
                 iconPosition: control.iconPosition,
                 class: classes.control|join(' ')|trim,
-                attributes: 'x-ref="' ~ control.ref ~ '"'
+                attributes: 'x-ref="' ~ control.ref ~ '"' ~ (params.style == 'icon' ? ' aria-label="' ~ control.label ~ '"')
             }
         } only %}
 
