@@ -108,6 +108,14 @@ settings:
       __assoc__:
         -
           - uid
+          - fa94fd7e-c6f7-4d8a-a3d3-71a00e095d43 # Marquee - Logos
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - a644e662-8b0e-44bd-bbac-da76b709e24f # Statistics
         -
           - group

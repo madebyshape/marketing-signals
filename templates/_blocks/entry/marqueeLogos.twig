@@ -1,0 +1,156 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Logos #}
+
+{# Only an SVG takes the row's black, so a bitmap is left out rather than shown in its own colours #}
+
+{% set logos = [] %}
+
+{% for logo in entry.logos.all() %}
+
+    {% if logo.extension == 'svg' %}
+
+        {% set logos = logos|merge([logo]) %}
+
+    {% endif %}
+
+{% endfor %}
+
+{# Logo Row #}
+
+{# The Logos repeat to 8+ cells so a copy outruns the widest viewport and the seam never shows a gap #}
+
+{% set cellMinimum = 8 %}
+
+{# 0.4 on the marquee's scale is 40px a second #}
+
+{% set crawlSpeed = 0.4 %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    rule: "relative text-center before:absolute before:inset-x-0 before:top-1/2 before:h-px before:-translate-y-1/2 before:bg-creme-300 before:content-['']",
+    heading: 'relative inline box-decoration-clone bg-creme-100 px-[15px] font-normal leading-1.33 [&_strong]:font-medium',
+    row: [
+        'w-full overflow-hidden mt-10',
+        '|',
+        'lg:mt-19'
+    ],
+    cell: [
+        'flex h-10 w-40 shrink-0 items-center justify-center text-black',
+        '|',
+        'md:w-50 | lg:w-[267px]'
+    ],
+    logo: 'h-auto max-h-10 w-auto max-w-[60%]'
+} %}
+
+{# Output #}
+
+{% if logos|length %}
+
+    {% embed '_components/section' with {
+        params: params|merge({
+            paddingY: params.padding,
+            paddingX: 'none'
+        })
+    } %}
+        {% block sectionContent %}
+
+            {% if entry.heading|striptags|trim|length %}
+
+                <div class="{{ blockClasses.margin }}">
+
+                    <div class="{{ blockClasses.rule }}">
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'p',
+                                heading: entry.heading,
+                                colour: 'base',
+                                size: 'base',
+                                alternateStyle: 'base',
+                                class: blockClasses.heading
+                            }
+                        } only %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+            {# The row repeats each Logo, so this list names each once for screen readers #}
+
+            <ul class="sr-only">
+
+                {% for logo in logos %}
+
+                    <li>{{ logo.title }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+            <div
+                class="{{ blockClasses.row|join(' ')|trim }}"
+                aria-hidden="true"
+            >
+
+                {% set repeats = (cellMinimum / logos|length)|round(0, 'ceil') %}
+
+                {% embed '_components/marquee' with {
+                    params: {
+                        component: params.handle,
+                        gap: 'none',
+                        props: {
+                            reversed: false,
+                            speed: crawlSpeed,
+                            pauseOnHover: false
+                        }
+                    }
+                } %}
+                    {% block marqueeContent %}
+
+                        {% for repeat in 1..repeats %}
+
+                            {% for logo in logos %}
+
+                                <div class="{{ blockClasses.cell|join(' ')|trim }}">
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: logo,
+                                            alt: '',
+                                            transform: 'noRatio',
+                                            ratio: false,
+                                            lazy: false,
+                                            svgInline: true,
+                                            imgClass: blockClasses.logo
+                                        }
+                                    } only %}
+
+                                </div>
+
+                            {% endfor %}
+
+                        {% endfor %}
+
+                    {% endblock %}
+                {% endembed %}
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
