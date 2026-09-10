@@ -1,13 +1,18 @@
 {# Default Params #}
 
+{# pauseOnFocus: the loop eases to a stop while anything in a track has focus. #}
+{# accessibleCopy: the second track is hidden; the caller hides every copy but one where accessibleTrack is true. #}
+
 {% set defaultParams = {
     component: 'marquee',
     gap: 'base',
+    accessibleCopy: false,
     props: {
         reversed: false,
         repeat: -1,
         speed: 1,
-        pauseOnHover: false
+        pauseOnHover: false,
+        pauseOnFocus: false
     },
     class: null,
     attributes: null,
@@ -37,9 +42,12 @@
 
 {# Classes #}
 
+{# A running loop clips rather than hides its row, so focusing a copy can't scroll the row under it. #}
+
 {% set classes = {
     wrapper: [
         'w-full flex overflow-x-hidden relative',
+        params.accessibleCopy ? 'motion-safe:overflow-x-clip',
         params.class
     ],
     track: [
@@ -58,9 +66,13 @@
         {{ params.attributes|raw }}
     >
         {% for i in 0..1 %}
+
+            {% set accessibleTrack = params.accessibleCopy and loop.first %}
+
             <div
                 class="{{ classes.track|join(' ')|trim }}"
                 x-ref="{{ loop.first ? 'trackOne' : 'trackTwo' }}"
+                {% if params.accessibleCopy and not loop.first %}aria-hidden="true"{% endif %}
             >
                 {% block marqueeContent %}
                 {% endblock %}
@@ -77,14 +89,12 @@
             // Held outside the data object so Alpine doesn't make them reactive.
             let marqueeLoop = null;
             let held = false;
+            let hovered = false;
+            let focused = false;
 
-            const pause = () => {
-                if (marqueeLoop) gsap.to(marqueeLoop, { timeScale: 0, overwrite: true });
-            };
-
-            // Leaving the row cannot restart a Crawl its caller is holding.
-            const play = () => {
-                if (marqueeLoop && !held) gsap.to(marqueeLoop, { timeScale: 1, overwrite: true });
+            // Eases to a stop while anything holds the row, and back up once nothing does.
+            const settle = () => {
+                if (marqueeLoop) gsap.to(marqueeLoop, { timeScale: held || hovered || focused ? 0 : 1, overwrite: 'auto' });
             };
 
             return {
@@ -96,7 +106,52 @@
                         reversed: props.reversed ?? false,
                         repeat: props.repeat ?? -1,
                         speed: props.speed ?? 1,
-                        pauseOnHover: props.pauseOnHover ?? false
+                        pauseOnHover: props.pauseOnHover ?? false,
+                        pauseOnFocus: props.pauseOnFocus ?? false
+                    };
+
+                    const enter = () => {
+                        hovered = true;
+                        settle();
+                    };
+
+                    const leave = () => {
+                        hovered = false;
+                        settle();
+                    };
+
+                    // A focused copy the loop has carried out of view slides back to the middle of the row.
+                    const focusIn = (event) => {
+
+                        focused = true;
+                        settle();
+
+                        const row = this.$el.getBoundingClientRect();
+                        const item = event.target.getBoundingClientRect();
+
+                        if (item.left >= row.left && item.right <= row.right) return;
+
+                        // The loop moves speed × 100 pixels a second, so a shift in pixels is a shift in time.
+                        const shift = row.left + (row.width - item.width) / 2 - item.left;
+
+                        gsap.to(marqueeLoop, {
+                            time: marqueeLoop.time() - shift / (config.speed * 100),
+                            duration: 0.6,
+                            ease: 'power3.out',
+                            overwrite: 'auto',
+                            modifiers: { time: gsap.utils.wrap(0, marqueeLoop.duration()) }
+                        });
+
+                    };
+
+                    // Moving between copies keeps the row stopped; only leaving it lets go.
+                    const focusOut = (event) => {
+
+                        if (this.$el.contains(event.relatedTarget)) return;
+
+                        focused = false;
+                        settle();
+
                     };
 
                     gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
@@ -110,20 +165,21 @@
                         {% block jsContent %}
                         {% endblock %}
 
-                        if (!config.pauseOnHover) {
-                            return;
+                        const listeners = [];
+
+                        if (config.pauseOnHover) {
+                            tracks.forEach((track) => listeners.push([track, 'mouseenter', enter], [track, 'mouseleave', leave]));
                         }
 
-                        tracks.forEach((track) => {
-                            track.addEventListener('mouseenter', pause);
-                            track.addEventListener('mouseleave', play);
-                        });
+                        if (config.pauseOnFocus) {
+                            listeners.push([this.$el, 'focusin', focusIn], [this.$el, 'focusout', focusOut]);
+                        }
+
+                        listeners.forEach(([target, type, listener]) => target.addEventListener(type, listener));
 
                         return () => {
-                            tracks.forEach((track) => {
-                                track.removeEventListener('mouseenter', pause);
-                                track.removeEventListener('mouseleave', play);
-                            });
+                            listeners.forEach(([target, type, listener]) => target.removeEventListener(type, listener));
+                            marqueeLoop = null;
                         };
 
                     });
@@ -133,12 +189,12 @@
                 // A caller stops the Crawl through these, as the Team Modal does while it is open.
                 hold() {
                     held = true;
-                    pause();
+                    settle();
                 },
 
                 release() {
                     held = false;
-                    play();
+                    settle();
                 }
             };
 

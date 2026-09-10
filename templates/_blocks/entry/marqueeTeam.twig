@@ -88,7 +88,9 @@
         'md:text-6xl | lg:text-8xl'
     ],
     tile: [
-        'group relative mr-5 aspect-[493/693] w-[280px] shrink-0 cursor-pointer overflow-hidden rounded-[20px] bg-black text-left',
+        'group relative mr-5 aspect-[493/693] w-[280px] shrink-0 cursor-pointer overflow-hidden rounded-[20px] bg-black text-left ring-white/50',
+        '|',
+        'focus:outline-none focus-visible:ring-3',
         '|',
         'md:w-[360px] | lg:w-[420px] | 3xl:w-[493px]'
     ],
@@ -150,15 +152,19 @@
                 {% if tiles|length %}
 
                     {# The Crawl reads the Block's modal state, so it holds while the Team Modal is open. #}
+                    {# The padding keeps the Tile's focus ring clear of the row's overflow. #}
 
                     {% embed '_components/marquee' with {
                         params: {
                             component: component ~ 'Crawl',
                             gap: 'none',
+                            accessibleCopy: true,
                             props: {
                                 speed: crawlSpeed,
-                                pauseOnHover: true
+                                pauseOnHover: true,
+                                pauseOnFocus: true
                             },
+                            class: 'py-1 -my-1',
                             attributes: 'x-effect="visible ? hold() : release()"'
                         }
                     } %}
@@ -168,12 +174,17 @@
 
                                 {% set isFirstSet = loop.first %}
 
+                                {# Only the first set in the accessible track is tabbable and announced; a click can't focus a repeat. #}
+
+                                {% set isAccessibleSet = accessibleTrack and isFirstSet %}
+
                                 {% for tile in tiles %}
 
                                     <button
                                         type="button"
                                         class="{{ blockClasses.tile|join(' ')|trim }}"
                                         x-on:click="open({{ loop.index0 }}, $el)"
+                                        {% if not isAccessibleSet %}aria-hidden="true" tabindex="-1" x-on:mousedown.prevent{% endif %}
                                     >
 
                                         {% include '_components/picture' with {
@@ -272,8 +283,8 @@
                 this.visible = false;
                 document.body.classList.remove('overflow-hidden');
 
-                // Scrolling the Tile into view would jump the Crawl's clipped row.
-                this.opener.focus({ preventScroll: true });
+                // Scrolling the Tile into view would jump the Crawl's clipped row; a hidden repeat never takes focus.
+                if (this.opener.tabIndex > -1) this.opener.focus({ preventScroll: true });
 
             }
 
