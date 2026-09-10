@@ -542,6 +542,40 @@ _Avoid_: Team testimonial, careers carousel, featured team, staff slider
 One Team Member's Quote with their Avatar Group beneath it and their Video or Image filling the right of the panel. Below the desktop breakpoint the media sits between the Eyebrow and the Quote.
 _Avoid_: Team card, testimonial slide, member slide
 
+### Timeline
+
+**Timeline**:
+A Block of Milestones in a black panel inside the site margins, one Slide per Milestone the editor adds, with a fixed Eyebrow and Rule above them, the Carousel Controls beneath each Milestone's text and the Year Row along the panel's bottom.
+_Avoid_: History, journey, timeline carousel, years slider, our story
+
+**Milestone**:
+One entry in a Timeline: a Year, a heading with the Highlight, a short text and up to three Milestone Tiles. A Milestone without a Year or a heading is skipped.
+_Avoid_: Timeline item, year entry, event, step, slide
+
+**Year**:
+The short label an editor gives a Milestone, such as "2006", shown above its heading and as its Year Mark.
+_Avoid_: Date, label, title
+
+**Milestone Tiles**:
+A Milestone's images as tilted, rounded tiles overlapping each other on the right of the panel, each in the next Tile Slot in order. Below the desktop breakpoint they sit between the Eyebrow and the Year.
+_Avoid_: Image scatter, photo stack, collage, gallery, image group
+
+**Tile Slot**:
+One of the three positions for Milestone Tiles, fixing a tile's size, place and tilt: the first large at the top left, the second largest at the bottom right, the third small at the bottom left over both. Never chosen by editors.
+_Avoid_: Position, slot, placement, layer
+
+**Year Row**:
+The row of Year Marks on a thin track along the bottom of a Timeline, one per Milestone in order, with the Year Dash after the active one. Below the desktop breakpoint it scrolls sideways to keep the active Year Mark in view.
+_Avoid_: Pagination, dots, bullets, year nav, timeline bar, progress
+
+**Year Mark**:
+One Year in the Year Row: white when its Milestone is the one showing, creme 500 otherwise, and a button that slides the Timeline to its Milestone.
+_Avoid_: Bullet, dot, tab, pagination item, year button
+
+**Year Dash**:
+The short fluro segment of the Year Row's track after the active Year Mark, moving to follow it as the Milestone changes. Not drawn after the last Year Mark.
+_Avoid_: Progress bar, fill, indicator, highlight line
+
 ### Team Marquee
 
 **Team Marquee**:
