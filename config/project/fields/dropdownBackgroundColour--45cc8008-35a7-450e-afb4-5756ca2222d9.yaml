@@ -1,0 +1,45 @@
+columnSuffix: null
+handle: dropdownBackgroundColour
+instructions: null
+name: 'Dropdown - Background Colour'
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Black
+        -
+          - value
+          - black
+        -
+          - icon
+          - ''
+        -
+          - color
+          - '#0e0a10'
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Cream
+        -
+          - value
+          - cream
+        -
+          - icon
+          - ''
+        -
+          - color
+          - '#f3f0e8'
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

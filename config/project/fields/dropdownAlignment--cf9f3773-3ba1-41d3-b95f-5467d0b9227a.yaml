@@ -1,0 +1,45 @@
+columnSuffix: null
+handle: dropdownAlignment
+instructions: null
+name: 'Dropdown - Alignment'
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Left
+        -
+          - value
+          - left
+        -
+          - icon
+          - align-left
+        -
+          - color
+          - ''
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Center
+        -
+          - value
+          - center
+        -
+          - icon
+          - align-center
+        -
+          - color
+          - ''
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown
