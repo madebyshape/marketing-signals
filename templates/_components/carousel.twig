@@ -92,6 +92,7 @@
 
     document.addEventListener('alpine:init', () => {
         Alpine.data('{{ component }}', (props) => ({
+            swiper: null,
             activeIndex: 0,
             slideCount: 0,
             isBeginning: true,
@@ -123,6 +124,7 @@
                     } : {}),
                 });
 
+                _self.swiper = swiper;
                 _self.slideCount = swiper.slides.length;
 
                 // Free mode never fires slideChange, so the edges follow the translate.
@@ -144,6 +146,14 @@
                 swiper.on('update', () => {
                     _self.slideCount = swiper.slides.length;
                 });
+
+            },
+            slideTo(index) {
+
+                // Swiper's methods run on the raw instance, not Alpine's reactive proxy of it.
+                const swiper = Alpine.raw(this.swiper);
+
+                swiper.slideToLoop(index, swiper.params.speed);
 
             },
         }));
