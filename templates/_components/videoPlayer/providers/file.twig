@@ -10,8 +10,9 @@
 
             const video = document.createElement('video');
 
-            // Muted before the source is set, so an inline video is allowed to autoplay.
-            if (options.muted) video.muted = true;
+            // Muted before the source is set, so an inline or background video is allowed to autoplay.
+            if (options.muted || options.background) video.muted = true;
+            if (options.loop) video.loop = true;
 
             video.src = options.videoSrc;
             video.preload = 'none';

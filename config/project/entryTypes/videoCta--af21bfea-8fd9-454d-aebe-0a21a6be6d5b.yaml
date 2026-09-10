@@ -1,0 +1,126 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  8f8ba4d5-f448-4e1a-8a0f-a3ed04ef3d26:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: e3f63dcf-de3e-4596-8cdf-3d4fc3a1022d
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 604c3b17-4468-4315-a21d-40f51f9274eb
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9a385b8f-1d62-48bf-85c1-b4ab1c183a58
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: db46e43b-c47f-4807-b9e3-b08db1a2f4ef
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 43da3acd-b36b-47e5-b95c-d22e2c6454de # Video - Only
+            handle: null
+            instructions: 'The video plays muted behind the content and opens in the Video Modal from the Play Button. A Thumbnail with no video shows as a picture. YouTube videos show the Thumbnail and open in the modal.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 431bad1a-dd99-4392-9c77-91107da64bce
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c08276b4-951f-4222-9e12-73622b78b6e0 # Avatar Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 26d598a9-b2b9-40e1-a16b-66fe9e266700
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 394d650a-5457-466e-bde6-8184c37b932f
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ff7d7ab5-83b4-4838-afc9-598a9528e1af
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 3e4da684-51fc-468f-83c8-8ccb664d0a60
+        userCondition: null
+    thumbFieldKey: null
+handle: videoCta
+hasTitleField: false
+icon: circle-play
+name: 'Video - CTA'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
