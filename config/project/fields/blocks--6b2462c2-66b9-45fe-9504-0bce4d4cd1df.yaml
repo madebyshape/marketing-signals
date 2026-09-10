@@ -28,6 +28,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 757798ef-4636-48d7-92ab-a4f0de5f9340 # Carousel - Featured Team
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - c72c0ecf-e02d-4d76-893c-18b1b2d9f1b6 # Carousel - Service
         -
           - group
@@ -157,6 +165,14 @@ settings:
         -
           - uid
           - 95724d2a-e278-4525-aac3-1f88dcf163ee # Video
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
+          - af21bfea-8fd9-454d-aebe-0a21a6be6d5b # Video - CTA
         -
           - group
           - General

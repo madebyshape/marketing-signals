@@ -1,0 +1,77 @@
+{% set component = 'ambient' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    poster: null,
+    transform: '16x9',
+    video: false,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{# The iframe covers the layer at 16:9 whichever way the panel's ratio crops it. #}
+
+{% set classes = {
+    wrapper: [
+        'absolute inset-0 z-0 overflow-hidden bg-black pointer-events-none',
+        params.class
+    ],
+    video: [
+        'absolute inset-0 pointer-events-none [container-type:size] [&_iframe]:absolute [&_iframe]:top-1/2 [&_iframe]:left-1/2 [&_iframe]:h-[max(100cqh,100cqw*9/16)] [&_iframe]:w-[max(100cqw,100cqh*16/9)] [&_iframe]:-translate-x-1/2 [&_iframe]:-translate-y-1/2 [&_video]:absolute [&_video]:inset-0 [&_video]:size-full [&_video]:object-cover'
+    ],
+    poster: [
+        'absolute inset-0 motion-safe:transition-opacity motion-safe:duration-300'
+    ],
+    posterImage: [
+        'opacity-80'
+    ],
+    shadowTop: [
+        'absolute inset-x-0 top-0 h-[30%] bg-linear-to-b from-black/30 to-transparent'
+    ],
+    shadowBottom: [
+        'absolute inset-x-0 bottom-0 h-[53%] bg-linear-to-t from-black/80 to-transparent'
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}" aria-hidden="true">
+
+    {% if params.video %}
+
+        {# The Provider fills this the first time the panel comes into view. #}
+
+        <div class="{{ classes.video|join(' ')|trim }}" x-ref="ambient" inert></div>
+
+    {% endif %}
+
+    {% if params.poster %}
+
+        <div class="{{ classes.poster|join(' ')|trim }}" {% if params.video %}x-bind:class="{ 'opacity-0': ambientStarted }"{% endif %}>
+
+            {% include '_components/picture' with {
+                params: {
+                    image: params.poster,
+                    alt: '',
+                    transform: params.transform,
+                    focalPoint: true,
+                    ratio: false,
+                    wrapperClass: classes.posterImage|join(' ')|trim
+                }
+            } only %}
+
+        </div>
+
+    {% endif %}
+
+    <div class="{{ classes.shadowTop|join(' ')|trim }}"></div>
+
+    <div class="{{ classes.shadowBottom|join(' ')|trim }}"></div>
+
+</div>

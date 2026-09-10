@@ -14,6 +14,7 @@
     size: 'base',
     shade: false,
     modalLabel: 'Video player',
+    playButtonClass: 'absolute bottom-5 left-5 z-10 | lg:bottom-10 lg:left-10',
     class: null
 } %}
 
@@ -70,14 +71,19 @@
 
 {# YouTube never plays in place, so an inline Video of one falls back to the Video Modal. #}
 
-{% set playerType = (params.playerType == 'inline' and provider != 'youtube') ? 'inline' : 'modal' %}
+{% set playerType = params.playerType == 'ambient' ? 'ambient' : ((params.playerType == 'inline' and provider != 'youtube') ? 'inline' : 'modal') %}
+
+{# Likewise an ambient Video of YouTube keeps its still Poster. #}
+
+{% set ambientVideo = playerType == 'ambient' and provider in ['vimeo', 'file'] %}
 
 {% set props = {
     provider: provider,
     videoId: vimeoId ?? youtubeId,
     videoHash: videoHash,
     videoSrc: videoFile ? videoFile.url : null,
-    inline: playerType == 'inline'
+    inline: playerType == 'inline',
+    ambient: ambientVideo
 } %}
 
 {# Classes #}
@@ -91,7 +97,62 @@
 
 {# Output #}
 
-{% if provider %}
+{% if playerType == 'ambient' %}
+
+    {% if provider %}
+
+        {% include '_components/videoPlayer/core' only %}
+
+        {% include '_components/videoPlayer/providers/' ~ provider only %}
+
+    {% endif %}
+
+    <div
+        class="{{ classes.wrapper|join(' ')|trim }}"
+        {% if provider %}x-data='{{ component }}({{ props|json_encode|raw }})'{% endif %}
+    >
+
+        {% include '_components/videoPlayer/ambient' with {
+            params: {
+                poster: poster,
+                transform: params.transform,
+                video: ambientVideo
+            }
+        } only %}
+
+        {# An embedding Block fills this with its content and places the Play Button with parent(). #}
+
+        {% block videoPlayerContent %}
+
+            {% if provider %}
+
+                {# The modal returns focus to the `poster` ref when it closes. #}
+
+                {% include '_components/videoPlayer/playButton' with {
+                    params: {
+                        size: 'md',
+                        attributes: 'x-ref="poster" x-on:click="open()"',
+                        class: params.playButtonClass
+                    }
+                } only %}
+
+            {% endif %}
+
+        {% endblock %}
+
+        {% if provider %}
+
+            {% include '_components/videoPlayer/modal' with {
+                params: {
+                    label: params.modalLabel
+                }
+            } only %}
+
+        {% endif %}
+
+    </div>
+
+{% elseif provider %}
 
     {% include '_components/videoPlayer/core' only %}
 

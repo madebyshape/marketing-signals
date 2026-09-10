@@ -82,9 +82,11 @@
     {% endif %}
 
     <span class="{{ classes.play|join(' ')|trim }}" aria-hidden="true">
-        <span class="{{ classes.circle|join(' ')|trim }}">
-            <i class="{{ classes.icon|join(' ')|trim }}"></i>
-        </span>
+        {% include '_components/videoPlayer/playButton' with {
+            params: {
+                type: 'span'
+            }
+        } only %}
     </span>
 
 </button>

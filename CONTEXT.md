@@ -289,7 +289,7 @@ The bracketed count at the right end of a Slide's Eyebrow row, such as "(01)", s
 _Avoid_: Counter, index, pagination number
 
 **Pin**:
-The scroll-driven behaviour of the Service Carousel: the Block holds still on screen while the visitor's own scroll moves the Slides sideways, at every width, resting wherever the scroll stops.
+The scroll-driven behaviour of a sideways Block: the Block holds still on screen while the visitor's own scroll moves its row sideways, resting wherever the scroll stops. The Service Carousel Pins at every width; the Scrolling Cards Pin from the desktop breakpoint and are a plain column below it and under reduced motion.
 _Avoid_: Scroll-jack, horizontal scroll, sticky section, scrub, snap
 
 **Slide Progress**:
@@ -401,7 +401,7 @@ The one or more images an editor adds to a Stacking Card, shown one at a time in
 _Avoid_: Gallery, slideshow, image carousel, thumbnails
 
 **Card Scheme**:
-The colour a card takes from its position, in the sequence its block defines, repeating past the end. Never chosen by editors. A Stacking Card also takes its tilt from it: white, black, secondary and fluro in turn. A Service Card runs white, black, secondary, fluro and creme-200.
+The colour a card takes from its position, in the sequence its block defines, repeating past the end. Never chosen by editors. A Stacking Card also takes its tilt from it: white, black, secondary and fluro in turn. A Service Card runs white, black, secondary, fluro and creme-200. A Scrolling Card takes its tilt from it too: white, black and secondary in turn.
 _Avoid_: Theme, variant, colour option, style
 
 **Stack**:
@@ -411,6 +411,16 @@ _Avoid_: Pin, scroll-jack, sticky, parallax, deck
 **Image Cycle**:
 The timed cross-fade between a Stacking Card's Card Images, one every few seconds, that runs only while the card is on screen. A card with one image has none.
 _Avoid_: Slideshow, rotation, auto-play, fade loop
+
+### Scrolling Cards
+
+**Scrolling Cards**:
+A Block of an Eyebrow and Rule over a row of Scrolling Cards that Pins to the screen and moves sideways as the visitor scrolls, with a button and an Avatar Group centred beneath the row.
+_Avoid_: Card scroller, horizontal cards, approach block, scroll carousel
+
+**Scrolling Card**:
+One card in a Scrolling Cards Block: its image filling the left of the card beside a heading and text, coloured and tilted by its Card Scheme, the active one centred with its neighbours peeking at both sides. Not a link.
+_Avoid_: Card, slide, panel, tile, item
 
 ### Client Marquee
 

@@ -1,0 +1,251 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Team Slides #}
+
+{% set members = entry.entriesTeam.all()|filter(member => member.quote|striptags|trim|length) %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasControls = members|length > 1 %}
+
+{# Options #}
+
+{% set blockOptions = {
+    sizes: '(min-width: 1024px) 33vw, 100vw'
+} %}
+
+{# Classes #}
+
+{# From `lg` the Eyebrow sits over the text column, so the media reaches the panel's top. #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: 'relative overflow-hidden rounded-[20px] bg-black p-1.25',
+    eyebrowRow: [
+        'pb-7.5',
+        '|',
+        'lg:pointer-events-none lg:absolute lg:inset-x-1.25 lg:top-1.25 lg:z-10 lg:grid lg:grid-cols-12 lg:gap-5 lg:pb-0'
+    ],
+    eyebrow: [
+        'px-8.75 pt-8.75',
+        '|',
+        'lg:col-span-7 lg:pr-0'
+    ],
+    slide: [
+        'flex w-full flex-col',
+        '|',
+        'lg:grid lg:grid-cols-12 lg:gap-5'
+    ],
+    media: [
+        'relative overflow-hidden rounded-[15px] bg-black aspect-4/3',
+        '|',
+        'lg:col-start-9 lg:col-span-4 lg:row-start-1 lg:aspect-auto lg:before:block lg:before:pt-[150%]'
+    ],
+    mediaFill: 'absolute inset-0',
+    quote: 'mt-auto px-8.75 pb-8.75',
+    quoteAfterMedia: 'pt-7.5',
+    quoteFirst: hasEyebrow ? '' : 'pt-8.75',
+    quoteLg: [
+        '|',
+        'lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:self-end lg:pr-0',
+        hasEyebrow ? 'lg:pt-30' : 'lg:pt-8.75'
+    ],
+    blockquote: '[hanging-punctuation:first]',
+    caption: [
+        'flex items-center mt-10',
+        hasControls ? 'pr-25' : ''
+    ],
+    controls: [
+        'absolute right-8.75 bottom-8.75 z-10',
+        '|',
+        'lg:right-[calc((100%-220px)*5/12+100px)]'
+    ]
+} %}
+
+{# Output #}
+
+{% if members|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.panel }}">
+
+                    {% if hasEyebrow %}
+
+                        <div class="{{ blockClasses.eyebrowRow|join(' ')|trim }}">
+
+                            <div class="{{ blockClasses.eyebrow|join(' ')|trim }}">
+
+                                {% include '_components/eyebrow' with {
+                                    params: {
+                                        text: entry.eyebrow,
+                                        colour: 'white',
+                                        rule: true,
+                                        ruleColour: 'white-30'
+                                    }
+                                } only %}
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                    {% embed '_components/carousel'
+                        with {
+                            params: {
+                                id: params.handle,
+                                items: members,
+                                tag: 'ul',
+                                slideTag: 'li',
+                                ease: 'smooth',
+                                props: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 0,
+                                    speed: 600,
+                                    loop: hasControls,
+                                    simulateTouch: true,
+                                    allowTouchMove: true,
+                                    preventClicks: true,
+                                    preventClicksPropagation: true,
+                                    a11y: {
+                                        enabled: true,
+                                        containerRole: 'region',
+                                        slideRole: 'group'
+                                    }
+                                }
+                            }
+                        }
+                    %}
+
+                        {% block slideContent %}
+
+                            {% set image = item.image.one() %}
+                            {% set video = item.video %}
+
+                            {# The Video - Only block has no Thumbnail fallback, so the Image stands in. #}
+
+                            {% set hasVideo = video and (video.videoUrl|trim|length or video.videoFile.one()) %}
+                            {% set hasMedia = hasVideo or image %}
+
+                            <div class="{{ blockClasses.slide|join(' ')|trim }}">
+
+                                {% if hasMedia %}
+
+                                    <div class="{{ blockClasses.media|join(' ')|trim }}">
+
+                                        <div class="{{ blockClasses.mediaFill }}">
+
+                                            {% if hasVideo %}
+
+                                                {% include '_components/videoPlayer/base' with {
+                                                    params: {
+                                                        videoUrl: video.videoUrl,
+                                                        videoFile: video.videoType.value == 'file' ? video.videoFile.one() : null,
+                                                        poster: video.videoThumbnail.one() ?? image,
+                                                        transform: '2x3',
+                                                        playerType: 'modal',
+                                                        posterClass: 'rounded-[15px]',
+                                                        modalLabel: 'Video player',
+                                                        class: 'h-full'
+                                                    }
+                                                } only %}
+
+                                            {% else %}
+
+                                                {% include '_components/picture' with {
+                                                    params: {
+                                                        image: image,
+                                                        alt: '',
+                                                        transform: '2x3',
+                                                        ratio: false,
+                                                        focalPoint: true,
+                                                        sizes: blockOptions.sizes
+                                                    }
+                                                } only %}
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+
+                                {% endif %}
+
+                                <figure class="{{ [blockClasses.quote, hasMedia ? blockClasses.quoteAfterMedia : blockClasses.quoteFirst]|merge(blockClasses.quoteLg)|join(' ')|trim }}">
+
+                                    <blockquote class="{{ blockClasses.blockquote }}">
+
+                                        {% include '_components/richText' with {
+                                            params: {
+                                                content: item.quote,
+                                                colour: 'white',
+                                                size: '6xl'
+                                            }
+                                        } only %}
+
+                                    </blockquote>
+
+                                    <figcaption class="{{ blockClasses.caption|join(' ')|trim }}">
+
+                                        {% include '_components/user' with {
+                                            params: {
+                                                image: image,
+                                                heading: item.title,
+                                                subHeading: item.jobRole,
+                                                colour: 'creme-100'
+                                            }
+                                        } only %}
+
+                                    </figcaption>
+
+                                </figure>
+
+                            </div>
+
+                        {% endblock %}
+
+                        {% block afterContent %}
+
+                            {% if hasControls %}
+
+                                {% include '_components/carouselControls' with {
+                                    params: {
+                                        style: 'icon',
+                                        colour: 'white-30-outline',
+                                        class: blockClasses.controls|join(' ')|trim
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                        {% endblock %}
+
+                    {% endembed %}
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
