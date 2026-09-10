@@ -51,7 +51,8 @@
         '|',
         'lg:col-start-1 lg:col-span-5 lg:row-start-1 lg:self-center'
     ],
-    heading: 'font-medium leading-1.2 tracking-tighter | md:text-5xl md:font-semibold md:leading-0.97 | lg:text-7xl'
+    heading: 'font-medium leading-1.2 tracking-tighter | md:text-5xl md:font-semibold md:leading-0.97 | lg:text-7xl',
+    controls: 'self-start'
 } %}
 
 {# Output #}
@@ -174,6 +175,19 @@
                                                 content: item.text,
                                                 colour: 'creme-100',
                                                 size: 'md'
+                                            }
+                                        } only %}
+
+                                    {% endif %}
+
+                                    {% if hasLoop %}
+
+                                        {% include '_components/carouselControls' with {
+                                            params: {
+                                                style: 'pill',
+                                                colour: 'white-30-outline',
+                                                bind: 'class',
+                                                class: blockClasses.controls
                                             }
                                         } only %}
 

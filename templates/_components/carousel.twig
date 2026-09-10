@@ -101,7 +101,12 @@
 
                 const _self = this;
                 const { prev, next } = _self.$refs;
+                const hasRefs = prev && next;
                 const options = { ...props };
+
+                // Controls repeated in every Slide can't share a ref, so they bind by class.
+                const prevEl = hasRefs ? prev : [..._self.$root.querySelectorAll('.js-carousel-prev')];
+                const nextEl = hasRefs ? next : [..._self.$root.querySelectorAll('.js-carousel-next')];
 
                 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                     options.speed = 0;
@@ -110,10 +115,10 @@
                 const swiper = new Swiper(_self.$refs.swiper, {
                     ...options,
                     // Swiper handed a missing navigation element throws on the first press.
-                    ...(prev && next ? {
+                    ...(hasRefs || (prevEl.length && nextEl.length) ? {
                         navigation: {
-                            prevEl: prev,
-                            nextEl: next,
+                            prevEl,
+                            nextEl,
                         },
                     } : {}),
                 });
