@@ -13,6 +13,12 @@
 
 {% set backgroundImage = entry.image.one() %}
 
+{# Hero Video #}
+
+{% set video = entry.video %}
+{% set poster = video ? video.videoThumbnail.one() : null %}
+{% set hasVideo = video and (video.videoUrl|trim|length or video.videoFile.one()) %}
+
 {# Classes #}
 
 {# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
@@ -30,7 +36,8 @@
     heading: 'font-semibold leading-0.97 tracking-tighter | md:text-8xl lg:text-10xl xl:text-12xl xl:leading-0.92',
     firstLine: 'block',
     laterLine: 'block | lg:text-right',
-    bottomRow: 'relative flex flex-col gap-7.5 | lg:flex-row lg:items-end lg:justify-between'
+    bottomRow: 'relative flex flex-col gap-7.5 | lg:flex-row lg:items-end lg:justify-between',
+    video: 'relative h-[150px] w-[237px] shrink-0 overflow-hidden rounded-[20px] bg-black'
 } %}
 
 {# Heading Lines #}
@@ -118,6 +125,26 @@
                         size: '3xl'
                     }
                 } only %}
+
+                {% if hasVideo or poster %}
+
+                    <div class="{{ blockClasses.video }}">
+
+                        {% include '_components/videoPlayer/base' with {
+                            params: {
+                                video: video,
+                                transform: '16x10',
+                                playerType: video.videoDisplayType.value == 'inlinePlayer' ? 'inline' : 'modal',
+                                size: 'sm',
+                                posterClass: 'rounded-[20px]',
+                                modalLabel: 'Video player',
+                                class: 'size-full'
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endif %}
 
             </div>
 
