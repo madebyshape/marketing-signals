@@ -3,6 +3,7 @@
 {% set defaultParams = {
     poster: null,
     transform: '1x1',
+    size: 'base',
     shade: false,
     class: null
 } %}
@@ -10,6 +11,19 @@
 {# Merge Params #}
 
 {% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    size: {
+        base: {
+            button: 'right-5 bottom-5 | lg:right-10 lg:bottom-10'
+        },
+        sm: {
+            button: 'right-5 bottom-5'
+        }
+    }
+} %}
 
 {# Ring #}
 
@@ -36,11 +50,10 @@
         params.shade ? 'opacity-60'
     ],
     button: [
-        'absolute right-5 bottom-5 z-20 flex size-[42px] cursor-pointer items-center justify-center text-white motion-safe:transition',
+        'absolute z-20 flex size-[42px] cursor-pointer items-center justify-center text-white motion-safe:transition',
         '|',
         'focus:outline-none focus:ring-2 focus:ring-white/60 pointer-fine:hover:opacity-70',
-        '|',
-        'lg:right-10 lg:bottom-10'
+        options.size[params.size].button
     ],
     ring: [
         'absolute inset-0 size-full'

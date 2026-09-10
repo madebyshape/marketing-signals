@@ -11,6 +11,7 @@
     transform: '3x4',
     playerType: 'modal',
     label: 'Play video',
+    size: 'base',
     shade: false,
     modalLabel: 'Video player',
     class: null
@@ -107,6 +108,7 @@
                 params: {
                     poster: poster,
                     transform: params.transform,
+                    size: params.size,
                     shade: params.shade
                 }
             } only %}
@@ -118,6 +120,7 @@
                     image: poster,
                     transform: params.transform,
                     label: params.label,
+                    size: params.size,
                     shade: params.shade,
                     class: params.posterClass
                 }

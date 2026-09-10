@@ -4,6 +4,7 @@
     image: null,
     transform: '3x4',
     label: 'Play video',
+    size: 'base',
     shade: false,
     class: null
 } %}
@@ -11,6 +12,21 @@
 {# Merge Params #}
 
 {% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    size: {
+        base: {
+            circle: 'size-20 | lg:size-30',
+            icon: 'text-[24px]'
+        },
+        sm: {
+            circle: 'size-[42px]',
+            icon: 'text-[9px]'
+        }
+    }
+} %}
 
 {# Classes #}
 
@@ -25,14 +41,14 @@
         'absolute inset-0 z-10 flex items-center justify-center'
     ],
     circle: [
-        'flex size-20 items-center justify-center rounded-full bg-secondary text-black motion-safe:transition-transform motion-safe:duration-300',
+        'flex items-center justify-center rounded-full bg-secondary text-black motion-safe:transition-transform motion-safe:duration-300',
         '|',
         'motion-safe:pointer-fine:group-hover:scale-110',
-        '|',
-        'lg:size-30'
+        options.size[params.size].circle
     ],
     icon: [
-        'fa-sharp fa-regular fa-play | text-[24px]'
+        'fa-sharp fa-regular fa-play',
+        options.size[params.size].icon
     ],
     image: [
         params.shade ? 'opacity-60'
