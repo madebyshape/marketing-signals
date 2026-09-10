@@ -50,14 +50,14 @@
         'lg:col-start-9 lg:col-span-4 lg:row-start-1 lg:aspect-auto lg:before:block lg:before:pt-[150%]'
     ],
     mediaFill: 'absolute inset-0',
-    quote: [
-        'mt-auto px-8.75 pb-8.75',
+    quote: 'mt-auto px-8.75 pb-8.75',
+    quoteAfterMedia: 'pt-7.5',
+    quoteFirst: hasEyebrow ? '' : 'pt-8.75',
+    quoteLg: [
         '|',
         'lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:self-end lg:pr-0',
         hasEyebrow ? 'lg:pt-30' : 'lg:pt-8.75'
     ],
-    quoteAfterMedia: 'pt-7.5',
-    quoteFirst: hasEyebrow ? '' : 'pt-8.75',
     blockquote: '[hanging-punctuation:first]',
     caption: [
         'flex items-center mt-10',
@@ -190,7 +190,7 @@
 
                                 {% endif %}
 
-                                <figure class="{{ blockClasses.quote|merge([hasMedia ? blockClasses.quoteAfterMedia : blockClasses.quoteFirst])|join(' ')|trim }}">
+                                <figure class="{{ [blockClasses.quote, hasMedia ? blockClasses.quoteAfterMedia : blockClasses.quoteFirst]|merge(blockClasses.quoteLg)|join(' ')|trim }}">
 
                                     <blockquote class="{{ blockClasses.blockquote }}">
 
