@@ -1,0 +1,26 @@
+columnSuffix: null
+handle: scrollingCards
+instructions: 'Two or more cards the visitor scrolls through sideways. Each card is coloured and tilted by its position: white, black, secondary, then round again.'
+name: 'Scrolling Cards'
+searchable: false
+settings:
+  createButtonLabel: 'New Scrolling Card'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - f7b9ffb6-c3c5-4bef-98aa-844c0fe6f842 # Scrolling Card
+  includeTableView: false
+  maxEntries: null
+  minEntries: 2
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

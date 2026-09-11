@@ -132,6 +132,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 419fd065-b523-4ca1-b185-1b82546c312b # Scrolling Cards
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 2173f8fc-5044-44ea-a7ca-a776fbdca208 # Stacking Cards
         -
           - group

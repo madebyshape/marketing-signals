@@ -1,0 +1,74 @@
+allowLineBreaksInTitles: false
+color: purple
+description: null
+fieldLayouts:
+  d482fc79-fa78-4b98-86e6-a483e834e985:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: cf25bc2d-6d7b-4068-9512-48fa9166150e
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1dfb3987-89a4-487b-9882-16d85a488504
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e998db85-4093-4d93-8fe8-6c2721098baf
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: f1214d15-3b72-4e2c-a2ce-a671c9c3e70c
+        userCondition: null
+    thumbFieldKey: null
+handle: scrollingCard
+hasTitleField: false
+icon: rectangle-list
+name: 'Scrolling Card'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{heading|striptags}'

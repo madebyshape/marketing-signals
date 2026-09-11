@@ -1,0 +1,337 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Component #}
+
+{% set component = entry.type.handle %}
+
+{# Scrolling Cards #}
+
+{% set cards = entry.scrollingCards.all()|filter(card => card.heading|striptags|trim|length or card.text|striptags|trim|length) %}
+
+{% set avatar = entry.avatarGroup %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasButton = entry.button|length > 0 %}
+{% set hasAvatar = avatar.avatarName|length > 0 %}
+
+{# Options #}
+
+{% set blockOptions = {
+    scheme: [
+        {
+            card: 'bg-white',
+            heading: 'base',
+            text: 'black',
+            tilt: 'lg:-rotate-2'
+        },
+        {
+            card: 'bg-black',
+            heading: 'white',
+            text: 'white',
+            tilt: 'lg:rotate-2'
+        },
+        {
+            card: 'bg-secondary',
+            heading: 'base',
+            text: 'black',
+            tilt: 'lg:-rotate-3'
+        }
+    ]
+} %}
+
+{# Classes #}
+
+{% set siteMargin = vars is defined ? vars.class.siteMargin.x : 'px-10' %}
+
+{# `pinned` classes carry no group pipe: Alpine reads them as a class list. #}
+
+{% set blockClasses = {
+    frame: 'relative overflow-hidden',
+    header: [
+        'mb-10',
+        siteMargin
+    ],
+    stage: [
+        'relative',
+        siteMargin
+    ],
+    track: 'flex flex-col gap-5',
+    card: 'flex flex-col overflow-hidden rounded-[20px]',
+    slot: 'relative overflow-hidden m-1.75 rounded-[15px] aspect-[4/3]',
+    content: 'flex flex-1 flex-col justify-center p-5',
+    cardHeading: 'font-semibold leading-0.97 tracking-tighter | md:text-4xl | lg:text-5xl',
+    cardText: 'mt-2.5',
+    footer: [
+        'flex flex-col items-center justify-center gap-5 mt-10',
+        siteMargin,
+        '|',
+        'md:flex-row'
+    ],
+    pinned: {
+        frame: 'lg:flex lg:flex-col lg:justify-center-safe lg:h-screen',
+        header: 'lg:mb-19.25',
+        stage: 'lg:pl-[24vw]',
+        track: 'lg:flex-row lg:will-change-transform',
+        card: 'lg:flex-row lg:shrink-0 lg:w-[52vw] lg:min-h-[354px]',
+        slot: 'lg:shrink-0 lg:w-[calc(100%/3_-_14px)] lg:aspect-auto',
+        content: 'lg:pl-12.5 lg:pr-15',
+        footer: 'lg:mt-11.25'
+    }
+} %}
+
+{# Output #}
+
+{% if cards|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div
+                class="{{ blockClasses.frame }}"
+                x-data="{{ component }}"
+                x-bind:class="{ '{{ blockClasses.pinned.frame }}': pinned }"
+                x-ref="frame"
+            >
+
+                {% if hasEyebrow %}
+
+                    <div
+                        class="{{ blockClasses.header|join(' ')|trim }}"
+                        x-bind:class="{ '{{ blockClasses.pinned.header }}': pinned }"
+                    >
+
+                        {% include '_components/eyebrow' with {
+                            params: {
+                                text: entry.eyebrow,
+                                colour: 'black',
+                                rule: true,
+                                ruleColour: 'creme-300'
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endif %}
+
+                <div
+                    class="{{ blockClasses.stage|join(' ')|trim }}"
+                    x-bind:class="{ '{{ blockClasses.pinned.stage }}': pinned }"
+                    x-ref="stage"
+                >
+
+                    <ul
+                        class="{{ blockClasses.track }}"
+                        x-bind:class="{ '{{ blockClasses.pinned.track }}': pinned }"
+                        x-ref="track"
+                    >
+
+                        {% for card in cards %}
+
+                            {% set scheme = cycle(blockOptions.scheme, loop.index0) %}
+                            {% set image = card.image.one() %}
+
+                            {# Focus inside a card scrolls the pinned row to it. #}
+
+                            <li
+                                class="{{ [blockClasses.card, scheme.card]|join(' ')|trim }}"
+                                x-bind:class="{ '{{ blockClasses.pinned.card }} {{ scheme.tilt }}': pinned }"
+                                x-on:focusin="focusCard({{ loop.index0 }})"
+                            >
+
+                                {% if image %}
+
+                                    <div
+                                        class="{{ blockClasses.slot }}"
+                                        x-bind:class="{ '{{ blockClasses.pinned.slot }}': pinned }"
+                                    >
+
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: image,
+                                                alt: '',
+                                                transform: '4x3',
+                                                ratio: false,
+                                                focalPoint: true,
+                                                sizes: '100vw'
+                                            }
+                                        } only %}
+
+                                    </div>
+
+                                {% endif %}
+
+                                <div
+                                    class="{{ blockClasses.content }}"
+                                    x-bind:class="{ '{{ blockClasses.pinned.content }}': pinned }"
+                                >
+
+                                    {% include '_components/headingAlternate' with {
+                                        params: {
+                                            tag: 'h3',
+                                            heading: card.heading,
+                                            colour: scheme.heading,
+                                            size: '3xl',
+                                            class: blockClasses.cardHeading
+                                        }
+                                    } only %}
+
+                                    {% if card.text|striptags|trim|length %}
+
+                                        {% include '_components/richText' with {
+                                            params: {
+                                                content: card.text,
+                                                colour: scheme.text,
+                                                class: blockClasses.cardText
+                                            }
+                                        } only %}
+
+                                    {% endif %}
+
+                                </div>
+
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+                {% if hasButton or hasAvatar %}
+
+                    <div
+                        class="{{ blockClasses.footer|join(' ')|trim }}"
+                        x-bind:class="{ '{{ blockClasses.pinned.footer }}': pinned }"
+                    >
+
+                        {% if hasButton %}
+
+                            {% include '_components/button' with {
+                                params: {
+                                    button: entry.button
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% if hasAvatar %}
+
+                            {% include '_components/user' with {
+                                params: {
+                                    image: avatar.avatar.one(),
+                                    heading: avatar.avatarName,
+                                    subHeading: avatar.avatarJobRole,
+                                    size: 'sm'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => {
+
+            // Held outside the data object so Alpine doesn't make it reactive.
+            let trigger = null;
+
+            return {
+                pinned: false,
+                init() {
+
+                    if (this.$refs.track.children.length < 2) {
+                        return;
+                    }
+
+                    gsap.matchMedia().add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', (context) => {
+
+                        this.pinned = true;
+
+                        // Next tick so the widths are measured off the row Alpine has just written.
+                        this.$nextTick(() => context.add(() => {
+
+                            const tween = gsap.to(this.$refs.track, {
+                                x: () => -this.travel(),
+                                ease: 'none',
+                                scrollTrigger: {
+                                    trigger: this.$refs.frame,
+                                    pin: this.$refs.frame,
+                                    start: 'top top',
+                                    end: () => '+=' + this.travel(),
+                                    scrub: true,
+                                    invalidateOnRefresh: true
+                                }
+                            });
+
+                            trigger = tween.scrollTrigger;
+
+                        }));
+
+                        return () => {
+                            this.pinned = false;
+                            trigger = null;
+                        };
+
+                    });
+
+                },
+                step() {
+
+                    const track = this.$refs.track;
+
+                    return track.children[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap || 0);
+
+                },
+                travel() {
+
+                    return (this.$refs.track.children.length - 1) * this.step();
+
+                },
+                focusCard(index) {
+
+                    if (!trigger) {
+                        return;
+                    }
+
+                    // Lenis owns the page's scroll, so the move goes through it.
+                    window.lenis.scrollTo(trigger.start + index * this.step());
+
+                    // Hidden overflow still scrolls; stop the browser shunting the frame sideways to reveal focus.
+                    this.$refs.frame.scrollLeft = 0;
+
+                }
+            };
+
+        })
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
