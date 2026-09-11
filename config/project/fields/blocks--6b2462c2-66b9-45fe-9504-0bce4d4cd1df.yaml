@@ -12,6 +12,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 05236f38-ec1c-4446-93a8-43c0b72e45ac # Banner - CTA
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - d8925826-0e82-41f9-91e8-bb798d884868 # Carousel - Blog
         -
           - group

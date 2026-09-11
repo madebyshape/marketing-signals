@@ -1,0 +1,144 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+{% set image = entry.image.one() %}
+
+{# Squiggle #}
+
+{# The trigger carries the entry id, so two of these Blocks on a page never share one. #}
+
+{% set trigger = 'js-' ~ params.handle ~ '-' ~ entry.id %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: [
+        'relative isolate flow-root rounded-[20px] bg-black',
+        '|',
+        '2xl:grid 2xl:grid-cols-12 2xl:gap-5'
+    ],
+    clip: 'absolute inset-0 -z-10 overflow-hidden rounded-[20px]',
+    squiggle: 'absolute right-0 bottom-0 w-[34%] translate-x-[28%] translate-y-[40%]',
+    cutout: [
+        '-mt-15 ml-6.25 max-w-[min(60%,393px)]',
+        '|',
+        'md:ml-10',
+        '|',
+        'xl:-mt-25',
+        '|',
+        '2xl:absolute 2xl:bottom-0 2xl:left-30 2xl:m-0 2xl:w-[393px]'
+    ],
+    content: [
+        'box-content flex max-w-[778px] flex-col items-start gap-7.5 p-6.25',
+        '|',
+        'md:p-10',
+        '|',
+        image ? '2xl:col-start-6 2xl:col-end-13 2xl:px-0 2xl:py-30' : '2xl:col-span-full 2xl:px-25 2xl:py-30'
+    ],
+    heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl | 2xl:text-9xl'
+} %}
+
+{# Output #}
+
+{% if hasHeading %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none',
+                class: '|| ' ~ trigger
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+                    <div class="{{ blockClasses.clip }}">
+
+                        {% include '_components/squiggle' with {
+                            params: {
+                                colour: 'fluro',
+                                props: {
+                                    trigger: '.' ~ trigger
+                                },
+                                class: blockClasses.squiggle
+                            }
+                        } only %}
+
+                    </div>
+
+                    {% if image %}
+
+                        {% include '_components/picture' with {
+                            params: {
+                                image: image,
+                                alt: '',
+                                transform: '3x5',
+                                position: 'top-center',
+                                sizes: '(min-width: 768px) 393px, 60vw',
+                                wrapperClass: blockClasses.cutout|join(' ')|trim,
+                                imgClass: 'w-full h-full object-cover'
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    <div class="{{ blockClasses.content|join(' ')|trim }}">
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                colour: 'creme-100',
+                                size: '5xl',
+                                alternateStyle: 'secondary',
+                                class: blockClasses.heading
+                            }
+                        } only %}
+
+                        {% if hasText %}
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: entry.text,
+                                    colour: 'creme-100',
+                                    size: 'md'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% include '_components/button' with {
+                            params: {
+                                button: entry.button,
+                                colour: 'creme-100'
+                            }
+                        } only %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

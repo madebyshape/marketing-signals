@@ -8,6 +8,7 @@
     priority: false,
     ratio: true,
     focalPoint: false,
+    position: null,
     sizes: '100vw',
     wrapperClass: null,
     imgClass: null,
@@ -64,9 +65,14 @@
 
 {% if params.image['extension'] is defined and params.image.extension in params.transformableExtensions %}
 
+    {# An Imager crop position such as `top-center`; unset, the crop is centred. #}
+
+    {% set transformDefaults = params.position ? { position: params.position } : {} %}
+
     {% set pictureTransform = craft.imager.transformImage(
         params.image,
-        params.transform
+        params.transform,
+        transformDefaults
     ) %}
 
     {% if pictureTransform|length %}
@@ -82,9 +88,9 @@
                 {% set pictureTransformAvif = craft.imager.transformImage(
                     params.image,
                     params.transform,
-                    {
+                    transformDefaults|merge({
                         format: 'avif'
-                    }
+                    })
                 ) %}
 
                 <source
@@ -100,9 +106,9 @@
                 {% set pictureTransformWebp = craft.imager.transformImage(
                     params.image,
                     params.transform,
-                    {
+                    transformDefaults|merge({
                         format: 'webp'
-                    }
+                    })
                 ) %}
 
                 <source
