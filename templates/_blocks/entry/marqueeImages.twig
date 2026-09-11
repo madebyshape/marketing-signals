@@ -1,0 +1,180 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set images = entry.imageMarquee.all() %}
+
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+
+{# Image Row #}
+
+{# The images repeat to 4+ Tiles so a copy outruns the widest viewport and the seam never shows a gap #}
+
+{% set tileMinimum = 4 %}
+{% set repeats = images|length ? (tileMinimum / images|length)|round(0, 'ceil') : 0 %}
+
+{# 0.4 on the marquee's scale is 40px a second #}
+
+{% set crawlSpeed = 0.4 %}
+
+{# Options #}
+
+{% set blockOptions = {
+    sizes: '(min-width: 1600px) 750px, (min-width: 1024px) 600px, (min-width: 768px) 460px, 300px'
+} %}
+
+{# Classes #}
+
+{# Each Tile carries its own trailing gap, so the seam between the marquee's two tracks reads as one more gap #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    header: [
+        'grid grid-cols-1 items-start gap-x-5',
+        images|length ? 'mb-10',
+        '|',
+        'lg:grid-cols-12',
+        images|length ? 'lg:mb-12.5'
+    ],
+    heading: [
+        'col-span-full font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:col-span-8 lg:col-start-1 lg:row-start-1 lg:text-8xl'
+    ],
+    text: [
+        'col-span-full',
+        hasHeading ? 'mt-7.5',
+        '|',
+        'lg:col-span-3 lg:col-start-10 lg:row-start-1',
+        hasHeading ? 'lg:mt-0'
+    ],
+    set: 'flex shrink-0',
+    tile: [
+        'relative mr-5 aspect-[5/4] w-[300px] shrink-0 overflow-hidden rounded-[20px]',
+        '|',
+        'md:w-[460px] | lg:w-[600px] | 3xl:w-[750px]'
+    ],
+    image: 'absolute inset-0 size-full object-cover'
+} %}
+
+{# Output #}
+
+{% if hasHeading or hasText or images|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {% if hasHeading or hasText %}
+
+                <div class="{{ blockClasses.margin }}">
+
+                    <div class="{{ blockClasses.header|join(' ')|trim }}">
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                size: '4xl',
+                                class: blockClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                        {% if hasText %}
+
+                            <div class="{{ blockClasses.text|join(' ')|trim }}">
+
+                                {% include '_components/richText' with {
+                                    params: {
+                                        content: entry.text,
+                                        colour: 'black',
+                                        size: 'base',
+                                        list: 'base'
+                                    }
+                                } only %}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+            {% if images|length %}
+
+                {% embed '_components/marquee' with {
+                    params: {
+                        component: params.handle,
+                        gap: 'none',
+                        accessibleCopy: true,
+                        props: {
+                            speed: crawlSpeed,
+                            pauseOnHover: false,
+                            pauseOnFocus: false
+                        }
+                    }
+                } %}
+                    {% block marqueeContent %}
+
+                        {% for repeat in 1..repeats %}
+
+                            {# Only the first set in the accessible track is announced and loads eagerly #}
+
+                            {% set isAccessibleSet = accessibleTrack and loop.first %}
+
+                            <ul
+                                class="{{ blockClasses.set }}"
+                                {% if not isAccessibleSet %}aria-hidden="true"{% endif %}
+                            >
+
+                                {% for image in images %}
+
+                                    <li class="{{ blockClasses.tile|join(' ')|trim }}">
+
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: image,
+                                                transform: '5x4',
+                                                sizes: blockOptions.sizes,
+                                                lazy: not isAccessibleSet,
+                                                ratio: false,
+                                                imgClass: blockClasses.image
+                                            }
+                                        } only %}
+
+                                    </li>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        {% endfor %}
+
+                    {% endblock %}
+                {% endembed %}
+
+            {% endif %}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
