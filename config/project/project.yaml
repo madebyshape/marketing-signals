@@ -1,4 +1,4 @@
-dateModified: 1789053892
+dateModified: 1789124058
 elementSources:
   craft\elements\Entry:
     -
@@ -150,6 +150,7 @@ meta:
     1e8bf0d4-be2b-4c71-8c62-e6cbe9bc401d: Email # Email
     1e92fbd1-878b-44df-b3fc-d00b32474e6d: 'Entry - FAQ' # Entry - FAQ
     1ef24d74-b2e4-412d-b234-8766de50c3b6: 'Hero - Simple' # Hero - Simple
+    1ef234a4-dca8-44db-bb95-619a3f11c7a2: 'Categories - Career' # Categories - Career
     1fca19db-a5b4-4b81-addd-5d2fa40bb83d: 'Button - No Label' # Button - No Label
     2a8d639a-2f4a-4d25-9385-ddac09ecc1ce: 'Footer Columns' # Footer Columns
     2a539981-3459-4d5f-8713-9d29353feafe: 'Longform Video' # Longform Video
@@ -205,6 +206,7 @@ meta:
     93bb0c13-89fe-4d68-9853-576b7d1238a6: 'Entry Site' # Entry Site
     94a26b89-4e28-433a-91e9-894a0248710f: 'Categories - Service' # Categories - Service
     101f8024-59d6-48df-9744-ccf3da6ef824: 'Dropdown - Star Rating' # Dropdown - Star Rating
+    236b83d6-c5b2-4acb-8645-ecc7df21e196: Career # Career
     250a614d-a573-422d-aeed-1716dd6d4d5e: 'Scrolling Cards' # Scrolling Cards
     298fa7b6-abc0-4c80-a004-8fa35a30bf35: 'Button Group' # Button Group
     419fd065-b523-4ca1-b185-1b82546c312b: 'Scrolling Cards' # Scrolling Cards
@@ -291,6 +293,7 @@ meta:
     f8dddc0d-c81b-4fd7-97b0-25873d6023f6: 'Hero - Full Screen' # Hero - Full Screen
     f18e57cc-fd7c-4892-a604-aa68a1598318: 'Stacking Cards' # Stacking Cards
     f54fdb7f-5fd1-41e9-a4c3-63791f1316b8: 'Marquee - Client' # Marquee - Client
+    f61a49ec-ae57-4242-8a0b-482661a55c30: 'Dropdown - Employment Type ' # Dropdown - Employment Type
     fa2d89b4-fa6d-48d3-b36a-7169022cd64d: Client # Client
     fa94fd7e-c6f7-4d8a-a3d3-71a00e095d43: 'Marquee - Logos' # Marquee - Logos
     fb0420bb-0fbf-46d2-afd2-f7992c60c886: 'Contact Form' # Contact Form

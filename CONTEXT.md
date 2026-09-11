@@ -663,12 +663,18 @@ A Linked Card for a Blog: its date and read time, its title and a "Continue Read
 _Avoid_: Landscape card, small card, post card, article card
 
 **Blog Large Card**:
-A Linked Card for a Blog: its Thumbnail across the top over its date and read time, its title, its Description and a "Continue Reading" pill. One leads a Blog Set, and it is the only card below the desktop breakpoint.
+A Linked Card for a Blog: its Thumbnail across the top over its date and read time, its title, its Description and a "Continue Reading" pill. One leads a Blog Set, it is the only card in the Blog Carousel below the desktop breakpoint, and it is every card in a Blog Grid.
 _Avoid_: Featured card, big card, hero card, exterior
 
 **Zoom**:
 The hover behaviour of a Blog Card, a Blog Large Card and a Case Study Card on fine-pointer devices: the Thumbnail grows a little inside its rounded frame while any pill lights up. Nothing moves under reduced motion.
 _Avoid_: Scale, hover effect, image hover, ken burns
+
+### Blog Grid
+
+**Blog Grid**:
+A Block of an Eyebrow with a Rule over a heading with the Highlight beside a short text, over a grid of Blog Large Cards, two to a row from the desktop breakpoint and one below it, one per Blog the editor picked, in the order picked. An odd last card sits alone in the left half. It never falls back to the latest Blogs: with none picked it renders nothing.
+_Avoid_: Blog list, blog listing, insights grid, related posts, latest posts
 
 ### Content Rows
 

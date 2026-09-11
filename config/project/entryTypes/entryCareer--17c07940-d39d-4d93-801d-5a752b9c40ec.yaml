@@ -36,6 +36,38 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-11T10:54:18+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 1ef234a4-dca8-44db-bb95-619a3f11c7a2 # Categories - Career
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b30c163b-3b96-4d9c-833e-043c42cc62dc
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-11T10:54:18+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f61a49ec-ae57-4242-8a0b-482661a55c30 # Dropdown - Employment Type
+            handle: employmentType
+            instructions: null
+            label: 'Employment Type'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d8045474-9e58-4385-a2a9-dd727e04faa5
+            userCondition: null
+            warning: null
+            width: 100
         name: 'Overview Content'
         uid: 33309d6c-d4f5-4800-b814-56d28f69c086
         userCondition: null

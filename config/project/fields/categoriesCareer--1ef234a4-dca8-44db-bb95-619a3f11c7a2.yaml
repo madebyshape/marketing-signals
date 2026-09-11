@@ -1,0 +1,22 @@
+columnSuffix: null
+handle: categoriesCareer
+instructions: null
+name: 'Categories - Career'
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  selectionLabel: null
+  showSearchInput: true
+  showSiteMenu: false
+  source: 'group:236b83d6-c5b2-4acb-8645-ecc7df21e196' # Career
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Categories
