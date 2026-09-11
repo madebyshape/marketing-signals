@@ -1,0 +1,139 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set blogs = entry.entriesBlog.all() %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    eyebrow: [
+        'mb-7.5',
+        '|',
+        'lg:mb-17.5'
+    ],
+    headerRow: [
+        'grid grid-cols-1 mb-7.5',
+        '|',
+        'lg:grid-cols-12 lg:items-end lg:gap-x-5 lg:mb-15'
+    ],
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl lg:col-start-1 lg:col-span-6 lg:text-7xl'
+    ],
+    text: [
+        hasHeading ? 'mt-7.5',
+        '|',
+        'lg:col-start-9 lg:col-span-4',
+        hasHeading ? 'lg:mt-0'
+    ],
+    grid: [
+        'grid grid-cols-1 gap-5',
+        '|',
+        'lg:grid-cols-2'
+    ]
+} %}
+
+{# Output #}
+
+{% if blogs|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {% if hasEyebrow %}
+
+                {% include '_components/eyebrow' with {
+                    params: {
+                        text: entry.eyebrow,
+                        colour: 'black',
+                        rule: true,
+                        ruleColour: 'creme-300',
+                        class: blockClasses.eyebrow|join(' ')|trim
+                    }
+                } only %}
+
+            {% endif %}
+
+            {% if hasHeading or hasText %}
+
+                <div class="{{ blockClasses.headerRow|join(' ')|trim }}">
+
+                    {% if hasHeading %}
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                colour: 'base',
+                                size: '4xl',
+                                alternateStyle: 'base',
+                                class: blockClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    {% if hasText %}
+
+                        <div class="{{ blockClasses.text|join(' ')|trim }}">
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: entry.text,
+                                    colour: 'black',
+                                    size: 'base',
+                                    list: 'base'
+                                }
+                            } only %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+            <ul class="{{ blockClasses.grid|join(' ')|trim }}">
+
+                {% for blog in blogs %}
+
+                    <li>
+
+                        {% include '_components/blogCardLarge' with {
+                            params: {
+                                blog: blog
+                            }
+                        } only %}
+
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

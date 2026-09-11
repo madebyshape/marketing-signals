@@ -28,6 +28,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 68293925-f277-46d8-9b61-62002ff9583e # Grid - Blog
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 0935a4e9-bdf6-4843-a0bf-d8b3bcaa919b # Carousel - Case Study
         -
           - group
