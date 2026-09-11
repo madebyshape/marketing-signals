@@ -6,13 +6,13 @@
 
 {# Team Members #}
 
-{% set members = craft.entries
+{% set query = craft.entries
     .section('team')
     .status('enabled')
-    .image(':notempty:')
-    .offset(offset)
-    .limit(limit)
-    .all() %}
+    .image(':notempty:') %}
+
+{% set total = query.count() %}
+{% set members = query.offset(offset).limit(limit).all() %}
 
 {# Team Intro #}
 
@@ -36,7 +36,7 @@
 {# Classes #}
 
 {% set classes = {
-    grid: 'grid grid-cols-12 gap-5',
+    grid: 'grid grid-cols-12 gap-5 [&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50',
     intro: 'col-span-12 | lg:col-span-4 lg:col-start-9 lg:row-start-1 lg:pl-5',
     text: 'max-w-[474px]',
     footer: [
@@ -44,8 +44,24 @@
         hasText ? 'mt-10' : ''
     ],
     item: 'col-span-12 | md:col-span-6 | lg:col-span-4',
-    tile: 'w-full'
+    tile: 'w-full',
+    more: 'mt-12.5 flex justify-center'
 } %}
+
+{# Attributes #}
+
+{# A `>` anywhere in an s-* value truncates Sprig's tag match, so Tiles are selected by a data attribute. #}
+
+{% set attributes = [
+    'sprig',
+    's-val:offset="' ~ (offset + members|length) ~ '"',
+    's-val:limit="12"',
+    's-target="#teamGridItems"',
+    's-select="#teamGridItems [data-team-grid-tile]"',
+    's-swap="beforeend"',
+    's-select-oob="#teamGridMore"',
+    's-indicator="#teamGridItems"'
+] %}
 
 {# Output #}
 
@@ -111,7 +127,7 @@
                 text: member.text
             } %}
 
-            <li class="{{ classes.item }}">
+            <li class="{{ classes.item }}" data-team-grid-tile>
 
                 {% include '_components/teamTile' with {
                     params: {
@@ -119,7 +135,7 @@
                         sizes: options.sizes,
                         lazy: offset > 0 or loop.index > options.eager,
                         class: classes.tile,
-                        attributes: 'x-on:click="open($el.nextElementSibling, $el)"'
+                        attributes: 'x-on:click="open($el.nextElementSibling, $el)"' ~ (offset > 0 and loop.first ? ' autofocus' : '')
                     }
                 } only %}
 
@@ -135,5 +151,27 @@
         {% endfor %}
 
     </ul>
+
+{% endif %}
+
+{% if offset + members|length < total %}
+
+    <div id="teamGridMore" class="{{ classes.more }}">
+
+        {% include '_components/button' with {
+            params: {
+                type: 'button',
+                button: { label: 'Load More' },
+                colour: 'secondary',
+                icon: 'fa-sharp fa-regular fa-arrow-down',
+                attributes: attributes|join(' ')
+            }
+        } only %}
+
+    </div>
+
+{% else %}
+
+    <div id="teamGridMore"></div>
 
 {% endif %}
