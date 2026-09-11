@@ -755,8 +755,12 @@ A Block of a Section Header over a grid of Icon Cards, three across on a desktop
 _Avoid_: Feature grid, services grid, approach grid, icon boxes, USP grid
 
 **Icon Card**:
-One white rounded card in an Icon Grid or a Card Group: an Icon over a centred heading and a short text.
+One white rounded card in an Icon Grid, an Icon Card Grid or a Card Group: an Icon over a centred heading and a short text. It comes at one of two Card Scales.
 _Avoid_: Feature, tile, box, item, cell
+
+**Card Scale**:
+How large an Icon Card is drawn: large, the Icon Grid's and the Card Group's, or small, the Icon Card Grid's, where the Icon, the headings and the padding all step down so five cards fit a row. It follows the Block the card sits in, so an editor never sets it.
+_Avoid_: Size, variant, compact, small card, modifier
 
 **Icon**:
 The large primary-coloured mark at the top of an Icon Card, chosen by its Icon Type. Decoration: the heading names the card.
@@ -765,6 +769,12 @@ _Avoid_: Glyph, symbol, pictogram, illustration
 **Icon Type**:
 Which of the two sources an Icon comes from: a Font Awesome icon named by the editor and always shown in the Sharp Duotone Light style, or an Image the editor uploads.
 _Avoid_: Icon style, icon source, media type
+
+### Icon Card Grid
+
+**Icon Card Grid**:
+A Block of a centred heading with the Highlight over a centred text, over a grid of Icon Cards at the small Card Scale, with a Button and an Avatar Group centred beneath. Five across on a desktop against the Icon Grid's three, and its cards are the small ones. It has no Eyebrow.
+_Avoid_: Icon Grid, pillar grid, framework grid, five-up, feature row
 
 ### Icon Card Marquee
 
