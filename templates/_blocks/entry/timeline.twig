@@ -1,0 +1,223 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Milestone Slides #}
+
+{% set milestones = entry.timeline.all()|filter(milestone => milestone.year|striptags|trim|length and milestone.heading|striptags|trim|length) %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasLoop = milestones|length > 1 %}
+
+{# Options #}
+
+{# Tile Slots in stacking order: position, size and tilt as a share of the tiles area. #}
+
+{% set blockOptions = {
+    sizes: '(min-width: 1024px) 50vw, 100vw',
+    slots: [
+        'left-0 top-0 w-[58%] h-[62%] rotate-2',
+        'left-[32%] top-[25%] w-[68%] h-[75%] -rotate-4',
+        'left-[12.5%] top-[52%] w-[30%] h-[34%] rotate-1'
+    ]
+} %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: 'relative overflow-hidden rounded-[20px] bg-black p-10',
+    eyebrow: 'pb-5',
+    slide: [
+        'flex w-full flex-col gap-7.5',
+        '|',
+        'lg:grid lg:grid-cols-12 lg:gap-5'
+    ],
+    tiles: [
+        'relative w-full aspect-11/10',
+        '|',
+        'lg:block lg:col-start-7 lg:col-span-6 lg:row-start-1'
+    ],
+    tile: 'absolute overflow-hidden rounded-[30px]',
+    text: [
+        'flex flex-col gap-7.5',
+        '|',
+        'lg:col-start-1 lg:col-span-5 lg:row-start-1 lg:self-center'
+    ],
+    heading: 'font-medium leading-1.2 tracking-tighter | md:text-5xl md:font-semibold md:leading-0.97 | lg:text-7xl',
+    controls: 'self-start',
+    yearRow: 'mt-10'
+} %}
+
+{# Output #}
+
+{% if milestones|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.panel }}">
+
+                    {% if hasEyebrow %}
+
+                        <div class="{{ blockClasses.eyebrow }}">
+
+                            {% include '_components/eyebrow' with {
+                                params: {
+                                    text: entry.eyebrow,
+                                    colour: 'white',
+                                    rule: true,
+                                    ruleColour: 'white-30'
+                                }
+                            } only %}
+
+                        </div>
+
+                    {% endif %}
+
+                    {% embed '_components/carousel'
+                        with {
+                            params: {
+                                id: params.handle,
+                                items: milestones,
+                                tag: 'ul',
+                                slideTag: 'li',
+                                ease: 'smooth',
+                                props: {
+                                    slidesPerView: 1,
+                                    spaceBetween: 0,
+                                    speed: 600,
+                                    loop: hasLoop,
+                                    simulateTouch: true,
+                                    allowTouchMove: true,
+                                    preventClicks: true,
+                                    preventClicksPropagation: true,
+                                    a11y: {
+                                        enabled: true,
+                                        containerRole: 'region',
+                                        slideRole: 'group'
+                                    }
+                                }
+                            }
+                        }
+                    %}
+
+                        {% block slideContent %}
+
+                            {% set images = item.imagesMax3.limit(3).all() %}
+
+                            <div class="{{ blockClasses.slide|join(' ')|trim }}">
+
+                                {# Below `lg` a Milestone without images drops the tiles area. #}
+
+                                <div class="{{ [images|length ? '' : 'hidden']|merge(blockClasses.tiles)|join(' ')|trim }}">
+
+                                    {% for image in images %}
+
+                                        <div class="{{ [blockClasses.tile, blockOptions.slots[loop.index0]]|join(' ') }}">
+
+                                            {% include '_components/picture' with {
+                                                params: {
+                                                    image: image,
+                                                    alt: '',
+                                                    transform: '1x1',
+                                                    ratio: false,
+                                                    focalPoint: true,
+                                                    sizes: blockOptions.sizes
+                                                }
+                                            } only %}
+
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                                <div class="{{ blockClasses.text|join(' ')|trim }}">
+
+                                    {% include '_components/eyebrow' with {
+                                        params: {
+                                            text: item.year,
+                                            colour: 'white'
+                                        }
+                                    } only %}
+
+                                    {% include '_components/headingAlternate' with {
+                                        params: {
+                                            tag: 'h3',
+                                            heading: item.heading,
+                                            colour: 'white',
+                                            size: '4xl',
+                                            alternateStyle: 'secondary',
+                                            class: blockClasses.heading
+                                        }
+                                    } only %}
+
+                                    {% if item.text|striptags|trim|length %}
+
+                                        {% include '_components/richText' with {
+                                            params: {
+                                                content: item.text,
+                                                colour: 'creme-100',
+                                                size: 'md'
+                                            }
+                                        } only %}
+
+                                    {% endif %}
+
+                                    {% if hasLoop %}
+
+                                        {% include '_components/carouselControls' with {
+                                            params: {
+                                                style: 'pill',
+                                                colour: 'white-30-outline',
+                                                bind: 'class',
+                                                class: blockClasses.controls
+                                            }
+                                        } only %}
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        {% endblock %}
+
+                        {% block afterContent %}
+
+                            {% include '_components/carouselYearRow' with {
+                                params: {
+                                    labels: milestones|map(milestone => milestone.year),
+                                    class: blockClasses.yearRow
+                                }
+                            } only %}
+
+                        {% endblock %}
+
+                    {% endembed %}
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

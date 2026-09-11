@@ -1,0 +1,94 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  c1de75a9-6557-40da-abc8-a86cd75fca19:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 91872922-8445-4033-bebb-8ab2937f8c20
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 682c8ef7-4b4c-400d-887b-0be18f574a3d
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 13fc8357-913a-4823-b2c0-3005deaf3cbd
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d2a9f8dd-ebb9-4d78-a006-11ad40465058 # Timeline
+            handle: null
+            instructions: 'One Milestone per year, in order. A Milestone without a Year or a heading is skipped.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 52ea0216-a6cb-46ca-9cb1-eb210783dc25
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 0a410df8-b043-4d2f-b6b2-926d5eaa8994
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 68556ced-5980-42d1-b0a8-f4bd19443bb5
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 6e25f1a6-2987-49c5-8e8e-e27e5800d5b7
+        userCondition: null
+    thumbFieldKey: null
+handle: timeline
+hasTitleField: false
+icon: timeline
+name: Timeline
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

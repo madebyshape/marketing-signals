@@ -1,0 +1,29 @@
+columnSuffix: null
+handle: timeline
+instructions: null
+name: Timeline
+searchable: false
+settings:
+  createButtonLabel: 'New Milestone'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 0c7ab01e-612c-4ca5-ae2c-697d5c4dcfcf # Milestone
+        -
+          - group
+          - General
+  includeTableView: false
+  maxEntries: null
+  minEntries: 1
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix
