@@ -76,6 +76,14 @@ settings:
       __assoc__:
         -
           - uid
+          - ca0df6bc-99c5-4fc0-8396-b60425a91988 # Featured Blog
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 79e1a77d-effa-4dd3-bdb7-0887b8151560 # Featured Testimonial
         -
           - group

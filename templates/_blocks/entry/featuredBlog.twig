@@ -1,0 +1,172 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set blog = entry.entryBlog.one() %}
+{% set thumbnail = blog ? blog.thumbnail.one() : null %}
+{% set description = blog ? blog.description|striptags : '' %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: 'group relative isolate block overflow-hidden rounded-[20px] bg-black',
+    photograph: {
+        portrait: [
+            'absolute inset-0 z-0 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out',
+            '|',
+            'motion-safe:pointer-fine:group-hover:scale-105',
+            '|',
+            'md:hidden'
+        ],
+        landscape: [
+            'absolute inset-0 z-0 hidden motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out',
+            '|',
+            'motion-safe:pointer-fine:group-hover:scale-105',
+            '|',
+            'md:block'
+        ]
+    },
+    shade: [
+        'absolute inset-x-0 bottom-0 z-10 h-1/2 bg-linear-to-t from-black/80 to-transparent',
+        '|',
+        'lg:inset-y-0 lg:right-auto lg:h-auto lg:w-[64%] lg:bg-linear-to-r lg:from-black/90'
+    ],
+    column: [
+        'relative z-20 flex flex-col items-start justify-between gap-10 aspect-3/4 p-5',
+        '|',
+        'md:aspect-16/10',
+        '|',
+        'lg:aspect-12/5 lg:p-10'
+    ],
+    content: 'w-full max-w-[582px]',
+    meta: 'mb-7.5',
+    title: [
+        'text-2xl font-medium leading-1.2 tracking-tighter text-white',
+        '|',
+        'md:text-3xl',
+        '|',
+        'lg:text-4xl'
+    ],
+    description: 'mt-6.25 text-base leading-1.33 text-white',
+    pill: 'mt-7.5'
+} %}
+
+{# Output #}
+
+{% if blog %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <a href="{{ blog.url }}" class="{{ blockClasses.panel }}">
+
+                    {% if thumbnail %}
+
+                        <div class="{{ blockClasses.photograph.portrait|join(' ')|trim }}">
+
+                            {% include '_components/picture' with {
+                                params: {
+                                    image: thumbnail,
+                                    alt: '',
+                                    transform: '3x4',
+                                    ratio: false,
+                                    focalPoint: true,
+                                    sizes: '100vw'
+                                }
+                            } only %}
+
+                        </div>
+
+                        <div class="{{ blockClasses.photograph.landscape|join(' ')|trim }}">
+
+                            {% include '_components/picture' with {
+                                params: {
+                                    image: thumbnail,
+                                    alt: '',
+                                    transform: '2x1',
+                                    ratio: false,
+                                    focalPoint: true,
+                                    sizes: '100vw'
+                                }
+                            } only %}
+
+                        </div>
+
+                        <div class="{{ blockClasses.shade|join(' ')|trim }}"></div>
+
+                    {% endif %}
+
+                    <div class="{{ blockClasses.column|join(' ')|trim }}">
+
+                        {% include '_components/badge' with {
+                            params: {
+                                badge: 'Featured Article',
+                                colour: 'white-20',
+                                size: 'sm'
+                            }
+                        } only %}
+
+                        <div class="{{ blockClasses.content }}">
+
+                            {% include '_components/blogMeta' with {
+                                params: {
+                                    date: blog.postDate,
+                                    colour: 'white',
+                                    class: blockClasses.meta
+                                }
+                            } only %}
+
+                            <h2 class="{{ blockClasses.title|join(' ')|trim }}">{{ blog.title }}</h2>
+
+                            {# The Description is stripped to text: a link inside the panel's link is invalid HTML. #}
+
+                            {% if description|trim|length %}
+
+                                <p class="{{ blockClasses.description }}">{{ description }}</p>
+
+                            {% endif %}
+
+                            <div class="{{ blockClasses.pill }}">
+
+                                {% include '_components/button' with {
+                                    params: {
+                                        type: 'span',
+                                        button: { label: 'Continue Reading' },
+                                        colour: 'white-30-outline',
+                                        icon: null
+                                    }
+                                } only %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
