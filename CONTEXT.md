@@ -353,11 +353,11 @@ Whether a Case Study Card in the Case Study Grid is Large (the full grid width) 
 _Avoid_: Featured, hero card, variant, span
 
 **Category Filter**:
-The row of Filter Buttons above a list that narrows it by Category, one per Category that at least one item in the list belongs to, led by a button for every item. Exactly one Filter Button is active at a time. Above the Case Study Grid it is led by All Work and scrolls sideways under a pair of arrows where it is wider than the page; above a Career List it is led by All, wraps, and is not shown when the list's Careers share one Category.
+The row of Filter Buttons above a list that narrows it by Category, one per Category that at least one item in the list belongs to, led by a button for every item. Exactly one Filter Button is active at a time. Above the Case Study Grid it is led by All Work and scrolls sideways under a pair of arrows where it is wider than the page; above the Playbook Grid it is led by All Playbooks and behaves the same way, centred; above a Career List it is led by All, wraps, and is not shown when the list's Careers share one Category.
 _Avoid_: Tags, tabs, category nav, filter bar, facets
 
 **Filter Button**:
-One pill in a Category Filter, reading a Category's name, that narrows its list to that Category. On a light background a radar dot sits beside the name and a chosen Filter Button also returns the Case Study Grid to page one; on a Career List's black panel it has no dot and is filled Secondary while active, outlined White 30% otherwise.
+One pill in a Category Filter, reading a Category's name, that narrows its list to that Category. On a light background a radar dot sits beside the name and a chosen Filter Button also returns the Case Study Grid to page one and the Playbook Grid to its first nine; on a Career List's black panel it has no dot and is filled Secondary while active, outlined White 30% otherwise.
 _Avoid_: Tag, pill, chip, tab, toggle
 
 **All Work**:
@@ -637,7 +637,7 @@ The text an open Question reveals, with the FAQ's Button Group beneath it when o
 _Avoid_: Content, body, description, response
 
 **Load More**:
-The button beneath a list that brings in more of it without leaving the page, shown only while some are not yet on the page: beneath the Questions it loads every remaining Question in one click; beneath the Team Grid it adds the next twelve Team Tiles.
+The button beneath a list that brings in more of it without leaving the page, shown only while some are not yet on the page: beneath the Questions it loads every remaining Question in one click; beneath the Team Grid it adds the next twelve Team Tiles; beneath the Playbook Grid it adds the next nine Playbook Cards, keeping the Category Filter's choice.
 _Avoid_: Show more, pagination, view all, expand
 
 **Follow**:
@@ -842,6 +842,36 @@ _Avoid_: CTA banner, promo banner, careers banner, image banner, callout
 A photograph of a person with a transparent background that stands on a panel's bottom edge and rises above the panel's top. The Banner CTA is its first use.
 _Avoid_: Person image, portrait, PNG, floating image, sticker
 
+### Audit CTA
+
+**Audit CTA**:
+A Block of a black panel inside the site margins holding an Eyebrow with a Rule over a heading with the Highlight, a short text with Ticked Items and a Button, beside a photograph with the Chart Card tilted across its corner. From the desktop breakpoint the content is five columns of twelve and the photograph and Chart Card sit beside it, both tilted; below it everything stacks in one column and nothing is tilted.
+_Avoid_: Audit block, CTA panel, chart banner, visibility block, audit banner
+
+**Chart Card**:
+The Secondary card tilted across the Audit CTA's photograph, holding a Badge, a heading, its Bars and a Footnote. It is the only tilted card on the site and it straightens below the desktop breakpoint.
+_Avoid_: Graph card, stats card, widget, snapshot, chart panel
+
+**Badge**:
+A small pill of text marking what a card is, such as "AI Visibility Snapshot" at the top of a Chart Card.
+_Avoid_: Tag, chip, label, pill, flag
+
+**Bar**:
+One row of a Chart Card: a label, its percentage written out, and a Track filled to that percentage. The fill is always drawn from the percentage an editor set, never measured from the design.
+_Avoid_: Progress bar, meter, stat, metric, graph row
+
+**Track**:
+The 3px line a Bar fills, running the Chart Card's inner width in black at 15%.
+_Avoid_: Rail, groove, bar background, line, Rule
+
+**Footnote**:
+The small line under a Chart Card's Bars qualifying what they show, such as "Sample data · Your full report at delivery".
+_Avoid_: Caption, disclaimer, small print, note, legend
+
+**Ticked Item**:
+One line of a bullet list in a text field, rendered with a Secondary circle and a black tick in place of the bullet. In the Audit CTA the Ticked Items are one column; in a Content Row they are two from the tablet breakpoint.
+_Avoid_: Checklist item, bullet, feature, USP, check row
+
 ### Career List
 
 **Career**:
@@ -863,6 +893,44 @@ _Avoid_: Contract type, job type, hours
 **Call To Action**:
 The last row of a Career List: an optional photo, a heading and a text with a Button, inviting a visitor who found no Career to get in touch. The Category Filter never changes it.
 _Avoid_: CTA, footer CTA, banner, Banner CTA
+
+### Playbook Listing
+
+**Playbook**:
+An entry in the Playbook section: one long-form visibility guide for an industry, with a Heading, a Thumbnail, a Description, its Categories and a page of its own. Playbooks are a numbered series, ordered by editors.
+_Avoid_: Guide, resource, whitepaper, article, report, ebook
+
+**Playbook Listing page**:
+The Page whose entry type is Playbook Listing, holding the Hero, the Listing Header, the Playbook Grid and the Blocks. There is one, found by its entry type (ADR-0003).
+_Avoid_: Playbooks page, playbook index, resources page, hub
+
+**Listing Header**:
+The centred heading with the Highlight over a short text, set by editors on the Playbook Listing page, above the Category Filter. Unlike a Block's header row it is centred and has no Eyebrow.
+_Avoid_: Page intro, header block, hero, Case Study Intro
+
+**Playbook Grid**:
+The grid of every Playbook on the Playbook Listing page, narrowed by the Category Filter and read nine at a time through Load More. Three across on a desktop, two on a tablet and one on a phone. It sits between the Listing Header and the page's Blocks, and has no Block and no field: Playbooks pull through on their own.
+_Avoid_: Playbook listing, playbook archive, resource grid, index
+
+**Playbook Card**:
+A Linked Card for a Playbook: its Thumbnail across the top under a Scrim carrying the Playbook's first Category as a badge and its Playbook Number, over the Word Count and Read Time, its Heading with the Highlight, its Description and a "Read More" pill. The whole card is one link; the pill is not.
+_Avoid_: Resource card, guide card, article card, Blog Large Card
+
+**Playbook Number**:
+A Playbook's place in the series, shown on its Playbook Card as "No. 01". It is the Playbook's position among every enabled Playbook in structure order, so it does not change when the Category Filter narrows the Playbook Grid or Load More extends it.
+_Avoid_: Index, count, card number, position, Service Number
+
+**Word Count**:
+How many words a Playbook holds, shown on its Playbook Card beside a clipboard icon as "3,400 words". A literal until Playbooks have content to count.
+_Avoid_: Length, size, words, wordcount
+
+**Read Time**:
+How long a Playbook takes to read, shown on its Playbook Card beside a clock icon as "14 min read", to the right of the Word Count under a thin divider. A literal until Playbooks have content to count.
+_Avoid_: Reading time, duration, time to read, minutes
+
+**Scrim**:
+The gradient over the top of a Playbook Card's Thumbnail that keeps the badge and the Playbook Number legible on a light photograph. Decoration: never a link, never read out.
+_Avoid_: Overlay, shade, shadow, gradient, bottom shadow
 
 ### Seeding
 
