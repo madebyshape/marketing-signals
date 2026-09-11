@@ -21,10 +21,22 @@
 
 {% set blockClasses = {
     margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
-    panel: 'relative isolate block overflow-hidden rounded-[20px] bg-black',
+    panel: 'group relative isolate block overflow-hidden rounded-[20px] bg-black',
     photograph: {
-        portrait: 'absolute inset-0 z-0 md:hidden',
-        landscape: 'absolute inset-0 z-0 hidden md:block'
+        portrait: [
+            'absolute inset-0 z-0 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out',
+            '|',
+            'motion-safe:pointer-fine:group-hover:scale-105',
+            '|',
+            'md:hidden'
+        ],
+        landscape: [
+            'absolute inset-0 z-0 hidden motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out',
+            '|',
+            'motion-safe:pointer-fine:group-hover:scale-105',
+            '|',
+            'md:block'
+        ]
     },
     shade: [
         'absolute inset-x-0 bottom-0 z-10 h-1/2 bg-linear-to-t from-black/80 to-transparent',
@@ -71,7 +83,7 @@
 
                     {% if thumbnail %}
 
-                        <div class="{{ blockClasses.photograph.portrait }}">
+                        <div class="{{ blockClasses.photograph.portrait|join(' ')|trim }}">
 
                             {% include '_components/picture' with {
                                 params: {
@@ -86,7 +98,7 @@
 
                         </div>
 
-                        <div class="{{ blockClasses.photograph.landscape }}">
+                        <div class="{{ blockClasses.photograph.landscape|join(' ')|trim }}">
 
                             {% include '_components/picture' with {
                                 params: {
