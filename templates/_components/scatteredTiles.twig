@@ -6,6 +6,7 @@
     tiles: [],
     transform: '3x5',
     sizes: '(min-width: 1024px) 242px, 120px',
+    rounded: 'sm',
     slots: [
         { position: 'top-[-18.9%] left-[2.2%]', speed: 'slow' },
         { position: 'top-[-2.4%] right-[8.5%]', speed: 'mid' },
@@ -27,6 +28,15 @@
         slow: 0.1,
         mid: 0.2,
         fast: 0.36
+    },
+    size: {
+        base: 'w-[120px] | lg:w-[242px]',
+        md: 'w-[120px] | lg:w-[187px]',
+        lg: 'w-[150px] | lg:w-[235px]'
+    },
+    rounded: {
+        sm: 'rounded-[10px]',
+        md: 'rounded-[15px]'
     }
 } %}
 
@@ -42,10 +52,23 @@
         params.class
     ],
     tile: [
-        'absolute'
+        'absolute overflow-hidden',
+        options.rounded[params.rounded]
     ],
     image: [
-        'w-[120px] h-auto rounded-[10px] | lg:w-[242px]'
+        'w-full h-auto'
+    ],
+    fade: [
+        'absolute inset-x-0 bottom-0 h-[38%] bg-linear-to-b from-transparent to-black'
+    ],
+    caption: [
+        'absolute inset-x-2.5 bottom-2.5 flex flex-col text-white | lg:inset-x-3.75 lg:bottom-3.75'
+    ],
+    title: [
+        'text-sm font-medium leading-1.33 | lg:text-base'
+    ],
+    text: [
+        'text-2xs leading-1.33 tracking-tight | lg:text-xs'
     ]
 } %}
 
@@ -65,9 +88,11 @@
         {% for tile in tiles %}
 
             {% set slot = params.slots[loop.index0] %}
+            {% set title = tile.title ?? '' %}
+            {% set text = tile.text ?? '' %}
 
             <div
-                class="{{ classes.tile|merge([slot.position])|join(' ')|trim }}"
+                class="{{ classes.tile|merge([options.size[slot.size ?? 'base'], slot.position])|join(' ')|trim }}"
                 data-speed="{{ options.speed[slot.speed] }}"
             >
 
@@ -82,6 +107,24 @@
                         imgClass: classes.image|join(' ')|trim
                     }
                 } only %}
+
+                {% if title|trim|length %}
+
+                    <div class="{{ classes.fade|join(' ')|trim }}"></div>
+
+                    <div class="{{ classes.caption|join(' ')|trim }}">
+
+                        <p class="{{ classes.title|join(' ')|trim }}">{{ title }}</p>
+
+                        {% if text|trim|length %}
+
+                            <p class="{{ classes.text|join(' ')|trim }}">{{ text }}</p>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
 
             </div>
 
