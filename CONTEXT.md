@@ -766,12 +766,6 @@ _Avoid_: Glyph, symbol, pictogram, illustration
 Which of the two sources an Icon comes from: a Font Awesome icon named by the editor and always shown in the Sharp Duotone Light style, or an Image the editor uploads.
 _Avoid_: Icon style, icon source, media type
 
-### Service List
-
-**Service Listing page**:
-The Page whose entry type is Service Listing, holding the Hero, the Service List, the List Footer and the Blocks. There is one, found by its entry type (ADR-0003).
-_Avoid_: Services page, services index
-
 ### Icon Card Marquee
 
 **Icon Card Marquee**:
@@ -789,6 +783,12 @@ _Avoid_: Tab, filter button, pill, toggle, chip
 **Tab Heading**:
 The short label an editor gives a Card Group, shown as its Group Tab.
 _Avoid_: Tab title, group name, label
+
+### Service List
+
+**Service Listing page**:
+The Page whose entry type is Service Listing, holding the Hero, the Service List, the List Footer and the Blocks. There is one, found by its entry type (ADR-0003).
+_Avoid_: Services page, services index
 
 **Service List**:
 The run of Service Cards between the Hero and the Blocks on the Service Listing page, one per enabled Service in structure order, with the List Footer beneath. It has no Block and no field: Services pull through on their own.
@@ -853,7 +853,6 @@ _Avoid_: Contract type, job type, hours
 **Call To Action**:
 The last row of a Career List: an optional photo, a heading and a text with a Button, inviting a visitor who found no Career to get in touch. The Category Filter never changes it.
 _Avoid_: CTA, footer CTA, banner, Banner CTA
-
 
 ### Seeding
 
