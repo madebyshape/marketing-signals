@@ -68,6 +68,14 @@ settings:
       __assoc__:
         -
           - uid
+          - fad5a644-6f71-4369-a699-5b79fcf68452 # Elements - Career
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 0acf1fd0-9723-4b0b-905b-b873b17bfdf7 # Eyebrow, Heading & Text
         -
           - group

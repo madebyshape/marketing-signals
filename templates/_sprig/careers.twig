@@ -1,0 +1,155 @@
+{# Default Variables #}
+
+{% set category = category ?? '' %}
+
+{# Careers #}
+
+{% set query = craft.entries.section('career').id(ids|split(',')).fixedOrder() %}
+
+{# A Category only earns a Filter Button while a Career in play points at it. #}
+
+{% set categories = craft.categories.group('career').relatedTo({
+    sourceElement: clone(query)
+}).all() %}
+
+{% set activeCategory = categories|filter(item => item.slug == category)|first %}
+{% set activeSlug = activeCategory ? activeCategory.slug : '' %}
+
+{% set careers = query.relatedTo(activeCategory ?: null).all() %}
+
+{# Attributes #}
+
+{% set rowsId = prefix ~ '-rows' %}
+
+{# Only the rows swap, so focus stays on the chosen Filter Button. #}
+
+{% set attributes = [
+    'sprig',
+    's-target="#' ~ rowsId ~ '"',
+    's-select="#' ~ rowsId ~ ' li"',
+    's-indicator="#' ~ rowsId ~ '"'
+] %}
+
+{# Classes #}
+
+{% set classes = {
+    filter: 'min-w-0 | lg:col-start-2 lg:row-start-1',
+    filterButtons: 'flex flex-wrap gap-1.25',
+    list: 'grid gap-2.5 | [&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50 | lg:col-span-full',
+    row: [
+        'group grid grid-cols-[1fr_auto] items-start gap-x-5 gap-y-2.5 rounded-[20px] bg-black-200 p-5 text-white transition-colors duration-300',
+        '|',
+        'focus:outline-none focus-visible:bg-secondary focus-visible:text-black focus-visible:ring-3 focus-visible:ring-secondary/50 pointer-fine:hover:bg-secondary pointer-fine:hover:text-black',
+        '|',
+        'lg:min-h-[102px] lg:grid-cols-12 lg:items-center lg:px-7.5 lg:py-5'
+    ],
+    title: 'col-start-1 row-start-1 text-2xl font-medium leading-1.2 tracking-tighter | lg:col-span-7 lg:text-3xl',
+    meta: 'col-span-2 row-start-2 flex flex-wrap gap-x-5 gap-y-2.5 | lg:contents',
+    employmentType: 'inline-flex items-center gap-x-1.75 text-base leading-1.33 | lg:col-span-2 lg:col-start-8 lg:row-start-1',
+    category: 'inline-flex items-center gap-x-1.75 text-base leading-1.33 | lg:col-span-2 lg:col-start-10 lg:row-start-1',
+    icon: 'text-[12px]',
+    arrow: [
+        'col-start-2 row-start-1',
+        '|',
+        'pointer-fine:group-hover:border-white pointer-fine:group-hover:bg-white pointer-fine:group-hover:text-black group-focus-visible:border-white group-focus-visible:bg-white group-focus-visible:text-black',
+        '|',
+        'lg:col-start-12 lg:justify-self-end'
+    ]
+} %}
+
+{# Output #}
+
+{% if categories|length > 1 %}
+
+    <fieldset class="{{ classes.filter }}">
+
+        <legend class="sr-only">Filter careers by category</legend>
+
+        <div class="{{ classes.filterButtons }}">
+
+            {% for item in [{ title: 'All', slug: '' }]|merge(categories) %}
+
+                {% include '_components/filterButton' with {
+                    params: {
+                        label: item.title,
+                        name: prefix ~ '-category',
+                        value: item.slug,
+                        checked: item.slug == activeSlug,
+                        scheme: 'black',
+                        dot: false,
+                        attributes: attributes|merge(['s-val:category="' ~ item.slug ~ '"'])|join(' ')
+                    }
+                } only %}
+
+            {% endfor %}
+
+        </div>
+
+    </fieldset>
+
+{% endif %}
+
+<ul id="{{ rowsId }}" class="{{ classes.list }}" aria-live="polite">
+
+    {% for career in careers %}
+
+        {% set employmentType = career.employmentType.value ? career.employmentType.label : null %}
+        {% set careerCategory = career.categoriesCareer.one() %}
+
+        <li>
+
+            <a href="{{ career.url }}" class="{{ classes.row|join(' ')|trim }}">
+
+                <h3 class="{{ classes.title }}">{{ career.title }}</h3>
+
+                {% if employmentType or careerCategory %}
+
+                    <div class="{{ classes.meta }}">
+
+                        {% if employmentType %}
+
+                            <div class="{{ classes.employmentType }}">
+
+                                <i class="{{ classes.icon }} fa-sharp fa-regular fa-clock" aria-hidden="true"></i>
+
+                                {{ employmentType }}
+
+                            </div>
+
+                        {% endif %}
+
+                        {% if careerCategory %}
+
+                            <div class="{{ classes.category }}">
+
+                                <i class="{{ classes.icon }} fa-sharp fa-regular fa-bullseye-arrow" aria-hidden="true"></i>
+
+                                {{ careerCategory.title }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+                {% include '_components/buttonShape' with {
+                    params: {
+                        type: 'span',
+                        button: { value: career.url },
+                        colour: 'white-30-outline',
+                        size: 'md',
+                        icon: 'fa-sharp fa-regular fa-arrow-up-right text-[14px]',
+                        class: classes.arrow|join(' ')|trim,
+                        attributes: 'aria-hidden="true"'
+                    }
+                } only %}
+
+            </a>
+
+        </li>
+
+    {% endfor %}
+
+</ul>

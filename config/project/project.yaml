@@ -166,6 +166,7 @@ meta:
     5edf3cb2-e081-444a-a9c1-bdab388c26f3: 'Dropdown - Aspect Ratio' # Dropdown - Aspect Ratio
     6b543e86-8407-40c1-a8c3-f313ed625200: 'Entry - Form Success' # Entry - Form Success
     6b2462c2-66b9-45fe-9504-0bce4d4cd1df: Blocks # Blocks
+    6ba1e04e-698a-4b7a-b999-01f72753d481: 'Entries - Career' # Entries - Career
     6c529af8-e2a5-4453-b9fb-1ba91313d2ea: 'Dropdown - Icon Type' # Dropdown - Icon Type
     6c903676-c7fc-4096-874c-68b19495c33a: 'Entry - Service' # Entry - Service
     6d792fe4-471d-48ed-bc45-5fe112ba7e46: Image # Image
@@ -187,6 +188,7 @@ meta:
     9db15396-a721-4413-a2c2-72e509359139: 'Entry - Contact' # Entry - Contact
     9de44452-8794-4e21-b47e-f1adf6c262eb: 'Hero Template' # Hero Template
     9f7a3bdc-1be7-4939-9cb1-6472c41ba7c2: 'Marquee - Team' # Marquee - Team
+    14b863fa-7e62-48cf-b281-df8ec7901fd6: 'Call To Action' # Call To Action
     15a9b54f-c692-49c5-9368-7a85274cd550: Career # Career
     15e52e57-510c-4224-9b47-16c703f5270c: Images # Images
     17c07940-d39d-4d93-801d-5a752b9c40ec: 'Entry - Career' # Entry - Career
@@ -303,6 +305,7 @@ meta:
     f61a49ec-ae57-4242-8a0b-482661a55c30: 'Dropdown - Employment Type ' # Dropdown - Employment Type
     fa2d89b4-fa6d-48d3-b36a-7169022cd64d: Client # Client
     fa94fd7e-c6f7-4d8a-a3d3-71a00e095d43: 'Marquee - Logos' # Marquee - Logos
+    fad5a644-6f71-4369-a699-5b79fcf68452: 'Elements - Career' # Elements - Career
     fb0420bb-0fbf-46d2-afd2-f7992c60c886: 'Contact Form' # Contact Form
     fc1aa366-1ece-49df-90bc-917b65b70e7d: 'Icon Grid' # Icon Grid
 plugins:

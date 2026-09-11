@@ -1,0 +1,217 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Careers #}
+
+{# Any pick, even a disabled one, stops the fallback to every enabled Career. #}
+
+{% set careerIds = clone(entry.entriesCareer).status(null).exists()
+    ? entry.entriesCareer.ids()
+    : craft.entries.section('career').orderBy('postDate DESC').ids() %}
+
+{% set prefix = params.handle ~ '-' ~ entry.id %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+
+{# Call To Action #}
+
+{% set cta = entry.callToAction %}
+{% set ctaImage = cta.image.one() %}
+{% set hasCta = cta.heading|striptags|trim|length > 0 %}
+{% set hasCtaText = cta.text|striptags|trim|length > 0 %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: [
+        'rounded-[20px] bg-black px-5 pt-10 pb-5',
+        '|',
+        'md:p-10 md:pt-15',
+        '|',
+        'lg:pt-25'
+    ],
+    eyebrow: 'mb-7.5 | lg:mb-12.5',
+    content: 'grid gap-y-7.5 | lg:grid-cols-[1fr_auto] lg:items-end lg:gap-x-5 lg:gap-y-10',
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-5xl | lg:text-6xl'
+    ],
+    sprig: 'contents',
+    cta: [
+        'grid gap-y-5 rounded-[20px] bg-black-200 p-5',
+        careerIds|length ? 'mt-2.5' : (hasHeading ? 'mt-7.5 lg:mt-10'),
+        '|',
+        'lg:grid-cols-12 lg:items-center lg:gap-x-5 lg:px-7.5',
+        ctaImage ? 'lg:py-2.5' : 'lg:py-7.5'
+    ],
+    ctaIntro: [
+        'grid gap-5',
+        '|',
+        'md:flex md:items-center md:gap-x-10',
+        '|',
+        'lg:col-span-7',
+        ctaImage ? 'lg:-ml-5'
+    ],
+    ctaImage: 'w-[120px] shrink-0 | md:w-[213px]',
+    ctaPicture: 'rounded-[15px]',
+    ctaHeading: 'font-semibold leading-0.97 tracking-tighter | lg:text-5xl',
+    ctaBody: 'grid justify-items-start gap-y-5 | lg:col-span-5 lg:col-start-8',
+    ctaText: 'max-w-[548px]'
+} %}
+
+{# Output #}
+
+{% if careerIds|length or hasHeading or hasCta %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+                    {% if hasEyebrow %}
+
+                        {% include '_components/eyebrow' with {
+                            params: {
+                                text: entry.eyebrow,
+                                colour: 'white',
+                                rule: true,
+                                ruleColour: 'white-30',
+                                class: blockClasses.eyebrow
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    <div class="{{ blockClasses.content }}">
+
+                        {% if hasHeading %}
+
+                            {% include '_components/headingAlternate' with {
+                                params: {
+                                    tag: 'h2',
+                                    heading: entry.heading,
+                                    colour: 'creme-100',
+                                    size: '4xl',
+                                    alternateStyle: 'secondary',
+                                    class: blockClasses.heading|join(' ')|trim
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {# The wrapper steps aside so the filter and rows share the heading's grid. #}
+
+                        {% if careerIds|length %}
+
+                            {{ sprig('_sprig/careers', {
+                                ids: careerIds|join(','),
+                                prefix: prefix
+                            }, {
+                                id: prefix ~ '-sprig',
+                                class: blockClasses.sprig
+                            }) }}
+
+                        {% endif %}
+
+                    </div>
+
+                    {% if hasCta %}
+
+                        <div class="{{ blockClasses.cta|join(' ')|trim }}">
+
+                            {# The photo reaches into the card's padding so the columns still match the rows. #}
+
+                            <div class="{{ blockClasses.ctaIntro|join(' ')|trim }}">
+
+                                {% if ctaImage %}
+
+                                    <div class="{{ blockClasses.ctaImage }}">
+
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: ctaImage,
+                                                alt: '',
+                                                transform: '1x1',
+                                                focalPoint: true,
+                                                sizes: '(min-width: 768px) 213px, 120px',
+                                                wrapperClass: blockClasses.ctaPicture
+                                            }
+                                        } only %}
+
+                                    </div>
+
+                                {% endif %}
+
+                                {% include '_components/headingAlternate' with {
+                                    params: {
+                                        tag: 'h3',
+                                        heading: cta.heading,
+                                        colour: 'creme-100',
+                                        size: '3xl',
+                                        alternateStyle: 'secondary',
+                                        class: blockClasses.ctaHeading
+                                    }
+                                } only %}
+
+                            </div>
+
+                            {% if hasCtaText or cta.button|length %}
+
+                                <div class="{{ blockClasses.ctaBody }}">
+
+                                    {% if hasCtaText %}
+
+                                        {% include '_components/richText' with {
+                                            params: {
+                                                content: cta.text,
+                                                colour: 'creme-100',
+                                                class: blockClasses.ctaText
+                                            }
+                                        } only %}
+
+                                    {% endif %}
+
+                                    {% include '_components/button' with {
+                                        params: {
+                                            button: cta.button,
+                                            colour: 'secondary',
+                                            icon: 'fa-sharp fa-regular fa-arrow-up-right'
+                                        }
+                                    } only %}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
