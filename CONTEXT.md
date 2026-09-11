@@ -682,7 +682,6 @@ _Avoid_: Blog list, blog listing, insights grid, related posts, latest posts
 A Block of one Blog the editor picked, shown as a single Linked Card filling a black panel inside the site margins: its Thumbnail covering the panel under a shade, a "Featured Article" badge at the top left, and its date and read time, title, Description and a "Continue Reading" pill at the bottom left. With no Blog picked, or a disabled one, it renders nothing.
 _Avoid_: Featured post, featured article, blog hero, blog banner, spotlight
 
-
 ### Content Rows
 
 **Content Rows**:
