@@ -1,0 +1,72 @@
+{# Default Variables #}
+
+{% set offset = offset ?? 0 %}
+{% set limit = limit ?? 11 %}
+{% set modalId = modalId ?? 'teamGridModal' %}
+
+{# Team Members #}
+
+{% set members = craft.entries
+    .section('team')
+    .status('enabled')
+    .image(':notempty:')
+    .offset(offset)
+    .limit(limit)
+    .all() %}
+
+{# Options #}
+
+{% set options = {
+    sizes: '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw',
+    eager: 3
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    grid: 'grid grid-cols-12 gap-5',
+    item: 'col-span-12 | md:col-span-6 | lg:col-span-4',
+    tile: 'w-full'
+} %}
+
+{# Output #}
+
+{% if members|length %}
+
+    <ul id="teamGridItems" class="{{ classes.grid }}">
+
+        {% for member in members %}
+
+            {% set tile = {
+                name: member.title,
+                jobRole: member.jobRole,
+                image: member.image.one(),
+                text: member.text
+            } %}
+
+            <li class="{{ classes.item }}">
+
+                {% include '_components/teamTile' with {
+                    params: {
+                        member: tile,
+                        sizes: options.sizes,
+                        lazy: offset > 0 or loop.index > options.eager,
+                        class: classes.tile,
+                        attributes: 'x-on:click="open($el.nextElementSibling, $el)"'
+                    }
+                } only %}
+
+                {% include '_components/teamModal' with {
+                    params: {
+                        id: modalId,
+                        member: tile
+                    }
+                } only %}
+
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+{% endif %}

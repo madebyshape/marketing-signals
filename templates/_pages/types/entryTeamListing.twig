@@ -19,7 +19,42 @@
         vars: vars
     }) }}
 
-    {# Team Listing #}
+    {# Team Grid #}
+
+    {% set hasTeamMembers = craft.entries.section('team').status('enabled').image(':notempty:').exists() %}
+
+    {% if hasTeamMembers %}
+
+        {% embed '_components/section' with {
+            params: {
+                paddingY: 'topBottom',
+                paddingYSize: 'base'
+            }
+        } %}
+            {% block sectionContent %}
+
+                {# The Modal sits outside the Sprig component so a swap never replaces it. #}
+
+                <div x-data="teamModal">
+
+                    {% include '_components/teamModal' with {
+                        params: {
+                            id: 'teamGridModal'
+                        }
+                    } only %}
+
+                    {{ sprig('_sprig/teamGrid', {
+                        modalId: 'teamGridModal'
+                    }, {
+                        id: 'teamGrid'
+                    }) }}
+
+                </div>
+
+            {% endblock %}
+        {% endembed %}
+
+    {% endif %}
 
     {# Blocks #}
     {{ entry.blocks.render({
