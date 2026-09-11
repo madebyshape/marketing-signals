@@ -9,8 +9,57 @@
 
 {% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
 
+{# Team Tiles #}
+
+{% set members = entry.entriesTeam.with(['image']).all() %}
+
+{% if not members|length %}
+
+    {% set members = craft.entries()
+        .section('team')
+        .image(':notempty:')
+        .with(['image'])
+        .limit(6)
+        .all() %}
+
+{% endif %}
+
+{% set tiles = [] %}
+
+{% for member in members %}
+
+    {% set image = member.image.one() %}
+
+    {% if image %}
+
+        {% set tiles = tiles|merge([{
+            image: image,
+            title: member.title,
+            text: member.jobRole
+        }]) %}
+
+    {% endif %}
+
+{% endfor %}
+
 {% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
 {% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+
+{# Options #}
+
+{# Below `lg` slots 1 to 4 sit in the corners, so they fill first #}
+
+{% set blockOptions = {
+    sizes: '(min-width: 1024px) 235px, 150px',
+    slots: [
+        { position: 'top-[4%] left-[-6%] | lg:top-[-4.6%] lg:left-[42.6%]', size: 'md', speed: 'slow' },
+        { position: 'top-[10%] right-[-6%] | lg:top-[13.7%] lg:right-[2.5%]', size: 'md', speed: 'mid' },
+        { position: 'top-[72%] left-[-4%] | lg:top-[66.3%] lg:left-[12.1%]', size: 'md', speed: 'slow' },
+        { position: 'top-[70%] right-[-8%] | lg:top-[55.2%] lg:right-[10.5%]', size: 'md', speed: 'mid' },
+        { position: 'hidden | lg:block lg:top-[13.2%] lg:left-[-1.25%]', size: 'lg', speed: 'fast' },
+        { position: 'hidden | lg:block lg:top-[77.8%] lg:left-[42.6%]', size: 'lg', speed: 'fast' }
+    ]
+} %}
 
 {# Classes #}
 
@@ -42,6 +91,16 @@
     {% block sectionContent %}
 
         <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+            {% include '_components/scatteredTiles' with {
+                params: {
+                    tiles: tiles,
+                    transform: '2x3',
+                    sizes: blockOptions.sizes,
+                    rounded: 'md',
+                    slots: blockOptions.slots
+                }
+            } only %}
 
             <div class="{{ blockClasses.gradient }}"></div>
 
