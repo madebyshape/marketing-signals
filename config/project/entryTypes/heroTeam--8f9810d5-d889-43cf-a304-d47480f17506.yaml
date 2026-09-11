@@ -1,0 +1,117 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  bb5c8af5-d0bd-4156-9d45-1b928af36d19:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: c26e30ac-1d38-4c7c-89de-a9a9cbb80713
+            userCondition: null
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ba408c66-178e-426a-9019-27ba243e4843
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: 'Make words italic to highlight them.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e7665570-7072-4cf8-8e91-093317a2eae2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: b74f48fb-af72-4aeb-9cc7-7f3c6c31c281
+            userCondition: null
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 50116844-aee8-4cad-ae6f-cb59132a4d62 # Entries - Team
+            handle: null
+            instructions: 'The first six with an Image fill the Tiles, in this order. Empty shows the first six Team Members with an Image.'
+            label: 'Team Members'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6227ebe3-4c79-4384-a8db-1f4d4110a7eb
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: db80de40-9373-4110-a682-9cad97494397
+            userCondition: null
+        name: Content
+        uid: dc159498-c67f-4f56-9b37-1ed148c594c7
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 9c2880cd-7d0d-494f-aeeb-4c0b30575fb5 # Padding - Hero
+            handle: padding
+            instructions: null
+            label: Padding
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 073e3957-7699-440d-a6c4-b72a3fe932c0
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 99d28835-ceb6-40ef-925d-ecdabc256b5a
+        userCondition: null
+    thumbFieldKey: null
+handle: heroTeam
+hasTitleField: false
+icon: heading
+name: 'Hero - Team'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

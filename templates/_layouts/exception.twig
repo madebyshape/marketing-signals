@@ -28,7 +28,7 @@
 
         {% include '_components/scatteredTiles' with {
             params: {
-                images: site.errorImages.all()
+                tiles: site.errorImages.all()|map(image => { image: image })
             }
         } only %}
 
