@@ -103,6 +103,8 @@ From the desktop breakpoint the field takes the remaining width and the pill tak
 
 **Playbook Listing content.** One Banner - Gated Content Block appended to the end of the Playbook Listing page's Blocks, padding Top and Bottom, carrying the node's copy: the Eyebrow "Free Download"; the heading "The Visibility Playbook" with "Companion Checklist" as the Highlight; the text as the node's paragraphs, which are a summary followed by three short lines describing the document; and the node's Cutout. No form is selected. Added with the Seed command from a Seed file under the scratch folder, with the Cutout beside it. The Seed is not committed. The Cutout is exported from the node during this spec's session, since the Figma asset URLs expire in seven days.
 
+**The seeding is not ticketed.** The Seed file and the Cutout are gitignored and exist only on this machine, so an agent working from its own checkout cannot run them. The Seed is run by hand on the shared branch after the Block's template lands and before the group is queued, so that the group review has content to screenshot. A group queued before the Seed has run reviews an empty page.
+
 **Worktree.** The Block is built in its own worktree with its own DDEV project, because the repository's `main` currently carries uncommitted Playbook Listing work from another session and this Block writes project config. Nothing is staged from outside the Block's own change.
 
 **Docs.** `CONTEXT.md` gains Banner Gated Content and the Gate, edited on the feature branch and not in `main`. No new ADR: every decision here is a template or config change that can be reverted.
