@@ -1,0 +1,71 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  44727ddf-8399-4cb8-8ba5-aea3ab8f2310:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 1981a609-40f4-4081-b8a1-baa374590436
+            userCondition: null
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: b5e534eb-67ec-42d5-9bb4-93f6f235bc2b # Entry - Blog
+            handle: null
+            instructions: 'One Blog. Its Thumbnail fills the panel.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a2830623-e40e-4cd3-a5de-3ca501a2cbe9
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: bb139c85-16f6-4a6b-9c31-343d54e25282
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 20146dc4-748e-4476-b8c2-bb23bdb85e82
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: cefb7c73-85b7-47c4-8506-8639486a808e
+        userCondition: null
+    thumbFieldKey: null
+handle: featuredBlog
+hasTitleField: false
+icon: newspaper
+name: 'Featured Blog'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
