@@ -1,0 +1,22 @@
+columnSuffix: null
+handle: categoriesPlaybook
+instructions: null
+name: 'Categories - Playbook'
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  selectionLabel: null
+  showSearchInput: true
+  showSiteMenu: false
+  source: 'group:6a84f373-c2db-4688-b137-4b1381f424c6' # Playbook
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list-inline
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Categories

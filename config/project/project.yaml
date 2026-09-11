@@ -1,4 +1,4 @@
-dateModified: 1789124058
+dateModified: 1789167509
 elementSources:
   craft\elements\Entry:
     -
@@ -159,11 +159,13 @@ meta:
     2cc195a7-75c4-4cb5-baba-42a69362e622: 'Dropdown - Video Display Type' # Dropdown - Video Display Type
     2fa69ca1-0da9-4b6b-910a-16d9b40d3cad: File # File
     2fdcc5f0-cba6-486c-a080-20852b3bf4bd: 'Entry - Client' # Entry - Client
+    3b91633f-b9c4-42be-9f00-36cc322385c1: 'Categories - Playbook' # Categories - Playbook
     4cca2129-e042-4a21-9fa8-29d23e75875d: 'Categories - Case Study' # Categories - Case Study
     5cbe08b7-b4bd-4a6b-be41-de9647b5eb19: Images # Images
     5e0a0379-473d-48fa-b3f0-4230ddc449a6: 'Lightswitch - Off' # Lightswitch - Off
     5e4babbb-3468-4302-9765-12fa4e367fe4: 'Longform Image Columns' # Longform Image Columns
     5edf3cb2-e081-444a-a9c1-bdab388c26f3: 'Dropdown - Aspect Ratio' # Dropdown - Aspect Ratio
+    6a84f373-c2db-4688-b137-4b1381f424c6: Playbook # Playbook
     6b543e86-8407-40c1-a8c3-f313ed625200: 'Entry - Form Success' # Entry - Form Success
     6b2462c2-66b9-45fe-9504-0bce4d4cd1df: Blocks # Blocks
     6ba1e04e-698a-4b7a-b999-01f72753d481: 'Entries - Career' # Entries - Career

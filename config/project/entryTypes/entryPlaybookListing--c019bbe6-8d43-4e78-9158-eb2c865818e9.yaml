@@ -59,6 +59,38 @@ fieldLayouts:
             uid: d419e1a4-bf66-4fec-9c00-706f9abcaa42
             userCondition: null
           -
+            dateAdded: '2026-09-11T21:21:35+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3dfcb86f-037e-4d21-9491-397cabd32e3c
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-11T21:21:35+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c325bb32-eeb4-4849-812e-0e16ab5019c3
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2026-08-28T12:04:14+00:00'
             dismissible: false
             elementCondition: null
