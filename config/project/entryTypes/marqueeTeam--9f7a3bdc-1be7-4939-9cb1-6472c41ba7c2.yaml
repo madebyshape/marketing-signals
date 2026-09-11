@@ -1,0 +1,94 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  85f94a29-c336-4a88-967f-238ad1fad962:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: dcbc80a6-c986-4271-ab27-850df9572a3b
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b4c2c9f7-b1ea-4619-8e1b-c2e27d2fbfe9
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 373f119d-ef07-428a-a699-311bab746127
+            userCondition: null
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 50116844-aee8-4cad-ae6f-cb59132a4d62 # Entries - Team
+            handle: null
+            instructions: 'Optional. The Team Members to show, in this order. Leave empty to show the first eight in the Team section.'
+            label: 'Team Members'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8dbcf77b-9b23-46ce-ba19-332a2c17db16
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 3c4a4294-c40d-49ea-8ea8-ef246d064523
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-10T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 2f621c4a-c2a4-4d89-a521-fbd283f1025d
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: c8d8f425-90b9-444f-a0c4-4927436353b9
+        userCondition: null
+    thumbFieldKey: null
+handle: marqueeTeam
+hasTitleField: false
+icon: grip
+name: 'Marquee - Team'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

@@ -1,0 +1,181 @@
+{% set component = 'teamModal' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    id: null,
+    members: [],
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    backdrop: [
+        'fixed inset-0 z-100 flex items-center justify-center bg-black/70 backdrop-blur-sm',
+        params.class,
+        '||',
+        'js-modal'
+    ],
+    panel: [
+        'relative max-h-[90dvh] w-9/10 overflow-y-auto overscroll-contain rounded-[20px] bg-white p-5',
+        '|',
+        'lg:flex lg:max-h-[min(694px,90dvh)] lg:w-full lg:max-w-[1006px] lg:overflow-hidden'
+    ],
+    close: [
+        'absolute top-10 left-10 z-10'
+    ],
+    content: [
+        'contents'
+    ],
+    portrait: [
+        'relative aspect-[493/693] w-full overflow-hidden rounded-[20px] bg-black',
+        '|',
+        'lg:w-[345px] lg:shrink-0 lg:self-start'
+    ],
+    image: [
+        'absolute inset-0 size-full object-cover'
+    ],
+    column: [
+        'mt-7.5',
+        '|',
+        'lg:mt-12.5 lg:ml-17.5 lg:min-w-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain lg:[scrollbar-color:var(--color-primary)_transparent] lg:[scrollbar-width:thin]'
+    ],
+    text: [
+        'lg:max-w-[467px]'
+    ],
+    name: [
+        'text-3xl font-semibold leading-0.97 tracking-tighter text-black',
+        '|',
+        'md:text-4xl | lg:text-5xl'
+    ],
+    jobRole: [
+        'mt-1.5 text-md font-medium leading-1.33 text-creme-500'
+    ],
+    rule: [
+        'mt-7.5 h-px w-full bg-creme-300'
+    ],
+    body: [
+        'mt-10'
+    ],
+    fade: [
+        'pointer-events-none sticky bottom-0 hidden h-20 bg-linear-to-t from-white to-transparent',
+        '|',
+        'lg:block'
+    ]
+} %}
+
+{# Output #}
+
+{# Each member's content waits in a template until the owning Alpine data copies it into the panel. #}
+
+{% for member in params.members %}
+
+    <template x-ref="member{{ loop.index0 }}">
+
+        <div class="{{ classes.portrait|join(' ')|trim }}">
+
+            {% include '_components/picture' with {
+                params: {
+                    image: member.image,
+                    alt: '',
+                    transform: '2x3',
+                    sizes: '(min-width: 1024px) 345px, 90vw',
+                    lazy: false,
+                    ratio: false,
+                    imgClass: classes.image|join(' ')|trim
+                }
+            } only %}
+
+        </div>
+
+        <div class="{{ classes.column|join(' ')|trim }}">
+
+            <div class="{{ classes.text|join(' ')|trim }}">
+
+                <h2 id="{{ params.id }}Name" class="{{ classes.name|join(' ')|trim }}">{{ member.name }}</h2>
+
+                {% if member.jobRole|trim|length %}
+
+                    <p class="{{ classes.jobRole|join(' ')|trim }}">{{ member.jobRole }}</p>
+
+                {% endif %}
+
+                <div class="{{ classes.rule|join(' ')|trim }}"></div>
+
+                {% if member.text|striptags|trim|length %}
+
+                    {% include '_components/richText' with {
+                        params: {
+                            content: member.text,
+                            colour: 'black',
+                            size: 'base',
+                            class: classes.body|join(' ')|trim
+                        }
+                    } only %}
+
+                {% endif %}
+
+            </div>
+
+            <div class="{{ classes.fade|join(' ')|trim }}" aria-hidden="true"></div>
+
+        </div>
+
+    </template>
+
+{% endfor %}
+
+{# Teleported out, or the Block panel's own stacking context keeps the backdrop under the header. #}
+
+<template x-teleport="body">
+
+    <div
+        class="{{ classes.backdrop|join(' ')|trim }}"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="{{ params.id }}Name"
+        x-cloak
+        x-show="visible"
+        x-transition:enter="motion-safe:transition-opacity motion-safe:ease-out motion-safe:duration-200"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="motion-safe:transition-opacity motion-safe:ease-in motion-safe:duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        x-on:click.self="close()"
+        x-on:keydown.escape.window="close()"
+    >
+
+        <div class="{{ classes.panel|join(' ')|trim }}">
+
+            {# buttonShape is relative, so the corner placement sits on a wrapper. #}
+
+            {% set closeAttributes = 'aria-label="Close" x-ref="close" x-on:click="close()"' %}
+
+            <div class="{{ classes.close|join(' ')|trim }}">
+
+                {% include '_components/buttonShape' with {
+                    params: {
+                        type: 'button',
+                        button: { value: '#' },
+                        colour: 'white-outline',
+                        size: 'md',
+                        icon: 'fa-sharp fa-regular fa-xmark',
+                        attributes: closeAttributes
+                    }
+                } only %}
+
+            </div>
+
+            <div class="{{ classes.content|join(' ')|trim }}" x-ref="content"></div>
+
+        </div>
+
+    </div>
+
+</template>

@@ -1,0 +1,293 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Component #}
+
+{% set component = params.handle ~ entry.id %}
+
+{# Team Tiles #}
+
+{% set members = entry.entriesTeam.all() %}
+
+{% if not members|length %}
+
+    {% set members = craft.entries()
+        .section('team')
+        .image(':notempty:')
+        .limit(8)
+        .all() %}
+
+{% endif %}
+
+{% set tiles = [] %}
+
+{% for member in members %}
+
+    {% set image = member.image.one() %}
+
+    {% if image %}
+
+        {% set tiles = tiles|merge([{
+            name: member.title,
+            jobRole: member.jobRole,
+            image: image,
+            text: member.text
+        }]) %}
+
+    {% endif %}
+
+{% endfor %}
+
+{# The row repeats its Tiles to 12+ so the widest viewport never shows a gap #}
+
+{% set tileMinimum = 12 %}
+{% set repeats = tiles|length ? (tileMinimum / tiles|length)|round(0, 'ceil') : 0 %}
+
+{# 0.4 on the marquee's scale is 40px a second, the Client Marquee's Crawl #}
+
+{% set crawlSpeed = 0.4 %}
+
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+
+{# Options #}
+
+{% set blockOptions = {
+    sizes: '(min-width: 1600px) 493px, (min-width: 1024px) 420px, (min-width: 768px) 360px, 280px'
+} %}
+
+{# Classes #}
+
+{# Each Tile carries its own trailing gap, so the seam between the marquee's two tracks reads as one more gap #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: [
+        'overflow-hidden rounded-[20px] bg-black py-16',
+        '|',
+        'md:py-20 | lg:py-30'
+    ],
+    header: 'px-5 text-center',
+    headerGap: [
+        'mb-10',
+        '|',
+        'lg:mb-17.5'
+    ],
+    heading: [
+        'mx-auto max-w-[1010px] font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:text-8xl'
+    ],
+    tile: [
+        'group relative mr-5 aspect-[493/693] w-[280px] shrink-0 cursor-pointer overflow-hidden rounded-[20px] bg-black text-left ring-white/50',
+        '|',
+        'focus:outline-none focus-visible:ring-3',
+        '|',
+        'md:w-[360px] | lg:w-[420px] | 3xl:w-[493px]'
+    ],
+    image: 'absolute inset-0 size-full object-cover',
+    fade: 'absolute inset-0 bg-linear-to-b from-transparent from-40% to-black',
+    caption: [
+        'absolute inset-x-5 bottom-5 flex items-end justify-between gap-5',
+        '|',
+        'lg:inset-x-7.5 lg:bottom-7.5'
+    ],
+    text: 'flex min-w-0 flex-col text-white',
+    name: [
+        'text-2xl font-medium leading-1.2 tracking-tighter',
+        '|',
+        'md:text-3xl | lg:text-4xl'
+    ],
+    jobRole: [
+        'text-sm leading-1.33',
+        '|',
+        'md:text-base | lg:text-md'
+    ]
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: params|merge({
+            paddingY: params.padding,
+            paddingX: 'none'
+        })
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ blockClasses.margin }}" x-data="{{ component }}">
+
+            <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+                {% if hasHeading %}
+
+                    <div class="{{ blockClasses.header }} {{ tiles|length ? blockClasses.headerGap|join(' ')|trim }}">
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                colour: 'white',
+                                size: '4xl',
+                                alternateStyle: 'secondary',
+                                class: blockClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endif %}
+
+                {% if tiles|length %}
+
+                    {# The Crawl reads the Block's modal state, so it holds while the Team Modal is open. #}
+                    {# The padding keeps the Tile's focus ring clear of the row's overflow. #}
+
+                    {% embed '_components/marquee' with {
+                        params: {
+                            component: component ~ 'Crawl',
+                            gap: 'none',
+                            accessibleCopy: true,
+                            props: {
+                                speed: crawlSpeed,
+                                pauseOnHover: true,
+                                pauseOnFocus: true
+                            },
+                            class: 'py-1 -my-1',
+                            attributes: 'x-effect="visible ? hold() : release()"'
+                        }
+                    } %}
+                        {% block marqueeContent %}
+
+                            {% for repeat in 1..repeats %}
+
+                                {% set isFirstSet = loop.first %}
+
+                                {# Only the first set in the accessible track is tabbable and announced; a click can't focus a repeat. #}
+
+                                {% set isAccessibleSet = accessibleTrack and isFirstSet %}
+
+                                {% for tile in tiles %}
+
+                                    <button
+                                        type="button"
+                                        class="{{ blockClasses.tile|join(' ')|trim }}"
+                                        x-on:click="open({{ loop.index0 }}, $el)"
+                                        {% if not isAccessibleSet %}aria-hidden="true" tabindex="-1" x-on:mousedown.prevent{% endif %}
+                                    >
+
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: tile.image,
+                                                alt: '',
+                                                transform: '2x3',
+                                                sizes: blockOptions.sizes,
+                                                lazy: not isFirstSet,
+                                                ratio: false,
+                                                imgClass: blockClasses.image
+                                            }
+                                        } only %}
+
+                                        <span class="{{ blockClasses.fade }}" aria-hidden="true"></span>
+
+                                        <span class="{{ blockClasses.caption|join(' ')|trim }}">
+
+                                            <span class="{{ blockClasses.text }}">
+
+                                                <span class="{{ blockClasses.name|join(' ')|trim }}">{{ tile.name }}</span>
+
+                                                {% if tile.jobRole|trim|length %}
+
+                                                    <span class="{{ blockClasses.jobRole|join(' ')|trim }}">{{ tile.jobRole }}</span>
+
+                                                {% endif %}
+
+                                            </span>
+
+                                            {% include '_components/buttonShape' with {
+                                                params: {
+                                                    type: 'span',
+                                                    button: { value: '#' },
+                                                    colour: 'white-outline',
+                                                    size: 'md',
+                                                    icon: 'fa-sharp fa-regular fa-plus',
+                                                    attributes: 'aria-hidden="true"'
+                                                }
+                                            } only %}
+
+                                        </span>
+
+                                    </button>
+
+                                {% endfor %}
+
+                            {% endfor %}
+
+                        {% endblock %}
+                    {% endembed %}
+
+                    {% include '_components/teamModal' with {
+                        params: {
+                            id: component,
+                            members: tiles
+                        }
+                    } only %}
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+{% endembed %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+
+            visible: false,
+            opener: null,
+
+            // One Team Modal serves every Tile, filled from the member's hidden template on each open.
+            open(index, opener) {
+
+                this.$refs.content.replaceChildren(this.$refs['member' + index].content.cloneNode(true));
+
+                this.opener = opener;
+                this.visible = true;
+                document.body.classList.add('overflow-hidden');
+
+                // The close button is only focusable once x-show has revealed the modal.
+                this.$nextTick(() => this.$refs.close.focus());
+
+            },
+
+            close() {
+
+                if (!this.visible) return;
+
+                this.visible = false;
+                document.body.classList.remove('overflow-hidden');
+
+                // Scrolling the Tile into view would jump the Crawl's clipped row; a hidden repeat never takes focus.
+                if (this.opener.tabIndex > -1) this.opener.focus({ preventScroll: true });
+
+            }
+
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
