@@ -107,8 +107,12 @@ The editor-uploaded images on the Site entry that fill the Scattered Tiles on th
 _Avoid_: 404 images, background images, scatter images
 
 **Scattered Tiles**:
-A layer of Tiles placed around the edges of a full-screen area, behind its content, that Drift. A reusable component; the Error Page is its first use.
+A layer of Tiles placed around the edges of a full-screen area, behind its content, that Drift. Decoration: never a link, never read out. A reusable component; the Error Page is its first use and Hero Team its second.
 _Avoid_: Floating images, scattered images, parallax images, image layer
+
+**Tile Caption**:
+A Team Member's name with their Job Role beneath it, over the bottom fade of a Scattered Tile in a Hero Team. Part of the decoration, so it is not clickable and not read out.
+_Avoid_: Team Tile, label, name tag, overlay text
 
 **Drift**:
 The motion of Scattered Tiles: following the pointer on fine-pointer devices and the scroll everywhere, each Tile at one of three speeds.
@@ -125,7 +129,7 @@ The top of a page, always rendered before the Blocks. On a page it is the single
 _Avoid_: Hero block, banner, page header, masthead
 
 **Hero Layout**:
-One entry type the Hero field offers an editor. Hero Simple, Hero Home and Hero Full Screen are the three; Hero Template is the scaffold developers copy and is not offered to editors. The Hero Layout on a page decides its Header Colour.
+One entry type the Hero field offers an editor. Hero Simple, Hero Home, Hero Full Screen and Hero Team are the four; Hero Template is the scaffold developers copy and is not offered to editors. The Hero Layout on a page decides its Header Colour.
 _Avoid_: Hero type, hero variant, hero block
 
 **Hero Simple**:
@@ -151,6 +155,10 @@ _Avoid_: Scroll indicator, scroll hint, scroll button, mouse icon
 **Hero Full Screen**:
 The full-screen Hero Layout of a Breadcrumb over a two-line heading with the Highlight, the first line against the left margin and the second against the right, with a short text at the bottom left and a Hero Video at the bottom right, all over a Hero Image under a dark overlay, with the Scroll Cue over it.
 _Avoid_: Full-screen hero, video hero, image hero, about hero
+
+**Hero Team**:
+The full-screen black Hero Layout of a centred Eyebrow over a heading with the Highlight, with Team Members' Images around it as Scattered Tiles, each with its Tile Caption. It shows the Team Members the editor picked, or the first six with an Image when nobody is picked. It has no Breadcrumb and no Scroll Cue.
+_Avoid_: Team hero, culture hero, people hero, scattered hero
 
 **Case Study Hero**:
 The full-screen Hero at the top of every Case Study page, built from the Case Study's own Hero Image, Hero Logo, Hero Heading and Hero Text rather than a Hero Layout, so an editor never picks it. The Breadcrumb sits at its top and the Logo, heading and text sit at its bottom.
