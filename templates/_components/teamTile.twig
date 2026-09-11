@@ -1,0 +1,105 @@
+{% set component = 'teamTile' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    member: null,
+    sizes: '100vw',
+    lazy: true,
+    class: null,
+    attributes: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    tile: [
+        'group relative aspect-[493/693] shrink-0 cursor-pointer overflow-hidden rounded-[20px] bg-black text-left ring-white/50',
+        '|',
+        'focus:outline-none focus-visible:ring-3',
+        params.class
+    ],
+    image: [
+        'absolute inset-0 size-full object-cover'
+    ],
+    fade: [
+        'absolute inset-0 bg-linear-to-b from-transparent from-40% to-black'
+    ],
+    caption: [
+        'absolute inset-x-5 bottom-5 flex items-end justify-between gap-5',
+        '|',
+        'lg:inset-x-7.5 lg:bottom-7.5'
+    ],
+    text: [
+        'flex min-w-0 flex-col text-white'
+    ],
+    name: [
+        'text-2xl font-medium leading-1.2 tracking-tighter',
+        '|',
+        'md:text-3xl | lg:text-4xl'
+    ],
+    jobRole: [
+        'text-sm leading-1.33',
+        '|',
+        'md:text-base | lg:text-md'
+    ]
+} %}
+
+{# Output #}
+
+{% if params.member %}
+
+    <button
+        type="button"
+        class="{{ classes.tile|join(' ')|trim }}"
+        {{ params.attributes|raw }}
+    >
+
+        {% include '_components/picture' with {
+            params: {
+                image: params.member.image,
+                alt: '',
+                transform: '2x3',
+                sizes: params.sizes,
+                lazy: params.lazy,
+                ratio: false,
+                imgClass: classes.image|join(' ')|trim
+            }
+        } only %}
+
+        <span class="{{ classes.fade|join(' ')|trim }}" aria-hidden="true"></span>
+
+        <span class="{{ classes.caption|join(' ')|trim }}">
+
+            <span class="{{ classes.text|join(' ')|trim }}">
+
+                <span class="{{ classes.name|join(' ')|trim }}">{{ params.member.name }}</span>
+
+                {% if params.member.jobRole|trim|length %}
+
+                    <span class="{{ classes.jobRole|join(' ')|trim }}">{{ params.member.jobRole }}</span>
+
+                {% endif %}
+
+            </span>
+
+            {% include '_components/buttonShape' with {
+                params: {
+                    type: 'span',
+                    button: { value: '#' },
+                    colour: 'white-outline',
+                    size: 'md',
+                    icon: 'fa-sharp fa-regular fa-plus',
+                    attributes: 'aria-hidden="true"'
+                }
+            } only %}
+
+        </span>
+
+    </button>
+
+{% endif %}
