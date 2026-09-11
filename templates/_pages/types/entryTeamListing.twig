@@ -22,8 +22,9 @@
     {# Team Grid #}
 
     {% set hasTeamMembers = craft.entries.section('team').status('enabled').image(':notempty:').exists() %}
+    {% set hasTeamIntro = entry.text|striptags|trim|length or entry.button|length or entry.avatarGroup.avatarName|length %}
 
-    {% if hasTeamMembers %}
+    {% if hasTeamMembers or hasTeamIntro %}
 
         {% embed '_components/section' with {
             params: {
