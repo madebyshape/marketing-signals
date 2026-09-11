@@ -1,0 +1,190 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Careers #}
+
+{# Any pick, even a disabled one, stops the fallback to every enabled Career. #}
+
+{% set careers = clone(entry.entriesCareer).status(null).exists()
+    ? entry.entriesCareer.all()
+    : craft.entries.section('career').orderBy('postDate DESC').all() %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: [
+        'rounded-[20px] bg-black px-5 pt-10 pb-5',
+        '|',
+        'md:p-10 md:pt-15',
+        '|',
+        'lg:pt-25'
+    ],
+    eyebrow: 'mb-7.5 | lg:mb-12.5',
+    header: 'mb-7.5 | lg:mb-10',
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-5xl | lg:text-6xl'
+    ],
+    list: 'grid gap-2.5',
+    row: [
+        'group grid grid-cols-[1fr_auto] items-start gap-x-5 gap-y-2.5 rounded-[20px] bg-black-200 p-5 text-white transition-colors duration-300',
+        '|',
+        'focus:outline-none focus-visible:bg-secondary focus-visible:text-black focus-visible:ring-3 focus-visible:ring-secondary/50 pointer-fine:hover:bg-secondary pointer-fine:hover:text-black',
+        '|',
+        'lg:min-h-[102px] lg:grid-cols-12 lg:items-center lg:px-7.5 lg:py-5'
+    ],
+    title: 'col-start-1 row-start-1 text-2xl font-medium leading-1.2 tracking-tighter | lg:col-span-7 lg:text-3xl',
+    meta: 'col-start-1 row-start-2 flex flex-wrap gap-x-5 gap-y-2.5 | lg:contents',
+    employmentType: 'inline-flex items-center gap-x-1.75 text-base leading-1.33 | lg:col-span-2 lg:col-start-8 lg:row-start-1',
+    category: 'inline-flex items-center gap-x-1.75 text-base leading-1.33 | lg:col-span-2 lg:col-start-10 lg:row-start-1',
+    icon: 'text-[12px]',
+    arrow: [
+        'col-start-2 row-span-2 row-start-1',
+        '|',
+        'pointer-fine:group-hover:border-white pointer-fine:group-hover:bg-white pointer-fine:group-hover:text-black group-focus-visible:border-white group-focus-visible:bg-white group-focus-visible:text-black',
+        '|',
+        'lg:col-start-12 lg:row-span-1 lg:justify-self-end'
+    ]
+} %}
+
+{# Output #}
+
+{% if careers|length or hasHeading %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+                    {% if hasEyebrow %}
+
+                        {% include '_components/eyebrow' with {
+                            params: {
+                                text: entry.eyebrow,
+                                colour: 'white',
+                                rule: true,
+                                ruleColour: 'white-30',
+                                class: blockClasses.eyebrow
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    {% if hasHeading %}
+
+                        <div class="{{ blockClasses.header }}">
+
+                            {% include '_components/headingAlternate' with {
+                                params: {
+                                    tag: 'h2',
+                                    heading: entry.heading,
+                                    colour: 'creme-100',
+                                    size: '4xl',
+                                    alternateStyle: 'secondary',
+                                    class: blockClasses.heading|join(' ')|trim
+                                }
+                            } only %}
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if careers|length %}
+
+                        <ul class="{{ blockClasses.list }}">
+
+                            {% for career in careers %}
+
+                                {% set employmentType = career.employmentType.value ? career.employmentType.label : null %}
+                                {% set category = career.categoriesCareer.one() %}
+
+                                <li>
+
+                                    <a href="{{ career.url }}" class="{{ blockClasses.row|join(' ')|trim }}">
+
+                                        <h3 class="{{ blockClasses.title }}">{{ career.title }}</h3>
+
+                                        {% if employmentType or category %}
+
+                                            <div class="{{ blockClasses.meta }}">
+
+                                                {% if employmentType %}
+
+                                                    <div class="{{ blockClasses.employmentType }}">
+
+                                                        <i class="{{ blockClasses.icon }} fa-sharp fa-regular fa-clock" aria-hidden="true"></i>
+
+                                                        {{ employmentType }}
+
+                                                    </div>
+
+                                                {% endif %}
+
+                                                {% if category %}
+
+                                                    <div class="{{ blockClasses.category }}">
+
+                                                        <i class="{{ blockClasses.icon }} fa-sharp fa-regular fa-bullseye-arrow" aria-hidden="true"></i>
+
+                                                        {{ category.title }}
+
+                                                    </div>
+
+                                                {% endif %}
+
+                                            </div>
+
+                                        {% endif %}
+
+                                        {% include '_components/buttonShape' with {
+                                            params: {
+                                                type: 'span',
+                                                button: { value: career.url },
+                                                colour: 'white-30-outline',
+                                                size: 'md',
+                                                icon: 'fa-sharp fa-regular fa-arrow-up-right text-[14px]',
+                                                class: blockClasses.arrow|join(' ')|trim,
+                                                attributes: 'aria-hidden="true"'
+                                            }
+                                        } only %}
+
+                                    </a>
+
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

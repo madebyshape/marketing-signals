@@ -10,7 +10,7 @@ settings:
       __assoc__:
         -
           - label
-          - 'Full Time'
+          - Full-Time
         -
           - value
           - fullTime
@@ -27,7 +27,7 @@ settings:
       __assoc__:
         -
           - label
-          - 'Part Time'
+          - Part-Time
         -
           - value
           - partTime
