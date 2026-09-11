@@ -1,0 +1,179 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Component #}
+
+{% set component = params.handle ~ entry.id %}
+
+{# Card Groups #}
+
+{% set groups = [] %}
+
+{% for group in entry.iconCardGroups.all() %}
+
+    {% set cards = group.iconCards.all()|filter(card => card.heading|trim|length or card.text|striptags|trim|length) %}
+
+    {% if group.tabHeading|trim|length and cards|length %}
+
+        {% set groups = groups|merge([{
+            tabHeading: group.tabHeading,
+            cards: cards
+        }]) %}
+
+    {% endif %}
+
+{% endfor %}
+
+{% set group = groups|first %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasHeader = hasEyebrow or hasHeading %}
+
+{# The row repeats its cards to 6+ so a copy outruns the widest viewport and the seam never shows a gap #}
+
+{% set cardMinimum = 6 %}
+{% set repeats = group ? (cardMinimum / group.cards|length)|round(0, 'ceil') : 0 %}
+
+{# 0.4 on the marquee's scale is 40px a second, the Client Marquee's Crawl #}
+
+{% set crawlSpeed = 0.4 %}
+
+{# Classes #}
+
+{# Each card carries its own trailing gap, so the seam between the marquee's two tracks reads as one more gap #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    header: 'text-center',
+    eyebrow: [
+        'mb-5',
+        '|',
+        'lg:mb-7.5'
+    ],
+    heading: [
+        'mx-auto max-w-[1007px] font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:text-7xl'
+    ],
+    rows: [
+        'mt-7.5',
+        '|',
+        'lg:mt-10'
+    ],
+    set: 'flex shrink-0 self-stretch',
+    card: [
+        'mr-5 w-[300px] shrink-0 self-stretch',
+        '|',
+        'md:w-[360px] | lg:w-[420px] | 3xl:w-[493px]'
+    ]
+} %}
+
+{# Output #}
+
+{% if hasHeader or group %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {% if hasHeader %}
+
+                <div class="{{ blockClasses.margin }}">
+
+                    <div class="{{ blockClasses.header }}">
+
+                        {% if hasEyebrow %}
+
+                            {% include '_components/eyebrow' with {
+                                params: {
+                                    text: entry.eyebrow,
+                                    class: hasHeading ? blockClasses.eyebrow|join(' ')|trim
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                size: '5xl',
+                                class: blockClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+            {% if group %}
+
+                <div class="{{ hasHeader ? blockClasses.rows|join(' ')|trim }}">
+
+                    {% embed '_components/marquee' with {
+                        params: {
+                            component: component ~ 'Crawl',
+                            gap: 'none',
+                            accessibleCopy: true,
+                            props: {
+                                reversed: false,
+                                speed: crawlSpeed,
+                                pauseOnHover: true,
+                                pauseOnFocus: false
+                            }
+                        }
+                    } %}
+                        {% block marqueeContent %}
+
+                            {% for repeat in 1..repeats %}
+
+                                {# Only the first set in the accessible track is announced. #}
+
+                                <div
+                                    class="{{ blockClasses.set }}"
+                                    {% if not (accessibleTrack and loop.first) %}aria-hidden="true"{% endif %}
+                                >
+
+                                    {% for card in group.cards %}
+
+                                        {% include '_components/iconCard' with {
+                                            params: {
+                                                card: card,
+                                                class: blockClasses.card|join(' ')|trim
+                                            }
+                                        } only %}
+
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endfor %}
+
+                        {% endblock %}
+                    {% endembed %}
+
+                </div>
+
+            {% endif %}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

@@ -1,0 +1,110 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  aef9a954-2ef2-409c-9c06-bb5d3e77d87d:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 515a59bc-5386-412e-a56f-c2d496f17cfc
+            userCondition: null
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ac25e1d5-63b1-45f7-b026-9686a8755606
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3b339290-c818-4ffc-9106-6f3cc516e422
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: ade96afc-049d-4800-8bc9-39202f6e9214
+            userCondition: null
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ef48e8b9-91c3-49af-b47a-b82b2b2e7736 # Icon Card Groups
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3a858ed8-fd2a-48cd-aff2-842c59e36ddf
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 482d12e7-5652-40df-a572-8e91d22e0681
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0126d30b-cbd3-4539-98cf-b22d175aa5f1
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: fd0547f7-0a21-4c7d-bf96-22182f441bce
+        userCondition: null
+    thumbFieldKey: null
+handle: marqueeIconCards
+hasTitleField: false
+icon: grip
+name: 'Marquee - Icon Cards'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

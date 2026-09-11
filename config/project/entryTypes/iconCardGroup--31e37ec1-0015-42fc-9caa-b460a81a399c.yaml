@@ -1,0 +1,58 @@
+allowLineBreaksInTitles: false
+color: purple
+description: null
+fieldLayouts:
+  18f2c8a2-7a0b-4557-92cb-581484f1eefd:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: tabHeading
+            instructions: null
+            label: 'Tab Heading'
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: eaff4b01-b9f7-4fef-879f-e1aaa3754031
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: fc1aa366-1ece-49df-90bc-917b65b70e7d # Icon Grid
+            handle: iconCards
+            instructions: 'The cards that Crawl past while this tab is active.'
+            label: 'Icon Cards'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7ce3a51f-c8d6-4611-beee-298837453266
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: eaab211d-b022-4135-be21-f3a71f414e6e
+        userCondition: null
+    thumbFieldKey: null
+handle: iconCardGroup
+hasTitleField: false
+icon: layer-group
+name: 'Icon Card Group'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{tabHeading}'

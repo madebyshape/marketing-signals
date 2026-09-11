@@ -1,0 +1,26 @@
+columnSuffix: null
+handle: iconCardGroups
+instructions: 'Each Card Group is one tab. The first is shown on arrival.'
+name: 'Icon Card Groups'
+searchable: false
+settings:
+  createButtonLabel: 'New Card Group'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 31e37ec1-0015-42fc-9caa-b460a81a399c # Icon Card Group
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix
