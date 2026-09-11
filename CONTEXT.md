@@ -583,12 +583,26 @@ A Block of a centred heading with the Highlight over one row of Team Tiles that 
 _Avoid_: Team slider, staff carousel, meet the team, team cards
 
 **Team Tile**:
-One Team Member's Image with their name and Job Role over a bottom fade and a plus icon, in a Team Marquee. Clicking it opens the Team Modal. A Team Member without an Image has no Team Tile.
+One Team Member's Image with their name and Job Role over a bottom fade and a plus icon, in a Team Marquee or the Team Grid. Clicking it opens the Team Modal. A Team Member without an Image has no Team Tile.
 _Avoid_: Team card, member card, profile card, slide
 
 **Team Modal**:
 The overlay that opens from a Team Tile: the Team Member's Image on the left with the close button over it, and their name, Job Role, a Rule and Text on the right. Closed by its close button, its backdrop or Escape.
 _Avoid_: Lightbox, popup, team pop up, profile modal, dialog
+
+### Team Grid
+
+**Team Listing page**:
+The Page whose entry type is Team Listing, holding the Hero, the Team Grid and the Blocks. There is one, found by its entry type (ADR-0003).
+_Avoid_: Team page, meet the team page, team index
+
+**Team Grid**:
+The grid of Team Tiles between the Hero and the Blocks on the Team Listing page, one per enabled Team Member with an Image in structure order, with the Team Intro among them and Load More beneath. Three across on a desktop, two on a tablet and one on a phone. It has no Block and no field: Team Members pull through on their own.
+_Avoid_: Team listing, team cards, staff grid, people grid
+
+**Team Intro**:
+The text, button and Avatar Group set by editors on the Team Listing page, sitting in the Team Grid's third slot on a desktop and above the Team Tiles on a tablet or phone. Not shown when none of the three is set.
+_Avoid_: Team text, intro block, grid CTA, List Footer
 
 ### Image Marquee
 
@@ -615,7 +629,7 @@ The text an open Question reveals, with the FAQ's Button Group beneath it when o
 _Avoid_: Content, body, description, response
 
 **Load More**:
-The button beneath the Questions that loads every remaining Question in one click, shown only while some are not yet on the page.
+The button beneath a list that brings in more of it without leaving the page, shown only while some are not yet on the page: beneath the Questions it loads every remaining Question in one click; beneath the Team Grid it adds the next twelve Team Tiles.
 _Avoid_: Show more, pagination, view all, expand
 
 **Follow**:
