@@ -22,6 +22,13 @@
 {% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
 {% set hasHeading = entry.heading|striptags|trim|length > 0 %}
 
+{# Call To Action #}
+
+{% set cta = entry.callToAction %}
+{% set ctaImage = cta.image.one() %}
+{% set hasCta = cta.heading|striptags|trim|length > 0 %}
+{% set hasCtaText = cta.text|striptags|trim|length > 0 %}
+
 {# Classes #}
 
 {% set blockClasses = {
@@ -40,12 +47,32 @@
         '|',
         'md:text-5xl | lg:text-6xl'
     ],
-    sprig: 'contents'
+    sprig: 'contents',
+    cta: [
+        'grid gap-y-5 rounded-[20px] bg-black-200 p-5',
+        careerIds|length ? 'mt-2.5' : (hasHeading ? 'mt-7.5 lg:mt-10'),
+        '|',
+        'lg:grid-cols-12 lg:items-center lg:gap-x-5 lg:px-7.5',
+        ctaImage ? 'lg:py-2.5' : 'lg:py-7.5'
+    ],
+    ctaIntro: [
+        'grid gap-5',
+        '|',
+        'md:flex md:items-center md:gap-x-10',
+        '|',
+        'lg:col-span-7',
+        ctaImage ? 'lg:-ml-5'
+    ],
+    ctaImage: 'w-[120px] shrink-0 | md:w-[213px]',
+    ctaPicture: 'rounded-[15px]',
+    ctaHeading: 'font-semibold leading-0.97 tracking-tighter | lg:text-5xl',
+    ctaBody: 'grid justify-items-start gap-y-5 | lg:col-span-5 lg:col-start-8',
+    ctaText: 'max-w-[548px]'
 } %}
 
 {# Output #}
 
-{% if careerIds|length or hasHeading %}
+{% if careerIds|length or hasHeading or hasCta %}
 
     {% embed '_components/section'
         with {
@@ -107,6 +134,78 @@
                         {% endif %}
 
                     </div>
+
+                    {% if hasCta %}
+
+                        <div class="{{ blockClasses.cta|join(' ')|trim }}">
+
+                            {# Pulled 20px left from `lg` so the photo sits 10px in while the columns match the rows. #}
+
+                            <div class="{{ blockClasses.ctaIntro|join(' ')|trim }}">
+
+                                {% if ctaImage %}
+
+                                    <div class="{{ blockClasses.ctaImage }}">
+
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: ctaImage,
+                                                alt: '',
+                                                transform: '1x1',
+                                                focalPoint: true,
+                                                sizes: '(min-width: 768px) 213px, 120px',
+                                                wrapperClass: blockClasses.ctaPicture
+                                            }
+                                        } only %}
+
+                                    </div>
+
+                                {% endif %}
+
+                                {% include '_components/headingAlternate' with {
+                                    params: {
+                                        tag: 'h3',
+                                        heading: cta.heading,
+                                        colour: 'creme-100',
+                                        size: '3xl',
+                                        alternateStyle: 'secondary',
+                                        class: blockClasses.ctaHeading
+                                    }
+                                } only %}
+
+                            </div>
+
+                            {% if hasCtaText or cta.button|length %}
+
+                                <div class="{{ blockClasses.ctaBody }}">
+
+                                    {% if hasCtaText %}
+
+                                        {% include '_components/richText' with {
+                                            params: {
+                                                content: cta.text,
+                                                colour: 'creme-100',
+                                                class: blockClasses.ctaText
+                                            }
+                                        } only %}
+
+                                    {% endif %}
+
+                                    {% include '_components/button' with {
+                                        params: {
+                                            button: cta.button,
+                                            colour: 'secondary',
+                                            icon: 'fa-sharp fa-regular fa-arrow-up-right'
+                                        }
+                                    } only %}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
 
                 </div>
 

@@ -1,0 +1,119 @@
+columnSuffix: null
+handle: callToAction
+instructions: null
+name: 'Call To Action'
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - ebf1d5be-6bef-4390-bdfd-e828dc8534f9
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    0:
+                      - name
+                      - Content
+                    1:
+                      - uid
+                      - 4d36b34e-06e5-4906-89b2-6cd247680673
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-11T12:00:00+00:00'
+                            9:
+                              - uid
+                              - bae8960d-fd93-457e-9a93-c2a7606d3b2a
+                            12:
+                              - fieldUid
+                              - 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-11T12:00:00+00:00'
+                            9:
+                              - uid
+                              - 249f95d7-d677-439d-aac4-3f52ae5a2fda
+                            12:
+                              - fieldUid
+                              - d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - text
+                            2:
+                              - label
+                              - Text
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-11T12:00:00+00:00'
+                            9:
+                              - uid
+                              - e7aef123-e920-4965-808c-c6638f3010bb
+                            12:
+                              - fieldUid
+                              - 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-11T12:00:00+00:00'
+                            9:
+                              - uid
+                              - 3750c09e-a168-4e64-adae-2cb16f68d261
+                            12:
+                              - fieldUid
+                              - 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            4:
+              - cardThumbAlignment
+              - end
+  viewMode: grouped
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock
