@@ -4,6 +4,7 @@
 
 {% set defaultParams = {
     date: null,
+    colour: 'black',
     class: null
 } %}
 
@@ -11,18 +12,35 @@
 
 {% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
 
+{# Options #}
+
+{% set options = {
+    colour: {
+        black: {
+            text: 'text-black',
+            divider: 'border-creme-400'
+        },
+        white: {
+            text: 'text-white',
+            divider: 'border-white'
+        }
+    }
+} %}
+
 {# Classes #}
 
 {% set classes = {
     wrapper: [
-        'flex flex-row flex-wrap items-center gap-x-3.75 gap-y-2 text-base font-normal leading-1.33 text-black',
+        'flex flex-row flex-wrap items-center gap-x-3.75 gap-y-2 text-base font-normal leading-1.33',
+        options.colour[params.colour].text,
         params.class
     ],
     item: [
         'inline-flex flex-row items-center gap-x-2 whitespace-nowrap'
     ],
     date: [
-        'border-r border-creme-400 pr-3.75'
+        'border-r pr-3.75',
+        options.colour[params.colour].divider
     ],
     icon: [
         'text-[12px]'
