@@ -34,15 +34,6 @@
         spacing: 'mt-12.5',
         columns: 'md:grid-cols-2 lg:grid-cols-3'
     },
-    card: 'flex flex-col items-center rounded-[20px] bg-white px-7.5 py-10 text-center | lg:px-10 lg:pt-10 lg:pb-12.5',
-    icon: {
-        style: 'fa-sharp-duotone fa-light',
-        size: 'mb-12.5 text-[80px] text-primary [--fa-secondary-opacity:0.2] | lg:text-[104px]',
-        image: 'mb-12.5 text-primary',
-        imageInner: 'mx-auto h-auto max-h-20 w-auto | lg:max-h-26'
-    },
-    cardHeading: 'font-medium leading-1.2 tracking-tighter',
-    cardText: 'mt-3.75',
     footer: 'flex flex-wrap items-center justify-center gap-5 mt-12.5'
 } %}
 
@@ -105,65 +96,11 @@
 
                     {% for card in cards %}
 
-                        {# The last word with any `fa-` prefix dropped, so a pasted class string still works. #}
-
-                        {% set icon = card.icon|trim|split(' ')|last|trim %}
-                        {% set icon = icon starts with 'fa-' ? icon|slice(3) : icon %}
-
-                        {% set isImageIcon = card.dropdownIconType.value == 'image' %}
-                        {% set iconImage = isImageIcon ? card.iconImage.one() %}
-
-                        <div class="{{ blockClasses.card }}">
-
-                            {% if iconImage %}
-
-                                <div class="{{ blockClasses.icon.image }}">
-
-                                    {% include '_components/picture' with {
-                                        params: {
-                                            image: iconImage,
-                                            alt: '',
-                                            transform: 'noRatio',
-                                            ratio: false,
-                                            svgInline: true,
-                                            imgClass: blockClasses.icon.imageInner
-                                        }
-                                    } only %}
-
-                                </div>
-
-                            {% elseif icon|length and not isImageIcon %}
-
-                                <i
-                                    class="{{ blockClasses.icon.style }} fa-{{ icon }} | {{ blockClasses.icon.size }}"
-                                    aria-hidden="true"
-                                ></i>
-
-                            {% endif %}
-
-                            {% include '_components/heading' with {
-                                params: {
-                                    tag: 'h3',
-                                    heading: card.heading,
-                                    size: '2xl',
-                                    class: blockClasses.cardHeading
-                                }
-                            } only %}
-
-                            {% if card.text|striptags|trim|length %}
-
-                                {% include '_components/richText' with {
-                                    params: {
-                                        content: card.text,
-                                        colour: 'black',
-                                        size: 'sm',
-                                        class: blockClasses.cardText
-                                    }
-                                } only %}
-
-                            {% endif %}
-
-                        </div>
+                        {% include '_components/iconCard' with {
+                            params: {
+                                card: card
+                            }
+                        } only %}
 
                     {% endfor %}
 

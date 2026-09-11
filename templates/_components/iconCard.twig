@@ -1,0 +1,105 @@
+{% set component = 'iconCard' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    card: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Icon #}
+
+{% set card = params.card %}
+
+{# The last word with any `fa-` prefix dropped, so a pasted class string still works. #}
+
+{% set icon = card ? card.icon|trim|split(' ')|last|trim : '' %}
+{% set icon = icon starts with 'fa-' ? icon|slice(3) : icon %}
+
+{% set isImageIcon = card and card.dropdownIconType.value == 'image' %}
+{% set iconImage = isImageIcon ? card.iconImage.one() %}
+
+{# Classes #}
+
+{% set classes = {
+    card: [
+        'flex flex-col items-center rounded-[20px] bg-white px-7.5 py-10 text-center',
+        '|',
+        'lg:px-10 lg:pt-10 lg:pb-12.5',
+        params.class
+    ],
+    icon: [
+        'fa-sharp-duotone fa-light',
+        'fa-' ~ icon,
+        '|',
+        'mb-12.5 text-[80px] text-primary [--fa-secondary-opacity:0.2]',
+        '|',
+        'lg:text-[104px]'
+    ],
+    image: 'mb-12.5 text-primary',
+    imageInner: 'mx-auto h-auto max-h-20 w-auto | lg:max-h-26',
+    heading: 'font-medium leading-1.2 tracking-tighter',
+    text: 'mt-3.75'
+} %}
+
+{# Output #}
+
+{% if card %}
+
+    <div class="{{ classes.card|join(' ')|trim }}">
+
+        {% if iconImage %}
+
+            <div class="{{ classes.image }}">
+
+                {% include '_components/picture' with {
+                    params: {
+                        image: iconImage,
+                        alt: '',
+                        transform: 'noRatio',
+                        ratio: false,
+                        svgInline: true,
+                        imgClass: classes.imageInner
+                    }
+                } only %}
+
+            </div>
+
+        {% elseif icon|length and not isImageIcon %}
+
+            <i
+                class="{{ classes.icon|join(' ')|trim }}"
+                aria-hidden="true"
+            ></i>
+
+        {% endif %}
+
+        {% include '_components/heading' with {
+            params: {
+                tag: 'h3',
+                heading: card.heading,
+                size: '2xl',
+                class: classes.heading
+            }
+        } only %}
+
+        {% if card.text|striptags|trim|length %}
+
+            {% include '_components/richText' with {
+                params: {
+                    content: card.text,
+                    colour: 'black',
+                    size: 'sm',
+                    class: classes.text
+                }
+            } only %}
+
+        {% endif %}
+
+    </div>
+
+{% endif %}
