@@ -140,6 +140,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 49088c3c-18ad-4a72-8038-a2015573bda7 # Marquee - Images
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - a644e662-8b0e-44bd-bbac-da76b709e24f # Statistics
         -
           - group

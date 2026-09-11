@@ -1,0 +1,110 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  142ed0c5-a92f-4e1d-a916-e390c6f8669c:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 485901c2-69e9-41de-8724-2bd6d5b47665
+            userCondition: null
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: 'Make words italic to highlight them.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7a1f8da5-2b55-4022-b853-ed56e7345072
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: fa653b53-7209-4769-b051-f92f0d0530b1
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 23646c71-6dd6-4f80-9e74-49761b11edba
+            userCondition: null
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5cbe08b7-b4bd-4a6b-be41-de9647b5eb19 # Images
+            handle: imageMarquee
+            instructions: "The photos that Crawl across the row, in this order. Each photo's title is read out as its description."
+            label: 'Image Marquee'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a2b6a164-b4c9-4c7c-a746-704171bfa08d
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: d52e6024-6c3a-4e33-94a0-9a36954fde42
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-11T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 77f5ed20-4f46-4aa8-b55b-21c403f62f65
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: dbfc65d7-4fc0-472d-90ed-bbada3b5af16
+        userCondition: null
+    thumbFieldKey: null
+handle: marqueeImages
+hasTitleField: false
+icon: grip
+name: 'Marquee - Images'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
