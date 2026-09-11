@@ -445,7 +445,7 @@ A full-width row of Logo Cells that Crawls: one of the two in a Client Marquee, 
 _Avoid_: Track, strip, band, ticker, lane
 
 **Crawl**:
-The continuous sideways motion of a row that never stops: a Client Marquee's Logo Rows, leftwards in the first and rightwards in the second and pausing while the pointer is over them; a Logo Marquee's Logo Row, leftwards and never pausing; a Work Marquee, leftwards and never pausing; a Team Marquee's row of Team Tiles, leftwards and pausing under the pointer, while a Team Tile has focus and while the Team Modal is open; or an Image Marquee's row of Tiles, leftwards and never pausing. Under reduced motion the row sits still.
+The continuous sideways motion of a row that never stops: a Client Marquee's Logo Rows, leftwards in the first and rightwards in the second and pausing while the pointer is over them; a Logo Marquee's Logo Row, leftwards and never pausing; a Work Marquee, leftwards and never pausing; a Team Marquee's row of Team Tiles, leftwards and pausing under the pointer, while a Team Tile has focus and while the Team Modal is open; an Image Marquee's row of Tiles, leftwards and never pausing; or an Icon Card Marquee's row of Icon Cards, leftwards and pausing under the pointer. Under reduced motion the row sits still.
 _Avoid_: Marquee, scroll, ticker, autoplay, loop
 
 ### Logo Marquee
@@ -749,7 +749,7 @@ A Block of a Section Header over a grid of Icon Cards, three across on a desktop
 _Avoid_: Feature grid, services grid, approach grid, icon boxes, USP grid
 
 **Icon Card**:
-One white rounded card in an Icon Grid: an Icon over a centred heading and a short text.
+One white rounded card in an Icon Grid or a Card Group: an Icon over a centred heading and a short text.
 _Avoid_: Feature, tile, box, item, cell
 
 **Icon**:
@@ -765,6 +765,24 @@ _Avoid_: Icon style, icon source, media type
 **Service Listing page**:
 The Page whose entry type is Service Listing, holding the Hero, the Service List, the List Footer and the Blocks. There is one, found by its entry type (ADR-0003).
 _Avoid_: Services page, services index
+
+### Icon Card Marquee
+
+**Icon Card Marquee**:
+A Block of a centred Eyebrow and heading with the Highlight over a row of Group Tabs, and beneath them one full-width row of Icon Cards that Crawls: the active Card Group's. Choosing another Group Tab crossfades to that Card Group's row. The first Card Group is active on arrival.
+_Avoid_: Tabbed marquee, benefits block, icon carousel, card ticker, tabs block
+
+**Card Group**:
+One set of Icon Cards in an Icon Card Marquee, named by its Tab Heading. A Card Group with no Icon Cards is left out, Group Tab included.
+_Avoid_: Tab, panel, group, category, set
+
+**Group Tab**:
+The pill that shows its Card Group's row, reading the Tab Heading: filled in Secondary while its Card Group is active, outlined in Creme 400 otherwise and filled on hover. Not shown when the Block has only one Card Group.
+_Avoid_: Tab, filter button, pill, toggle, chip
+
+**Tab Heading**:
+The short label an editor gives a Card Group, shown as its Group Tab.
+_Avoid_: Tab title, group name, label
 
 **Service List**:
 The run of Service Cards between the Hero and the Blocks on the Service Listing page, one per enabled Service in structure order, with the List Footer beneath. It has no Block and no field: Services pull through on their own.
