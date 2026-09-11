@@ -7,6 +7,8 @@
     name: 'category',
     value: '',
     checked: false,
+    scheme: 'creme',
+    dot: true,
     attributes: '',
     class: null
 } %}
@@ -20,10 +22,21 @@
 {# The input sits inside its label, so the checked look reaches the pill with `has` and the dots as peers. #}
 
 {% set options = {
-    look: {
-        base: 'border-creme-300',
-        active: 'has-checked:border-primary',
-        hover: 'pointer-fine:hover:border-primary'
+    scheme: {
+        creme: {
+            base: 'py-2.5 border-creme-300 ring-primary/50',
+            active: 'has-checked:border-primary',
+            hover: 'pointer-fine:hover:border-primary'
+        },
+        black: {
+            base: 'py-3.75 border-white/30 text-white ring-secondary/50',
+            active: 'has-checked:border-secondary has-checked:bg-secondary has-checked:text-black',
+            hover: 'pointer-fine:hover:not-has-checked:border-white'
+        }
+    },
+    dot: {
+        'on': 'pl-3.75 pr-5',
+        'off': 'px-5'
     },
     radar: {
         base: 'text-creme-300 peer-checked:hidden',
@@ -31,15 +44,18 @@
     }
 } %}
 
+{% set look = options.scheme[params.scheme] ?? options.scheme.creme %}
+
 {# Classes #}
 
 {% set classes = {
     label: [
-        'inline-flex flex-shrink-0 items-center gap-2 py-2.5 pl-3.75 pr-5 rounded-full border text-base font-medium leading-none cursor-pointer ring-primary/50 motion-safe:transition',
-        options.look.base,
+        'inline-flex flex-shrink-0 items-center gap-2 rounded-full border text-base font-medium leading-none cursor-pointer motion-safe:transition',
+        look.base,
+        options.dot[params.dot ? 'on' : 'off'],
         '|',
-        options.look.active,
-        options.look.hover,
+        look.active,
+        look.hover,
         'has-focus-visible:ring-3',
         params.class
     ],
@@ -64,17 +80,21 @@
 
         <input type="radio" name="{{ params.name }}" value="{{ params.value }}" class="{{ classes.input }}"{{ params.checked ? ' checked' }} {{ params.attributes|raw }}>
 
-        {{ svg('@templates/_svg/radarInactive.svg')|attr({
-            class: classes.radar.base|join(' ')|trim,
-            'aria-hidden': 'true',
-            focusable: 'false'
-        }) }}
+        {% if params.dot %}
 
-        {{ svg('@templates/_svg/radar.svg')|attr({
-            class: classes.radar.active|join(' ')|trim,
-            'aria-hidden': 'true',
-            focusable: 'false'
-        }) }}
+            {{ svg('@templates/_svg/radarInactive.svg')|attr({
+                class: classes.radar.base|join(' ')|trim,
+                'aria-hidden': 'true',
+                focusable: 'false'
+            }) }}
+
+            {{ svg('@templates/_svg/radar.svg')|attr({
+                class: classes.radar.active|join(' ')|trim,
+                'aria-hidden': 'true',
+                focusable: 'false'
+            }) }}
+
+        {% endif %}
 
         {{ params.label }}
 
