@@ -353,11 +353,11 @@ Whether a Case Study Card in the Case Study Grid is Large (the full grid width) 
 _Avoid_: Featured, hero card, variant, span
 
 **Category Filter**:
-The row of Filter Buttons above the Case Study Grid, one per Category that at least one Case Study belongs to, led by All Work. Exactly one Filter Button is active at a time. Where the row is wider than the page it scrolls sideways under a pair of arrows.
+The row of Filter Buttons above a list that narrows it by Category, one per Category that at least one item in the list belongs to, led by a button for every item. Exactly one Filter Button is active at a time. Above the Case Study Grid it is led by All Work and scrolls sideways under a pair of arrows where it is wider than the page; above a Career List it is led by All, wraps, and is not shown when the list's Careers share one Category.
 _Avoid_: Tags, tabs, category nav, filter bar, facets
 
 **Filter Button**:
-One button in the Category Filter, a radar dot beside a Category's name, that narrows the Case Study Grid to that Category and returns it to page one.
+One pill in a Category Filter, reading a Category's name, that narrows its list to that Category. On a light background a radar dot sits beside the name and a chosen Filter Button also returns the Case Study Grid to page one; on a Career List's black panel it has no dot and is filled Secondary while active, outlined White 30% otherwise.
 _Avoid_: Tag, pill, chip, tab, toggle
 
 **All Work**:
@@ -831,6 +831,29 @@ _Avoid_: CTA banner, promo banner, careers banner, image banner, callout
 **Cutout**:
 A photograph of a person with a transparent background that stands on a panel's bottom edge and rises above the panel's top. The Banner CTA is its first use.
 _Avoid_: Person image, portrait, PNG, floating image, sticker
+
+### Career List
+
+**Career**:
+An entry in the Career section: one open position with a title, an Employment Type and a Category of Creative or Office, with a page of its own.
+_Avoid_: Job, vacancy, role, position, opening
+
+**Career List**:
+A Block of an Eyebrow with a Rule and a heading with the Highlight beside a Category Filter, over one Career Row per Career the editor picked in the order picked, or every enabled Career newest first when none are picked, with the Call To Action beneath, all in a black panel inside the site margins.
+_Avoid_: Careers block, jobs list, vacancies, open positions, job board
+
+**Career Row**:
+One Linked Card in a Career List: the Career's title, its Employment Type, its first Category and an arrow. It turns Secondary under the pointer or keyboard focus.
+_Avoid_: Job card, job row, listing item, vacancy card
+
+**Employment Type**:
+Whether a Career is Full-Time, Part-Time, Contractor, Temporary, Maternity cover or Freelance.
+_Avoid_: Contract type, job type, hours
+
+**Call To Action**:
+The last row of a Career List: an optional photo, a heading and a text with a Button, inviting a visitor who found no Career to get in touch. The Category Filter never changes it.
+_Avoid_: CTA, footer CTA, banner, Banner CTA
+
 
 ### Seeding
 
