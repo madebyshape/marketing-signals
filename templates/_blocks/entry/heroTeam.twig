@@ -1,0 +1,82 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'bottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+
+{# Classes #}
+
+{# The header is fixed (ADR-0001), so equal top and bottom padding keeps the content at the viewport's centre #}
+
+{% set blockClasses = {
+    panel: [
+        'relative isolate flex w-full min-h-svh flex-col items-center justify-center overflow-hidden rounded-b-[30px] bg-black',
+        vars is defined ? vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        vars is defined ? vars.class.header.paddingBottom : 'pb-20 | xl:pb-[123px]',
+        vars is defined ? vars.class.siteMargin.x : 'px-10'
+    ],
+    gradient: 'pointer-events-none absolute inset-x-0 top-0 z-10 h-[197px] bg-linear-to-b from-black to-transparent',
+    content: 'relative z-20 flex flex-col items-center text-center',
+    eyebrow: 'mb-7.5',
+    heading: 'max-w-[750px] font-semibold leading-0.97 tracking-tighter | md:text-6xl lg:text-8xl xl:text-10xl'
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: params|merge({
+            paddingY: params.padding,
+            paddingX: 'none'
+        })
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+            <div class="{{ blockClasses.gradient }}"></div>
+
+            <div class="{{ blockClasses.content }}">
+
+                {% if hasEyebrow %}
+
+                    {% include '_components/eyebrow' with {
+                        params: {
+                            text: entry.eyebrow,
+                            colour: 'white',
+                            class: hasHeading ? blockClasses.eyebrow
+                        }
+                    } only %}
+
+                {% endif %}
+
+                {% if hasHeading %}
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h1',
+                            heading: entry.heading,
+                            colour: 'creme-100',
+                            size: '5xl',
+                            alternateStyle: 'secondary',
+                            class: blockClasses.heading
+                        }
+                    } only %}
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+{% endembed %}
