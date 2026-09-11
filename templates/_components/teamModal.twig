@@ -2,9 +2,12 @@
 
 {# Default Params #}
 
+{# member: renders that member's content template alone, for a host to place beside its Tile. #}
+
 {% set defaultParams = {
     id: null,
     members: [],
+    member: null,
     class: null
 } %}
 
@@ -71,11 +74,13 @@
 
 {# Output #}
 
-{# Each member's content waits in a template until the owning Alpine data copies it into the panel. #}
+{# Each member's content waits in a template until `open` copies it into the panel. #}
 
-{% for member in params.members %}
+{% set members = params.member ? [params.member] : params.members %}
 
-    <template x-ref="member{{ loop.index0 }}">
+{% for member in members %}
+
+    <template {% if not params.member %}x-ref="member{{ loop.index0 }}"{% endif %}>
 
         <div class="{{ classes.portrait|join(' ')|trim }}">
 
@@ -130,52 +135,97 @@
 
 {% endfor %}
 
-{# Teleported out, or the Block panel's own stacking context keeps the backdrop under the header. #}
+{% if not params.member %}
 
-<template x-teleport="body">
+    {# Teleported out, or the Block panel's own stacking context keeps the backdrop under the header. #}
 
-    <div
-        class="{{ classes.backdrop|join(' ')|trim }}"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="{{ params.id }}Name"
-        x-cloak
-        x-show="visible"
-        x-transition:enter="motion-safe:transition-opacity motion-safe:ease-out motion-safe:duration-200"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="motion-safe:transition-opacity motion-safe:ease-in motion-safe:duration-150"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        x-on:click.self="close()"
-        x-on:keydown.escape.window="close()"
-    >
+    <template x-teleport="body">
 
-        <div class="{{ classes.panel|join(' ')|trim }}">
+        <div
+            class="{{ classes.backdrop|join(' ')|trim }}"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="{{ params.id }}Name"
+            x-cloak
+            x-show="visible"
+            x-transition:enter="motion-safe:transition-opacity motion-safe:ease-out motion-safe:duration-200"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="motion-safe:transition-opacity motion-safe:ease-in motion-safe:duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            x-on:click.self="close()"
+            x-on:keydown.escape.window="close()"
+        >
 
-            {# buttonShape is relative, so the corner placement sits on a wrapper. #}
+            <div class="{{ classes.panel|join(' ')|trim }}">
 
-            {% set closeAttributes = 'aria-label="Close" x-ref="close" x-on:click="close()"' %}
+                {# buttonShape is relative, so the corner placement sits on a wrapper. #}
 
-            <div class="{{ classes.close|join(' ')|trim }}">
+                {% set closeAttributes = 'aria-label="Close" x-ref="close" x-on:click="close()"' %}
 
-                {% include '_components/buttonShape' with {
-                    params: {
-                        type: 'button',
-                        button: { value: '#' },
-                        colour: 'white-outline',
-                        size: 'md',
-                        icon: 'fa-sharp fa-regular fa-xmark',
-                        attributes: closeAttributes
-                    }
-                } only %}
+                <div class="{{ classes.close|join(' ')|trim }}">
+
+                    {% include '_components/buttonShape' with {
+                        params: {
+                            type: 'button',
+                            button: { value: '#' },
+                            colour: 'white-outline',
+                            size: 'md',
+                            icon: 'fa-sharp fa-regular fa-xmark',
+                            attributes: closeAttributes
+                        }
+                    } only %}
+
+                </div>
+
+                <div class="{{ classes.content|join(' ')|trim }}" x-ref="content"></div>
 
             </div>
 
-            <div class="{{ classes.content|join(' ')|trim }}" x-ref="content"></div>
-
         </div>
 
-    </div>
+    </template>
 
-</template>
+{% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+
+            visible: false,
+            opener: null,
+
+            // One Team Modal serves every Tile, filled from the template the Tile passes on each open.
+            open(template, opener) {
+
+                this.$refs.content.replaceChildren(template.content.cloneNode(true));
+
+                this.opener = opener;
+                this.visible = true;
+                document.body.classList.add('overflow-hidden');
+
+                // The close button is only focusable once x-show has revealed the modal.
+                this.$nextTick(() => this.$refs.close.focus());
+
+            },
+
+            close() {
+
+                if (!this.visible) return;
+
+                this.visible = false;
+                document.body.classList.remove('overflow-hidden');
+
+                // Scrolling the Tile into view would jump a Crawl's clipped row; a hidden repeat never takes focus.
+                if (this.opener?.tabIndex > -1) this.opener.focus({ preventScroll: true });
+
+            }
+
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}

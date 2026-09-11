@@ -86,29 +86,9 @@
         'md:text-6xl | lg:text-8xl'
     ],
     tile: [
-        'group relative mr-5 aspect-[493/693] w-[280px] shrink-0 cursor-pointer overflow-hidden rounded-[20px] bg-black text-left ring-white/50',
-        '|',
-        'focus:outline-none focus-visible:ring-3',
+        'mr-5 w-[280px]',
         '|',
         'md:w-[360px] | lg:w-[420px] | 3xl:w-[493px]'
-    ],
-    image: 'absolute inset-0 size-full object-cover',
-    fade: 'absolute inset-0 bg-linear-to-b from-transparent from-40% to-black',
-    caption: [
-        'absolute inset-x-5 bottom-5 flex items-end justify-between gap-5',
-        '|',
-        'lg:inset-x-7.5 lg:bottom-7.5'
-    ],
-    text: 'flex min-w-0 flex-col text-white',
-    name: [
-        'text-2xl font-medium leading-1.2 tracking-tighter',
-        '|',
-        'md:text-3xl | lg:text-4xl'
-    ],
-    jobRole: [
-        'text-sm leading-1.33',
-        '|',
-        'md:text-base | lg:text-md'
     ]
 } %}
 
@@ -124,7 +104,7 @@
 %}
     {% block sectionContent %}
 
-        <div class="{{ blockClasses.margin }}" x-data="{{ component }}">
+        <div class="{{ blockClasses.margin }}" x-data="teamModal">
 
             <div class="{{ blockClasses.panel|join(' ')|trim }}">
 
@@ -149,7 +129,7 @@
 
                 {% if tiles|length %}
 
-                    {# The Crawl reads the Block's modal state, so it holds while the Team Modal is open. #}
+                    {# The Crawl reads the Team Modal's state, so it holds while the Modal is open. #}
                     {# The padding keeps the Tile's focus ring clear of the row's overflow. #}
 
                     {% embed '_components/marquee' with {
@@ -178,55 +158,17 @@
 
                                 {% for tile in tiles %}
 
-                                    <button
-                                        type="button"
-                                        class="{{ blockClasses.tile|join(' ')|trim }}"
-                                        x-on:click="open({{ loop.index0 }}, $el)"
-                                        {% if not isAccessibleSet %}aria-hidden="true" tabindex="-1" x-on:mousedown.prevent{% endif %}
-                                    >
+                                    {% set tileAttributes = 'x-on:click="open($refs.member' ~ loop.index0 ~ ', $el)"' ~ (isAccessibleSet ? '' : ' aria-hidden="true" tabindex="-1" x-on:mousedown.prevent') %}
 
-                                        {% include '_components/picture' with {
-                                            params: {
-                                                image: tile.image,
-                                                alt: '',
-                                                transform: '2x3',
-                                                sizes: blockOptions.sizes,
-                                                lazy: not isFirstSet,
-                                                ratio: false,
-                                                imgClass: blockClasses.image
-                                            }
-                                        } only %}
-
-                                        <span class="{{ blockClasses.fade }}" aria-hidden="true"></span>
-
-                                        <span class="{{ blockClasses.caption|join(' ')|trim }}">
-
-                                            <span class="{{ blockClasses.text }}">
-
-                                                <span class="{{ blockClasses.name|join(' ')|trim }}">{{ tile.name }}</span>
-
-                                                {% if tile.jobRole|trim|length %}
-
-                                                    <span class="{{ blockClasses.jobRole|join(' ')|trim }}">{{ tile.jobRole }}</span>
-
-                                                {% endif %}
-
-                                            </span>
-
-                                            {% include '_components/buttonShape' with {
-                                                params: {
-                                                    type: 'span',
-                                                    button: { value: '#' },
-                                                    colour: 'white-outline',
-                                                    size: 'md',
-                                                    icon: 'fa-sharp fa-regular fa-plus',
-                                                    attributes: 'aria-hidden="true"'
-                                                }
-                                            } only %}
-
-                                        </span>
-
-                                    </button>
+                                    {% include '_components/teamTile' with {
+                                        params: {
+                                            member: tile,
+                                            sizes: blockOptions.sizes,
+                                            lazy: not isFirstSet,
+                                            class: blockClasses.tile|join(' ')|trim,
+                                            attributes: tileAttributes
+                                        }
+                                    } only %}
 
                                 {% endfor %}
 
@@ -250,44 +192,3 @@
 
     {% endblock %}
 {% endembed %}
-
-{# prettier-ignore-start #}
-{% js %}
-
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('{{ component }}', () => ({
-
-            visible: false,
-            opener: null,
-
-            // One Team Modal serves every Tile, filled from the member's hidden template on each open.
-            open(index, opener) {
-
-                this.$refs.content.replaceChildren(this.$refs['member' + index].content.cloneNode(true));
-
-                this.opener = opener;
-                this.visible = true;
-                document.body.classList.add('overflow-hidden');
-
-                // The close button is only focusable once x-show has revealed the modal.
-                this.$nextTick(() => this.$refs.close.focus());
-
-            },
-
-            close() {
-
-                if (!this.visible) return;
-
-                this.visible = false;
-                document.body.classList.remove('overflow-hidden');
-
-                // Scrolling the Tile into view would jump the Crawl's clipped row; a hidden repeat never takes focus.
-                if (this.opener.tabIndex > -1) this.opener.focus({ preventScroll: true });
-
-            }
-
-        }))
-    })
-
-{% endjs %}
-{# prettier-ignore-end #}

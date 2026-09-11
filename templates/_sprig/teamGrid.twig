@@ -1,0 +1,177 @@
+{# Default Variables #}
+
+{% set offset = offset ?? 0 %}
+{% set limit = limit ?? 11 %}
+{% set modalId = modalId ?? 'teamGridModal' %}
+
+{# Team Members #}
+
+{% set query = craft.entries
+    .section('team')
+    .status('enabled')
+    .image(':notempty:') %}
+
+{% set total = query.count() %}
+{% set members = query.offset(offset).limit(limit).all() %}
+
+{# Team Intro #}
+
+{# The first view only; the Team page is found by its entry type (ADR-0003). #}
+
+{% set teamPage = offset == 0 ? craft.entries().section('page').type('entryTeamListing').one() : null %}
+{% set avatar = teamPage ? teamPage.avatarGroup : null %}
+
+{% set hasText = teamPage and teamPage.text|striptags|trim|length > 0 %}
+{% set hasButton = teamPage and teamPage.button|length > 0 %}
+{% set hasAvatar = avatar and avatar.avatarName|length > 0 %}
+{% set hasIntro = hasText or hasButton or hasAvatar %}
+
+{# Options #}
+
+{% set options = {
+    sizes: '(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw',
+    eager: hasIntro ? 2 : 3
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    grid: 'grid grid-cols-12 gap-5 [&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50',
+    intro: 'col-span-12 | lg:col-span-4 lg:col-start-9 lg:row-start-1 lg:pl-5',
+    text: 'max-w-[474px]',
+    footer: [
+        'flex flex-wrap items-center gap-5',
+        hasText ? 'mt-10' : ''
+    ],
+    item: 'col-span-12 | md:col-span-6 | lg:col-span-4',
+    tile: 'block w-full',
+    more: 'mt-12.5 flex justify-center'
+} %}
+
+{# Attributes #}
+
+{# A `>` anywhere in an s-* value truncates Sprig's tag match, so Tiles are selected by a data attribute. #}
+
+{% set attributes = [
+    'sprig',
+    's-val:offset="' ~ (offset + members|length) ~ '"',
+    's-val:limit="12"',
+    's-target="#teamGridItems"',
+    's-select="#teamGridItems [data-team-grid-tile]"',
+    's-swap="beforeend"',
+    's-select-oob="#teamGridMore"',
+    's-indicator="#teamGridItems"'
+] %}
+
+{# Output #}
+
+{% if members|length or hasIntro %}
+
+    <ul id="teamGridItems" class="{{ classes.grid }}">
+
+        {% if hasIntro %}
+
+            <li class="{{ classes.intro }}">
+
+                {% if hasText %}
+
+                    {% include '_components/richText' with {
+                        params: {
+                            content: teamPage.text,
+                            colour: 'black',
+                            size: '2xl',
+                            class: classes.text
+                        }
+                    } only %}
+
+                {% endif %}
+
+                {% if hasButton or hasAvatar %}
+
+                    <div class="{{ classes.footer|join(' ')|trim }}">
+
+                        {% include '_components/button' with {
+                            params: {
+                                button: teamPage.button,
+                                colour: 'secondary'
+                            }
+                        } only %}
+
+                        {% if hasAvatar %}
+
+                            {% include '_components/user' with {
+                                params: {
+                                    image: avatar.avatar.one(),
+                                    heading: avatar.avatarName,
+                                    subHeading: avatar.avatarJobRole,
+                                    size: 'sm'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+            </li>
+
+        {% endif %}
+
+        {% for member in members %}
+
+            {% set tile = {
+                name: member.title,
+                jobRole: member.jobRole,
+                image: member.image.one(),
+                text: member.text
+            } %}
+
+            <li class="{{ classes.item }}" data-team-grid-tile>
+
+                {% include '_components/teamTile' with {
+                    params: {
+                        member: tile,
+                        sizes: options.sizes,
+                        lazy: offset > 0 or loop.index > options.eager,
+                        class: classes.tile,
+                        attributes: 'x-on:click="open($el.nextElementSibling, $el)"' ~ (offset > 0 and loop.first ? ' autofocus' : '')
+                    }
+                } only %}
+
+                {% include '_components/teamModal' with {
+                    params: {
+                        id: modalId,
+                        member: tile
+                    }
+                } only %}
+
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+{% endif %}
+
+{% if offset + members|length < total %}
+
+    <div id="teamGridMore" class="{{ classes.more }}">
+
+        {% include '_components/button' with {
+            params: {
+                type: 'button',
+                button: { label: 'Load More' },
+                colour: 'secondary',
+                icon: 'fa-sharp fa-regular fa-arrow-down',
+                attributes: attributes|join(' ')
+            }
+        } only %}
+
+    </div>
+
+{% else %}
+
+    <div id="teamGridMore"></div>
+
+{% endif %}
