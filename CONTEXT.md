@@ -437,7 +437,7 @@ A full-width row of Logo Cells that Crawls: one of the two in a Client Marquee, 
 _Avoid_: Track, strip, band, ticker, lane
 
 **Crawl**:
-The continuous sideways motion of a row that never stops: a Client Marquee's Logo Rows, leftwards in the first and rightwards in the second and pausing while the pointer is over them; a Logo Marquee's Logo Row, leftwards and never pausing; a Work Marquee, leftwards and never pausing; or a Team Marquee's row of Team Tiles, leftwards and pausing under the pointer, while a Team Tile has focus and while the Team Modal is open. Under reduced motion the row sits still.
+The continuous sideways motion of a row that never stops: a Client Marquee's Logo Rows, leftwards in the first and rightwards in the second and pausing while the pointer is over them; a Logo Marquee's Logo Row, leftwards and never pausing; a Work Marquee, leftwards and never pausing; a Team Marquee's row of Team Tiles, leftwards and pausing under the pointer, while a Team Tile has focus and while the Team Modal is open; or an Image Marquee's row of Tiles, leftwards and never pausing. Under reduced motion the row sits still.
 _Avoid_: Marquee, scroll, ticker, autoplay, loop
 
 ### Logo Marquee
@@ -589,6 +589,12 @@ _Avoid_: Team card, member card, profile card, slide
 **Team Modal**:
 The overlay that opens from a Team Tile: the Team Member's Image on the left with the close button over it, and their name, Job Role, a Rule and Text on the right. Closed by its close button, its backdrop or Escape.
 _Avoid_: Lightbox, popup, team pop up, profile modal, dialog
+
+### Image Marquee
+
+**Image Marquee**:
+A Block of a heading with the Highlight beside text, over one full-width row of Tiles the editor uploaded that Crawls leftwards without pausing. Each photo is announced once, by its title.
+_Avoid_: Image carousel, photo strip, gallery, image slider, image ticker
 
 ### FAQ Accordion
 
