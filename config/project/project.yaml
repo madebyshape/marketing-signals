@@ -192,6 +192,7 @@ meta:
     17c07940-d39d-4d93-801d-5a752b9c40ec: 'Entry - Career' # Entry - Career
     17e2f019-d6ee-4f54-83a2-a32091caa96d: 'Button Group (Unlimited)' # Button Group (Unlimited)
     19d6d897-1cde-4d59-914a-2bf8a23e7916: 'Public Schema' # Public Schema
+    31e37ec1-0015-42fc-9caa-b460a81a399c: 'Icon Card Group' # Icon Card Group
     34e8bb72-5cc9-4fa5-a269-e556b5cd8fd2: 'Icon Card' # Icon Card
     42eea3c2-2f84-43d8-a495-647d4994a8d5: 'Text - Multiline' # Text - Multiline
     43da3acd-b36b-47e5-b95c-d22e2c6454de: 'Video - Only' # Video - Only
@@ -248,6 +249,7 @@ meta:
     76599613-117c-4ce5-b344-172d2aff2194: 'Entries - Case Study' # Entries - Case Study
     a5b03fa9-9f1f-47a5-ba3e-9a3c61f706d5: 'Case Study' # Case Study
     a644e662-8b0e-44bd-bbac-da76b709e24f: Statistics # Statistics
+    ab58b4e1-b348-4682-afd2-a65f40c197c5: 'Marquee - Icon Cards' # Marquee - Icon Cards
     ab214509-2da1-4b0b-b7a3-33dac1c86ce9: Hero # Hero
     acbe31d2-326d-4dca-b857-3ccf50f3efdc: 'Hero - Home' # Hero - Home
     af21bfea-8fd9-454d-aebe-0a21a6be6d5b: 'Video - CTA' # Video - CTA
@@ -289,6 +291,7 @@ meta:
     ed7d1592-7563-4406-aba9-cbdf547d198d: 'Elements - Testimonial' # Elements - Testimonial
     ee7c6ba5-113d-47b8-aac7-4d8e6018f645: 'Heading Reveal' # Heading Reveal
     eebfd246-f9aa-4d59-99e5-d4aaba54acba: 'Entry - Brand Guidelines' # Entry - Brand Guidelines
+    ef48e8b9-91c3-49af-b47a-b82b2b2e7736: 'Icon Card Groups' # Icon Card Groups
     f3e544b8-88bf-4761-8df2-d767fa1502b7: Text # Text
     f7b5b560-85eb-4827-a39b-b24c863ae5c3: 'Links To - No Label' # Links To - No Label
     f7b9ffb6-c3c5-4bef-98aa-844c0fe6f842: 'Scrolling Card' # Scrolling Card

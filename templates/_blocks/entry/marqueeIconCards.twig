@@ -1,0 +1,239 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Component #}
+
+{% set component = params.handle ~ entry.id %}
+
+{# Each row repeats its cards to 6+ so a copy outruns the widest viewport and the seam never shows a gap #}
+
+{% set cardMinimum = 6 %}
+
+{# Card Groups #}
+
+{% set groups = [] %}
+
+{% for group in entry.iconCardGroups.all() %}
+
+    {% set cards = group.iconCards.all()|filter(card => card.heading|trim|length or card.text|striptags|trim|length) %}
+
+    {% if group.tabHeading|trim|length and cards|length %}
+
+        {% set groups = groups|merge([{
+            tabHeading: group.tabHeading,
+            cards: cards,
+            repeats: (cardMinimum / cards|length)|round(0, 'ceil')
+        }]) %}
+
+    {% endif %}
+
+{% endfor %}
+
+{% set hasTabs = groups|length > 1 %}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasHeader = hasEyebrow or hasHeading %}
+
+{# 0.4 on the marquee's scale is 40px a second, the Client Marquee's Crawl #}
+
+{% set crawlSpeed = 0.4 %}
+
+{# Classes #}
+
+{# Each card carries its own trailing gap, so the seam between the marquee's two tracks reads as one more gap #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    header: 'text-center',
+    eyebrow: [
+        'mb-5',
+        '|',
+        'lg:mb-7.5'
+    ],
+    heading: [
+        'mx-auto max-w-[1007px] font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:text-7xl'
+    ],
+    gap: [
+        'mt-7.5',
+        '|',
+        'lg:mt-10'
+    ],
+    tabs: 'flex flex-wrap justify-center gap-1.25',
+    rows: 'grid grid-cols-1',
+    row: 'col-start-1 row-start-1 motion-safe:transition-[opacity,visibility] motion-safe:duration-300',
+    rowHidden: 'invisible pointer-events-none opacity-0',
+    set: 'flex shrink-0 self-stretch',
+    card: [
+        'mr-5 w-[300px] shrink-0 self-stretch',
+        '|',
+        'md:w-[360px] | lg:w-[420px] | 3xl:w-[493px]'
+    ]
+} %}
+
+{# Output #}
+
+{% if hasHeader or groups|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none',
+                attributes: hasTabs ? 'x-data="{ active: 1 }"'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            {% if hasHeader %}
+
+                <div class="{{ blockClasses.margin }}">
+
+                    <div class="{{ blockClasses.header }}">
+
+                        {% if hasEyebrow %}
+
+                            {% include '_components/eyebrow' with {
+                                params: {
+                                    text: entry.eyebrow,
+                                    class: hasHeading ? blockClasses.eyebrow|join(' ')|trim
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                size: '5xl',
+                                class: blockClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+            {% if hasTabs %}
+
+                <div class="{{ blockClasses.margin }}">
+
+                    <div role="tablist" class="{{ blockClasses.tabs }} {{ hasHeader ? blockClasses.gap|join(' ')|trim }}">
+
+                        {% for group in groups %}
+
+                            {% set tab = component ~ 'Tab' ~ loop.index %}
+                            {% set panel = component ~ 'Panel' ~ loop.index %}
+
+                            {% include '_components/button' with {
+                                params: {
+                                    type: 'button',
+                                    button: {
+                                        label: group.tabHeading
+                                    },
+                                    colour: 'creme-400-outline',
+                                    icon: null,
+                                    attributes: [
+                                        'type="button"',
+                                        'id="' ~ tab ~ '"',
+                                        'role="tab"',
+                                        'aria-controls="' ~ panel ~ '"',
+                                        'aria-selected="' ~ (loop.first ? 'true' : 'false') ~ '"',
+                                        'x-bind:aria-selected="active === ' ~ loop.index ~ '"',
+                                        'x-on:click="active = ' ~ loop.index ~ '"'
+                                    ]|join(' ')
+                                }
+                            } only %}
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+            {% if groups|length %}
+
+                {# Rows share one grid cell so every loop measures on start and the stack is as tall as its tallest row. #}
+
+                <div class="{{ blockClasses.rows }} {{ hasHeader or hasTabs ? blockClasses.gap|join(' ')|trim }}">
+
+                    {% for group in groups %}
+
+                        {% set tab = component ~ 'Tab' ~ loop.index %}
+                        {% set panel = component ~ 'Panel' ~ loop.index %}
+
+                        {% embed '_components/marquee' with {
+                            params: {
+                                component: component ~ 'Crawl',
+                                gap: 'none',
+                                accessibleCopy: true,
+                                props: {
+                                    reversed: false,
+                                    speed: crawlSpeed,
+                                    pauseOnHover: true,
+                                    pauseOnFocus: false
+                                },
+                                class: [blockClasses.row, not loop.first ? blockClasses.rowHidden]|join(' ')|trim,
+                                attributes: hasTabs ? [
+                                    'id="' ~ panel ~ '"',
+                                    'role="tabpanel"',
+                                    'aria-labelledby="' ~ tab ~ '"',
+                                    'x-bind:class="{ \'' ~ blockClasses.rowHidden ~ '\': active !== ' ~ loop.index ~ ' }"'
+                                ]|join(' ')
+                            }
+                        } %}
+                            {% block marqueeContent %}
+
+                                {% for repeat in 1..group.repeats %}
+
+                                    {# Only the first set in the accessible track is announced. #}
+
+                                    <div
+                                        class="{{ blockClasses.set }}"
+                                        {% if not (accessibleTrack and loop.first) %}aria-hidden="true"{% endif %}
+                                    >
+
+                                        {% for card in group.cards %}
+
+                                            {% include '_components/iconCard' with {
+                                                params: {
+                                                    card: card,
+                                                    class: blockClasses.card|join(' ')|trim
+                                                }
+                                            } only %}
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                {% endfor %}
+
+                            {% endblock %}
+                        {% endembed %}
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
