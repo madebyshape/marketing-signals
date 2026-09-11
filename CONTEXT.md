@@ -239,7 +239,7 @@ Words an editor marks italic in a heading or text, rendered in the accent colour
 _Avoid_: Emphasis, accent words, coloured words, italic
 
 **Linked Card**:
-A card whose whole surface is one link to its entry. Any pill inside it says where the link goes and is not a control of its own. Every Slide is one; so are the Blog Card and the Blog Large Card.
+A card whose whole surface is one link to its entry. Any pill inside it says where the link goes and is not a control of its own. Every Slide is one; so are the Blog Card, the Blog Large Card and the Featured Blog.
 _Avoid_: Clickable card, card link, CTA card
 
 **Heading Reveal**:
@@ -667,7 +667,7 @@ A Linked Card for a Blog: its Thumbnail across the top over its date and read ti
 _Avoid_: Featured card, big card, hero card, exterior
 
 **Zoom**:
-The hover behaviour of a Blog Card, a Blog Large Card and a Case Study Card on fine-pointer devices: the Thumbnail grows a little inside its rounded frame while any pill lights up. Nothing moves under reduced motion.
+The hover behaviour of a Blog Card, a Blog Large Card, a Featured Blog and a Case Study Card on fine-pointer devices: the Thumbnail grows a little inside its rounded frame while any pill lights up. Nothing moves under reduced motion.
 _Avoid_: Scale, hover effect, image hover, ken burns
 
 ### Blog Grid
@@ -675,6 +675,13 @@ _Avoid_: Scale, hover effect, image hover, ken burns
 **Blog Grid**:
 A Block of an Eyebrow with a Rule over a heading with the Highlight beside a short text, over a grid of Blog Large Cards, two to a row from the desktop breakpoint and one below it, one per Blog the editor picked, in the order picked. An odd last card sits alone in the left half. It never falls back to the latest Blogs: with none picked it renders nothing.
 _Avoid_: Blog list, blog listing, insights grid, related posts, latest posts
+
+### Featured Blog
+
+**Featured Blog**:
+A Block of one Blog the editor picked, shown as a single Linked Card filling a black panel inside the site margins: its Thumbnail covering the panel under a shade, a "Featured Article" badge at the top left, and its date and read time, title, Description and a "Continue Reading" pill at the bottom left. With no Blog picked, or a disabled one, it renders nothing.
+_Avoid_: Featured post, featured article, blog hero, blog banner, spotlight
+
 
 ### Content Rows
 
