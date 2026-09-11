@@ -3,7 +3,7 @@
 {# Default Params #}
 
 {% set defaultParams = {
-    images: [],
+    tiles: [],
     transform: '3x5',
     sizes: '(min-width: 1024px) 242px, 120px',
     slots: [
@@ -32,7 +32,7 @@
 
 {# Classes #}
 
-{% set tiles = params.images|slice(0, params.slots|length) %}
+{% set tiles = params.tiles|slice(0, params.slots|length) %}
 
 {# The parent clips the Tiles; the layer ignores the pointer so a drifting Tile never takes a click. #}
 
@@ -62,7 +62,7 @@
 
         {# All Tiles sit in the first viewport, so none is lazy loaded. #}
 
-        {% for image in tiles %}
+        {% for tile in tiles %}
 
             {% set slot = params.slots[loop.index0] %}
 
@@ -73,7 +73,7 @@
 
                 {% include '_components/picture' with {
                     params: {
-                        image: image,
+                        image: tile.image,
                         alt: '',
                         transform: params.transform,
                         sizes: params.sizes,
