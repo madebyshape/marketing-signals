@@ -1,0 +1,63 @@
+{# Playbooks #}
+
+{% set playbooks = craft.entries.section('playbook').status('enabled').all() %}
+
+{# Playbook Number #}
+
+{# The number is the Playbook's place in the whole enabled series, not its place in the result. #}
+
+{# `merge` renumbers integer keys, so the id is prefixed to keep the map a hash. #}
+
+{% set numbers = {} %}
+
+{% for id in craft.entries.section('playbook').status('enabled').ids() %}
+
+    {% set numbers = numbers|merge({ ('playbook' ~ id): loop.index }) %}
+
+{% endfor %}
+
+{# Options #}
+
+{% set options = {
+    sizes: '(min-width: 1024px) 31vw, (min-width: 768px) 46vw, 90vw'
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    grid: 'grid grid-cols-12 gap-5 [&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50',
+    item: 'col-span-12 | md:col-span-6 | lg:col-span-4',
+    card: 'h-full',
+    empty: 'text-base'
+} %}
+
+{# Output #}
+
+{% if playbooks|length %}
+
+    <ul id="playbookGridItems" class="{{ classes.grid }}">
+
+        {% for playbook in playbooks %}
+
+            <li class="{{ classes.item }}" data-playbook-grid-card>
+
+                {% include '_components/playbookCard' with {
+                    params: {
+                        playbook: playbook,
+                        number: numbers['playbook' ~ playbook.id],
+                        sizes: options.sizes,
+                        class: classes.card
+                    }
+                } only %}
+
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+{% else %}
+
+    <p class="{{ classes.empty }}">No playbooks found</p>
+
+{% endif %}
