@@ -1,0 +1,158 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  65543c1a-a841-4f5e-80d6-cd59a7a1e93b:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 1c319e02-225f-4189-a23e-182d36a4e6fb
+            userCondition: null
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 28200797-b3d8-4aa9-89af-3440a86a7a6c
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c9df942d-c4f4-4fca-b846-0210ffece4e4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: 'A bullet list renders as Ticked Items, one to a line.'
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ec65f700-5de6-4a6b-a513-ef5396fb49b0
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 80820f86-d93d-41dc-8637-fd8c9938368b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 7f0b3e17-f4ec-4a6e-ab03-4a1aa8446973
+            userCondition: null
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: null
+            instructions: 'A photograph. It sits beside the content and the Chart tilts across its corner.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 008dc4e6-1ca4-481a-9b67-10716056d055
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ad0a9432-2ee6-4f06-bd72-f71adca36bef # Chart
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6635f5ee-0718-4b57-8359-96f0f556ddba
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 42ce181b-6511-48a2-a242-eac451a1efc5
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a3153476-0dfe-4add-889b-d840db2e2c29
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 6ab485a1-7137-4e48-8d62-f2e3c0f81984
+        userCondition: null
+    thumbFieldKey: null
+handle: auditCta
+hasTitleField: false
+icon: chart-simple
+name: 'Audit - CTA'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

@@ -1,0 +1,271 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+{% set image = entry.image.one() %}
+{% set bars = entry.chart.bars.all() %}
+{% set hasFootnote = entry.chart.text|trim|length > 0 %}
+
+{% set component = entry.type.handle %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: [
+        'rounded-[20px] bg-black p-6.25',
+        '|',
+        'lg:p-10'
+    ],
+    eyebrow: [
+        'mb-12.5',
+        '|',
+        'lg:mb-37.5'
+    ],
+    grid: [
+        'grid grid-cols-1 gap-5',
+        '|',
+        'lg:grid-cols-12'
+    ],
+    column: [
+        'col-span-full',
+        '|',
+        'lg:col-span-5'
+    ],
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:text-7xl'
+    ],
+    text: 'mt-7.5',
+    button: 'mt-10',
+    media: [
+        'relative col-span-full',
+        '|',
+        'lg:col-span-7'
+    ],
+    frame: [
+        'relative aspect-8/9 w-full overflow-hidden rounded-[30px] bg-primary',
+        '|',
+        'lg:ml-[14%] lg:w-3/5 lg:rotate-2'
+    ],
+    card: [
+        'mt-5 w-full rounded-[30px] bg-secondary p-7.5',
+        '|',
+        'lg:absolute lg:-bottom-3.5 lg:right-3.25 lg:mt-0 lg:h-[385px] lg:w-[345px] lg:-rotate-4'
+    ],
+    chartHeading: 'mt-2 font-medium leading-1.33 tracking-tighter',
+    bars: 'mt-2 flex flex-col gap-y-1.25',
+    barLabel: 'flex items-baseline justify-between gap-x-2.5 text-xs font-medium leading-none text-black',
+    barPercentage: 'text-2xs font-normal',
+    track: 'mt-5 h-0.75 w-full rounded-full bg-black/15',
+    fill: 'h-full w-(--bar-fill) rounded-full bg-black',
+    footnote: 'mt-2 text-2xs leading-1.33 text-black'
+} %}
+
+{# Output #}
+
+{% if hasHeading %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.panel|join(' ')|trim }}" x-data="{{ component }}">
+
+                    {% if hasEyebrow %}
+
+                        {% include '_components/eyebrow' with {
+                            params: {
+                                text: entry.eyebrow,
+                                colour: 'white',
+                                rule: true,
+                                ruleColour: 'white-30',
+                                class: blockClasses.eyebrow|join(' ')|trim
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    <div class="{{ blockClasses.grid|join(' ')|trim }}">
+
+                        <div class="{{ blockClasses.column|join(' ')|trim }}">
+
+                            {% include '_components/headingAlternate' with {
+                                params: {
+                                    tag: 'h2',
+                                    heading: entry.heading,
+                                    colour: 'white',
+                                    size: '4xl',
+                                    alternateStyle: 'secondary',
+                                    class: blockClasses.heading|join(' ')|trim
+                                }
+                            } only %}
+
+                            {% if hasText %}
+
+                                {% include '_components/richText' with {
+                                    params: {
+                                        content: entry.text,
+                                        colour: 'white',
+                                        size: 'base',
+                                        list: 'check-single',
+                                        class: blockClasses.text
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                            {% include '_components/button' with {
+                                params: {
+                                    button: entry.button,
+                                    class: blockClasses.button
+                                }
+                            } only %}
+
+                        </div>
+
+                        <div class="{{ blockClasses.media|join(' ')|trim }}">
+
+                            <div class="{{ blockClasses.frame|join(' ')|trim }}">
+
+                                {% if image %}
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: image,
+                                            alt: '',
+                                            transform: '8x9',
+                                            ratio: false,
+                                            sizes: '(min-width: 1024px) 32vw, calc(100vw - 130px)',
+                                            imgClass: 'absolute inset-0 h-full w-full object-cover'
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                            </div>
+
+                            {% if bars|length %}
+
+                                <div class="{{ blockClasses.card|join(' ')|trim }}">
+
+                                    {% include '_components/badge' with {
+                                        params: {
+                                            badge: entry.chart.badge,
+                                            colour: 'white-20-black',
+                                            size: 'xs'
+                                        }
+                                    } only %}
+
+                                    {% include '_components/headingAlternate' with {
+                                        params: {
+                                            tag: 'h3',
+                                            heading: entry.chart.heading,
+                                            size: 'xl',
+                                            class: blockClasses.chartHeading
+                                        }
+                                    } only %}
+
+                                    <ul class="{{ blockClasses.bars }}" x-ref="bars">
+
+                                        {% for bar in bars %}
+
+                                            <li>
+
+                                                <div class="{{ blockClasses.barLabel }}">
+                                                    <span>{{ bar.barText }}</span>
+                                                    <span class="{{ blockClasses.barPercentage }}">{{ bar.barValue }}%</span>
+                                                </div>
+
+                                                <div class="{{ blockClasses.track }}" aria-hidden="true">
+                                                    <div class="{{ blockClasses.fill }}" style="--bar-fill: {{ bar.barValue }}%"></div>
+                                                </div>
+
+                                            </li>
+
+                                        {% endfor %}
+
+                                    </ul>
+
+                                    {% if hasFootnote %}
+
+                                        <p class="{{ blockClasses.footnote }}">{{ entry.chart.text }}</p>
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            init() {
+
+                if (!this.$refs.bars) {
+                    return;
+                }
+
+                gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+
+                    const fills = Array.from(this.$refs.bars.children, (bar) => bar.lastElementChild.firstElementChild);
+
+                    gsap.from(fills, {
+                        width: 0,
+                        duration: 0.8,
+                        ease: 'power2.out',
+                        stagger: 0.1,
+                        clearProps: 'width',
+                        scrollTrigger: {
+                            trigger: this.$el,
+
+                            // The Card hangs off the panel's bottom, so the fill waits for that edge to arrive.
+                            start: 'bottom bottom',
+                            once: true
+                        }
+                    });
+
+                });
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
