@@ -14,6 +14,7 @@
 {% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
 {% set hasHeading = entry.heading|striptags|trim|length > 0 %}
 {% set hasText = entry.text|striptags|trim|length > 0 %}
+{% set image = entry.image.one() %}
 
 {# Classes #}
 
@@ -45,7 +46,17 @@
         'md:text-6xl | lg:text-7xl'
     ],
     text: 'mt-7.5',
-    button: 'mt-10'
+    button: 'mt-10',
+    media: [
+        'relative col-span-full',
+        '|',
+        'lg:col-span-7'
+    ],
+    frame: [
+        'relative aspect-8/9 w-full overflow-hidden rounded-[30px] bg-primary',
+        '|',
+        'lg:ml-[14%] lg:w-3/5 lg:rotate-2'
+    ]
 } %}
 
 {# Output #}
@@ -115,6 +126,29 @@
                                     class: blockClasses.button
                                 }
                             } only %}
+
+                        </div>
+
+                        <div class="{{ blockClasses.media|join(' ')|trim }}">
+
+                            <div class="{{ blockClasses.frame|join(' ')|trim }}">
+
+                                {% if image %}
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: image,
+                                            alt: '',
+                                            transform: '8x9',
+                                            ratio: false,
+                                            sizes: '(min-width: 1024px) 32vw, calc(100vw - 130px)',
+                                            imgClass: 'absolute inset-0 h-full w-full object-cover'
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                            </div>
 
                         </div>
 

@@ -94,6 +94,17 @@ return [
             'ratio' => 5/4
         ]
     ],
+    // The Audit CTA's photograph is 497 by 562 in the design, so 8x9 is the common ratio nearest it.
+    '8x9' => [
+        'transforms' => [
+            ['width' => 400],
+            ['width' => 800],
+            ['width' => 1200]
+        ],
+        'defaults' => [
+            'ratio' => 8/9
+        ]
+    ],
     '16x9' => [
         'transforms' => [
             ['width' => 400],
