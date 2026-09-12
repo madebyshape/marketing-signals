@@ -18,6 +18,8 @@
 {% set bars = entry.chart.bars.all() %}
 {% set hasFootnote = entry.chart.text|trim|length > 0 %}
 
+{% set component = entry.type.handle %}
+
 {# Classes #}
 
 {% set blockClasses = {
@@ -89,7 +91,7 @@
 
             <div class="{{ blockClasses.margin }}">
 
-                <div class="{{ blockClasses.panel|join(' ')|trim }}">
+                <div class="{{ blockClasses.panel|join(' ')|trim }}" x-data="{{ component }}">
 
                     {% if hasEyebrow %}
 
@@ -185,7 +187,7 @@
                                         }
                                     } only %}
 
-                                    <ul class="{{ blockClasses.bars }}">
+                                    <ul class="{{ blockClasses.bars }}" x-ref="bars">
 
                                         {% for bar in bars %}
 
@@ -228,3 +230,42 @@
     {% endembed %}
 
 {% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            init() {
+
+                if (!this.$refs.bars) {
+                    return;
+                }
+
+                gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+
+                    const fills = Array.from(this.$refs.bars.children, (bar) => bar.lastElementChild.firstElementChild);
+
+                    gsap.from(fills, {
+                        width: 0,
+                        duration: 0.8,
+                        ease: 'power2.out',
+                        stagger: 0.1,
+                        clearProps: 'width',
+                        scrollTrigger: {
+                            trigger: this.$el,
+
+                            // The Card hangs off the panel's bottom, so the fill waits for that edge to arrive.
+                            start: 'bottom bottom',
+                            once: true
+                        }
+                    });
+
+                });
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
