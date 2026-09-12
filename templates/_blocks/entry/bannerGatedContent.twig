@@ -1,0 +1,159 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+{% set image = entry.image.one() %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: [
+        'relative flow-root rounded-[20px] bg-black',
+        '|',
+        'lg:grid lg:grid-cols-12 lg:gap-5'
+    ],
+    cutout: [
+        '-mt-15 ml-6.25 max-w-[min(60%,518px)]',
+        '|',
+        'md:-mt-20 md:ml-10',
+        '|',
+        'lg:absolute lg:bottom-0 lg:left-12 lg:m-0 lg:w-[518px]'
+    ],
+    content: [
+        'box-content flex max-w-[778px] flex-col items-start gap-7.5 p-6.25',
+        '|',
+        'md:p-10',
+        '|',
+        'lg:col-start-6 lg:col-end-13 lg:px-0 lg:py-20'
+    ],
+    heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl | lg:text-9xl',
+    gate: [
+        'flex w-full flex-col gap-2.5',
+        '|',
+        'lg:flex-row'
+    ]
+} %}
+
+{# Output #}
+
+{% if hasHeading %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+                    {% if image %}
+
+                        {% include '_components/picture' with {
+                            params: {
+                                image: image,
+                                alt: '',
+                                transform: '5x7',
+                                position: 'top-center',
+                                sizes: '(min-width: 1024px) 518px, 60vw',
+                                wrapperClass: blockClasses.cutout|join(' ')|trim,
+                                imgClass: 'w-full h-full object-cover'
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    <div class="{{ blockClasses.content|join(' ')|trim }}">
+
+                        {% if hasEyebrow %}
+
+                            {% include '_components/eyebrow' with {
+                                params: {
+                                    text: entry.eyebrow,
+                                    colour: 'white'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                colour: 'creme-100',
+                                size: '5xl',
+                                alternateStyle: 'secondary',
+                                class: blockClasses.heading
+                            }
+                        } only %}
+
+                        {% if hasText %}
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: entry.text,
+                                    colour: 'creme-100',
+                                    size: 'md'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {# The Gate is markup only: no form element, so nothing can be submitted. #}
+
+                        <div class="{{ blockClasses.gate|join(' ')|trim }}">
+
+                            {% include '_components/form/input' with {
+                                params: {
+                                    type: 'email',
+                                    name: 'email',
+                                    colour: 'white-10',
+                                    size: 'pill',
+                                    icon: 'fa-sharp fa-solid fa-paper-plane',
+                                    placeholder: 'Enter Your Email Address',
+                                    attributes: 'autocomplete="email" aria-label="Enter Your Email Address"'
+                                }
+                            } only %}
+
+                            {% include '_components/button' with {
+                                params: {
+                                    type: 'button',
+                                    button: {
+                                        label: 'Get the Checklist'
+                                    },
+                                    colour: 'secondary',
+                                    icon: null,
+                                    class: 'justify-center'
+                                }
+                            } only %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
