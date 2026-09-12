@@ -1,0 +1,118 @@
+{# Blogs #}
+
+{% set perPage = 11 %}
+
+{% set blogs = craft.entries.section('blog').status('enabled').limit(perPage).all() %}
+
+{# The first three lead as a Blog Set; the rest run two to a row. #}
+
+{% set set = blogs|slice(0, 3) %}
+{% set rest = blogs|slice(3) %}
+
+{# Options #}
+
+{% set options = {
+    sizes: {
+        large: '(min-width: 768px) 47vw, 90vw',
+        small: '18vw'
+    }
+} %}
+
+{# Classes #}
+
+{# The Set dissolves below `lg` by handing its cards straight to the grid. #}
+
+{% set classes = {
+    rule: 'mb-12.5 h-px w-full bg-creme-300',
+    grid: 'grid grid-cols-12 gap-5',
+    set: 'contents | lg:col-span-12 lg:grid lg:grid-cols-12 lg:gap-5',
+    setLead: 'col-span-12 | md:col-span-6',
+    setList: 'contents | lg:col-span-6 lg:grid lg:grid-rows-2 lg:gap-5',
+    setItem: 'col-span-12 | md:col-span-6 lg:col-auto lg:flex',
+    setItemSmall: 'hidden | lg:contents',
+    setItemLarge: 'contents | lg:hidden',
+    item: 'col-span-12 | md:col-span-6',
+    empty: 'text-base'
+} %}
+
+{# Output #}
+
+<div class="{{ classes.rule }}"></div>
+
+{% if blogs|length %}
+
+    <ul class="{{ classes.grid }}">
+
+        <li class="{{ classes.set }}">
+
+            <div class="{{ classes.setLead }}">
+
+                {% include '_components/blogCardLarge' with {
+                    params: {
+                        blog: set|first,
+                        sizes: options.sizes.large
+                    }
+                } only %}
+
+            </div>
+
+            {# A short Set keeps its shape; the missing cells stay empty. #}
+
+            <ul class="{{ classes.setList }}">
+
+                {% for blog in set|slice(1, 2) %}
+
+                    <li class="{{ classes.setItem }}">
+
+                        <div class="{{ classes.setItemSmall }}">
+
+                            {% include '_components/blogCard' with {
+                                params: {
+                                    blog: blog,
+                                    sizes: options.sizes.small
+                                }
+                            } only %}
+
+                        </div>
+
+                        <div class="{{ classes.setItemLarge }}">
+
+                            {% include '_components/blogCardLarge' with {
+                                params: {
+                                    blog: blog,
+                                    sizes: options.sizes.large
+                                }
+                            } only %}
+
+                        </div>
+
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </li>
+
+        {% for blog in rest %}
+
+            <li class="{{ classes.item }}">
+
+                {% include '_components/blogCardLarge' with {
+                    params: {
+                        blog: blog,
+                        sizes: options.sizes.large
+                    }
+                } only %}
+
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+{% else %}
+
+    <p class="{{ classes.empty }}">No articles found</p>
+
+{% endif %}

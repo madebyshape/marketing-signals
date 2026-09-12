@@ -21,6 +21,22 @@
 
     {# Blog Listing #}
 
+    {% embed '_components/section' with {
+        params: {
+            paddingY: 'topBottom',
+            paddingYSize: 'base'
+        }
+    } %}
+        {% block sectionContent %}
+
+            {{ sprig('_sprig/blogListing', {}, {
+                id: 'blogListing',
+                'aria-live': 'polite'
+            }) }}
+
+        {% endblock %}
+    {% endembed %}
+
     {# Blocks #}
     {{ entry.blocks.render({
         vars: vars
