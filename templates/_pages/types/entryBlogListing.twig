@@ -21,6 +21,27 @@
 
     {# Blog Listing #}
 
+    {# The Category and page live in the query string, so a direct load renders the state a swap would. #}
+
+    {% embed '_components/section' with {
+        params: {
+            paddingY: 'topBottom',
+            paddingYSize: 'base'
+        }
+    } %}
+        {% block sectionContent %}
+
+            {{ sprig('_sprig/blogListing', {
+                category: craft.app.request.getQueryParam('category') ?? '',
+                page: craft.app.request.getQueryParam('page') ?? 1
+            }, {
+                id: 'blogListing',
+                'aria-live': 'polite'
+            }) }}
+
+        {% endblock %}
+    {% endembed %}
+
     {# Blocks #}
     {{ entry.blocks.render({
         vars: vars
