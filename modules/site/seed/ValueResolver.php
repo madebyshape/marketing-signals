@@ -13,6 +13,7 @@ use craft\fields\Entries as EntriesField;
 use craft\fields\Lightswitch;
 use craft\fields\Link as LinkField;
 use craft\fields\Matrix;
+use craft\fields\Number as NumberField;
 use craft\fields\PlainText;
 use craft\helpers\DateTimeHelper;
 use craft\models\EntryType;
@@ -89,6 +90,7 @@ class ValueResolver
             $field instanceof PlainText, $field instanceof CkeditorField => $this->text($field, $value),
             $field instanceof Dropdown => $this->option($field, $value),
             $field instanceof Lightswitch => $this->boolean($field, $value),
+            $field instanceof NumberField => $this->number($field, $value),
             $field instanceof DateField => $this->date($field, $value),
             $field instanceof AssetsField => $this->assets->resolve($field, $value),
             $field instanceof EntriesField => $this->entries->resolve($field, $value),
@@ -138,6 +140,26 @@ class ValueResolver
         if (!is_string($value)) {
             throw new SeedException(sprintf(
                 'Field “%s” takes a string, but the Seed gives %s.',
+                $field->handle,
+                get_debug_type($value),
+            ));
+        }
+
+        return $value;
+    }
+
+    /**
+     * A number takes a JSON number, and only a number: a Seed saying `"62"` is a mistake worth
+     * naming rather than quietly reading as sixty-two. The field's own min, max and decimals
+     * are left to validation, which names the field and its range.
+     *
+     * @throws SeedException
+     */
+    private function number(NumberField $field, mixed $value): int|float
+    {
+        if (!is_int($value) && !is_float($value)) {
+            throw new SeedException(sprintf(
+                'Field “%s” takes a number, but the Seed gives %s.',
                 $field->handle,
                 get_debug_type($value),
             ));
