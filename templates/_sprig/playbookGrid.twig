@@ -1,6 +1,21 @@
+{# Default Variables #}
+
+{% set category = category ?? '' %}
+
+{# Categories #}
+
+{# A Category only earns a Filter Button while an enabled Playbook points at it. #}
+
+{% set categories = craft.categories.group('playbook').relatedTo({
+    sourceElement: craft.entries.section('playbook').status('enabled')
+}).all() %}
+
+{% set activeCategory = categories|filter(item => item.slug == category)|first %}
+{% set activeSlug = activeCategory ? activeCategory.slug : '' %}
+
 {# Playbooks #}
 
-{% set playbooks = craft.entries.section('playbook').status('enabled').all() %}
+{% set playbooks = craft.entries.section('playbook').status('enabled').relatedTo(activeCategory ?: null).all() %}
 
 {# Playbook Number #}
 
@@ -22,9 +37,74 @@
     sizes: '(min-width: 1024px) 31vw, (min-width: 768px) 46vw, 90vw'
 } %}
 
+{# Attributes #}
+
+{# The grid is the indicator, so a Filter Button dims it by id. #}
+
+{% set gridId = 'playbookGridItems' %}
+
+{# A `>` anywhere in an s-* value truncates Sprig's tag match. #}
+
+{% set attributes = [
+    'sprig',
+    's-indicator="#' ~ gridId ~ '"'
+] %}
+
+{# Filters #}
+
+{# All Playbooks leads the row; its address is the page's own, found by its entry type (ADR-0003). #}
+
+{% set listingPage = craft.entries().section('page').type('entryPlaybookListing').one() %}
+{% set listingUrl = listingPage ? listingPage.url : '?category=' %}
+
+{% set filters = [] %}
+{% set checkedIndex = 0 %}
+
+{% for item in [{ title: 'All Playbooks', slug: '' }]|merge(categories) %}
+
+    {% if item.slug == activeSlug %}
+
+        {% set checkedIndex = loop.index0 %}
+
+    {% endif %}
+
+    {% set filters = filters|merge([{
+        label: item.title,
+        value: item.slug,
+        checked: item.slug == activeSlug,
+        attributes: attributes|merge([
+            's-val:category="' ~ item.slug ~ '"',
+            's-push-url="' ~ (item.slug ? '?category=' ~ item.slug : listingUrl) ~ '"'
+        ])|join(' ')
+    }]) %}
+
+{% endfor %}
+
+{# Arrows #}
+
+{# `classes` is shadowed inside the carousel embed, so the arrows carry their own. #}
+
+{% set arrows = [
+    {
+        ref: 'prev',
+        show: '!(isLocked || isBeginning)',
+        icon: 'fa-sharp fa-regular fa-arrow-left',
+        label: 'Scroll categories left',
+        class: 'pointer-events-none absolute inset-y-0 left-0 z-10 flex items-center pr-10 bg-linear-to-r from-creme-100 to-transparent'
+    },
+    {
+        ref: 'next',
+        show: '!(isLocked || isEnd)',
+        icon: 'fa-sharp fa-regular fa-arrow-right',
+        label: 'Scroll categories right',
+        class: 'pointer-events-none absolute inset-y-0 right-0 z-10 flex items-center pl-10 bg-linear-to-l from-creme-100 to-transparent'
+    }
+] %}
+
 {# Classes #}
 
 {% set classes = {
+    filter: 'mb-12.5 min-w-0',
     grid: 'grid grid-cols-12 gap-5 [&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50',
     item: 'col-span-12 | md:col-span-6 | lg:col-span-4',
     card: 'h-full',
@@ -33,9 +113,85 @@
 
 {# Output #}
 
+<fieldset class="{{ classes.filter }}">
+
+    <legend class="sr-only">Filter by category</legend>
+
+    {# Overflow watching locks a row that fits, which is what centres it and takes the arrows away. #}
+
+    {% embed '_components/carousel'
+        with {
+            params: {
+                id: 'playbookFilter',
+                items: filters,
+                slideClass: 'w-auto!',
+                props: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 10,
+                    initialSlide: checkedIndex,
+                    speed: 400,
+                    freeMode: { enabled: true },
+                    watchOverflow: true,
+                    watchSlidesProgress: true,
+                    centerInsufficientSlides: true,
+                    preventClicks: true,
+                    preventClicksPropagation: true,
+                    a11y: {
+                        enabled: true,
+                        slideRole: null,
+                        slideLabelMessage: '',
+                        wrapperLiveRegion: false,
+                        prevSlideMessage: 'Scroll categories left',
+                        nextSlideMessage: 'Scroll categories right'
+                    }
+                }
+            }
+        }
+    %}
+
+        {% block slideContent %}
+
+            {% include '_components/filterButton' with {
+                params: {
+                    label: item.label,
+                    value: item.value,
+                    checked: item.checked,
+                    attributes: item.attributes
+                }
+            } only %}
+
+        {% endblock %}
+
+        {% block afterContent %}
+
+            {% for arrow in arrows %}
+
+                <div class="{{ arrow.class }}" x-show="{{ arrow.show }}" x-cloak>
+
+                    {% include '_components/buttonShape' with {
+                        params: {
+                            type: 'button',
+                            button: { value: '#' },
+                            colour: 'creme-300-outline',
+                            icon: arrow.icon,
+                            class: 'pointer-events-auto bg-creme-100',
+                            attributes: 'x-ref="' ~ arrow.ref ~ '" aria-label="' ~ arrow.label ~ '"'
+                        }
+                    } only %}
+
+                </div>
+
+            {% endfor %}
+
+        {% endblock %}
+
+    {% endembed %}
+
+</fieldset>
+
 {% if playbooks|length %}
 
-    <ul id="playbookGridItems" class="{{ classes.grid }}">
+    <ul id="{{ gridId }}" class="{{ classes.grid }}">
 
         {% for playbook in playbooks %}
 

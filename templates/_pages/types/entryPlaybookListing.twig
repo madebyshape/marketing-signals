@@ -21,7 +21,7 @@
 {# Classes #}
 
 {% set pageClasses = {
-    headerRow: 'grid grid-cols-12 gap-5 mb-12.5',
+    headerRow: 'grid grid-cols-12 gap-5 mb-10',
     headerColumn: 'col-span-12 text-center',
     heading: [
         'mx-auto max-w-[1007px] font-semibold leading-0.97 tracking-tighter',
@@ -89,7 +89,11 @@
 
             {% endif %}
 
-            {{ sprig('_sprig/playbookGrid', {}, {
+            {# The Category lives in the query string, so a direct load renders the state a swap would. #}
+
+            {{ sprig('_sprig/playbookGrid', {
+                category: craft.app.request.getQueryParam('category') ?? ''
+            }, {
                 id: 'playbookGrid',
                 'aria-live': 'polite'
             }) }}
