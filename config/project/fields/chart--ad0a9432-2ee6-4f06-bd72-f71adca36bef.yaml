@@ -1,0 +1,134 @@
+columnSuffix: null
+handle: chart
+instructions: null
+name: Chart
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - 1649ce3c-89ff-41ea-b60a-cc7bf425ed03
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    1:
+                      - uid
+                      - 4c9154ac-386d-4b8f-987d-d59f9978cd0b
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - badge
+                            2:
+                              - label
+                              - Badge
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-12T12:00:00+00:00'
+                            9:
+                              - uid
+                              - c7cc9d44-d251-468d-a149-ae69fc6beb9f
+                            12:
+                              - fieldUid
+                              - f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - heading
+                            2:
+                              - label
+                              - Heading
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-12T12:00:00+00:00'
+                            9:
+                              - uid
+                              - 4b5fb456-b1ee-49d7-a341-8a4b3fe2d949
+                            12:
+                              - fieldUid
+                              - d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - bars
+                            2:
+                              - label
+                              - Bars
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-12T12:00:00+00:00'
+                            9:
+                              - uid
+                              - 1e853088-4fda-4654-a52b-16c7e13a9c1b
+                            12:
+                              - fieldUid
+                              - 51c3a6b5-5c57-4afa-a5de-df5099aaee17 # Bars
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - text
+                            2:
+                              - label
+                              - Footnote
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-12T12:00:00+00:00'
+                            9:
+                              - uid
+                              - 74f67944-d0f3-4ab5-a903-36d800abdeb4
+                            12:
+                              - fieldUid
+                              - f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            4:
+              - cardThumbAlignment
+              - end
+  viewMode: grouped
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock

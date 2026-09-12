@@ -1,0 +1,18 @@
+columnSuffix: null
+handle: percentage
+instructions: null
+name: Percentage
+searchable: false
+settings:
+  decimals: 0
+  defaultValue: null
+  max: 100
+  min: 0
+  prefix: null
+  previewCurrency: null
+  previewFormat: none
+  size: null
+  suffix: '%'
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Number

@@ -12,6 +12,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 10683f8c-560b-4240-a234-fdfce2fd1bbd # Audit - CTA
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 05236f38-ec1c-4446-93a8-43c0b72e45ac # Banner - CTA
         -
           - group

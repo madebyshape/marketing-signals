@@ -173,6 +173,7 @@ meta:
     6c903676-c7fc-4096-874c-68b19495c33a: 'Entry - Service' # Entry - Service
     6d792fe4-471d-48ed-bc45-5fe112ba7e46: Image # Image
     6f7c5bc5-e419-4241-8b4e-4598a736cafd: 'Entry - Team Listing' # Entry - Team Listing
+    7b2da665-8eb3-44e6-85d7-9f1c48ea6468: Bar # Bar
     7b662bcd-ea91-4c91-86ce-c60348c664d1: Page # Page
     7bf65ac5-9169-4bf8-8825-65fadd566946: New # New
     7da91603-5ded-43ca-b8c9-692b445e049e: 'Rich Text - Longform' # Rich Text - Longform
@@ -190,6 +191,7 @@ meta:
     9db15396-a721-4413-a2c2-72e509359139: 'Entry - Contact' # Entry - Contact
     9de44452-8794-4e21-b47e-f1adf6c262eb: 'Hero Template' # Hero Template
     9f7a3bdc-1be7-4939-9cb1-6472c41ba7c2: 'Marquee - Team' # Marquee - Team
+    9f517b93-0989-4f1b-97fd-4cbd92105d8f: Percentage # Percentage
     14b863fa-7e62-48cf-b281-df8ec7901fd6: 'Call To Action' # Call To Action
     15a9b54f-c692-49c5-9368-7a85274cd550: Career # Career
     15e52e57-510c-4224-9b47-16c703f5270c: Images # Images
@@ -201,6 +203,7 @@ meta:
     42eea3c2-2f84-43d8-a495-647d4994a8d5: 'Text - Multiline' # Text - Multiline
     43da3acd-b36b-47e5-b95c-d22e2c6454de: 'Video - Only' # Video - Only
     45cc8008-35a7-450e-afb4-5756ca2222d9: 'Dropdown - Background Colour' # Dropdown - Background Colour
+    51c3a6b5-5c57-4afa-a5de-df5099aaee17: Bars # Bars
     68e3deec-735b-4dca-b597-68e68e8777f0: Accordions # Accordions
     72cd3ad5-6f02-4c3b-b431-be5e96bda8e9: 'Entry - Playbook' # Entry - Playbook
     74eb57f4-3401-46b7-a35b-e2a75fee9c63: Button # Button
@@ -236,6 +239,7 @@ meta:
     6708a79d-c929-45c4-82f1-b440db7d759d: 'Dropdown - Video Type' # Dropdown - Video Type
     7754a8a1-7a07-4f58-903a-10ae9e993341: 'Categories - Blog' # Categories - Blog
     8921f4cc-6d1a-4c1f-bf13-bcdf8b992806: Links # Links
+    10683f8c-560b-4240-a234-fdfce2fd1bbd: 'Audit - CTA' # Audit - CTA
     13116ff7-bb9e-4f5b-989d-48a287e4b53c: 'Text - Code' # Text - Code
     41118d3a-a4e2-4b8e-8d11-b0a93f26deeb: 'Lightswitch - On' # Lightswitch - On
     42537cb1-23aa-402e-a410-ffed07a3685b: Statistic # Statistic
@@ -257,6 +261,7 @@ meta:
     ab58b4e1-b348-4682-afd2-a65f40c197c5: 'Marquee - Icon Cards' # Marquee - Icon Cards
     ab214509-2da1-4b0b-b7a3-33dac1c86ce9: Hero # Hero
     acbe31d2-326d-4dca-b857-3ccf50f3efdc: 'Hero - Home' # Hero - Home
+    ad0a9432-2ee6-4f06-bd72-f71adca36bef: Chart # Chart
     af21bfea-8fd9-454d-aebe-0a21a6be6d5b: 'Video - CTA' # Video - CTA
     b5e534eb-67ec-42d5-9bb4-93f6f235bc2b: 'Entry - Blog' # Entry - Blog
     b6d2560f-cae8-458b-9d36-e66efde2f247: 'Entries - Blog' # Entries - Blog

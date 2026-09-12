@@ -1,0 +1,58 @@
+allowLineBreaksInTitles: false
+color: purple
+description: null
+fieldLayouts:
+  33a7eec6-69ad-4e7a-b66c-426a5d7557c5:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: barText
+            instructions: null
+            label: Label
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a93b2884-faef-4aa3-a850-6cba60d0708c
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 9f517b93-0989-4f1b-97fd-4cbd92105d8f # Percentage
+            handle: barValue
+            instructions: null
+            label: Value
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 30501fb0-abeb-4316-ad1a-d7069c80e50b
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 769b6d9b-c10a-45b9-bc12-af62e5a8c9a4
+        userCondition: null
+    thumbFieldKey: null
+handle: bar
+hasTitleField: false
+icon: chart-simple
+name: Bar
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{barText} {barValue}%'

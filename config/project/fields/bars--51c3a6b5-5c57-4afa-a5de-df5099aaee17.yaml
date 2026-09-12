@@ -1,0 +1,26 @@
+columnSuffix: null
+handle: bars
+instructions: "One row per engine. A Bar's line is drawn from its Value, so the chart always matches the number beside it."
+name: Bars
+searchable: false
+settings:
+  createButtonLabel: 'New Bar'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 7b2da665-8eb3-44e6-85d7-9f1c48ea6468 # Bar
+  includeTableView: false
+  maxEntries: null
+  minEntries: 1
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix
