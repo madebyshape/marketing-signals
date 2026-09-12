@@ -36,6 +36,14 @@ settings:
       __assoc__:
         -
           - uid
+          - ab69447c-351f-4a22-900f-98c08751b333 # Grid - Icon Cards
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 0935a4e9-bdf6-4843-a0bf-d8b3bcaa919b # Carousel - Case Study
         -
           - group
