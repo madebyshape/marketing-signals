@@ -10,6 +10,7 @@
     disabled: false,
     instructions: null,
     type: 'text',
+    icon: null,
     attributes: null,
     colour: 'base',
     size: 'base',
@@ -22,17 +23,36 @@
 
 {# Options #}
 
+{# The pill's height is fixed, not padded: browsers floor an input's inner height at the font's line-height, so the button's padding would sit 3px taller here. #}
+
 {% set options = {
     colour: {
         base: {
             field: 'bg-white text-zinc-900 border-zinc-400 placeholder-zinc-300 disabled:opacity-50 pointer-fine:hover:border-zinc-600 focus:border-zinc-900 focus:ring-zinc-200',
+            icon: 'text-zinc-400',
+            label: 'base',
+            instructions: 'base'
+        },
+        'white-10': {
+            field: 'bg-white/10 text-white border-transparent placeholder-white/50 disabled:opacity-50 pointer-fine:hover:bg-white/20 focus:border-white focus:ring-white/30',
+            icon: 'text-white',
             label: 'base',
             instructions: 'base'
         }
     },
     size: {
         base: {
-            field: 'text-base ring-3 px-3 py-3',
+            field: 'text-base ring-3 rounded pr-3 py-3',
+            paddingLeft: 'pl-3',
+            paddingLeftIcon: 'pl-10',
+            icon: 'left-3 text-xs',
+            label: 'base'
+        },
+        pill: {
+            field: 'text-base ring-3 rounded-full pr-5 h-[42px]',
+            paddingLeft: 'pl-5',
+            paddingLeftIcon: 'pl-11',
+            icon: 'left-5 text-xs',
             label: 'base'
         }
     }
@@ -44,11 +64,20 @@
     wrapper: [
         'w-full'
     ],
+    control: [
+        'relative'
+    ],
     field: [
-        'appearance-none motion-safe:transition w-full block shadow-none outline-none border-1 rounded ring-transparent focus:ring-opacity-100',
+        'appearance-none motion-safe:transition w-full block shadow-none outline-none border-1 ring-transparent focus:ring-opacity-100',
         options.colour[params.colour].field,
         options.size[params.size].field,
+        params.icon ? options.size[params.size].paddingLeftIcon : options.size[params.size].paddingLeft,
         params.class
+    ],
+    icon: [
+        'absolute inset-y-0 flex items-center pointer-events-none',
+        options.colour[params.colour].icon,
+        options.size[params.size].icon
     ]
 } %}
 
@@ -66,17 +95,25 @@
         }
     } only %}
 
-    <input
-        type="{{ params.type }}"
-        name="{{ params.name }}"
-        id="{{ params.id }}"
-        class="{{ classes.field|join(' ')|trim }}"
-        {{ params.required ? 'required' }}
-        {{ params.disabled ? 'disabled' }}
-        {{ params.placeholder ? ('placeholder="' ~ params.placeholder ~ '"')|raw }}
-        {{ params.value ? ('value="' ~ params.value ~ '"')|raw }}
-        {{ params.attributes|raw }}
-    >
+    <div class="{{ classes.control|join(' ')|trim }}">
+
+        <input
+            type="{{ params.type }}"
+            name="{{ params.name }}"
+            id="{{ params.id }}"
+            class="{{ classes.field|join(' ')|trim }}"
+            {{ params.required ? 'required' }}
+            {{ params.disabled ? 'disabled' }}
+            {{ params.placeholder ? ('placeholder="' ~ params.placeholder ~ '"')|raw }}
+            {{ params.value ? ('value="' ~ params.value ~ '"')|raw }}
+            {{ params.attributes|raw }}
+        >
+
+        {% if params.icon %}
+            <i class="{{ classes.icon|join(' ')|trim }} {{ params.icon }}" aria-hidden="true"></i>
+        {% endif %}
+
+    </div>
 
     {% include '_components/form/instructions' with {
         params: {

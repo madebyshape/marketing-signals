@@ -20,6 +20,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 30e10431-e948-431f-8a12-45b366c686fe # Banner - Gated Content
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - d8925826-0e82-41f9-91e8-bb798d884868 # Carousel - Blog
         -
           - group
