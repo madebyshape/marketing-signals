@@ -1,6 +1,7 @@
 {# Default Variables #}
 
 {% set category = category ?? '' %}
+{% set offset = offset ?? 0 %}
 
 {# Categories #}
 
@@ -15,7 +16,15 @@
 
 {# Playbooks #}
 
-{% set playbooks = craft.entries.section('playbook').status('enabled').relatedTo(activeCategory ?: null).all() %}
+{# Nine to a view; Load More appends the next nine after the cards already on the page. #}
+
+{% set perView = 9 %}
+
+{% set query = craft.entries.section('playbook').status('enabled').relatedTo(activeCategory ?: null) %}
+
+{% set total = query.count() %}
+{% set playbooks = query.offset(offset).limit(perView).all() %}
+{% set shown = offset + playbooks|length %}
 
 {# Playbook Number #}
 
@@ -42,6 +51,7 @@
 {# The grid is the indicator, so a Filter Button dims it by id. #}
 
 {% set gridId = 'playbookGridItems' %}
+{% set moreId = 'playbookGridMore' %}
 
 {# A `>` anywhere in an s-* value truncates Sprig's tag match. #}
 
@@ -49,6 +59,17 @@
     'sprig',
     's-indicator="#' ~ gridId ~ '"'
 ] %}
+
+{# Load More appends into the list alone, so the cards already shown are neither moved nor re-fetched. #}
+
+{% set moreAttributes = attributes|merge([
+    's-val:category="' ~ activeSlug ~ '"',
+    's-val:offset="' ~ shown ~ '"',
+    's-target="#' ~ gridId ~ '"',
+    's-select="#' ~ gridId ~ ' [data-playbook-grid-card]"',
+    's-swap="beforeend"',
+    's-select-oob="#' ~ moreId ~ '"'
+]) %}
 
 {# Filters #}
 
@@ -74,6 +95,7 @@
         checked: item.slug == activeSlug,
         attributes: attributes|merge([
             's-val:category="' ~ item.slug ~ '"',
+            's-val:offset="0"',
             's-push-url="' ~ (item.slug ? '?category=' ~ item.slug : listingUrl) ~ '"'
         ])|join(' ')
     }]) %}
@@ -108,7 +130,8 @@
     grid: 'grid grid-cols-12 gap-5 [&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50',
     item: 'col-span-12 | md:col-span-6 | lg:col-span-4',
     card: 'h-full',
-    empty: 'text-base'
+    empty: 'text-base',
+    more: 'mt-12.5 flex justify-center'
 } %}
 
 {# Output #}
@@ -202,7 +225,8 @@
                         playbook: playbook,
                         number: numbers['playbook' ~ playbook.id],
                         sizes: options.sizes,
-                        class: classes.card
+                        class: classes.card,
+                        attributes: offset > 0 and loop.first ? 'autofocus' : null
                     }
                 } only %}
 
@@ -215,5 +239,29 @@
 {% else %}
 
     <p class="{{ classes.empty }}">No playbooks found</p>
+
+{% endif %}
+
+{# The wrapper is rendered empty rather than removed, so a swap always has a node to land on. #}
+
+{% if shown < total %}
+
+    <div id="{{ moreId }}" class="{{ classes.more }}">
+
+        {% include '_components/button' with {
+            params: {
+                type: 'button',
+                button: { label: 'Load More' },
+                colour: 'secondary',
+                icon: 'fa-sharp fa-regular fa-arrow-down',
+                attributes: moreAttributes|join(' ')
+            }
+        } only %}
+
+    </div>
+
+{% else %}
+
+    <div id="{{ moreId }}"></div>
 
 {% endif %}

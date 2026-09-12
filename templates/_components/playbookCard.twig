@@ -10,7 +10,8 @@
     wordCount: '3,400 words',
     readTime: '14 min read',
     sizes: '(min-width: 1024px) 31vw, (min-width: 768px) 46vw, 90vw',
-    class: null
+    class: null,
+    attributes: null
 } %}
 
 {# Merge Params #}
@@ -73,7 +74,7 @@
 
     {% set description = params.playbook.description|striptags %}
 
-    <a href="{{ params.playbook.url }}" class="{{ classes.card|join(' ')|trim }}">
+    <a href="{{ params.playbook.url }}" class="{{ classes.card|join(' ')|trim }}" {{ params.attributes|raw }}>
 
         <div class="{{ classes.thumbnail|join(' ')|trim }}">
 
