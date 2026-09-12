@@ -12,6 +12,8 @@
 {# Content #}
 
 {% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
 
 {# Classes #}
 
@@ -21,41 +23,108 @@
         'rounded-[20px] bg-black p-6.25',
         '|',
         'lg:p-10'
-    ]
+    ],
+    eyebrow: [
+        'mb-12.5',
+        '|',
+        'lg:mb-37.5'
+    ],
+    grid: [
+        'grid grid-cols-1 gap-5',
+        '|',
+        'lg:grid-cols-12'
+    ],
+    column: [
+        'col-span-full',
+        '|',
+        'lg:col-span-5'
+    ],
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:text-7xl'
+    ],
+    text: 'mt-7.5',
+    button: 'mt-10'
 } %}
 
 {# Output #}
 
-{% embed '_components/section'
-    with {
-        params: params|merge({
-            paddingY: params.padding,
-            paddingX: 'none'
-        })
-    }
-%}
-    {% block sectionContent %}
+{% if hasHeading %}
 
-        <div class="{{ blockClasses.margin }}">
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
 
-            <div class="{{ blockClasses.panel|join(' ')|trim }}">
+            <div class="{{ blockClasses.margin }}">
 
-                {% if hasEyebrow %}
+                <div class="{{ blockClasses.panel|join(' ')|trim }}">
 
-                    {% include '_components/eyebrow' with {
-                        params: {
-                            text: entry.eyebrow,
-                            colour: 'white',
-                            rule: true,
-                            ruleColour: 'white-30'
-                        }
-                    } only %}
+                    {% if hasEyebrow %}
 
-                {% endif %}
+                        {% include '_components/eyebrow' with {
+                            params: {
+                                text: entry.eyebrow,
+                                colour: 'white',
+                                rule: true,
+                                ruleColour: 'white-30',
+                                class: blockClasses.eyebrow|join(' ')|trim
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    <div class="{{ blockClasses.grid|join(' ')|trim }}">
+
+                        <div class="{{ blockClasses.column|join(' ')|trim }}">
+
+                            {% include '_components/headingAlternate' with {
+                                params: {
+                                    tag: 'h2',
+                                    heading: entry.heading,
+                                    colour: 'white',
+                                    size: '4xl',
+                                    alternateStyle: 'secondary',
+                                    class: blockClasses.heading|join(' ')|trim
+                                }
+                            } only %}
+
+                            {% if hasText %}
+
+                                {% include '_components/richText' with {
+                                    params: {
+                                        content: entry.text,
+                                        colour: 'white',
+                                        size: 'base',
+                                        list: 'check-single',
+                                        class: blockClasses.text
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                            {% include '_components/button' with {
+                                params: {
+                                    button: entry.button,
+                                    class: blockClasses.button
+                                }
+                            } only %}
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
-        </div>
+        {% endblock %}
+    {% endembed %}
 
-    {% endblock %}
-{% endembed %}
+{% endif %}
