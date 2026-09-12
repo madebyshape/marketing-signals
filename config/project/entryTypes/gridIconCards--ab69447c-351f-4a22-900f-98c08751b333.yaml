@@ -1,0 +1,149 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  ab5c6647-5968-4038-b105-e388accd0650:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: ab170bfd-fb4b-44dc-9459-672ecfcb0b73
+            userCondition: null
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: 'Make words italic to highlight them.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 187e7058-ae9c-4924-aef1-63d98822874e
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b454b0e7-7757-435a-8c37-335539ca1ae8
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: a5edee05-f770-4ea2-b736-5ffdf6edad8f
+            userCondition: null
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: fc1aa366-1ece-49df-90bc-917b65b70e7d # Icon Grid
+            handle: iconCards
+            instructions: 'Cards of an icon over a heading and text. Five across on a desktop, three on a laptop, two on a tablet, one on a phone.'
+            label: 'Icon Cards'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f1ffea8d-5eea-4fc5-9fea-f5847099cb87
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 2200655d-d795-4cf7-a9e7-a8033e32616d
+            userCondition: null
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e11f753a-464a-4991-9556-608f38e8aadc
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c08276b4-951f-4222-9e12-73622b78b6e0 # Avatar Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0a1ef443-5e8d-45c8-8b7e-df0ed501ab11
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: c3436637-08df-45aa-92e4-dcbabc733ebd
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1c279a78-6264-4fa0-b2e5-ba9fb447e143
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 54920962-35ba-491f-a7dc-469f7c7dc20b
+        userCondition: null
+    thumbFieldKey: null
+handle: gridIconCards
+hasTitleField: false
+icon: grid-2
+name: 'Grid - Icon Cards'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
