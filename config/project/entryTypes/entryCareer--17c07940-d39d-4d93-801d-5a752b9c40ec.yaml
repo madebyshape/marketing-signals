@@ -68,6 +68,70 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-12T13:04:36+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: salary
+            instructions: null
+            label: Salary
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1a3205d0-7ef5-4747-9378-5f979bf4a11d
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-09-12T13:04:36+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: salaryFootnote
+            instructions: null
+            label: 'Salary Footnote'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c095f922-15d7-41cd-af49-3e537bde7a1d
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-09-12T13:04:36+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: reportsTo
+            instructions: null
+            label: 'Reports To'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 61cd9692-9c54-4e9a-8164-772116585b27
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T13:04:36+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: workingPattern
+            instructions: null
+            label: 'Working Pattern'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 94271a43-d395-4a18-b747-3650b4666fee
+            userCondition: null
+            warning: null
+            width: 100
         name: 'Overview Content'
         uid: 33309d6c-d4f5-4800-b814-56d28f69c086
         userCondition: null
@@ -82,18 +146,50 @@ fieldLayouts:
             uid: 837f4bb9-7a65-41a7-8678-d886e72747ba
             userCondition: null
           -
-            dateAdded: '2026-08-28T11:29:55+00:00'
+            dateAdded: '2026-09-12T13:02:46+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: ab214509-2da1-4b0b-b7a3-33dac1c86ce9 # Hero
-            handle: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: heroHeading
             instructions: null
-            label: null
+            label: 'Hero Heading'
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 734c2216-2dae-4bf7-bf75-33e44b2fc1b2
+            uid: d6dd0c87-92b1-4aa5-b7b2-f69e79052588
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T13:02:46+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: heroText
+            instructions: null
+            label: 'Hero Text'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0756b59f-22eb-4209-a139-c97e583508f6
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T13:02:46+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: heroImage
+            instructions: null
+            label: 'Hero Image'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ee95e639-6231-4ddb-bc6e-5ab99fd7eb6e
             userCondition: null
             warning: null
             width: 100
