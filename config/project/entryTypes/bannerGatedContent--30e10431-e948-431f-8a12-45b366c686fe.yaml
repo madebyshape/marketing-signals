@@ -1,0 +1,142 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  611b1586-1e48-479a-80ef-37359f45ca1d:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 9e68b9c1-f823-4c82-a73c-45ab9b77274e
+            userCondition: null
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: fbd908a1-41eb-4db5-a3cc-2d649e03610e
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a7dac0a5-da83-4cb7-9924-024157a3d19f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: eeede38d-60c8-48e1-b0c7-d0bdde702a16
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 963e2444-8e6b-4a68-b705-24156cac642d
+            userCondition: null
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: null
+            instructions: "A cutout with a transparent background. It stands on the banner's bottom edge and rises above its top."
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f33a4f92-69d7-4014-845c-d22169b178df
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: ba722686-c972-4f23-b66e-2bdc2ce10890
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21 # Form
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: afa44764-2c36-4be7-ac1b-27de9fd9b6f4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-12T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 09dc8c61-a4f5-4efc-b8ac-a85e1abb32e3
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 8cd0eadb-0513-44f1-946c-762a14a02a7b
+        userCondition: null
+    thumbFieldKey: null
+handle: bannerGatedContent
+hasTitleField: false
+icon: rectangle-wide
+name: 'Banner - Gated Content'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

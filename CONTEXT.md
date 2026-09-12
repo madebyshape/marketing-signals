@@ -856,6 +856,16 @@ _Avoid_: CTA banner, promo banner, careers banner, image banner, callout
 A photograph of a person with a transparent background that stands on a panel's bottom edge and rises above the panel's top. The Banner CTA is its first use.
 _Avoid_: Person image, portrait, PNG, floating image, sticker
 
+### Banner Gated Content
+
+**Banner Gated Content**:
+A Block of a black panel inside the site margins holding an Eyebrow, a heading with the Highlight, a short text and the Gate, with a Cutout standing on the panel's bottom edge. Side by side from the desktop breakpoint; below it the Cutout sits above the content. It carries a Form field that nothing reads yet.
+_Avoid_: Download banner, lead magnet, email banner, newsletter block, signup banner
+
+**Gate**:
+The email field and submit pill on one row at the end of a Banner Gated Content, offering a document in exchange for an address. It is markup only: there is no form element and nothing is submitted.
+_Avoid_: Form, signup form, email capture, opt-in, subscribe box
+
 ### Audit CTA
 
 **Audit CTA**:
