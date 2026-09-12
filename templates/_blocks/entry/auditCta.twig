@@ -1,0 +1,61 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    panel: [
+        'rounded-[20px] bg-black p-6.25',
+        '|',
+        'lg:p-10'
+    ]
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: params|merge({
+            paddingY: params.padding,
+            paddingX: 'none'
+        })
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ blockClasses.margin }}">
+
+            <div class="{{ blockClasses.panel|join(' ')|trim }}">
+
+                {% if hasEyebrow %}
+
+                    {% include '_components/eyebrow' with {
+                        params: {
+                            text: entry.eyebrow,
+                            colour: 'white',
+                            rule: true,
+                            ruleColour: 'white-30'
+                        }
+                    } only %}
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+{% endembed %}
