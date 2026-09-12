@@ -1,8 +1,22 @@
+{# Default Variables #}
+
+{% set page = page ?? 1 %}
+{% set scroll = scroll ?? 0 %}
+
 {# Blogs #}
 
 {% set perPage = 11 %}
 
-{% set blogs = craft.entries.section('blog').status('enabled').limit(perPage).all() %}
+{# A `page` from the query string arrives as a string and the paginator takes an int. #}
+
+{% set page = page matches '/^[0-9]+$/' ? page + 0 : 1 %}
+
+{% set query = craft.entries.section('blog').status('enabled').limit(perPage) %}
+
+{# The paginator clamps a page beyond the last to the last. #}
+
+{% set pageInfo = sprig.paginate(query, page) %}
+{% set blogs = query.offset(perPage * (pageInfo.currentPage - 1)).all() %}
 
 {# The first three lead as a Blog Set; the rest run two to a row. #}
 
@@ -18,13 +32,30 @@
     }
 } %}
 
+{# Attributes #}
+
+{# The grid is the indicator, so a trigger dims it by id. #}
+
+{% set gridId = 'blogListingItems' %}
+
+{# A `>` anywhere in an s-* value truncates Sprig's tag match. #}
+
+{% set attributes = [
+    'sprig',
+    's-indicator="#' ~ gridId ~ '"'
+] %}
+
+{% set pageAttributes = attributes|merge([
+    's-val:scroll="1"'
+]) %}
+
 {# Classes #}
 
 {# The Set dissolves below `lg` by handing its cards straight to the grid. #}
 
 {% set classes = {
-    rule: 'mb-12.5 h-px w-full bg-creme-300',
-    grid: 'grid grid-cols-12 gap-5',
+    rule: 'mb-12.5 h-px w-full bg-creme-300 scroll-mt-20 | xl:scroll-mt-[123px]',
+    grid: 'grid grid-cols-12 gap-5 [&.htmx-request]:pointer-events-none [&.htmx-request]:opacity-50',
     set: 'contents | lg:col-span-12 lg:grid lg:grid-cols-12 lg:gap-5',
     setLead: 'col-span-12 | md:col-span-6',
     setList: 'contents | lg:col-span-6 lg:grid lg:grid-rows-2 lg:gap-5',
@@ -37,11 +68,13 @@
 
 {# Output #}
 
-<div class="{{ classes.rule }}"></div>
+{# A paged swap scrolls the listing beneath the Header, whose height is the rule's scroll margin. #}
+
+<div class="{{ classes.rule }}"{% if sprig.isRequest and scroll %} x-data x-init="window.lenis.scrollTo($el)"{% endif %}></div>
 
 {% if blogs|length %}
 
-    <ul class="{{ classes.grid }}">
+    <ul id="{{ gridId }}" class="{{ classes.grid }}">
 
         <li class="{{ classes.set }}">
 
@@ -110,6 +143,13 @@
         {% endfor %}
 
     </ul>
+
+    {% include '_components/pagination' with {
+        params: {
+            pageInfo: pageInfo,
+            attributes: pageAttributes
+        }
+    } only %}
 
 {% else %}
 
