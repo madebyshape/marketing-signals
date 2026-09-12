@@ -1,0 +1,78 @@
+{% set component = 'playbookMeta' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    wordCount: null,
+    readTime: null,
+    colour: 'black',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        black: {
+            text: 'text-black',
+            divider: 'border-creme-400'
+        },
+        white: {
+            text: 'text-white',
+            divider: 'border-white'
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'flex flex-row flex-wrap items-center gap-x-3.75 gap-y-2 text-xs font-normal leading-1.33 tracking-tight',
+        options.colour[params.colour].text,
+        params.class
+    ],
+    item: [
+        'inline-flex flex-row items-center gap-x-2 whitespace-nowrap'
+    ],
+    wordCount: [
+        params.readTime ? 'border-r pr-3.75 ' ~ options.colour[params.colour].divider
+    ],
+    icon: [
+        'text-[10px]'
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}">
+
+    {% if params.wordCount %}
+
+        <div class="{{ classes.item|join(' ')|trim }} {{ classes.wordCount|join(' ')|trim }}">
+
+            <i class="{{ classes.icon|join(' ')|trim }} fa-sharp fa-regular fa-clipboard-list" aria-hidden="true"></i>
+
+            {{ params.wordCount }}
+
+        </div>
+
+    {% endif %}
+
+    {% if params.readTime %}
+
+        <div class="{{ classes.item|join(' ')|trim }}">
+
+            <i class="{{ classes.icon|join(' ')|trim }} fa-sharp fa-regular fa-clock" aria-hidden="true"></i>
+
+            {{ params.readTime }}
+
+        </div>
+
+    {% endif %}
+
+</div>

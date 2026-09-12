@@ -13,6 +13,27 @@
 {% set hero = entry.hero.one() %}
 {% set headerColour = hero ? headerColours[hero.type.handle]|default('creme-100') : 'creme-100' %}
 
+{# Listing Header #}
+
+{% set hasHeading = entry.heading|striptags|trim|length %}
+{% set hasText = entry.text|striptags|trim|length %}
+
+{# Classes #}
+
+{% set pageClasses = {
+    headerRow: 'grid grid-cols-12 gap-5 mb-10',
+    headerColumn: 'col-span-12 text-center',
+    heading: [
+        'mx-auto max-w-[1007px] font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl | lg:text-7xl'
+    ],
+    text: [
+        'mx-auto max-w-[750px]',
+        hasHeading ? 'mt-7.5'
+    ]
+} %}
+
 {% block site %}
 
     {{ entry.hero.render({
@@ -21,10 +42,68 @@
 
     {# Playbook Listing #}
 
+    {% embed '_components/section' with {
+        params: {
+            paddingY: 'topBottom',
+            paddingYSize: 'base'
+        }
+    } %}
+        {% block sectionContent %}
+
+            {% if hasHeading or hasText %}
+
+                <div class="{{ pageClasses.headerRow }}">
+
+                    <div class="{{ pageClasses.headerColumn }}">
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h1',
+                                heading: entry.heading,
+                                colour: 'base',
+                                size: '4xl',
+                                alternateStyle: 'base',
+                                class: pageClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                        {% if hasText %}
+
+                            <div class="{{ pageClasses.text|join(' ')|trim }}">
+
+                                {% include '_components/richText' with {
+                                    params: {
+                                        content: entry.text,
+                                        colour: 'black',
+                                        size: 'base'
+                                    }
+                                } only %}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+            {# The Category lives in the query string, so a direct load renders the state a swap would. #}
+
+            {{ sprig('_sprig/playbookGrid', {
+                category: craft.app.request.getQueryParam('category') ?? ''
+            }, {
+                id: 'playbookGrid',
+                'aria-live': 'polite'
+            }) }}
+
+        {% endblock %}
+    {% endembed %}
+
     {# Blocks #}
     {{ entry.blocks.render({
         vars: vars
     }) }}
 
 {% endblock %}
-

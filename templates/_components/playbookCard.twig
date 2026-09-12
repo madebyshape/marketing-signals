@@ -1,0 +1,177 @@
+{% set component = 'playbookCard' %}
+
+{# Default Params #}
+
+{# The Word Count and Read Time are literals: the entry type has no field for either. #}
+
+{% set defaultParams = {
+    playbook: null,
+    number: null,
+    wordCount: '3,400 words',
+    readTime: '14 min read',
+    sizes: '(min-width: 1024px) 31vw, (min-width: 768px) 46vw, 90vw',
+    class: null,
+    attributes: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    card: [
+        'group flex w-full flex-col overflow-hidden rounded-[20px] bg-white text-black',
+        params.class
+    ],
+    thumbnail: [
+        'relative overflow-hidden rounded-[15px] bg-black m-1.25'
+    ],
+    placeholder: [
+        'aspect-[2/1] bg-creme-300'
+    ],
+    scrim: [
+        'absolute inset-x-0 top-0 z-10 h-1/2 bg-linear-to-b from-black/50 to-transparent'
+    ],
+    overlay: [
+        'absolute left-5 top-5 z-20 flex flex-row items-center gap-x-2.5'
+    ],
+    number: [
+        'text-xs leading-none tracking-tight text-white'
+    ],
+    content: [
+        'flex flex-1 flex-col px-10 pb-10 pt-5'
+    ],
+    meta: [
+        'mb-5'
+    ],
+    text: [
+        'grid gap-y-5'
+    ],
+    heading: [
+        'font-medium leading-1.2 tracking-tighter'
+    ],
+    description: [
+        'text-sm leading-1.33'
+    ],
+    pill: [
+        'mt-auto pt-7.5'
+    ]
+} %}
+
+{# Output #}
+
+{% if params.playbook %}
+
+    {% set thumbnail = params.playbook.thumbnail.one() %}
+    {% set category = params.playbook.categoriesPlaybook.one() %}
+
+    {# Heading renders as a `p`: a link, a heading or a focusable element inside the card's link is invalid. #}
+
+    {% set heading = params.playbook.heading|striptags('<em><i><strong><b><br>') %}
+    {% set heading = heading|striptags|trim|length ? heading : params.playbook.title %}
+
+    {% set description = params.playbook.description|striptags %}
+
+    <a href="{{ params.playbook.url }}" class="{{ classes.card|join(' ')|trim }}" {{ params.attributes|raw }}>
+
+        <div class="{{ classes.thumbnail|join(' ')|trim }}">
+
+            {% if thumbnail %}
+
+                {% include '_components/picture' with {
+                    params: {
+                        image: thumbnail,
+                        alt: '',
+                        transform: '2x1',
+                        ratio: true,
+                        focalPoint: true,
+                        sizes: params.sizes
+                    }
+                } only %}
+
+            {% else %}
+
+                <div class="{{ classes.placeholder|join(' ')|trim }}"></div>
+
+            {% endif %}
+
+            <div class="{{ classes.scrim|join(' ')|trim }}" aria-hidden="true"></div>
+
+            <div class="{{ classes.overlay|join(' ')|trim }}">
+
+                {% if category %}
+
+                    {% include '_components/badge' with {
+                        params: {
+                            badge: category.title,
+                            colour: 'white-20',
+                            size: 'sm'
+                        }
+                    } only %}
+
+                {% endif %}
+
+                {% if params.number %}
+
+                    <span class="{{ classes.number|join(' ')|trim }}">{{ 'No. %02d'|format(params.number) }}</span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="{{ classes.content|join(' ')|trim }}">
+
+            {% include '_components/playbookMeta' with {
+                params: {
+                    wordCount: params.wordCount,
+                    readTime: params.readTime,
+                    class: classes.meta|join(' ')|trim
+                }
+            } only %}
+
+            <div class="{{ classes.text|join(' ')|trim }}">
+
+                {% include '_components/headingAlternate' with {
+                    params: {
+                        tag: 'p',
+                        heading: heading,
+                        colour: 'base',
+                        size: '3xl',
+                        alternateStyle: 'base',
+                        class: classes.heading|join(' ')|trim
+                    }
+                } only %}
+
+                {# The Description is stripped to text: a link inside the card's link is invalid HTML. #}
+
+                {% if description|trim|length %}
+
+                    <p class="{{ classes.description|join(' ')|trim }}">{{ description }}</p>
+
+                {% endif %}
+
+            </div>
+
+            <div class="{{ classes.pill|join(' ')|trim }}">
+
+                {% include '_components/button' with {
+                    params: {
+                        type: 'span',
+                        button: { label: 'Read More' },
+                        colour: 'creme-400-outline',
+                        icon: null,
+                        class: 'w-full justify-center'
+                    }
+                } only %}
+
+            </div>
+
+        </div>
+
+    </a>
+
+{% endif %}

@@ -1,0 +1,37 @@
+{# Playbook Meta · both colours, on each panel #}
+
+{% set colours = ['black', 'white'] %}
+
+<section class="grid gap-y-10" id="playbookMeta">
+
+    <h2 class="text-2xl font-medium leading-1.2 tracking-tighter">Playbook Meta</h2>
+
+    {% for panel in panels %}
+
+        <div class="grid gap-y-8 p-10 rounded-md | {{ panel.class }}">
+
+            <h3 class="text-xs opacity-60">{{ panel.label }}</h3>
+
+            {% for colour in colours %}
+
+                <div class="grid gap-y-3">
+
+                    <h4 class="text-xs font-mono opacity-60">colour: {{ colour }}</h4>
+
+                    {% include '_components/playbookMeta' with {
+                        params: {
+                            wordCount: '3,400 words',
+                            readTime: '14 min read',
+                            colour: colour
+                        }
+                    } only %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endfor %}
+
+</section>
