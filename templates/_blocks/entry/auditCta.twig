@@ -15,6 +15,8 @@
 {% set hasHeading = entry.heading|striptags|trim|length > 0 %}
 {% set hasText = entry.text|striptags|trim|length > 0 %}
 {% set image = entry.image.one() %}
+{% set bars = entry.chart.bars.all() %}
+{% set hasFootnote = entry.chart.text|trim|length > 0 %}
 
 {# Classes #}
 
@@ -56,7 +58,19 @@
         'relative aspect-8/9 w-full overflow-hidden rounded-[30px] bg-primary',
         '|',
         'lg:ml-[14%] lg:w-3/5 lg:rotate-2'
-    ]
+    ],
+    card: [
+        'mt-5 w-full rounded-[30px] bg-secondary p-7.5',
+        '|',
+        'lg:absolute lg:-bottom-3.5 lg:right-3.25 lg:mt-0 lg:h-[385px] lg:w-[345px] lg:-rotate-4'
+    ],
+    chartHeading: 'mt-2 font-medium leading-1.33 tracking-tighter',
+    bars: 'mt-2 flex flex-col gap-y-1.25',
+    barLabel: 'flex items-baseline justify-between gap-x-2.5 text-xs font-medium leading-none text-black',
+    barPercentage: 'text-2xs font-normal',
+    track: 'mt-5 h-0.75 w-full rounded-full bg-black/15',
+    fill: 'h-full w-(--bar-fill) rounded-full bg-black',
+    footnote: 'mt-2 text-2xs leading-1.33 text-black'
 } %}
 
 {# Output #}
@@ -149,6 +163,58 @@
                                 {% endif %}
 
                             </div>
+
+                            {% if bars|length %}
+
+                                <div class="{{ blockClasses.card|join(' ')|trim }}">
+
+                                    {% include '_components/badge' with {
+                                        params: {
+                                            badge: entry.chart.badge,
+                                            colour: 'white-20-black',
+                                            size: 'xs'
+                                        }
+                                    } only %}
+
+                                    {% include '_components/headingAlternate' with {
+                                        params: {
+                                            tag: 'h3',
+                                            heading: entry.chart.heading,
+                                            size: 'xl',
+                                            class: blockClasses.chartHeading
+                                        }
+                                    } only %}
+
+                                    <ul class="{{ blockClasses.bars }}">
+
+                                        {% for bar in bars %}
+
+                                            <li>
+
+                                                <div class="{{ blockClasses.barLabel }}">
+                                                    <span>{{ bar.barText }}</span>
+                                                    <span class="{{ blockClasses.barPercentage }}">{{ bar.barValue }}%</span>
+                                                </div>
+
+                                                <div class="{{ blockClasses.track }}" aria-hidden="true">
+                                                    <div class="{{ blockClasses.fill }}" style="--bar-fill: {{ bar.barValue }}%"></div>
+                                                </div>
+
+                                            </li>
+
+                                        {% endfor %}
+
+                                    </ul>
+
+                                    {% if hasFootnote %}
+
+                                        <p class="{{ blockClasses.footnote }}">{{ entry.chart.text }}</p>
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endif %}
 
                         </div>
 
