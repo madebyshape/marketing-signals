@@ -85,6 +85,10 @@
         check: {
             list: 'grid grid-cols-1 gap-y-3.75 mb-5 text-base leading-1.33 | md:grid-cols-2 md:gap-x-5',
             item: 'flex items-start gap-[7px]'
+        },
+        'check-single': {
+            list: 'grid grid-cols-1 gap-y-3.75 mb-5 text-base leading-1.33',
+            item: 'flex items-start gap-[7px]'
         }
     }
 } %}
@@ -134,7 +138,7 @@
 
 {% set mark %}<span class="{{ classes.mark }}" aria-hidden="true"><i class="fa-sharp fa-solid fa-check"></i></span>{% endset %}
 
-{% set marks = params.list == 'check' ? [['inject', 'ul li', mark|trim]] : [] %}
+{% set marks = params.list in ['check', 'check-single'] ? [['inject', 'ul li', mark|trim]] : [] %}
 
 {# Output #}
 
