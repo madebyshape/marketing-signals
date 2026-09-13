@@ -1,4 +1,4 @@
-dateModified: 1789218276
+dateModified: 1789291567
 elementSources:
   craft\elements\Entry:
     -
@@ -227,6 +227,7 @@ meta:
     637e921f-8b1c-495b-af4e-4ad4d4402c04: 'Content Row' # Content Row
     823de6d3-c67e-4f53-b852-0983c35aab97: 'Elements - FAQ' # Elements - FAQ
     924b795e-4490-4ca2-8b11-42c1f2ff31f1: 'Content Rows' # Content Rows
+    932adc14-64a1-4f61-a5b5-758b5945dd7e: 'Sidebar - CTA' # Sidebar - CTA
     0935a4e9-bdf6-4843-a0bf-d8b3bcaa919b: 'Carousel - Case Study' # Carousel - Case Study
     01475e1b-7d73-4ffa-868e-7dbcb87d00a9: 'Heading - Inline Images' # Heading - Inline Images
     2173f8fc-5044-44ea-a7ca-a776fbdca208: 'Stacking Cards' # Stacking Cards

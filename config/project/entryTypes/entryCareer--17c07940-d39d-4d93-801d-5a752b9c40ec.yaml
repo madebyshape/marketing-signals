@@ -132,6 +132,22 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-13T09:26:07+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 932adc14-64a1-4f61-a5b5-758b5945dd7e # Sidebar - CTA
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c35fd782-a036-4bf3-8b49-118be014aadc
+            userCondition: null
+            warning: null
+            width: 100
         name: 'Overview Content'
         uid: 33309d6c-d4f5-4800-b814-56d28f69c086
         userCondition: null
@@ -201,18 +217,18 @@ fieldLayouts:
             uid: 48ae8fa7-e280-4932-aa54-6c0aaf0862bb
             userCondition: null
           -
-            dateAdded: '2026-04-07T10:41:01+00:00'
+            dateAdded: '2026-09-13T09:26:07+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 6b2462c2-66b9-45fe-9504-0bce4d4cd1df # Blocks
-            handle: null
+            fieldUid: 7da91603-5ded-43ca-b8c9-692b445e049e # Rich Text - Longform
+            handle: longform
             instructions: null
-            label: null
+            label: Longform
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 22c8e5a5-f515-43bd-9b40-7b92e188e2c6
+            uid: 24ddb00e-ec71-46c1-be3e-7d68dd602210
             userCondition: null
             warning: null
             width: 100

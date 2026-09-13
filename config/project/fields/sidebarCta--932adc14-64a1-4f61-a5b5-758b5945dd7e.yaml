@@ -1,0 +1,173 @@
+columnSuffix: null
+handle: sidebarCta
+instructions: null
+name: 'Sidebar - CTA'
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - 5b03160a-47f1-4360-ba10-99cc2abfdac3
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    1:
+                      - uid
+                      - 703eec9a-0a5d-4b1c-93ff-a1852d0bf45e
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - sidebarCta
+                            2:
+                              - label
+                              - 'Sidebar - CTA'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-13T09:25:08+00:00'
+                            9:
+                              - uid
+                              - e1a88831-c255-4e83-be81-b43bb86e14af
+                            12:
+                              - fieldUid
+                              - 41118d3a-a4e2-4b8e-8d11-b0a93f26deeb # Lightswitch - On
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - avatars
+                            2:
+                              - label
+                              - Avatars
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-13T09:25:08+00:00'
+                            9:
+                              - uid
+                              - 6735c21e-3776-415c-a891-81928d6b8eec
+                            11:
+                              - elementCondition
+                              -
+                                __assoc__:
+                                  -
+                                    - elementType
+                                    - craft\elements\ContentBlock
+                                  -
+                                    - fieldContext
+                                    - global
+                                  -
+                                    - class
+                                    - craft\elements\conditions\ElementCondition
+                                  -
+                                    - conditionRules
+                                    -
+                                      - { __assoc__: [[class, craft\fields\conditions\LightswitchFieldConditionRule], [uid, a180afb1-19de-4bbd-b866-cb8f66c9fa2d], [value, true], [fieldUid, 41118d3a-a4e2-4b8e-8d11-b0a93f26deeb], [layoutElementUid, e1a88831-c255-4e83-be81-b43bb86e14af]] } # Lightswitch - On
+                            12:
+                              - fieldUid
+                              - cb336128-ebff-454c-84e0-9248097d4604 # Images (Max 3)
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-13T09:25:08+00:00'
+                            9:
+                              - uid
+                              - b61c20e4-1ca5-468e-9fee-2071ef848176
+                            11:
+                              - elementCondition
+                              -
+                                __assoc__:
+                                  -
+                                    - elementType
+                                    - craft\elements\ContentBlock
+                                  -
+                                    - fieldContext
+                                    - global
+                                  -
+                                    - class
+                                    - craft\elements\conditions\ElementCondition
+                                  -
+                                    - conditionRules
+                                    -
+                                      - { __assoc__: [[class, craft\fields\conditions\LightswitchFieldConditionRule], [uid, 2d2ffa93-5618-44b9-99c6-4b2f902247cd], [value, true], [fieldUid, 41118d3a-a4e2-4b8e-8d11-b0a93f26deeb], [layoutElementUid, e1a88831-c255-4e83-be81-b43bb86e14af]] } # Lightswitch - On
+                            12:
+                              - fieldUid
+                              - d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-13T09:25:08+00:00'
+                            9:
+                              - uid
+                              - 737f98e5-8b9b-4b8b-8638-dce1859cfcd3
+                            11:
+                              - elementCondition
+                              -
+                                __assoc__:
+                                  -
+                                    - elementType
+                                    - craft\elements\ContentBlock
+                                  -
+                                    - fieldContext
+                                    - global
+                                  -
+                                    - class
+                                    - craft\elements\conditions\ElementCondition
+                                  -
+                                    - conditionRules
+                                    -
+                                      - { __assoc__: [[class, craft\fields\conditions\LightswitchFieldConditionRule], [uid, 3fa68e87-e086-4b35-a88c-2baa5da364b6], [value, true], [fieldUid, 41118d3a-a4e2-4b8e-8d11-b0a93f26deeb], [layoutElementUid, e1a88831-c255-4e83-be81-b43bb86e14af]] } # Lightswitch - On
+                            12:
+                              - fieldUid
+                              - 0b199c11-0b79-4e4b-b931-f9c85e23a667 # Button
+            4:
+              - cardThumbAlignment
+              - end
+  viewMode: grouped
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock
