@@ -125,7 +125,7 @@ _Avoid_: Button row, CTA group, actions
 ### Heroes
 
 **Hero**:
-The top of a page, always rendered before the Blocks. On a page it is the single entry from the Hero field; on a Case Study it is the Case Study Hero; on a Service it is the Service Hero. A page has at most one.
+The top of a page, always rendered before the Blocks. On a page it is the single entry from the Hero field; on a Case Study it is the Case Study Hero; on a Service it is the Service Hero; on a Career it is the Career Hero. A page has at most one.
 _Avoid_: Hero block, banner, page header, masthead
 
 **Hero Layout**:
@@ -165,7 +165,7 @@ The full-screen Hero at the top of every Case Study page, built from the Case St
 _Avoid_: Case study banner, project hero, hero layout
 
 **Hero Image**:
-The photograph that fills a Case Study Hero or a Hero Full Screen behind its content, darkened by shades at the top and bottom of a Case Study Hero and by a dark overlay across the whole of a Hero Full Screen. Without one the Hero is plain black.
+The photograph that fills a Case Study Hero or a Hero Full Screen behind its content, darkened by shades at the top and bottom of a Case Study Hero and by a dark overlay across the whole of a Hero Full Screen; without one those Heroes are plain black. In a Career Hero it sits full width beneath the content instead, and without one the Hero ends after the content.
 _Avoid_: Background image, cover image, banner image
 
 **Hero Logo**:
@@ -173,16 +173,24 @@ The client's Logo shown in white at the bottom of a Case Study Hero. When an edi
 _Avoid_: Client logo, hero brand, white logo
 
 **Hero Heading**:
-The heading of a Case Study Hero or a Service Hero, with its Highlight in fluro on a Case Study and in secondary on a Service. When empty the title stands in, on a Case Study after the Tag Line, so the page always has a heading.
+The heading of a Case Study Hero, a Service Hero or a Career Hero, with its Highlight in fluro on a Case Study and in secondary on a Service and a Career. When empty the title stands in, on a Case Study after the Tag Line, so the page always has a heading.
 _Avoid_: Hero title, banner heading
 
 **Hero Text**:
-The short paragraph beside the Hero Heading in a Case Study Hero, or beneath it in a Service Hero. Empty means nothing is shown.
+The short paragraph beside the Hero Heading in a Case Study Hero, or beneath it in a Service Hero or a Career Hero. Empty means nothing is shown.
 _Avoid_: Hero copy, intro, strapline
 
 **Service Hero**:
 The full-screen black Hero at the top of every Service page, built from the Service's own Hero Heading, Hero Text, Hero Button, Hero Avatar Group and Hero Video rather than a Hero Layout, so an editor never picks it. The Breadcrumb sits at its top; the heading, text, button and Avatar Group sit in the left column with the Hero Video filling the right.
 _Avoid_: Service banner, service page hero, hero layout
+
+**Career Hero**:
+The light Hero at the top of every Career page, built from the Career's own Hero Heading, Hero Text, Hero Image and details rather than a Hero Layout, so an editor never picks it. The Breadcrumb sits at its top; the heading, text and Apply Button sit on the left with the Career Details on the right, and the Hero Image runs full width beneath them.
+_Avoid_: Job hero, vacancy hero, career banner, hero layout
+
+**Apply Button**:
+The fixed "Apply Now" button beneath the Hero Text in a Career Hero that scrolls the visitor down to the Career's content. Never set by editors.
+_Avoid_: Hero Button, apply CTA, apply link
 
 **Hero Button**:
 The single button beneath the Hero Text in a Service Hero, with the Avatar Group beside it. Empty means nothing is shown.
@@ -913,6 +921,10 @@ _Avoid_: Job card, job row, listing item, vacancy card
 **Employment Type**:
 Whether a Career is Full-Time, Part-Time, Contractor, Temporary, Maternity cover or Freelance.
 _Avoid_: Contract type, job type, hours
+
+**Career Details**:
+The list of labelled rows beside the heading in a Career Hero: the Employment Type, the first Category as the sector, the salary with its footnote beneath, who the role reports to, and the working pattern. A row with nothing to show is left out, and with no rows the list is left out.
+_Avoid_: Job details, sidebar, job meta, key facts
 
 **Call To Action**:
 The last row of a Career List: an optional photo, a heading and a text with a Button, inviting a visitor who found no Career to get in touch. The Category Filter never changes it.
