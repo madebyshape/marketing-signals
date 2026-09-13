@@ -122,22 +122,26 @@ There is no test suite. Evidence replaces tests: screenshots from the running DD
 
 **Seams.** The one seam is the rendered Career page through the global layout, at the two Careers above; the breadcrumb's new map line, the Header Colour change and every state of the hero show there. The Careers page is checked only to prove the type switch changed nothing it renders. The Seed command's output is supporting evidence. Nothing is added to the styleguide.
 
-**What good evidence looks like.** It shows what a visitor would see: the trail on the header's edge, the title at 82px beside the ruled Career Details, the lilac Apply Now pill, the photograph full width beneath, the page and header both creme, and the stacked layout on a phone. Fixed widths, one state per file, before and after pairs on the PR. The before for each Career is the empty page under a black header that it renders today.
+**What good evidence looks like.** It shows what a visitor would see: the trail on the header's edge, the title at 82px beside the ruled Career Details, the lilac Apply Now pill, the photograph full width beneath, the page and header both creme, and the stacked layout on a phone. The group review takes the screenshots of record once, at the three widths below, resting state; every other line is a state checked on the site and reported, not captured.
 
 **Evidence plan.**
 
-1. USA Focused Senior Digital PR Manager at 1600, full page: a Creme 100 header and page; Home › Careers › USA Focused Senior Digital PR Manager on the header's edge, ancestors creme-500, current black and underlined; the heading at 82px over six columns about 130px beneath the trail; the text six columns wide 40px beneath; the Secondary Apply Now pill with its down arrow 30px beneath that; the Career Details in columns 9 to 12, first rule level with the heading, reading Job Type (clock, Full-Time), Sector (target, Creative), Salary (£45,000 to £50,000 with the footnote at 11px beneath), Reports to (Digital PR Lead), Working pattern (wrapping onto two lines); the photograph full width at 1520 by 705 with 20px corners 75px beneath the details. Compared against the Figma node. Proves the desktop layout.
-2. USA Focused Senior Digital PR Manager at 1600, Apply Now clicked: the viewport scrolled so the content anchor sits clear of the header, and the address carrying `#career-content`. Proves the Apply Button.
-3. USA Focused Senior Digital PR Manager at 1600, Apply Now focused by keyboard: the visible focus ring. Proves the focus state.
-4. USA Focused Senior Digital PR Manager at 1024, full page: the content in seven columns and the Career Details in five, heading at 9xl, the image at the desktop ratio. Proves the `lg` step.
-5. USA Focused Senior Digital PR Manager at 768, viewport: the heading at 7xl, the stack intact. Proves the `md` step.
-6. USA Focused Senior Digital PR Manager at 390, full page: the trail wrapping, the heading at 5xl, text, Apply Now, then the Career Details full width 40px beneath with labels a third wide, then the photograph at 4:3. Proves the mobile layout.
-7. Account Manager at 1600, full page: its title as the heading, no text, Apply Now 30px beneath the heading, the Career Details showing only Job Type and Sector (Office), no image and the Hero ending at its content. Proves the fallbacks and the omitted rows and image.
-8. Account Manager at 1600 with its Employment Type and Category temporarily cleared: no Career Details list at all and the content alone. Restored afterwards. Proves the empty list.
-9. Home Crumb hovered on USA Focused Senior Digital PR Manager at 1600: black. Proves the trail's hover.
-10. Careers page at 1600, full page, before and after the type switch: identical Hero Simple and Career List, and a Career Row click still landing on its Career. Proves the Career Listing type changed nothing on the page.
-11. Served HTML of USA Focused Senior Digital PR Manager: a `nav` labelled Breadcrumb with three Crumbs and `aria-current="page"` on the last; one `h1`; the Career Details as a `dl` with each label a `dt` and each value a `dd`; the icons and the photograph `aria-hidden` or empty-alt; the Apply Now link's `href` of `#career-content` and an element with that id; SEOmatic's BreadcrumbList JSON-LD listing Home, Careers and the Career with absolute URLs. Proves the markup and the schema.
-12. Seed output for both Seeds, run twice: every field set and the image uploaded on the first run, the image reused and the type switch skipped on the second. Saved as text beside the screenshots. Proves the seeding.
+Screenshots, resting state, USA Focused Senior Digital PR Manager:
+
+1. 1600, full page: a Creme 100 header and page; Home › Careers › USA Focused Senior Digital PR Manager on the header's edge, ancestors creme-500, current black and underlined; the heading at 82px over six columns about 130px beneath the trail; the text six columns wide 40px beneath; the Secondary Apply Now pill with its down arrow 30px beneath that; the Career Details in columns 9 to 12, first rule level with the heading, reading Job Type (clock, Full-Time), Sector (target, Creative), Salary (£45,000 to £50,000 with the footnote at 11px beneath), Reports to (Digital PR Lead), Working pattern (wrapping onto two lines); the photograph full width at 1520 by 705 with 20px corners 75px beneath the details. Compared against the Figma node. Proves the desktop layout.
+2. 768, full page: the heading at 7xl, content, Apply Now, Career Details full width and the photograph at 4:3 stacked. Proves the `md` step.
+3. 390, full page: the trail wrapping, the heading at 5xl, text, Apply Now, then the Career Details full width 40px beneath with labels a third wide, then the photograph at 4:3. Proves the mobile layout.
+
+States checked on the site and reported:
+
+4. Apply Now clicked at 1600: the page scrolls so the content anchor sits clear of the header and the address carries `#career-content`; with `prefers-reduced-motion: reduce` it jumps. Proves the Apply Button.
+5. Apply Now focused by keyboard: a visible focus ring. Proves the focus state.
+6. Home Crumb hovered: black. Proves the trail's hover.
+7. Account Manager at 1600: its title as the heading, no text, Apply Now 30px beneath the heading, the Career Details showing only Job Type and Sector (Office), no image and the Hero ending at its content. Proves the fallbacks and the omitted rows and image.
+8. A Career with no Employment Type, Category, salary, reports to or working pattern (Account Manager with those temporarily cleared, restored afterwards): no Career Details list at all. Proves the empty list.
+9. The Careers page after the type switch: its Hero Simple and Career List still render and a Career Row still lands on its Career. Proves the Career Listing type changed nothing on the page.
+10. Markup: the trail is a `nav` labelled Breadcrumb with `aria-current="page"` on the last Crumb, there is one `h1`, the Career Details are a description list, icons and the photograph are hidden from assistive technology, and SEOmatic's BreadcrumbList lists Home, Careers and the Career with absolute URLs. Proves the markup and the schema.
+11. The Seeds run twice: every field set and the image uploaded on the first run, the image reused and the type switch skipped on the second. Proves the seeding.
 
 ## Out of Scope
 
