@@ -1,0 +1,177 @@
+{% set component = 'heroCareer' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    vars: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{# Named apart from `params` and `classes`, which the section embed shadows #}
+
+{% set career = params.entry %}
+{% set heading = career.heroHeading|striptags|trim|length ? career.heroHeading : career.title %}
+{% set text = career.heroText %}
+{% set image = career.heroImage.one() %}
+
+{# Classes #}
+
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
+
+{% set heroClasses = {
+    panel: [
+        'w-full',
+        params.vars ? params.vars.class.siteMargin.x : 'px-10',
+        params.vars ? params.vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        params.class
+    ],
+    grid: [
+        'mt-15 grid grid-cols-12 gap-x-5',
+        '|',
+        'lg:mt-[90px] xl:mt-[130px]'
+    ],
+    content: [
+        'col-span-12 flex flex-col items-start',
+        '|',
+        'lg:col-span-7 xl:col-span-6'
+    ],
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-7xl lg:text-9xl xl:text-10xl'
+    ],
+    text: [
+        'mt-10'
+    ],
+    button: [
+        'mt-7.5'
+    ],
+    image: [
+        'mt-10 aspect-4/3 w-full overflow-hidden rounded-[20px]',
+        '|',
+        'lg:mt-[75px] lg:aspect-[1520/705]'
+    ]
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: {
+            paddingY: 'bottom',
+            paddingX: 'none'
+        }
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ heroClasses.panel|join(' ')|trim }}">
+
+            {% include '_components/breadcrumb' with {
+                params: {
+                    entry: career
+                }
+            } only %}
+
+            <div class="{{ heroClasses.grid|join(' ')|trim }}">
+
+                <div class="{{ heroClasses.content|join(' ')|trim }}">
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h1',
+                            heading: heading,
+                            size: '5xl',
+                            alternateStyle: 'secondary',
+                            class: heroClasses.heading|join(' ')|trim
+                        }
+                    } only %}
+
+                    {% if text|striptags|trim|length %}
+
+                        {% include '_components/richText' with {
+                            params: {
+                                content: text,
+                                colour: 'black',
+                                class: heroClasses.text|join(' ')|trim
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                    {% include '_components/button' with {
+                        params: {
+                            button: {
+                                value: '#career-content',
+                                label: 'Apply Now'
+                            },
+                            icon: 'fa-sharp fa-regular fa-arrow-down',
+                            class: heroClasses.button|join(' ')|trim,
+                            attributes: 'x-data="' ~ component ~ '" @click.prevent.stop="apply"'
+                        }
+                    } only %}
+
+                </div>
+
+            </div>
+
+            {% if image %}
+
+                <div class="{{ heroClasses.image|join(' ')|trim }}">
+
+                    {% include '_components/picture' with {
+                        params: {
+                            image: image,
+                            alt: '',
+                            transform: 'noRatioLarge',
+                            ratio: false,
+                            focalPoint: true,
+                            lazy: false,
+                            sizes: '100vw'
+                        }
+                    } only %}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    {% endblock %}
+{% endembed %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            apply() {
+
+                const target = document.querySelector(this.$el.hash);
+
+                if (!target) {
+                    return;
+                }
+
+                history.pushState(null, '', this.$el.hash);
+
+                // Lenis subtracts the target's scroll margin, which clears the fixed header.
+                window.lenis.scrollTo(target, {
+                    immediate: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                });
+
+                target.focus({ preventScroll: true });
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
