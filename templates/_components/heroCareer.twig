@@ -72,10 +72,21 @@
         '|',
         'xl:grid-cols-[209px_1fr]'
     ],
-    detailLabel: 'pr-5 text-creme-500',
-    detailValue: 'inline-flex items-center gap-x-1.75 text-black',
-    detailIcon: 'text-[12px]',
-    footnote: 'block text-2xs leading-1.33 tracking-tight',
+    detailLabel: [
+        'pr-5 text-creme-500'
+    ],
+    detailValue: [
+        'text-black'
+    ],
+    detailValueIcon: [
+        'inline-flex items-center gap-x-1.75 text-black'
+    ],
+    detailIcon: [
+        'text-[12px]'
+    ],
+    footnote: [
+        'block text-2xs leading-1.33 tracking-tight'
+    ],
     image: [
         'mt-10 aspect-4/3 w-full overflow-hidden rounded-[20px]',
         '|',
@@ -151,18 +162,18 @@
 
                             <div class="{{ heroClasses.detail|join(' ')|trim }}">
 
-                                <dt class="{{ heroClasses.detailLabel }}">{{ detail.label }}</dt>
+                                <dt class="{{ heroClasses.detailLabel|join(' ')|trim }}">{{ detail.label }}</dt>
 
-                                <dd class="{{ detail.icon ?? false ? heroClasses.detailValue : 'text-black' }}">
+                                <dd class="{{ (detail.icon ?? false ? heroClasses.detailValueIcon : heroClasses.detailValue)|join(' ')|trim }}">
 
                                     {% if detail.icon ?? false %}
-                                        <i class="{{ heroClasses.detailIcon }} fa-sharp fa-regular {{ detail.icon }}" aria-hidden="true"></i>
+                                        <i class="fa-sharp fa-regular {{ detail.icon }} | {{ heroClasses.detailIcon|join(' ')|trim }}" aria-hidden="true"></i>
                                     {% endif %}
 
                                     {{ detail.value }}
 
                                     {% if detail.footnote ?? false %}
-                                        <span class="{{ heroClasses.footnote }}">{{ detail.footnote }}</span>
+                                        <span class="{{ heroClasses.footnote|join(' ')|trim }}">{{ detail.footnote }}</span>
                                     {% endif %}
 
                                 </dd>
