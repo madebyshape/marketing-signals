@@ -20,12 +20,10 @@ The branch is code-reviewed against this spec before merge.
 
 ## Prerequisites
 
-These are control panel changes to the Contact Form. Formie keeps forms in the database, so they are not part of the branch. They were agreed during the grilling session but were **not yet saved** when this spec was written. Check them before building:
+These are control panel changes to the Contact Form. Formie keeps forms in the database, so they are not part of the branch. All are saved:
 
-1. "I work for" (`iWorkFor`) changes from an Email field to a Single-Line Text field. As an Email field it rejects "The cool business".
-2. "Hello, my name is", "My email is" and "Message" are required. The rest are optional.
-
-Already in place:
+- "I work for" is a Single-Line Text field. It was recreated to change its type, so its handle is now `iWorkFor1`.
+- "Hello, my name is", "My email is" and "Message" are required. The rest are optional.
 - The Phone field type is enabled.
 - "My phone number is" is a Phone field with the country picker on, defaulting to GB.
 - "My email is" has the placeholder "john@coolbusiness.com".
