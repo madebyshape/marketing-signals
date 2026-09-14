@@ -945,11 +945,15 @@ _Avoid_: CTA, footer CTA, banner, Banner CTA
 ### Longform
 
 **Longform**:
-The written body of a Career or a Blog, between its Hero and the footer: headings, paragraphs and lists an editor writes, with the Table of Contents and Reading Progress beside it on the left and the Sidebar Card and Share Buttons on the right.
+The written body of a Career, a Blog or a Text Page, between its Hero and the footer: headings, paragraphs, lists and tables an editor writes. On a Career or a Blog the Table of Contents and Reading Progress sit beside it on the left and the Sidebar Card and Share Buttons on the right; on a Text Page only the Table of Contents sits beside it.
 _Avoid_: Body, article content, page content, rich text, post content
 
+**Text Page**:
+A page made of a Hero and a Longform, such as the Privacy Policy, where the editor chooses whether the Table of Contents shows.
+_Avoid_: Legal page, basic page, policy page, generic page
+
 **Table of Contents**:
-The numbered list of a Longform's H2 headings beside it, each a link to its heading, with the heading being read marked in Primary. A Longform with no H2 has no Table of Contents.
+The numbered list of a Longform's H2 headings beside it, each a link to its heading, with the heading being read marked in Primary. A Longform with no H2 has no Table of Contents, and a Text Page whose editor switches it off has none either.
 _Avoid_: TOC, contents, jump links, in this article
 
 **Reading Progress**:
