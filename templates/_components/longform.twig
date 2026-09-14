@@ -19,6 +19,10 @@
 
 {% set longform = params.entry.longform ?? [] %}
 {% set scrollMargin = params.vars ? params.vars.class.header.scrollMargin : 'scroll-mt-20 | xl:scroll-mt-[123px]' %}
+{% set cta = params.entry.sidebarCta ?? null %}
+{% set hasCta = cta and cta.sidebarCta and cta.heading|striptags|trim|length %}
+{% set avatars = hasCta ? cta.avatars.limit(3).all() : [] %}
+{% set ctaButton = hasCta ? cta.button : null %}
 
 {# Classes #}
 
@@ -53,6 +57,24 @@
         'max-w-[257px] mb-10',
         '|',
         'xl:justify-center xl:mt-5 xl:mb-0'
+    ],
+    card: [
+        'mt-10 flex w-full max-w-[305px] flex-col items-center rounded-[20px] bg-white p-7.5 text-center',
+        '|',
+        'xl:mt-0 xl:ml-auto'
+    ],
+    avatars: [
+        'flex -space-x-1.5'
+    ],
+    avatar: [
+        'size-[33px] overflow-hidden rounded-full bg-creme-200'
+    ],
+    ctaHeading: [
+        'font-medium leading-1.2 tracking-tighter',
+        avatars|length ? 'mt-5'
+    ],
+    ctaButton: [
+        'mt-5 w-full justify-center'
     ],
     heading: [
         scrollMargin
@@ -163,7 +185,62 @@
 
                 <div class="{{ longformClasses.right|join(' ')|trim }}">
 
-                    <div class="{{ longformClasses.sticky|join(' ')|trim }}"></div>
+                    <div class="{{ longformClasses.sticky|join(' ')|trim }}">
+
+                        {% if hasCta %}
+
+                            <div class="{{ longformClasses.card|join(' ')|trim }}">
+
+                                {% if avatars|length %}
+
+                                    <div class="{{ longformClasses.avatars|join(' ')|trim }}" aria-hidden="true">
+
+                                        {% for avatar in avatars %}
+
+                                            <div class="{{ longformClasses.avatar|join(' ')|trim }}">
+
+                                                {% include '_components/picture' with {
+                                                    params: {
+                                                        image: avatar,
+                                                        alt: '',
+                                                        transform: '1x1',
+                                                        ratio: false,
+                                                        focalPoint: true,
+                                                        sizes: '33px'
+                                                    }
+                                                } only %}
+
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                {% endif %}
+
+                                {% include '_components/headingAlternate' with {
+                                    params: {
+                                        tag: 'h2',
+                                        heading: cta.heading,
+                                        size: '3xl',
+                                        class: longformClasses.ctaHeading|join(' ')|trim
+                                    }
+                                } only %}
+
+                                {% include '_components/button' with {
+                                    params: {
+                                        button: ctaButton,
+                                        icon: 'fa-sharp fa-regular fa-arrow-down',
+                                        class: longformClasses.ctaButton|join(' ')|trim,
+                                        attributes: (ctaButton.value ?? '') starts with '#' ? '@click.prevent="scrollToHash($el.hash)"' : ''
+                                    }
+                                } only %}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
 
                 </div>
 
