@@ -1,4 +1,4 @@
-dateModified: 1789380475
+dateModified: 1789383898
 elementSources:
   craft\elements\Entry:
     -
@@ -406,7 +406,7 @@ plugins:
       useQueueForNotifications: true
       validateCustomTemplates: true
   imager-x:
-    edition: lite
+    edition: pro
     enabled: true
     licenseKey: X8XTY98DNH63HUL8XCX3SAHC
     schemaVersion: 4.0.0
