@@ -197,7 +197,7 @@ The light Hero at the top of every Blog page, built from the Blog's own Hero Hea
 _Avoid_: Article hero, post hero, insight hero, hero layout
 
 **Author**:
-The Team Member who wrote a Blog, shown as the Avatar Group in its Blog Hero under the label "Written by". A Blog has at most one, and a Blog without one shows no Avatar Group.
+The Team Member who wrote a Blog, shown as the Avatar Group in its Blog Hero under the label "Written by". A Blog has at most one, and a Blog without one shows no Avatar Group. Every Blog an Author wrote is listed on their Author Page.
 _Avoid_: Writer, byline, entry author, contributor, user
 
 **Read Time**:
@@ -559,8 +559,8 @@ _Avoid_: Testimonial block, single testimonial, quote block, hero testimonial, c
 ### Team Carousel
 
 **Team Member**:
-An entry in the Team section: a person's name, Job Role, Image and Quote, with a Video when the editor adds one.
-_Avoid_: Staff, employee, author, person
+An entry in the Team section: a person's name, Job Role, Image, Quote and Author Description, with a Video when the editor adds one. A Team Member credited on a Blog is that Blog's Author, and every Team Member has an Author Page.
+_Avoid_: Staff, employee, person
 
 **Team Carousel**:
 A Block of Team Slides in a black panel inside the site margins, one Slide per Team Member the editor picked, with a fixed Eyebrow and Rule above them and the Carousel Controls at the end of the Avatar Group row.
@@ -715,6 +715,16 @@ _Avoid_: Insights page, blog page, news page, hub
 **All Articles**:
 The first Filter Button on the Blog Listing, active on arrival, that shows every Blog regardless of Category.
 _Avoid_: All, All Work, All Insights, reset, clear
+
+### Author Page
+
+**Author Page**:
+A Team Member's own page at `/authors/`, listing every Blog they are the Author of beneath their Image, name and Author Description, in the Blog Listing's rhythm and Pagination with a Rule in place of the Category Filter. A Team Member with no Blogs still has one, reading "No articles found".
+_Avoid_: Author archive, profile page, team member page, author listing
+
+**Author Description**:
+A Team Member's short introduction as a writer, shown beside their name on their Author Page and nowhere else.
+_Avoid_: Bio, author bio, Text, about
 
 ### Content Rows
 
