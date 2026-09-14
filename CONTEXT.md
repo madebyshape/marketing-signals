@@ -53,7 +53,7 @@ Two side-by-side vertical stacks of images that scroll continuously in opposite 
 _Avoid_: Image marquee, photo columns, image ticker
 
 **Avatar Group**:
-A person's avatar image with their name and job role beside it.
+A person's avatar image with their name beside it, under either a label or their Job Role.
 _Avoid_: Author, profile, person card
 
 **Footer Columns**:
@@ -125,7 +125,7 @@ _Avoid_: Button row, CTA group, actions
 ### Heroes
 
 **Hero**:
-The top of a page, always rendered before the Blocks. On a page it is the single entry from the Hero field; on a Case Study it is the Case Study Hero; on a Service it is the Service Hero; on a Career it is the Career Hero. A page has at most one.
+The top of a page, always rendered before the Blocks. On a page it is the single entry from the Hero field; on a Case Study it is the Case Study Hero; on a Service it is the Service Hero; on a Career it is the Career Hero; on a Blog it is the Blog Hero. A page has at most one.
 _Avoid_: Hero block, banner, page header, masthead
 
 **Hero Layout**:
@@ -165,7 +165,7 @@ The full-screen Hero at the top of every Case Study page, built from the Case St
 _Avoid_: Case study banner, project hero, hero layout
 
 **Hero Image**:
-The photograph that fills a Case Study Hero or a Hero Full Screen behind its content, darkened by shades at the top and bottom of a Case Study Hero and by a dark overlay across the whole of a Hero Full Screen; without one those Heroes are plain black. In a Career Hero it sits full width beneath the content instead, and without one the Hero ends after the content.
+The photograph that fills a Case Study Hero or a Hero Full Screen behind its content, darkened by shades at the top and bottom of a Case Study Hero and by a dark overlay across the whole of a Hero Full Screen; without one those Heroes are plain black. In a Career Hero and a Blog Hero it sits beneath the content instead, across the content width with rounded corners, and without one the Hero ends after the content.
 _Avoid_: Background image, cover image, banner image
 
 **Hero Logo**:
@@ -173,7 +173,7 @@ The client's Logo shown in white at the bottom of a Case Study Hero. When an edi
 _Avoid_: Client logo, hero brand, white logo
 
 **Hero Heading**:
-The heading of a Case Study Hero, a Service Hero or a Career Hero, with its Highlight in fluro on a Case Study and in secondary on a Service and a Career. When empty the title stands in, on a Case Study after the Tag Line, so the page always has a heading.
+The heading of a Case Study Hero, a Service Hero, a Career Hero or a Blog Hero, with its Highlight in fluro on a Case Study, in secondary on a Service and a Career, and in primary on a Blog. When empty the title stands in, on a Case Study after the Tag Line, so the page always has a heading.
 _Avoid_: Hero title, banner heading
 
 **Hero Text**:
@@ -191,6 +191,18 @@ _Avoid_: Job hero, vacancy hero, career banner, hero layout
 **Apply Button**:
 The fixed "Apply Now" button beneath the Hero Text in a Career Hero that scrolls the visitor down to the Career's content. Never set by editors.
 _Avoid_: Hero Button, apply CTA, apply link
+
+**Blog Hero**:
+The light Hero at the top of every Blog page, built from the Blog's own Hero Heading, Hero Image and Author rather than a Hero Layout, so an editor never picks it. The Breadcrumb sits at its top; the heading sits on the left with the post date, the Read Time and the Author's Avatar Group on the right, and the Hero Image runs beneath them.
+_Avoid_: Article hero, post hero, insight hero, hero layout
+
+**Author**:
+The Team Member who wrote a Blog, shown as the Avatar Group in its Blog Hero under the label "Written by". A Blog has at most one, and a Blog without one shows no Avatar Group.
+_Avoid_: Writer, byline, entry author, contributor, user
+
+**Read Time**:
+How long a Blog takes to read, shown beside its post date in a Blog Hero, a Blog Card and a Blog Large Card. The same figure for every Blog until Blogs carry their content.
+_Avoid_: Reading time, duration, length, time to read
 
 **Hero Button**:
 The single button beneath the Hero Text in a Service Hero, with the Avatar Group beside it. Empty means nothing is shown.
