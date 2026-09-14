@@ -17,7 +17,7 @@
 
 {% set classes = {
     wrapper: [
-        'flex items-center gap-1.75 text-base leading-1.33 text-black',
+        'flex items-center gap-1.75 text-base leading-1.33',
         params.class
     ],
     icon: [
@@ -31,14 +31,17 @@
 {# Spaces before tags and entities keep words in adjacent elements apart. #}
 
 {% set words = (params.text ?? '')|replace({ '<': ' <' })|striptags|replace('/&[^;\\s]+;|[\\s—–-]+/u', ' ')|trim|split(' ')|filter(word => word) %}
-{% set minutes = max(ceil(words|length / params.wordsPerMinute), 1) %}
 
-<div class="{{ classes.wrapper|join(' ')|trim }}">
+{% if words|length %}
 
-    {% if params.icon %}
-        <i class="{{ classes.icon|join(' ')|trim }}" aria-hidden="true"></i>
-    {% endif %}
+    <div class="{{ classes.wrapper|join(' ')|trim }}">
 
-    {{ minutes }} min read
+        {% if params.icon %}
+            <i class="{{ classes.icon|join(' ')|trim }}" aria-hidden="true"></i>
+        {% endif %}
 
-</div>
+        {{ ceil(words|length / params.wordsPerMinute) }} min read
+
+    </div>
+
+{% endif %}
