@@ -1,10 +1,10 @@
+{% set component = 'socialLinks' %}
+
 {# Default Params #}
 
 {% set defaultParams = {
-    links: [],
-    colour: 'base',
+    direction: 'vertical',
     size: 'base',
-    direction: 'horizontal',
     class: null
 } %}
 
@@ -15,71 +15,71 @@
 {# Options #}
 
 {% set options = {
-    icons: {
-        twitter: 'fa-x-twitter',
-        x: 'fa-x-twitter',
-        facebook: 'fa-facebook-f',
-        instagram: 'fa-instagram',
-        linkedin: 'fa-linkedin-in',
-        youtube: 'fa-youtube',
-        tiktok: 'fa-tiktok',
-        github: 'fa-github',
-        behance: 'fa-behance',
-        vimeo: 'fa-vimeo-v',
-        pinterest: 'fa-pinterest-p',
-        reddit: 'fa-reddit-alien'
-    },
-    colour: {
-        base: 'bg-zinc-100 hover:bg-zinc-900 hover:text-white'
-    },
-    size: {
-        base: 'w-9 h-9 text-sm'
+    labels: {
+        twitter: 'Twitter / X',
+        facebook: 'Facebook',
+        linkedin: 'LinkedIn'
     },
     direction: {
-        horizontal: 'flex flex-row space-x-1',
-        vertical: 'flex flex-col space-y-1'
+        vertical: {
+            list: '',
+            item: 'flex items-center h-11'
+        },
+        horizontal: {
+            list: 'flex flex-wrap gap-x-7.5 gap-y-2.5',
+            item: ''
+        }
+    },
+    size: {
+        lg: 'text-lg font-medium leading-1.2 tracking-tighter',
+        base: 'text-base font-medium leading-1.33'
     }
 } %}
 
-{# Classes #} 
+{# Classes #}
 
 {% set classes = {
     wrapper: [
-        options.direction[params.direction],
         params.class
     ],
+    list: [
+        options.direction[params.direction].list
+    ],
+    item: [
+        options.direction[params.direction].item
+    ],
     link: [
-        'transition-all block flex items-center justify-center rounded-full',
-        options.colour[params.colour],
+        'link | inline-block text-white',
         options.size[params.size]
     ]
 } %}
 
 {# Output #}
 
-<nav x-data aria-label="Social links">    
+{% set sameAsLinks = seomatic.site.sameAsLinks ?? [] %}
+{% set links = options.labels|filter((label, handle) => sameAsLinks[handle] is defined and sameAsLinks[handle].url) %}
 
-    <ul class="{{ classes.wrapper|join(' ')|trim }}">
+{% if links|length %}
 
-        {% for link in params.links %}
+    <nav class="{{ classes.wrapper|join(' ')|trim }}" aria-label="Social Links">
 
-            <li>
-            
-                <a 
-                    href="{{ link.url }}" 
-                    class="{{ classes.link|join(' ')|trim }}"
-                    aria-label="{{ link.title }}"
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                >
-                    <i class="fa-brands {{ options.icons[link.handle] }}" aria-hidden="true"></i>
-                    <span class="sr-only">{{ link.title }}</span>
-                </a>
+        <ul class="{{ classes.list|join(' ')|trim }}">
 
-            </li>
+            {% for handle, label in links %}
 
-        {% endfor %}    
+                <li class="{{ classes.item|join(' ')|trim }}">
+                    <a
+                        href="{{ sameAsLinks[handle].url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="{{ classes.link|join(' ')|trim }}"
+                    >{{ label }}</a>
+                </li>
 
-    </ul>
+            {% endfor %}
 
-</nav>
+        </ul>
+
+    </nav>
+
+{% endif %}

@@ -15,11 +15,6 @@
 {# menuSlot fixes each Menu Column's desktop slot by order; credit is hardcoded, there is no field. #}
 
 {% set options = {
-    social: {
-        twitter: 'Twitter / X',
-        facebook: 'Facebook',
-        linkedin: 'LinkedIn'
-    },
     menuSlot: [
         'lg:col-start-7 lg:col-span-2',
         'lg:col-start-9 lg:col-span-3'
@@ -60,8 +55,6 @@
 {% set columns = site.footerColumns.all() %}
 {% set contactColumn = columns|filter(column => column.type.handle == 'contactColumn')|first %}
 {% set menuColumns = columns|filter(column => column.type.handle == 'menuColumn')|slice(0, 2) %}
-{% set socialLinks = seomatic.site.sameAsLinks ?? [] %}
-{% set socialColumn = options.social|filter((label, handle) => socialLinks[handle] is defined and socialLinks[handle].url) %}
 {% set footerLogos = site.footerLogos.all() %}
 
 <footer class="{{ classes.wrapper|join(' ')|trim }}">
@@ -164,30 +157,13 @@
 
         {% endfor %}
 
-        {% if socialColumn|length %}
-
-            <nav class="{{ classes.socialColumn }}" aria-label="Social Links">
-
-                <ul>
-
-                    {% for handle, label in socialColumn %}
-
-                        <li class="{{ classes.listItem }}">
-                            <a
-                                href="{{ socialLinks[handle].url }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="{{ classes.listLink }}"
-                            >{{ label }}</a>
-                        </li>
-
-                    {% endfor %}
-
-                </ul>
-
-            </nav>
-
-        {% endif %}
+        {% include '_components/socialLinks' with {
+            params: {
+                direction: 'vertical',
+                size: 'lg',
+                class: classes.socialColumn
+            }
+        } only %}
 
     </div>
 
