@@ -201,7 +201,7 @@ The Team Member who wrote a Blog, shown as the Avatar Group in its Blog Hero und
 _Avoid_: Writer, byline, entry author, contributor, user
 
 **Read Time**:
-How long a Blog or a Career takes to read, shown beside its post date in a Blog Hero, a Blog Card and a Blog Large Card, and beneath the Reading Progress beside a Longform. On a Career it is counted from its Longform; it is the same figure for every Blog until Blogs carry their content.
+How long a Blog or a Career takes to read, counted from its Longform, shown beside its post date in a Blog Hero, a Blog Card, a Blog Large Card and a Featured Blog, and beneath the Reading Progress beside a Longform. A Blog whose Longform has no words has no Read Time.
 _Avoid_: Reading time, duration, length, time to read
 
 **Hero Button**:
@@ -913,7 +913,7 @@ The small line under a Chart Card's Bars qualifying what they show, such as "Sam
 _Avoid_: Caption, disclaimer, small print, note, legend
 
 **Ticked Item**:
-One line of a bullet list in a text field, rendered with a Secondary circle and a black tick in place of the bullet. In the Audit CTA the Ticked Items are one column; in a Content Row they are two from the tablet breakpoint.
+One line of a bullet list in a text field, rendered with a Secondary circle and a black tick in place of the bullet. In the Audit CTA the Ticked Items are one column; in a Content Row they are two from the tablet breakpoint. In a Longform's to-do list only the items the editor ticked are Ticked Items; the rest show an empty circle.
 _Avoid_: Checklist item, bullet, feature, USP, check row
 
 ### Career List
