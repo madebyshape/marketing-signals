@@ -6,7 +6,7 @@
 
 {# A Team Member with no enabled Blog keeps their page but stays out of search results (ADR-0006). #}
 
-{% if not craft.entries().section('blog').relatedTo({ targetElement: entry, field: 'author' }).exists() %}
+{% if not craft.entries().section('blog').relatedTo({ targetElement: entry, field: 'entryTeam' }).exists() %}
     {% do seomatic.meta.robots('noindex, follow') %}
 {% endif %}
 
@@ -20,5 +20,26 @@
             vars: vars
         }
     } only %}
+
+    {# Author's Blogs #}
+
+    {% embed '_components/section' with {
+        params: {
+            paddingY: 'topBottom',
+            paddingYSize: 'base'
+        }
+    } %}
+        {% block sectionContent %}
+
+            {{ sprig('_sprig/blogListing', {
+                author: entry.id,
+                page: craft.app.request.getQueryParam('page') ?? 1
+            }, {
+                id: 'blogListing',
+                'aria-live': 'polite'
+            }) }}
+
+        {% endblock %}
+    {% endembed %}
 
 {% endblock %}
