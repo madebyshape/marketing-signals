@@ -4,6 +4,7 @@
 
 {% set defaultParams = {
     date: null,
+    readTime: null,
     colour: 'black',
     orientation: 'row',
     class: null
@@ -12,6 +13,22 @@
 {# Merge Params #}
 
 {% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{# Markup chunks only, so nested entries are never loaded. #}
+
+{% set text = params.readTime ? params.readTime.getChunks(false)|filter(chunk => chunk.type == 'markup')|map(chunk => chunk.html)|join(' ') : null %}
+
+{% set readTime %}
+    {% include '_components/readTime' with {
+        params: {
+            text: text
+        }
+    } only %}
+{% endset %}
+
+{% set hasReadTime = readTime|trim|length %}
 
 {# Options #}
 
@@ -51,7 +68,7 @@
         'inline-flex flex-row items-center gap-x-2 whitespace-nowrap'
     ],
     date: [
-        options.orientation[params.orientation].date,
+        hasReadTime ? options.orientation[params.orientation].date,
         options.colour[params.colour].divider
     ],
     icon: [
@@ -76,14 +93,16 @@
 
     </div>
 
-    {# The read time is a literal until Blogs have content; swap in the readTime component then. #}
+    {% if hasReadTime %}
 
-    <div class="{{ classes.item|join(' ')|trim }}">
+        <div class="{{ classes.item|join(' ')|trim }}">
 
-        <i class="{{ classes.icon|join(' ')|trim }} fa-sharp fa-regular fa-clock" aria-hidden="true"></i>
+            <i class="{{ classes.icon|join(' ')|trim }} fa-sharp fa-regular fa-clock" aria-hidden="true"></i>
 
-        5 min read
+            {{ readTime }}
 
-    </div>
+        </div>
+
+    {% endif %}
 
 </div>

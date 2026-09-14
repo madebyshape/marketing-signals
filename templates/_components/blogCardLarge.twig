@@ -98,6 +98,7 @@
             {% include '_components/blogMeta' with {
                 params: {
                     date: params.blog.postDate,
+                    readTime: params.blog.longform,
                     class: classes.meta|join(' ')|trim
                 }
             } only %}

@@ -102,6 +102,7 @@
                     {% include '_components/blogMeta' with {
                         params: {
                             date: blog.postDate,
+                            readTime: blog.longform,
                             orientation: 'column'
                         }
                     } only %}

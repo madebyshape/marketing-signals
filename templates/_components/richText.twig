@@ -94,6 +94,10 @@
         'check-single': {
             list: 'grid grid-cols-1 gap-y-3.75 mb-5 text-base leading-1.33',
             item: 'flex items-start gap-[7px]'
+        },
+        longform: {
+            list: 'grid grid-cols-1 gap-y-5 mb-5 text-base leading-1.33',
+            item: 'group relative pl-3 | before:absolute before:left-0 before:top-2 before:size-[5px] before:rounded-full before:bg-black has-[input]:pl-[26px] has-[input]:before:hidden'
         }
     }
 } %}
@@ -129,6 +133,11 @@
     ],
     bulletItem: options.list[params.list].item,
     mark: 'flex shrink-0 items-center justify-center order-first size-[19px] mt-px rounded-full bg-secondary text-[10px] text-black',
+    todoMark: [
+        'absolute left-0 top-px flex items-center justify-center size-[19px] rounded-full border border-creme-300 text-[10px] text-transparent',
+        '|',
+        'group-has-checked:border-secondary group-has-checked:bg-secondary group-has-checked:text-black'
+    ],
     blockquote: [
         'relative text-2xl text-pretty font-light rounded-lg py-10 px-7 mb-5',
         options.colour[params.colour].blockquote
@@ -144,6 +153,15 @@
 {% set mark %}<span class="{{ classes.mark }}" aria-hidden="true"><i class="fa-sharp fa-solid fa-check"></i></span>{% endset %}
 
 {% set marks = params.list in ['check', 'check-single'] ? [['inject', 'ul li', mark|trim]] : [] %}
+
+{# A to-do item's mark follows its checkbox, which stays for assistive technology. #}
+
+{% set todoMark %}<span class="{{ classes.todoMark|join(' ')|trim }}" aria-hidden="true"><i class="fa-sharp fa-solid fa-check"></i></span>{% endset %}
+
+{% set marks = params.list == 'longform' ? [
+    ['attr', 'ul li input', { class: 'sr-only' }],
+    ['inject', 'ul li input + span', todoMark|trim]
+] : marks %}
 
 {# Output #}
 

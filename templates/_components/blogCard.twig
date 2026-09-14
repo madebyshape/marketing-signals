@@ -60,7 +60,8 @@
 
             {% include '_components/blogMeta' with {
                 params: {
-                    date: params.blog.postDate
+                    date: params.blog.postDate,
+                    readTime: params.blog.longform
                 }
             } only %}
 
