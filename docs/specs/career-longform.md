@@ -119,21 +119,21 @@ There is no test suite. Evidence replaces tests: screenshots from the running DD
 
 **Seams.** The one seam is the rendered Career page through the global layout, at the seeded USA Focused Senior Digital PR Manager Career and the unseeded Account Manager Career; the four changed components and the new layout show every state there. The Seed command's output is supporting evidence. Nothing is added to the styleguide.
 
-**What good evidence looks like.** It shows what a visitor would see: the three columns under the hero, the numbered list with its active entry, the bar partly filled, the read time, the white card with its avatars and lilac button, the round share buttons, and the stacked order on a phone. Sticky and scroll states are viewport captures, since full-page captures flatten them.
+**What good evidence looks like.** It shows what a visitor would see: the three columns under the hero, the numbered list with its active entry, the read time, the white card with its avatars and lilac button, the round share buttons, and the stacked order on a tablet and a phone. The group review takes the screenshots of record once, at the three widths below, resting state; every other line is a state checked on the site and reported, not captured.
 
 **Evidence plan.**
 
-Screenshots, USA Focused Senior Digital PR Manager:
+Screenshots, resting state, USA Focused Senior Digital PR Manager:
 
-1. 1600, viewport, scrolled so the top of the Longform sits beneath the header: Table of Contents in columns 1 to 3 with the first entry Primary and underlined, the bar near empty and the Read Time centred beneath it; the Longform in columns 4 to 9 opening with "About Marketing Signals" at 46px; the Sidebar Card in columns 10 to 12 with three overlapping avatars, "Apply now for *this role*" with the Highlight in Primary and the Secondary button with a down arrow; "Share this career" and four outlined circles 50px beneath. Compared against the Figma node. Proves the desktop layout.
-2. 1600, viewport, scrolled to the middle of the Longform: both side columns still beside the text beneath the header, a later entry active, the bar about half full. Proves sticking, the active entry and the progress.
-3. 1600, viewport, scrolled to the end of the Longform: the bar full and the side columns released at the section's end. Proves the full bar and the sticky stop.
-4. 1280, viewport, top of the Longform: three columns with the card and share buttons fitting their column. Proves the `xl` start.
-5. 1024, full page from the hero down: the stacked single column, Table of Contents, Read Time, Longform, Sidebar Card, Share Buttons, no bar. Proves the layout below `xl`.
-6. 390, full page from the hero down: the same stacked order at phone width, H2s at 3xl. Proves the mobile layout.
+1. 1600, full page: Table of Contents in columns 1 to 3 with the first entry Primary and underlined, the bar and the Read Time centred beneath it; the Longform in columns 4 to 9 opening with "About Marketing Signals" at 46px; the Sidebar Card in columns 10 to 12 with three overlapping avatars, "Apply now for *this role*" with the Highlight in Primary and the Secondary button with a down arrow; "Share this career" and four outlined circles 50px beneath. Compared against the Figma node. Proves the desktop layout.
+2. 768, full page: the stacked single column, Table of Contents, Read Time, Longform, Sidebar Card, Share Buttons, no bar. Proves the layout below `xl`.
+3. 390, full page: the same stacked order at phone width, H2s at 3xl. Proves the mobile layout.
 
 States checked on the site and reported:
 
+4. 1600, scrolled to the middle of the Longform: both side columns still beside the text beneath the header, a later entry active, the bar about half full. Proves sticking, the active entry and the progress.
+5. 1600, scrolled to the end of the Longform: the bar full and the side columns released at the section's end. Proves the full bar and the sticky stop.
+6. 1280, top of the Longform: three columns with the card and share buttons fitting their column. Proves the `xl` start.
 7. A Table of Contents entry clicked at 1600: smooth scroll to its H2 clear of the header, the address carries its hash, focus on the heading; with `prefers-reduced-motion: reduce` it jumps. Proves the list's scroll.
 8. A section URL such as `…#about-the-role` opened directly with JavaScript disabled: the page lands on that H2 clear of the header. Proves server-side anchors.
 9. The Sidebar Card button clicked: scrolls to "How to apply". Proves the hash link.
