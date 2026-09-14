@@ -1,0 +1,35 @@
+{# Formie's input tag supplies each radio's id and the data-fui-* attributes its JS reads. #}
+
+{% set fieldOptions = field.getFieldOptions() %}
+{% set pills = [] %}
+
+{% for option in fieldOptions %}
+
+    {% set input = field.renderHtmlTag('fieldInput', {
+        form: form,
+        errors: errors,
+        option: option,
+        fieldOptions: fieldOptions
+    }) %}
+
+    {% set pills = pills|merge([{
+        id: input.attributes.id,
+        label: option.label|t('formie'),
+        value: option.value,
+        attributes: attr(input.attributes|withoutKey(['type', 'id', 'name', 'class', 'value', 'checked', 'required']))
+    }|merge(('' ~ option.value) == ('' ~ value) ? { checked: true } : {})]) %}
+
+{% endfor %}
+
+{% include '_components/form/options' with {
+    params: {
+        type: 'radio',
+        name: field.getHtmlName(),
+        required: field.required,
+        options: pills,
+        colour: 'creme',
+        size: 'contact',
+        orientation: 'horizontal',
+        style: 'pill'
+    }
+} only %}

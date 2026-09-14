@@ -1,15 +1,14 @@
+{% set component = 'headingInlineImages' %}
+
 {# Default Params #}
 
 {% set defaultParams = {
     tag: 'h2',
     heading: null,
+    imagePosition: null,
     images: [],
-    colour: 'base',
-    style: 'sans',
-    alignment: 'center',
-    size: '7xl',
-    imageSize: 'base',
-    class: null,
+    colour: 'black',
+    size: '10xl',
     margin: 'none',
     marginSize: 'base',
     class: null
@@ -23,27 +22,20 @@
 
 {% set options = {
     colour: {
-        base: 'text-black',
+        black: {
+            heading: 'text-black',
+            highlight: 'not-italic text-primary'
+        }
     },
     size: {
-        '2xl': 'text-2xl',
-        '3xl': 'text-3xl',
-        '4xl': 'text-4xl',
-        '5xl': 'text-5xl',
-        '6xl': 'text-6xl',
-        '7xl': 'text-7xl'
+        '10xl': 'text-5xl | md:text-7xl | lg:text-9xl | xl:text-10xl'
     },
-    imageSize: {
-        base: 'w-32'
+    placement: {
+        start: 'mr-[0.1em]',
+        middle: 'mx-[0.1em]',
+        end: 'ml-[0.1em]'
     },
-    style: {
-        sans: 'font-sans-primary',
-        serif: 'font-serif-primary'
-    },
-    alignment: {
-        left: 'text-left justify-start',
-        center: 'text-center justify-center',
-    },
+    rotate: ['-rotate-5', 'rotate-3', '-rotate-4'],
     margin: {
         base: {
             none: 'm-0',
@@ -54,68 +46,136 @@
     },
 } %}
 
+{# Content #}
+
+{% set heading = (params.heading ~ '')|replace({'&nbsp;': ' '})|retcon([
+    ['attr', ['em', 'i'], { class: options.colour[params.colour].highlight }],
+    ['attr', 'strong', { class: 'font-semibold' }]
+])|replace('/<\\/?p\\b[^>]*>/', '')|trim %}
+
+{% set words = heading|striptags|replace('/\\s+/', ' ')|trim|split(' ')|filter(word => word|length) %}
+{% set position = params.imagePosition|trim matches '/^\\d+$/' ? params.imagePosition|trim + 0 : 0 %}
+{% set placement = position == 0 ? 'start' : (position >= words|length ? 'end' : 'middle') %}
+
 {# Classes #}
 
 {% set classes = {
     heading: [
-        'flex flex-wrap items-center',
-        options.alignment[params.alignment],
-        options.colour[params.colour],
+        'font-semibold leading-0.97 tracking-tighter',
+        options.colour[params.colour].heading,
         options.size[params.size],
-        options.style[params.style],
         options.margin[params.marginSize][params.margin],
         params.class
     ],
-    word: [
-        'inline mx-1.5',
+    group: [
+        'inline-flex items-center align-middle',
+        options.placement[placement]
     ],
-    imageWrapper: [
-        'inline flex-shrink-0 relative p-1.5',
-        options.imageSize[params.imageSize],
+    tile: [
+        'relative block h-[0.878em] w-[0.561em] shrink-0 overflow-hidden rounded-[0.122em] border-2 border-creme-100',
+        'not-first:-ml-[0.061em]'
     ],
-    image: [
-        'w-full h-full overflow-hidden relative rounded-xl bg-zinc-100',
+    space: [
+        'sr-only'
     ],
     picture: [
-        'w-full h-full object-cover object-center',
+        'block size-full'
+    ],
+    img: [
+        'size-full object-cover'
     ]
 } %}
 
+{# Group #}
+
+{% set group %}
+    {% if params.images|length %}
+        <span class="{{ classes.group|join(' ')|trim }}" aria-hidden="true">
+            {% for image in params.images %}
+                <span class="{{ classes.tile|join(' ')|trim }} {{ cycle(options.rotate, loop.index0) }}">
+                    {% include '_components/picture' with {
+                        params: {
+                            image: image,
+                            alt: '',
+                            transform: '2x3',
+                            ratio: false,
+                            lazy: false,
+                            sizes: '100px',
+                            pictureClass: classes.picture|join(' ')|trim,
+                            imgClass: classes.img|join(' ')|trim
+                        }
+                    } only %}
+                </span>
+            {% endfor %}
+        </span>
+    {% endif %}
+{% endset %}
+
+{% set group = group|replace('/>\\s+</', '><')|trim %}
+
+{# Placement #}
+
+{# Open tags close around a mid-sentence group and reopen after it, so a Highlight keeps its colour. #}
+
+{# The hidden space keeps the words apart in the heading's accessible name. #}
+
+{% set output = '' %}
+{% set openTags = [] %}
+{% set wordIndex = 0 %}
+{% set inWord = false %}
+{% set swallow = false %}
+
+{% for chunk in heading|split('<') %}
+
+    {% set text = chunk %}
+
+    {% if not loop.first %}
+        {% set tag = chunk|split('>', 2) %}
+        {% set text = tag|last %}
+        {% set tagName = tag|first|split(' ')|first|lower %}
+
+        {% if tagName starts with '/' %}
+            {% set openTags = openTags|slice(0, -1) %}
+        {% elseif tagName not in ['br', 'br/', 'wbr', 'img'] %}
+            {% set openTags = openTags|merge(['<' ~ tag|first ~ '>']) %}
+        {% endif %}
+
+        {% set output = output ~ '<' ~ tag|first ~ '>' %}
+    {% endif %}
+
+    {% for character in text|split('') %}
+
+        {% if character|trim is empty %}
+            {% if inWord %}
+                {% set inWord = false %}
+                {% set wordIndex = wordIndex + 1 %}
+
+                {% if placement == 'middle' and group and wordIndex == position %}
+                    {% set closing = openTags|reverse|map(open => '</' ~ open|slice(1)|split(' ')|first|split('>')|first ~ '>')|join %}
+                    {% set output = output ~ closing ~ group ~ '<span class="' ~ classes.space|join(' ')|trim ~ '">&nbsp;</span>' ~ openTags|join %}
+                    {% set swallow = true %}
+                {% endif %}
+            {% endif %}
+
+            {% set output = swallow ? output : output ~ character %}
+        {% else %}
+            {% set inWord = true %}
+            {% set swallow = false %}
+            {% set output = output ~ character %}
+        {% endif %}
+
+    {% endfor %}
+
+{% endfor %}
+
 {# Output #}
 
-{% apply spaceless %}
+{% if words|length %}
 
     <{{ params.tag }} class="{{ classes.heading|join(' ')|trim }}">
-
-        {% for word in params.heading|split(' ') %}
-
-            <div class="{{ classes.word|join(' ')|trim }}">
-                {{ word|raw }}
-            </div>
-
-            {% for item in params.images|filter(item => item.image|length and item.position == loop.index) %}
-
-                <div class="{{ classes.imageWrapper|join(' ')|trim }}">
-
-                    <div class="{{ classes.image|join(' ')|trim }}">
-
-                        {% include '_components/picture' with {
-                            params: {
-                                image: item.image,
-                                transform: 'noRatio',
-                                ratio: false,
-                                imgClass: classes.picture|join(' ')|trim
-                            }
-                        } %}
-
-                    </div>
-
-                </div>
-
-            {% endfor %}
-
-        {% endfor %}
-
+        {{- placement == 'start' ? group|raw -}}
+        {{- output|raw -}}
+        {{- placement == 'end' ? group|raw -}}
     </{{ params.tag }}>
 
-{% endapply %}
+{% endif %}

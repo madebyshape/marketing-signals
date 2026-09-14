@@ -4,6 +4,7 @@
     id: 'label-' ~ random(1000, 9999),
     label: null,
     required: false,
+    attributes: null,
     colour: 'base',
     size: 'base',
     class: null
@@ -20,12 +21,20 @@
         base: {
             label: 'text-zinc-800',
             required: 'text-zinc-500'
+        },
+        creme: {
+            label: 'text-black',
+            required: null
         }
     },
     size: {
         base: {
             label: 'text-base font-medium mb-1',
             required: 'text-sm'
+        },
+        contact: {
+            label: 'text-base font-medium leading-1.33 mb-2.5',
+            required: null
         }
     }
 } %}
@@ -48,9 +57,9 @@
 
 {% if params.label %}
 
-    <label class="{{ classes.label|join(' ')|trim }}" for="{{ params.id }}">
+    <label class="{{ classes.label|join(' ')|trim }}" for="{{ params.id }}" {{ params.attributes|raw }}>
         {{ params.label }}
-        {% if params.required %}<span class="{{ classes.required|join(' ')|trim }}">*</span>{% endif %}
+        {% if params.required and options.colour[params.colour].required %}<span class="{{ classes.required|join(' ')|trim }}">*</span>{% endif %}
     </label>
 
 {% endif %}

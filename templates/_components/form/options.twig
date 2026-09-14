@@ -14,6 +14,7 @@
     colour: 'base',
     size: 'base',
     orientation: 'vertical',
+    style: 'base',
     class: null
 } %}
 
@@ -31,6 +32,13 @@
             fieldLabelRequired: 'text-zinc-500',
             label: 'base',
             instructions: 'base'
+        },
+        creme: {
+            field: null,
+            fieldLabel: 'border-creme-400 text-black ring-secondary/50 pointer-fine:hover:border-secondary pointer-fine:hover:bg-secondary peer-checked:border-transparent peer-checked:bg-secondary',
+            fieldLabelRequired: null,
+            label: 'creme',
+            instructions: 'creme'
         }
     },
     size: {
@@ -40,6 +48,13 @@
             fieldLabelRequired: 'text-sm',
             fieldGroup: ' gap-2.5',
             label: 'base'
+        },
+        contact: {
+            field: null,
+            fieldLabel: 'rounded-full border px-5 py-3 text-base font-medium leading-none',
+            fieldLabelRequired: null,
+            fieldGroup: 'gap-1.25',
+            label: 'contact'
         }
     },
     type: {
@@ -57,6 +72,16 @@
         vertical: {
             fieldGroup: 'flex-col'
         }
+    },
+    style: {
+        base: {
+            field: 'cursor-pointer relative shadow-none outline-none motion-safe:transition flex-shrink-0 appearance-none ring-transparent focus:ring-opacity-100 before:motion-safe:transition-all before:opacity-0 before:content-[""] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-1/2 before:bg-contain checked:before:opacity-100 disabled:cursor-not-allowed disabled:opacity-50',
+            fieldLabel: null
+        },
+        pill: {
+            field: 'sr-only',
+            fieldLabel: 'block motion-safe:transition peer-focus-visible:ring-3'
+        }
     }
 } %}
 
@@ -71,13 +96,15 @@
         params.class
     ],
     field: [
-        'peer cursor-pointer relative shadow-none outline-none motion-safe:transition flex-shrink-0 appearance-none ring-transparent focus:ring-opacity-100 before:motion-safe:transition-all before:opacity-0 before:content-[""] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-1/2 before:bg-contain checked:before:opacity-100 disabled:cursor-not-allowed disabled:opacity-50',
+        'peer',
+        options.style[params.style].field,
         options.colour[params.colour].field,
         options.size[params.size].field,
         options.type[params.type].field,
     ],
     fieldLabel: [
         'cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-50',
+        options.style[params.style].fieldLabel,
         options.colour[params.colour].fieldLabel,
         options.size[params.size].fieldLabel
     ],
@@ -108,7 +135,7 @@
 
     <div class="{{ classes.fieldGroup|join(' ')|trim }}">
         {% for option in params.options %}
-            {% set optionId = params.name|kebab ~ '-' ~ option.label|kebab %}
+            {% set optionId = option.id ?? (params.name|kebab ~ '-' ~ option.label|kebab) %}
             <div class="{{ classes.fieldWrapper|join(' ')|trim }}">
                 <input
                     type="{{ params.type }}"
@@ -120,10 +147,11 @@
                     {{ option.checked is defined or option.value in params.value ? 'checked' }}
                     {{ option.value is defined ? ('value="' ~ option.value ~ '"')|raw }}
                     {{ params.attributes|raw }}
+                    {{ (option.attributes ?? null)|raw }}
                 >
                 <label class="{{ classes.fieldLabel|join(' ')|trim }}" for="{{ optionId }}">
                     {{ option.label }}
-                    {% if params.required and params.label is null %}
+                    {% if params.required and params.label is null and classes.fieldLabelRequired|filter(c => c)|length %}
                         <span class="{{ classes.fieldLabelRequired|join(' ')|trim }}">*</span>
                     {% endif %}
                 </label>
