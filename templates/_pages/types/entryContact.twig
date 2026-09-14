@@ -2,7 +2,74 @@
 
 {% block site %}
 
-    {# Contact Form #}
+    {# Contact #}
+
+    {# Named apart from `params` and `classes`, which the section embed shadows #}
+
+    {% set contactClasses = {
+        panel: [
+            'w-full',
+            vars.class.siteMargin.x,
+            vars.class.header.paddingTop
+        ],
+        grid: [
+            'mt-7.5 grid grid-cols-12 gap-5',
+            '|',
+            'md:mt-12.5 lg:mt-17.5 xl:mt-[90px]'
+        ],
+        details: [
+            'col-span-12 max-w-[622px]',
+            '|',
+            'lg:col-span-6'
+        ],
+        heading: [
+            'mt-7.5'
+        ]
+    } %}
+
+    {% set inlineImages = entry.headingInlineImages %}
+
+    {% embed '_components/section' with {
+        params: {
+            paddingY: 'bottom',
+            paddingX: 'none'
+        }
+    } %}
+        {% block sectionContent %}
+
+            <div class="{{ contactClasses.panel|join(' ')|trim }}">
+
+                <div class="{{ contactClasses.grid|join(' ')|trim }}">
+
+                    <div class="{{ contactClasses.details|join(' ')|trim }}">
+
+                        {% include '_components/eyebrow' with {
+                            params: {
+                                text: entry.eyebrow,
+                                colour: 'black'
+                            }
+                        } only %}
+
+                        {% include '_components/headingInlineImages' with {
+                            params: {
+                                tag: 'h1',
+                                heading: inlineImages.heading,
+                                imagePosition: inlineImages.wordCount,
+                                images: inlineImages.images.all(),
+                                class: contactClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+    {# Blocks #}
 
     {{ entry.blocks.render({
         vars: vars
