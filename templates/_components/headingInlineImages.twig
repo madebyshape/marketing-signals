@@ -75,9 +75,15 @@
         'relative block h-[0.878em] w-[0.561em] shrink-0 overflow-hidden rounded-[0.122em] border-2 border-creme-100',
         'not-first:-ml-[0.061em]'
     ],
-    space: 'sr-only',
-    picture: 'block size-full',
-    img: 'size-full object-cover'
+    space: [
+        'sr-only'
+    ],
+    picture: [
+        'block size-full'
+    ],
+    img: [
+        'size-full object-cover'
+    ]
 } %}
 
 {# Group #}
@@ -95,8 +101,8 @@
                             ratio: false,
                             lazy: false,
                             sizes: '100px',
-                            pictureClass: classes.picture,
-                            imgClass: classes.img
+                            pictureClass: classes.picture|join(' ')|trim,
+                            imgClass: classes.img|join(' ')|trim
                         }
                     } only %}
                 </span>
@@ -146,7 +152,7 @@
 
                 {% if placement == 'middle' and group and wordIndex == position %}
                     {% set closing = openTags|reverse|map(open => '</' ~ open|slice(1)|split(' ')|first|split('>')|first ~ '>')|join %}
-                    {% set output = output ~ closing ~ group ~ '<span class="' ~ classes.space ~ '">&nbsp;</span>' ~ openTags|join %}
+                    {% set output = output ~ closing ~ group ~ '<span class="' ~ classes.space|join(' ')|trim ~ '">&nbsp;</span>' ~ openTags|join %}
                     {% set swallow = true %}
                 {% endif %}
             {% endif %}
