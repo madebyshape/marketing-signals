@@ -291,7 +291,7 @@ The line beneath a Statistic saying what it counts.
 _Avoid_: Label, caption, description
 
 **Divider**:
-The 1px line between siblings: black between Statistics, vertical when they sit in a row and horizontal when they stack; white between a Video CTA's heading and its Avatar Group.
+The 1px line between siblings: black between Statistics, vertical when they sit in a row and horizontal when they stack; white between a Video CTA's heading and its Avatar Group; Creme 300 between a Blog's Longform and its Author Sign-off.
 _Avoid_: Border, separator, rule, line
 
 ### Service Carousel
@@ -723,8 +723,12 @@ A Team Member's own page at `/authors/`, listing every Blog they are the Author 
 _Avoid_: Author archive, profile page, team member page, author listing
 
 **Author Description**:
-A Team Member's short introduction as a writer, shown beside their name on their Author Page and nowhere else.
+A Team Member's short introduction as a writer, shown beside their name on their Author Page and in the Author Sign-off of every Blog they are the Author of.
 _Avoid_: Bio, author bio, Text, about
+
+**Author Sign-off**:
+The close of a Blog's Longform, beneath a Divider: the Author's Image beside "Written by" their name and when the Blog was last updated, their Author Description, and a Button Group of "Meet" their first name, to their Author Page, and "Let's work together", to the Contact Page. A Blog without an Author has none.
+_Avoid_: Author card, author bio, about the author, author box, byline
 
 ### Content Rows
 
