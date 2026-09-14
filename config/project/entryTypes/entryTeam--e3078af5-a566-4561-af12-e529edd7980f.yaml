@@ -140,7 +140,7 @@ handle: entryTeam
 hasTitleField: true
 icon: file
 name: 'Entry - Team'
-showSlugField: false
+showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null
 slugTranslationMethod: site
