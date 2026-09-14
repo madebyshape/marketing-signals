@@ -19,6 +19,18 @@
         vars: vars
     }) }}
 
-    {# Longform Text Content #}
+    {# Longform #}
+
+    {% include '_components/longform' with {
+        params: {
+            entry: entry,
+            vars: vars,
+            id: 'text-content',
+            tableOfContents: entry.tableOfContents,
+            readingProgress: false,
+            readTime: false,
+            shareButtons: false
+        }
+    } only %}
 
 {% endblock %}

@@ -7,6 +7,10 @@
     vars: null,
     id: null,
     shareLabel: 'Share this article',
+    tableOfContents: true,
+    readingProgress: true,
+    readTime: true,
+    shareButtons: true,
     class: null
 } %}
 
@@ -27,6 +31,9 @@
 {% set shareLabel = params.shareLabel %}
 {% set sectionId = params.id %}
 {% set ctaHashLink = (ctaButton.value ?? '') starts with '#' %}
+{% set readingProgress = params.readingProgress %}
+{% set readTime = params.readTime %}
+{% set shareButtons = params.shareButtons %}
 
 {# Classes #}
 
@@ -120,11 +127,15 @@
 
         {% endfor %}
 
-        {% set bodies = bodies|merge([html]) %}
+        {% set bodies = bodies|merge([html|replace({ '<h3': '<h3 class="' ~ longformClasses.heading|join(' ')|trim ~ '"' })]) %}
 
     {% endif %}
 
 {% endfor %}
+
+{% set hasToc = params.tableOfContents and slugs|length %}
+{% set hasLeft = hasToc or readingProgress or readTime %}
+{% set hasRight = hasCta or shareButtons %}
 
 {# Output #}
 
@@ -145,35 +156,47 @@
 
                 <div class="{{ longformClasses.left|join(' ')|trim }}">
 
-                    <div class="{{ longformClasses.sticky|join(' ')|trim }}">
+                    {% if hasLeft %}
 
-                        {% if slugs|length %}
+                        <div class="{{ longformClasses.sticky|join(' ')|trim }}">
 
-                            {% include '_components/tableOfContents' with {
-                                params: {
-                                    id: sectionId,
-                                    class: 'mb-10'
-                                }
-                            } only %}
+                            {% if hasToc %}
 
-                        {% endif %}
+                                {% include '_components/tableOfContents' with {
+                                    params: {
+                                        id: sectionId,
+                                        class: 'mb-10'
+                                    }
+                                } only %}
 
-                        {% include '_components/scrollProgress' with {
-                            params: {
-                                id: sectionId,
-                                class: longformClasses.progress|join(' ')|trim
-                            }
-                        } only %}
+                            {% endif %}
 
-                        {% include '_components/readTime' with {
-                            params: {
-                                text: bodies|join(' '),
-                                icon: 'fa-sharp fa-regular fa-clock',
-                                class: longformClasses.readTime|join(' ')|trim
-                            }
-                        } only %}
+                            {% if readingProgress %}
 
-                    </div>
+                                {% include '_components/scrollProgress' with {
+                                    params: {
+                                        id: sectionId,
+                                        class: longformClasses.progress|join(' ')|trim
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                            {% if readTime %}
+
+                                {% include '_components/readTime' with {
+                                    params: {
+                                        text: bodies|join(' '),
+                                        icon: 'fa-sharp fa-regular fa-clock',
+                                        class: longformClasses.readTime|join(' ')|trim
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
 
                 </div>
 
@@ -196,73 +219,81 @@
 
                 <div class="{{ longformClasses.right|join(' ')|trim }}">
 
-                    <div class="{{ longformClasses.sticky|join(' ')|trim }}">
+                    {% if hasRight %}
 
-                        {% if hasCta %}
+                        <div class="{{ longformClasses.sticky|join(' ')|trim }}">
 
-                            <div class="{{ longformClasses.card|join(' ')|trim }}">
+                            {% if hasCta %}
 
-                                {% if avatars|length %}
+                                <div class="{{ longformClasses.card|join(' ')|trim }}">
 
-                                    <div class="{{ longformClasses.avatars|join(' ')|trim }}" aria-hidden="true">
+                                    {% if avatars|length %}
 
-                                        {% for avatar in avatars %}
+                                        <div class="{{ longformClasses.avatars|join(' ')|trim }}" aria-hidden="true">
 
-                                            <div class="{{ longformClasses.avatar|join(' ')|trim }}">
+                                            {% for avatar in avatars %}
 
-                                                {% include '_components/picture' with {
-                                                    params: {
-                                                        image: avatar,
-                                                        alt: '',
-                                                        transform: '1x1',
-                                                        ratio: false,
-                                                        focalPoint: true,
-                                                        sizes: '33px'
-                                                    }
-                                                } only %}
+                                                <div class="{{ longformClasses.avatar|join(' ')|trim }}">
 
-                                            </div>
+                                                    {% include '_components/picture' with {
+                                                        params: {
+                                                            image: avatar,
+                                                            alt: '',
+                                                            transform: '1x1',
+                                                            ratio: false,
+                                                            focalPoint: true,
+                                                            sizes: '33px'
+                                                        }
+                                                    } only %}
 
-                                        {% endfor %}
+                                                </div>
 
-                                    </div>
+                                            {% endfor %}
 
-                                {% endif %}
+                                        </div>
 
-                                {% include '_components/headingAlternate' with {
+                                    {% endif %}
+
+                                    {% include '_components/headingAlternate' with {
+                                        params: {
+                                            tag: 'h2',
+                                            heading: cta.heading,
+                                            size: '3xl',
+                                            class: longformClasses.ctaHeading|join(' ')|trim
+                                        }
+                                    } only %}
+
+                                    {# A same-page hash scrolls down to its heading; any other link keeps the default arrow. #}
+
+                                    {% include '_components/button' with {
+                                        params: {
+                                            button: ctaButton,
+                                            class: longformClasses.ctaButton|join(' ')|trim
+                                        }|merge(ctaHashLink ? {
+                                            icon: 'fa-sharp fa-regular fa-arrow-down',
+                                            attributes: '@click.prevent="scrollToHash($el.hash)"'
+                                        } : {})
+                                    } only %}
+
+                                </div>
+
+                            {% endif %}
+
+                            {% if shareButtons %}
+
+                                {% include '_components/socialShare' with {
                                     params: {
-                                        tag: 'h2',
-                                        heading: cta.heading,
-                                        size: '3xl',
-                                        class: longformClasses.ctaHeading|join(' ')|trim
+                                        links: ['linkedin', 'facebook', 'x', 'copy'],
+                                        heading: shareLabel,
+                                        class: longformClasses.share|join(' ')|trim
                                     }
                                 } only %}
 
-                                {# A same-page hash scrolls down to its heading; any other link keeps the default arrow. #}
+                            {% endif %}
 
-                                {% include '_components/button' with {
-                                    params: {
-                                        button: ctaButton,
-                                        class: longformClasses.ctaButton|join(' ')|trim
-                                    }|merge(ctaHashLink ? {
-                                        icon: 'fa-sharp fa-regular fa-arrow-down',
-                                        attributes: '@click.prevent="scrollToHash($el.hash)"'
-                                    } : {})
-                                } only %}
+                        </div>
 
-                            </div>
-
-                        {% endif %}
-
-                        {% include '_components/socialShare' with {
-                            params: {
-                                links: ['linkedin', 'facebook', 'x', 'copy'],
-                                heading: shareLabel,
-                                class: longformClasses.share|join(' ')|trim
-                            }
-                        } only %}
-
-                    </div>
+                    {% endif %}
 
                 </div>
 
