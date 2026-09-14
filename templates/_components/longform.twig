@@ -127,7 +127,7 @@
 
         {% endfor %}
 
-        {% set bodies = bodies|merge([html]) %}
+        {% set bodies = bodies|merge([html|replace({ '<h3': '<h3 class="' ~ longformClasses.heading|join(' ')|trim ~ '"' })]) %}
 
     {% endif %}
 

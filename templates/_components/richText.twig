@@ -82,6 +82,12 @@
     h2: {
         longform: 'text-3xl font-semibold leading-0.97 tracking-tighter !mb-6.25 | md:text-4xl | lg:text-5xl'
     },
+    h3: {
+        longform: 'text-2xl !font-medium leading-1.2 tracking-tighter mt-10 !mb-7.5'
+    },
+    strong: {
+        longform: 'font-medium'
+    },
     list: {
         base: {
             list: 'list-outside leading-relaxed pl-4 mb-5',
@@ -170,7 +176,7 @@
         ['attr', ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'], { class: classes.heading|join(' ')|trim }, false],
         ['attr', 'h1', { class: 'text-5xl' }, false],
         ['attr', 'h2', { class: options.h2[params.size] ?? 'text-4xl' }, false],
-        ['attr', 'h3', { class: 'text-3xl' }, false],
+        ['attr', 'h3', { class: options.h3[params.size] ?? 'text-3xl' }, false],
         ['attr', 'h4', { class: 'text-2xl' }, false],
         ['attr', 'h5', { class: 'text-xl' }, false],
         ['attr', 'h6', { class: 'text-lg' }, false],
@@ -181,7 +187,7 @@
         ['attr', 'ul', { class: classes.bulletList|join(' ')|trim }],
         ['attr', 'ul li', { class: classes.bulletItem }],
         ['attr', ['p:last-of-type'], { class: '!mb-0' }, false],
-        ['attr', 'strong', { class: 'font-semibold' }],
+        ['attr', 'strong', { class: options.strong[params.size] ?? 'font-semibold' }],
         ['attr', ['em', 'i'], { class: classes.italic }],
         ['attr', 'img', { class: 'w-full h-auto rounded-lg mb-5', loading: 'lazy' }],
         ['attr', 'blockquote', { class: classes.blockquote|join(' ')|trim }]
