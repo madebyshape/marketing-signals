@@ -201,7 +201,7 @@ The Team Member who wrote a Blog, shown as the Avatar Group in its Blog Hero und
 _Avoid_: Writer, byline, entry author, contributor, user
 
 **Read Time**:
-How long a Blog takes to read, shown beside its post date in a Blog Hero, a Blog Card and a Blog Large Card. The same figure for every Blog until Blogs carry their content.
+How long a Blog or a Career takes to read, shown beside its post date in a Blog Hero, a Blog Card and a Blog Large Card, and beneath the Reading Progress beside a Longform. On a Career it is counted from its Longform; it is the same figure for every Blog until Blogs carry their content.
 _Avoid_: Reading time, duration, length, time to read
 
 **Hero Button**:
@@ -941,6 +941,28 @@ _Avoid_: Job details, sidebar, job meta, key facts
 **Call To Action**:
 The last row of a Career List: an optional photo, a heading and a text with a Button, inviting a visitor who found no Career to get in touch. The Category Filter never changes it.
 _Avoid_: CTA, footer CTA, banner, Banner CTA
+
+### Longform
+
+**Longform**:
+The written body of a Career or a Blog, between its Hero and the footer: headings, paragraphs and lists an editor writes, with the Table of Contents and Reading Progress beside it on the left and the Sidebar Card and Share Buttons on the right.
+_Avoid_: Body, article content, page content, rich text, post content
+
+**Table of Contents**:
+The numbered list of a Longform's H2 headings beside it, each a link to its heading, with the heading being read marked in Primary. A Longform with no H2 has no Table of Contents.
+_Avoid_: TOC, contents, jump links, in this article
+
+**Reading Progress**:
+The thin bar beneath the Table of Contents that fills in Primary as the visitor scrolls through the Longform, full at its end, with the Read Time beneath it.
+_Avoid_: Scroll progress, progress bar, reading bar
+
+**Sidebar Card**:
+The optional white card beside a Longform with up to three overlapping avatars, a heading with the Highlight and a Button. It shows only when the editor switches it on and gives it a heading.
+_Avoid_: Sidebar CTA, CTA, apply card, sticky CTA
+
+**Share Buttons**:
+The row of round buttons beside a Longform, under "Share this career" on a Career or "Share this article" on a Blog, that share the page to LinkedIn, Facebook or X or copy its link.
+_Avoid_: Social share, share links, social icons, socials
 
 ### Playbook Listing
 
