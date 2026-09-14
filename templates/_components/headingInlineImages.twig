@@ -24,7 +24,13 @@
     colour: {
         black: {
             heading: 'text-black',
-            highlight: 'not-italic text-primary'
+            highlight: 'not-italic text-primary',
+            tile: 'border-creme-100'
+        },
+        white: {
+            heading: 'text-white',
+            highlight: 'not-italic text-secondary',
+            tile: 'border-black'
         }
     },
     size: {
@@ -72,7 +78,8 @@
         options.placement[placement]
     ],
     tile: [
-        'relative block h-[0.878em] w-[0.561em] shrink-0 overflow-hidden rounded-[0.122em] border-2 border-creme-100',
+        'relative block h-[0.878em] w-[0.561em] shrink-0 overflow-hidden rounded-[0.122em] border-2',
+        options.colour[params.colour].tile,
         'not-first:-ml-[0.061em]'
     ],
     space: [
