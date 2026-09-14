@@ -101,6 +101,22 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: '2026-09-14T15:59:35+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: authorDescription
+            instructions: null
+            label: 'Author Description'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0465339c-eb5e-4080-a826-1ab302f5545d
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2026-09-10T08:42:37+00:00'
             editCondition: null
             elementCondition: null
