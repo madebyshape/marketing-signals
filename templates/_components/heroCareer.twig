@@ -20,6 +20,15 @@
 {% set heading = career.heroHeading|striptags|trim|length ? career.heroHeading : career.title %}
 {% set text = career.heroText %}
 {% set image = career.heroImage.one() %}
+{% set category = career.categoriesCareer.one() %}
+
+{% set details = [
+    { label: 'Job Type:', icon: 'fa-clock', value: career.employmentType.value ? career.employmentType.label : null },
+    { label: 'Sector:', icon: 'fa-bullseye-arrow', value: category ? category.title : null },
+    { label: 'Salary:', value: career.salary, footnote: career.salaryFootnote },
+    { label: 'Reports to:', value: career.reportsTo },
+    { label: 'Working pattern:', value: career.workingPattern }
+]|filter(detail => detail.value|trim|length) %}
 
 {# Classes #}
 
@@ -53,6 +62,20 @@
     button: [
         'mt-7.5'
     ],
+    details: [
+        'col-span-12 mt-10',
+        '|',
+        'lg:col-span-5 lg:col-start-8 lg:mt-0 xl:col-span-4 xl:col-start-9'
+    ],
+    detail: [
+        'grid grid-cols-[1fr_2fr] border-t border-creme-300 py-5 text-base leading-1.33',
+        '|',
+        'xl:grid-cols-[209px_1fr]'
+    ],
+    detailLabel: 'pr-5 text-creme-500',
+    detailValue: 'inline-flex items-center gap-x-1.75 text-black',
+    detailIcon: 'text-[12px]',
+    footnote: 'block text-2xs leading-1.33 tracking-tight',
     image: [
         'mt-10 aspect-4/3 w-full overflow-hidden rounded-[20px]',
         '|',
@@ -119,6 +142,38 @@
                     } only %}
 
                 </div>
+
+                {% if details|length %}
+
+                    <dl class="{{ heroClasses.details|join(' ')|trim }}">
+
+                        {% for detail in details %}
+
+                            <div class="{{ heroClasses.detail|join(' ')|trim }}">
+
+                                <dt class="{{ heroClasses.detailLabel }}">{{ detail.label }}</dt>
+
+                                <dd class="{{ detail.icon ?? false ? heroClasses.detailValue : 'text-black' }}">
+
+                                    {% if detail.icon ?? false %}
+                                        <i class="{{ heroClasses.detailIcon }} fa-sharp fa-regular {{ detail.icon }}" aria-hidden="true"></i>
+                                    {% endif %}
+
+                                    {{ detail.value }}
+
+                                    {% if detail.footnote ?? false %}
+                                        <span class="{{ heroClasses.footnote }}">{{ detail.footnote }}</span>
+                                    {% endif %}
+
+                                </dd>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </dl>
+
+                {% endif %}
 
             </div>
 
