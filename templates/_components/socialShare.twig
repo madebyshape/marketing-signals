@@ -64,7 +64,7 @@
         }
     },
     colour: {
-        base: 'border-creme-300 bg-creme-100 text-black | hover:border-primary hover:bg-primary hover:text-white focus-visible:border-primary focus-visible:bg-primary focus-visible:text-white focus-visible:ring-3 focus-visible:ring-primary/50'
+        base: 'border-creme-300 bg-creme-100 text-black | hover:border-primary hover:bg-primary hover:text-white focus:outline-none focus-visible:border-primary focus-visible:bg-primary focus-visible:text-white focus-visible:ring-3 focus-visible:ring-primary/50'
     },
     size: {
         base: 'size-[35px] text-[13px]'
@@ -82,13 +82,13 @@
         params.class
     ],
     heading: [
-        'mb-5 text-sm leading-1.33 text-creme-500'
+        'mb-5 text-xs leading-1.33 tracking-tight text-creme-500'
     ],
     list: [
         options.direction[params.direction]
     ],
     link: [
-        'flex items-center justify-center rounded-full border cursor-pointer motion-safe:transition-colors focus:outline-none',
+        'flex items-center justify-center rounded-full border cursor-pointer motion-safe:transition-colors',
         options.colour[params.colour],
         options.size[params.size]
     ]
