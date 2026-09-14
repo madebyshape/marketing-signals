@@ -1,15 +1,20 @@
 {% extends '_layouts/global' %}
 
-{# Header Colour #}
-
-{# The Header follows the page's Hero Layout (ADR-0004), so an editor never sets it. #}
-
-{% set headerColour = 'black' %}
-
 {% block site %}
 
     {# Career Hero #}
 
+    {% include '_components/heroCareer' with {
+        params: {
+            entry: entry,
+            vars: vars
+        }
+    } only %}
+
     {# Longform Career Post #}
+
+    {# The Apply Button's target, clear of the fixed header (ADR-0001). #}
+
+    <div id="career-content" class="scroll-mt-20 | xl:scroll-mt-[123px]" tabindex="-1"></div>
 
 {% endblock %}
