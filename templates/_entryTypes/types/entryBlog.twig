@@ -13,11 +13,20 @@
 
     {# Longform #}
 
+    {% set authorSignOff %}
+        {% include '_components/authorSignOff' with {
+            params: {
+                entry: entry
+            }
+        } only %}
+    {% endset %}
+
     {% include '_components/longform' with {
         params: {
             entry: entry,
             vars: vars,
-            id: 'blog-content'
+            id: 'blog-content',
+            closing: authorSignOff
         }
     } only %}
 
