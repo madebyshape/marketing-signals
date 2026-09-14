@@ -1,0 +1,146 @@
+{% set component = 'heroAuthor' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    vars: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{# Named apart from `params` and `classes`, which the section embed shadows #}
+
+{% set author = params.entry %}
+{% set image = author.image.one() %}
+{% set description = author.authorDescription|striptags|trim|length ? author.authorDescription : null %}
+
+{# Breadcrumb #}
+
+{# The Team Listing page is found by entry type (ADR-0003), as Team Members have no section map entry. #}
+
+{% set home = craft.entries().uri('__home__').one() %}
+{% set teamListing = craft.entries().section('page').type('entryTeamListing').one() %}
+
+{% set crumbs = home ? [{ label: home.title, url: siteUrl }] : [] %}
+{% set crumbs = teamListing ? crumbs|merge([{ label: teamListing.title, url: teamListing.url }]) : crumbs %}
+{% set crumbs = crumbs|merge([{ label: 'Posts by ' ~ author.title, url: author.url }]) %}
+
+{# Classes #}
+
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
+
+{% set heroClasses = {
+    panel: [
+        'w-full',
+        params.vars ? params.vars.class.siteMargin.x : 'px-10',
+        params.vars ? params.vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        params.class
+    ],
+    grid: [
+        'mt-15 grid grid-cols-12 items-start gap-x-5',
+        '|',
+        'lg:mt-[90px] xl:mt-[105px]'
+    ],
+    author: [
+        'col-span-12 flex items-start gap-5',
+        '|',
+        'lg:col-span-8'
+    ],
+    image: [
+        'size-[71px] shrink-0 overflow-hidden rounded-full'
+    ],
+    heading: [
+        'min-w-0 font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl lg:text-7xl xl:text-11xl'
+    ],
+    description: [
+        'col-span-12 mt-7.5',
+        '|',
+        'lg:col-span-4 lg:col-start-9 lg:mt-0'
+    ]
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: {
+            paddingY: 'none',
+            paddingX: 'none'
+        }
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ heroClasses.panel|join(' ')|trim }}">
+
+            {% include '_components/breadcrumb' with {
+                params: {
+                    items: crumbs
+                }
+            } only %}
+
+            <div class="{{ heroClasses.grid|join(' ')|trim }}">
+
+                <div class="{{ heroClasses.author|join(' ')|trim }}">
+
+                    {% if image %}
+
+                        <div class="{{ heroClasses.image|join(' ')|trim }}">
+
+                            {% include '_components/picture' with {
+                                params: {
+                                    image: image,
+                                    alt: '',
+                                    transform: '1x1',
+                                    ratio: false,
+                                    focalPoint: true,
+                                    lazy: false,
+                                    sizes: '71px'
+                                }
+                            } only %}
+
+                        </div>
+
+                    {% endif %}
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h1',
+                            heading: author.title,
+                            size: '5xl',
+                            class: heroClasses.heading|join(' ')|trim
+                        }
+                    } only %}
+
+                </div>
+
+                {% if description %}
+
+                    <div class="{{ heroClasses.description|join(' ')|trim }}">
+
+                        {% include '_components/richText' with {
+                            params: {
+                                content: description,
+                                colour: 'black',
+                                size: 'base'
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+{% endembed %}

@@ -1,0 +1,45 @@
+{% extends '_layouts/global' %}
+
+{# SEO #}
+
+{% do seomatic.meta.seoTitle('Posts by ' ~ entry.title) %}
+
+{# A Team Member with no enabled Blog keeps their page but stays out of search results (ADR-0006). #}
+
+{% if not craft.entries().section('blog').status('enabled').relatedTo({ targetElement: entry, field: 'entryTeam' }).exists() %}
+    {% do seomatic.meta.robots('noindex, follow') %}
+{% endif %}
+
+{% block site %}
+
+    {# Author Page Header #}
+
+    {% include '_components/heroAuthor' with {
+        params: {
+            entry: entry,
+            vars: vars
+        }
+    } only %}
+
+    {# Author's Blogs #}
+
+    {% embed '_components/section' with {
+        params: {
+            paddingY: 'topBottom',
+            paddingYSize: 'base'
+        }
+    } %}
+        {% block sectionContent %}
+
+            {{ sprig('_sprig/blogListing', {
+                author: entry.id,
+                page: craft.app.request.getQueryParam('page') ?? 1
+            }, {
+                id: 'blogListing',
+                'aria-live': 'polite'
+            }) }}
+
+        {% endblock %}
+    {% endembed %}
+
+{% endblock %}

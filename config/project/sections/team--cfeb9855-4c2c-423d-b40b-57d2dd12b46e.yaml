@@ -16,9 +16,9 @@ propagationMethod: all
 siteSettings:
   08c386f4-5a41-4c9f-8282-f6785af06bfc: # $CRAFT_SITE_NAME
     enabledByDefault: true
-    hasUrls: false
-    template: null
-    uriFormat: null
+    hasUrls: true
+    template: _entryTypes/base.twig
+    uriFormat: 'authors/{slug}'
 structure:
   maxLevels: null
   uid: 2480ad58-77cc-4783-8afc-97c142fbd894
