@@ -69,7 +69,7 @@ A Footer Column holding a list of links, each with the same hover underline as a
 _Avoid_: Link column, nav column
 
 **Social Column**:
-The right-hand column of Twitter / X, Facebook and LinkedIn links, read from the SEO settings rather than set by editors on the Site entry.
+The right-hand column of the Footer holding the Social Links, one above another.
 _Avoid_: Social icons, socials, share links
 
 **Footer Bottom**:
@@ -1041,6 +1041,20 @@ _Avoid_: Contact info, address block, Contact Column
 **Contact Form**:
 The form on the Contact Page that sends an enquiry, with its privacy statement beside the send button.
 _Avoid_: Enquiry form, Gate, lead form
+
+### Form Success Page
+
+**Form Success Page**:
+The full-screen black page a visitor lands on after sending a form: an Eyebrow over a heading with Inline Images, a short text and a Button Group in the middle, the Success Contacts at the bottom left and the Social Links at the bottom right. It has the Header but no Footer.
+_Avoid_: Thank-you page, confirmation page, success message
+
+**Success Contacts**:
+The email and phone pills at the bottom left of the Form Success Page.
+_Avoid_: Contact Details, Contact Column, contact pills
+
+**Social Links**:
+The Twitter / X, Facebook and LinkedIn text links, read from the SEO settings rather than set by editors, each shown only when it has a URL. Shown in the Footer's Social Column and on the Form Success Page.
+_Avoid_: Social icons, socials, share links, Share Buttons
 
 ### Seeding
 

@@ -16,3 +16,4 @@ The Header has two designed appearances, Creme 100 and Black, and the glossary s
 
 - A Hero Layout is dark or light by definition, and the definition sits with the page template, not the Hero template.
 - ADR-0001 still holds: the Header is fixed and the Hero pads for it. A Black Header over a black Hero reads as one surface, which is the design's intent.
+- A page template that never takes a Hero and is black by design may set the Header Colour itself. The Error Page and the Form Success Page do.
