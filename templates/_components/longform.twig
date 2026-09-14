@@ -5,6 +5,7 @@
 {% set defaultParams = {
     entry: null,
     vars: null,
+    id: null,
     shareLabel: 'Share this article',
     class: null
 } %}
@@ -24,6 +25,8 @@
 {% set avatars = hasCta ? cta.avatars.limit(3).all() : [] %}
 {% set ctaButton = hasCta ? cta.button : null %}
 {% set shareLabel = params.shareLabel %}
+{% set sectionId = params.id %}
+{% set ctaHashLink = (ctaButton.value ?? '') starts with '#' %}
 
 {# Classes #}
 
@@ -131,7 +134,7 @@
         with {
             params: {
                 class: longformClasses.section|join(' ')|trim,
-                attributes: 'id="career-content" tabindex="-1"',
+                attributes: 'id="' ~ sectionId ~ '" tabindex="-1"',
                 paddingY: 'bottom'
             }
         }
@@ -148,7 +151,7 @@
 
                             {% include '_components/tableOfContents' with {
                                 params: {
-                                    id: 'career-content',
+                                    id: sectionId,
                                     class: 'mb-10'
                                 }
                             } only %}
@@ -157,7 +160,7 @@
 
                         {% include '_components/scrollProgress' with {
                             params: {
-                                id: 'career-content',
+                                id: sectionId,
                                 class: longformClasses.progress|join(' ')|trim
                             }
                         } only %}
@@ -234,13 +237,16 @@
                                     }
                                 } only %}
 
+                                {# A same-page hash scrolls down to its heading; any other link keeps the default arrow. #}
+
                                 {% include '_components/button' with {
                                     params: {
                                         button: ctaButton,
+                                        class: longformClasses.ctaButton|join(' ')|trim
+                                    }|merge(ctaHashLink ? {
                                         icon: 'fa-sharp fa-regular fa-arrow-down',
-                                        class: longformClasses.ctaButton|join(' ')|trim,
-                                        attributes: (ctaButton.value ?? '') starts with '#' ? '@click.prevent="scrollToHash($el.hash)"' : ''
-                                    }
+                                        attributes: '@click.prevent="scrollToHash($el.hash)"'
+                                    } : {})
                                 } only %}
 
                             </div>

@@ -11,6 +11,14 @@
         }
     } only %}
 
-    {# Longform Blog Post #}
+    {# Longform #}
+
+    {% include '_components/longform' with {
+        params: {
+            entry: entry,
+            vars: vars,
+            id: 'blog-content'
+        }
+    } only %}
 
 {% endblock %}
