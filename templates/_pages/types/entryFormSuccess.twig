@@ -2,8 +2,92 @@
 
 {# Header Colour #}
 
+{% set headerColour = 'black' %}
+
+{# Show Footer #}
+
+{% set showFooter = false %}
+
 {% block site %}
 
-    {# Form Success Content #}
+    {# Classes #}
+
+    {# Set inside the block: `vars` comes from the global layout, which runs after this top level. #}
+
+    {% set classes = {
+        shell: [
+            'grid w-full min-h-svh grid-rows-[auto_1fr_auto] bg-black pb-10',
+            vars.class.siteMargin.x
+        ],
+        spacer: vars.class.header.height,
+        content: 'flex flex-col items-center justify-center text-center',
+        heading: 'mx-auto mt-5 text-center text-balance | first:mt-0 | lg:mt-7.5 lg:max-w-[7.8em]',
+        text: 'mt-7.5 max-w-[494px] | first:mt-0 | lg:mt-12.5',
+        buttons: 'mt-7.5 | first:mt-0 | lg:mt-10',
+        bottomRow: 'lg:min-h-20 xl:min-h-[123px]'
+    } %}
+
+    {% set inlineImages = entry.headingInlineImages %}
+
+    {# Output #}
+
+    <div class="{{ classes.shell|join(' ')|trim }}">
+
+        <div class="{{ classes.spacer }}"></div>
+
+        <div class="{{ classes.content }}">
+
+            {% if entry.eyebrow %}
+
+                {% include '_components/eyebrow' with {
+                    params: {
+                        text: entry.eyebrow,
+                        colour: 'white'
+                    }
+                } only %}
+
+            {% endif %}
+
+            {% include '_components/headingInlineImages' with {
+                params: {
+                    tag: 'h1',
+                    heading: inlineImages.heading,
+                    imagePosition: inlineImages.wordCount,
+                    images: inlineImages.images.all(),
+                    colour: 'white',
+                    size: '10xl',
+                    class: classes.heading
+                }
+            } only %}
+
+            {% if entry.text %}
+
+                {% include '_components/richText' with {
+                    params: {
+                        content: entry.text,
+                        colour: 'white',
+                        size: 'base',
+                        class: classes.text
+                    }
+                } only %}
+
+            {% endif %}
+
+            {% include '_components/buttonGroup' with {
+                params: {
+                    buttons: entry.buttonGroup.all(),
+                    colours: ['secondary'],
+                    align: 'center',
+                    class: classes.buttons
+                }
+            } only %}
+
+        </div>
+
+        {# Success Contacts and Social Links #}
+
+        <div class="{{ classes.bottomRow }}"></div>
+
+    </div>
 
 {% endblock %}
