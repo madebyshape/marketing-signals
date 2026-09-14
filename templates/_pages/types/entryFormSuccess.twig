@@ -24,10 +24,22 @@
         heading: 'mx-auto mt-5 text-center text-balance | first:mt-0 | lg:mt-7.5 lg:max-w-[7.8em]',
         text: 'mt-7.5 max-w-[494px] | first:mt-0 | lg:mt-12.5',
         buttons: 'mt-7.5 | first:mt-0 | lg:mt-10',
-        bottomRow: 'lg:min-h-20 xl:min-h-[123px]'
+        bottomRow: 'flex flex-col items-start gap-7.5 mt-10 | lg:flex-row lg:items-end lg:justify-between lg:mt-0 lg:min-h-20 xl:min-h-[123px]',
+        contacts: 'flex flex-wrap items-center gap-2.5'
     } %}
 
     {% set inlineImages = entry.headingInlineImages %}
+
+    {# Captured so the bottom row can be left out when the component renders nothing. #}
+
+    {% set socialLinks %}
+        {% include '_components/socialLinks' with {
+            params: {
+                direction: 'horizontal',
+                size: 'base'
+            }
+        } only %}
+    {% endset %}
 
     {# Output #}
 
@@ -86,7 +98,41 @@
 
         {# Success Contacts and Social Links #}
 
-        <div class="{{ classes.bottomRow }}"></div>
+        {% if entry.email or entry.phone or socialLinks|trim %}
+
+            <div class="{{ classes.bottomRow }}">
+
+                {% if entry.email or entry.phone %}
+
+                    <div class="{{ classes.contacts }}">
+
+                        {% include '_components/button' with {
+                            params: {
+                                button: entry.email,
+                                colour: 'white-10',
+                                icon: 'fa-sharp fa-solid fa-paper-plane',
+                                iconPosition: 'before'
+                            }
+                        } only %}
+
+                        {% include '_components/button' with {
+                            params: {
+                                button: entry.phone,
+                                colour: 'white-10',
+                                icon: 'fa-sharp fa-solid fa-phone',
+                                iconPosition: 'before'
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endif %}
+
+                {{ socialLinks|trim|raw }}
+
+            </div>
+
+        {% endif %}
 
     </div>
 
