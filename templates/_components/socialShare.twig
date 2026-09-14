@@ -1,9 +1,12 @@
+{% set component = 'socialShare' %}
+
 {# Default Params #}
 
 {% set defaultParams = {
     links: ['linkedin', 'x', 'facebook', 'threads', 'whatsapp', 'messenger', 'email'],
     url: craft.app.request.absoluteUrl,
     text: '',
+    heading: null,
     colour: 'base',
     size: 'base',
     direction: 'horizontal',
@@ -17,72 +20,75 @@
 {# Options #}
 
 {% set options = {
-    links: [
-        {
-            handle: 'linkedin',
+    links: {
+        linkedin: {
             title: 'Share on LinkedIn',
             url: 'https://www.linkedin.com/sharing/share-offsite/?url=' ~ params.url|url_encode,
             icon: 'fa-brands fa-linkedin-in'
         },
-        {
-            handle: 'x',
+        x: {
             title: 'Share on X / Twitter',
             url: 'https://x.com/intent/tweet?text=' ~ params.text ~ ' - ' ~ params.url|url_encode,
             icon: 'fa-brands fa-x-twitter'
         },
-        {
-            handle: 'facebook',
+        facebook: {
             title: 'Share on Facebook',
             url: 'https://www.facebook.com/sharer/sharer.php?u=' ~ params.url|url_encode,
             icon: 'fa-brands fa-facebook-f'
         },
-        {
-            handle: 'threads',
+        threads: {
             title: 'Share on Threads',
             url: 'https://threads.net/intent/post?text=' ~ params.text ~ ' - ' ~ params.url|url_encode,
             icon: 'fa-brands fa-threads'
         },
-        {
-            handle: 'whatsapp',
+        whatsapp: {
             title: 'Share on WhatsApp',
             url: 'https://api.whatsapp.com/send?text=' ~ params.text ~ ' - ' ~ params.url|url_encode,
             icon: 'fa-brands fa-whatsapp'
         },
-        {
-            handle: 'messenger',
+        messenger: {
             title: 'Share on Messenger',
             url: 'fb-messenger://share/?link=' ~ params.url|url_encode,
             icon: 'fa-brands fa-facebook-messenger'
         },
-        {
-            handle: 'email',
+        email: {
             title: 'Share on Email',
             url: 'mailto:?subject=' ~ params.text ~ '&body=' ~ params.url|url_encode,
             icon: 'fa-solid fa-envelope',
             popup: false
+        },
+        copy: {
+            title: 'Copy link',
+            icon: 'fa-sharp fa-regular fa-link',
+            copiedIcon: 'fa-sharp fa-regular fa-check'
         }
-    ],
+    },
     colour: {
-        base: 'text-white bg-zinc-900 hover:bg-zinc-700'
+        base: 'border-creme-300 bg-creme-100 text-black | hover:border-primary hover:bg-primary hover:text-white focus:outline-none focus-visible:border-primary focus-visible:bg-primary focus-visible:text-white focus-visible:ring-3 focus-visible:ring-primary/50'
     },
     size: {
-        base: 'w-9 h-9 text-sm'
+        base: 'size-[35px] text-[13px]'
     },
     direction: {
-        horizontal: 'flex flex-row space-x-1',
-        vertical: 'flex flex-col space-y-1'
+        horizontal: 'flex flex-row gap-1.25',
+        vertical: 'flex flex-col gap-1.25'
     }
 } %}
 
-{# Classes #} 
+{# Classes #}
 
 {% set classes = {
     wrapper: [
-        options.direction[params.direction],
         params.class
     ],
+    heading: [
+        'mb-5 text-xs leading-1.33 tracking-tight text-creme-500'
+    ],
+    list: [
+        options.direction[params.direction]
+    ],
     link: [
-        'transition-all block flex items-center justify-center rounded-full',
+        'flex items-center justify-center rounded-full border cursor-pointer motion-safe:transition-colors',
         options.colour[params.colour],
         options.size[params.size]
     ]
@@ -90,33 +96,84 @@
 
 {# Output #}
 
-<nav x-data aria-label="Social sharing">    
+<nav class="{{ classes.wrapper|join(' ')|trim }}" aria-label="Social sharing" x-data="{{ component }}('{{ params.url|e('js') }}')">
 
-    <ul class="{{ classes.wrapper|join(' ')|trim }}">
+    {% if params.heading %}
+        <p class="{{ classes.heading|join(' ')|trim }}">{{ params.heading }}</p>
+    {% endif %}
 
-        {% for link in options.links|filter(link => link.handle in params.links) %}
+    <ul class="{{ classes.list|join(' ')|trim }}">
 
-            <li>
-            
-                <a 
-                    href="{{ link.url }}" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    class="{{ classes.link|join(' ')|trim }}"
-                    aria-label="{{ link.title }}"
-                    {% if link.popup is not defined or link.popup is defined and link.popup == true %}
-                        x-on:click.prevent="window.open('{{ link.url }}', 'Share', 'width=600,height=400')"
-                        role="button"
-                    {% endif %}
-                >
-                    <i class="{{ link.icon }}" aria-hidden="true"></i>
-                    <span class="sr-only">{{ link.title }}</span>
-                </a>
+        {% for handle in params.links %}
 
-            </li>
+            {% set link = options.links[handle] ?? null %}
 
-        {% endfor %}    
+            {% if link and handle == 'copy' %}
+
+                <li>
+
+                    <button
+                        type="button"
+                        class="{{ classes.link|join(' ')|trim }}"
+                        aria-label="{{ link.title }}"
+                        @click="copy"
+                    >
+                        <span x-show="!copied"><i class="{{ link.icon }}" aria-hidden="true"></i></span>
+                        <span x-show="copied" x-cloak><i class="{{ link.copiedIcon }}" aria-hidden="true"></i></span>
+                    </button>
+
+                    <span class="sr-only" aria-live="polite" x-text="copied ? 'Link copied' : ''"></span>
+
+                </li>
+
+            {% elseif link %}
+
+                <li>
+
+                    <a
+                        href="{{ link.url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="{{ classes.link|join(' ')|trim }}"
+                        aria-label="{{ link.title }}"
+                        {% if link.popup ?? true %}
+                            x-on:click.prevent="window.open('{{ link.url }}', 'Share', 'width=600,height=400')"
+                            role="button"
+                        {% endif %}
+                    >
+                        <i class="{{ link.icon }}" aria-hidden="true"></i>
+                        <span class="sr-only">{{ link.title }}</span>
+                    </a>
+
+                </li>
+
+            {% endif %}
+
+        {% endfor %}
 
     </ul>
 
 </nav>
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', (url) => ({
+            copied: false,
+            timer: null,
+            copy() {
+
+                navigator.clipboard.writeText(url).then(() => {
+                    this.copied = true;
+
+                    clearTimeout(this.timer);
+                    this.timer = setTimeout(() => this.copied = false, 2000);
+                });
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}

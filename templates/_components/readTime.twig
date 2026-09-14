@@ -1,34 +1,44 @@
+{% set component = 'readTime' %}
+
 {# Default Params #}
 
 {% set defaultParams = {
     text: null,
-    class: null,
-    wordsPerMinute: 265
+    wordsPerMinute: 265,
+    icon: null,
+    class: null
 } %}
 
 {# Merge Params #}
 
 {% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
 
-{# Options #}
-
-{% set options = {} %}
-
-{# Classes #} 
+{# Classes #}
 
 {% set classes = {
     wrapper: [
+        'flex items-center gap-1.75 text-base leading-1.33 text-black',
         params.class
+    ],
+    icon: [
+        'text-[12px]',
+        params.icon
     ]
 } %}
 
 {# Output #}
 
-{% set words = params.text|striptags|replace({'â€”': ' ', 'â€“': ' ', '-': ' ', '\n': ' '})|split(' ') %}
-{% set minutes = ceil(words|length / params.wordsPerMinute) %}
-{% set seconds = minutes * 60 %}
-{% set formatter = create({ class: 'craft\\i18n\\Formatter' }) %}
+{# Spaces before tags and entities keep words in adjacent elements apart. #}
+
+{% set words = (params.text ?? '')|replace({ '<': ' <' })|striptags|replace('/&[^;\\s]+;|[\\s—–-]+/u', ' ')|trim|split(' ')|filter(word => word) %}
+{% set minutes = max(ceil(words|length / params.wordsPerMinute), 1) %}
 
 <div class="{{ classes.wrapper|join(' ')|trim }}">
-    {{ formatter.asDuration(seconds) }} read
+
+    {% if params.icon %}
+        <i class="{{ classes.icon|join(' ')|trim }}" aria-hidden="true"></i>
+    {% endif %}
+
+    {{ minutes }} min read
+
 </div>

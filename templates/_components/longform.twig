@@ -1,0 +1,296 @@
+{% set component = 'longform' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    vars: null,
+    shareLabel: 'Share this article',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{# Named apart from `params` and `classes`, which the section embed shadows #}
+
+{% set longform = params.entry.longform ?? [] %}
+{% set scrollMargin = params.vars ? params.vars.class.header.scrollMargin : 'scroll-mt-20 | xl:scroll-mt-[123px]' %}
+{% set cta = params.entry.sidebarCta ?? null %}
+{% set hasCta = cta and cta.sidebarCta and cta.heading|striptags|trim|length %}
+{% set avatars = hasCta ? cta.avatars.limit(3).all() : [] %}
+{% set ctaButton = hasCta ? cta.button : null %}
+{% set shareLabel = params.shareLabel %}
+
+{# Classes #}
+
+{% set longformClasses = {
+    section: [
+        scrollMargin,
+        params.class
+    ],
+    grid: [
+        'grid max-w-[750px] grid-cols-1 gap-x-5',
+        '|',
+        'xl:max-w-none xl:grid-cols-12'
+    ],
+    left: [
+        'xl:col-span-3'
+    ],
+    body: [
+        'xl:col-span-6 xl:col-start-4'
+    ],
+    right: [
+        'xl:col-span-3 xl:col-start-10'
+    ],
+    sticky: [
+        'xl:sticky xl:top-[143px]'
+    ],
+    progress: [
+        'hidden',
+        '|',
+        'xl:block'
+    ],
+    readTime: [
+        'max-w-[257px] mb-10',
+        '|',
+        'xl:justify-center xl:mt-5 xl:mb-0'
+    ],
+    card: [
+        'mt-10 flex w-full max-w-[305px] flex-col items-center rounded-[20px] bg-white p-7.5 text-center',
+        '|',
+        'xl:mt-0 xl:ml-auto'
+    ],
+    avatars: [
+        'flex -space-x-1.5'
+    ],
+    avatar: [
+        'size-[33px] overflow-hidden rounded-full bg-creme-200'
+    ],
+    ctaHeading: [
+        'font-medium leading-1.2 tracking-tighter',
+        avatars|length ? 'mt-5'
+    ],
+    ctaButton: [
+        'mt-5 w-full justify-center'
+    ],
+    share: [
+        'w-full max-w-[305px]',
+        hasCta ? 'mt-12.5' : 'mt-10',
+        '|',
+        hasCta ? 'xl:ml-auto' : 'xl:mt-0 xl:ml-auto'
+    ],
+    heading: [
+        scrollMargin
+    ],
+    headingSpaced: [
+        'mt-25',
+        scrollMargin
+    ]
+} %}
+
+{# Heading Anchors #}
+
+{# Each H2 gains a server-rendered slug id so section links work without JavaScript. #}
+
+{% set slugs = [] %}
+{% set bodies = [] %}
+
+{% for chunk in longform %}
+
+    {% if chunk.type == 'markup' %}
+
+        {% set parts = chunk.html|split('<h2') %}
+        {% set html = parts|first %}
+
+        {% for part in parts|slice(1) %}
+
+            {% set slug = part|split('</h2>')|first|split('>', 2)|last|striptags|replace('/&[^;\\s]+;/', ' ')|kebab ?: 'section' %}
+            {% set repeats = slugs|filter(s => s == slug)|length %}
+            {% set id = repeats ? slug ~ '-' ~ (repeats + 1) : slug %}
+            {% set headingClass = slugs|length ? longformClasses.headingSpaced : longformClasses.heading %}
+            {% set html = html ~ '<h2 id="' ~ id ~ '" tabindex="-1" class="' ~ headingClass|join(' ')|trim ~ '"' ~ part %}
+            {% set slugs = slugs|merge([slug]) %}
+
+        {% endfor %}
+
+        {% set bodies = bodies|merge([html]) %}
+
+    {% endif %}
+
+{% endfor %}
+
+{# Output #}
+
+{% if bodies|join|striptags|trim|length %}
+
+    {% embed '_components/section'
+        with {
+            params: {
+                class: longformClasses.section|join(' ')|trim,
+                attributes: 'id="career-content" tabindex="-1"',
+                paddingY: 'bottom'
+            }
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ longformClasses.grid|join(' ')|trim }}" x-data="{{ component }}">
+
+                <div class="{{ longformClasses.left|join(' ')|trim }}">
+
+                    <div class="{{ longformClasses.sticky|join(' ')|trim }}">
+
+                        {% if slugs|length %}
+
+                            {% include '_components/tableOfContents' with {
+                                params: {
+                                    id: 'career-content',
+                                    class: 'mb-10'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% include '_components/scrollProgress' with {
+                            params: {
+                                id: 'career-content',
+                                class: longformClasses.progress|join(' ')|trim
+                            }
+                        } only %}
+
+                        {% include '_components/readTime' with {
+                            params: {
+                                text: bodies|join(' '),
+                                icon: 'fa-sharp fa-regular fa-clock',
+                                class: longformClasses.readTime|join(' ')|trim
+                            }
+                        } only %}
+
+                    </div>
+
+                </div>
+
+                <div class="{{ longformClasses.body|join(' ')|trim }}">
+
+                    {% for body in bodies %}
+
+                        {% include '_components/richText' with {
+                            params: {
+                                content: body,
+                                colour: 'black',
+                                size: 'longform'
+                            }
+                        } only %}
+
+                    {% endfor %}
+
+                </div>
+
+                <div class="{{ longformClasses.right|join(' ')|trim }}">
+
+                    <div class="{{ longformClasses.sticky|join(' ')|trim }}">
+
+                        {% if hasCta %}
+
+                            <div class="{{ longformClasses.card|join(' ')|trim }}">
+
+                                {% if avatars|length %}
+
+                                    <div class="{{ longformClasses.avatars|join(' ')|trim }}" aria-hidden="true">
+
+                                        {% for avatar in avatars %}
+
+                                            <div class="{{ longformClasses.avatar|join(' ')|trim }}">
+
+                                                {% include '_components/picture' with {
+                                                    params: {
+                                                        image: avatar,
+                                                        alt: '',
+                                                        transform: '1x1',
+                                                        ratio: false,
+                                                        focalPoint: true,
+                                                        sizes: '33px'
+                                                    }
+                                                } only %}
+
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                {% endif %}
+
+                                {% include '_components/headingAlternate' with {
+                                    params: {
+                                        tag: 'h2',
+                                        heading: cta.heading,
+                                        size: '3xl',
+                                        class: longformClasses.ctaHeading|join(' ')|trim
+                                    }
+                                } only %}
+
+                                {% include '_components/button' with {
+                                    params: {
+                                        button: ctaButton,
+                                        icon: 'fa-sharp fa-regular fa-arrow-down',
+                                        class: longformClasses.ctaButton|join(' ')|trim,
+                                        attributes: (ctaButton.value ?? '') starts with '#' ? '@click.prevent="scrollToHash($el.hash)"' : ''
+                                    }
+                                } only %}
+
+                            </div>
+
+                        {% endif %}
+
+                        {% include '_components/socialShare' with {
+                            params: {
+                                links: ['linkedin', 'facebook', 'x', 'copy'],
+                                heading: shareLabel,
+                                class: longformClasses.share|join(' ')|trim
+                            }
+                        } only %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            scrollToHash(hash) {
+
+                const target = document.querySelector(hash);
+
+                if (!target) {
+                    return;
+                }
+
+                history.pushState(null, '', hash);
+
+                // Lenis subtracts the target's scroll margin, which clears the fixed header.
+                window.lenis.scrollTo(target, {
+                    immediate: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                });
+
+                target.focus({ preventScroll: true });
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}

@@ -1,8 +1,10 @@
+{% set component = 'tableOfContents' %}
+
 {# Default Params #}
 
 {% set defaultParams = {
     id: null,
-    colour: 'base',
+    heading: 'Table of Contents',
     class: null
 } %}
 
@@ -10,111 +12,89 @@
 
 {% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
 
-{# Options #}
-
-{% set options = {
-    colour: {
-        base: {
-            wrapper: 'bg-zinc-900',
-            links: 'text-zinc-900',
-            link: 'text-white',
-            linkActive: 'text-blue-500'
-        }
-    }
-} %}
-
 {# Classes #}
 
 {% set classes = {
     wrapper: [
-        'w-full p-5 rounded-xl',
-        options.colour[params.colour].wrapper,
+        'w-full max-w-[257px]',
         params.class
     ],
-    links: [
-        'leading-7',
-        options.colour[params.colour].links
+    heading: [
+        'mb-3 text-xs leading-1.33 tracking-tight text-creme-500'
+    ],
+    list: [
+        'flex flex-col gap-5 list-inside list-decimal text-sm leading-1.33'
+    ],
+    item: [
+        'has-[a:hover]:text-primary has-focus-visible:text-primary'
     ],
     link: [
-        options.colour[params.colour].link
-    ],
-    linkActive: [
-        'underline',
-        options.colour[params.colour].linkActive
+        'rounded-xs',
+        '|',
+        'hover:underline focus:outline-none focus-visible:underline focus-visible:ring-3 focus-visible:ring-primary/50'
     ]
 } %}
 
 {# Output #}
 
-<div 
+<nav
     class="{{ classes.wrapper|join(' ')|trim }}"
-    x-data="tableOfContents"
-    x-init="init('{{ params.id }}')"
+    aria-labelledby="{{ component }}-{{ params.id }}"
+    x-data="{{ component }}"
+    x-init="collect('{{ params.id }}')"
 >
 
-    <div class="{{ classes.links|join(' ')|trim  }}">
-    </div>
+    <p id="{{ component }}-{{ params.id }}" class="{{ classes.heading|join(' ')|trim }}">{{ params.heading }}</p>
 
-</div>
+    <ol class="{{ classes.list|join(' ')|trim }}">
 
+        <template x-for="(heading, index) in headings" :key="heading.id">
+
+            <li
+                class="{{ classes.item|join(' ')|trim }}"
+                :class="index === active ? 'text-primary' : 'text-black'"
+            >
+                <a
+                    :href="'#' + heading.id"
+                    class="{{ classes.link|join(' ')|trim }}"
+                    :class="index === active && 'underline'"
+                    x-text="heading.title"
+                    @click.prevent="scrollToHash('#' + heading.id)"
+                ></a>
+            </li>
+
+        </template>
+
+    </ol>
+
+</nav>
+
+{# prettier-ignore-start #}
 {% js %}
 
-   document.addEventListener('alpine:init', () => {
-      Alpine.data('tableOfContents', () => ({
-         init(id) { 
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            headings: [],
+            active: 0,
+            collect(id) {
 
-            const tocContent = document.querySelector('#' + id);
-            const tocNav = this.$el.firstElementChild;
-            const tocHeadings = tocContent.querySelectorAll('h2, h3');
-            const tocList = document.createElement('ul');
+                const elements = [...document.getElementById(id).querySelectorAll('h2[id]')];
 
-            const linkClass = '{{ classes.link|join(' ')|trim }}';
-            const linkActiveClass = '{{ classes.linkActive|join(' ')|trim }}';
+                this.headings = elements.map(heading => ({ id: heading.id, title: heading.textContent.trim() }));
 
-            for (i = 0; i <= tocHeadings.length - 1; i++) {
+                // The active entry is the last H2 above a line a third of the way down the viewport.
+                const update = () => {
+                    const passed = elements.filter(heading => heading.getBoundingClientRect().top <= window.innerHeight / 3);
 
-                let title = tocHeadings[i].innerHTML;
-                let id = title.toLowerCase().replace(/ /g, '-');
+                    this.active = Math.max(passed.length - 1, 0);
+                };
 
-                if (title.includes('<a')) {
-                    title = title.replace(/<a.*?>|<\/a>/g, '');
-                }
+                update();
+                window.addEventListener('scroll', update, { passive: true });
 
-                tocHeadings[i].setAttribute('id', id);
-
-                tocList.insertAdjacentHTML('beforeend', `
-                    <li>
-                        <a href="#${id}" class="${linkClass}">
-                            ${title}
-                        </a>
-                    </li>
-                `);
-                
             }
+        }))
+    })
 
-            tocNav.appendChild(tocList);            
-
-            window.addEventListener('scroll', () => {
-                tocHeadings.forEach(heading => {
-                    if (heading.getBoundingClientRect().top < (window.innerHeight / 1.5)) {
-
-                        const links = tocNav.querySelectorAll('a');
-
-                        const activeClasses = linkActiveClass.split(' ');
-
-                        links.forEach(link => {
-                            link.classList.remove(...activeClasses);
-                        });
-                    
-                        let current = tocNav.querySelector(`a[href='#${heading.id}']`);
-                        current.classList.add(...activeClasses);
-
-                    }
-                }); 
-            });
-            
-         }
-      }))
-   })
-   
 {% endjs %}
+{# prettier-ignore-end #}

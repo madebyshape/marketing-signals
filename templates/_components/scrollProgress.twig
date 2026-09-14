@@ -1,3 +1,5 @@
+{% set component = 'scrollProgress' %}
+
 {# Default Params #}
 
 {% set defaultParams = {
@@ -15,22 +17,22 @@
 {% set options = {
     colour: {
         base: {
-            track: 'bg-zinc-200',
-            bar: 'bg-zinc-900',
+            track: 'bg-creme-300',
+            bar: 'bg-primary'
         }
     }
 } %}
 
-{# Classes #} 
+{# Classes #}
 
 {% set classes = {
     track: [
-        'w-full h-2',
-        params.class,
-        options.colour[params.colour].track
+        'w-full max-w-[257px] h-0.75 overflow-hidden rounded-full',
+        options.colour[params.colour].track,
+        params.class
     ],
     bar: [
-        'h-2',
+        'w-0 h-full rounded-full',
         options.colour[params.colour].bar
     ]
 } %}
@@ -38,33 +40,32 @@
 {# Output #}
 
 <div
-    x-data="scrollProgress"
-    x-init="init('{{ params.id }}')" 
     class="{{ classes.track|join(' ')|trim }}"
+    aria-hidden="true"
+    x-data="{{ component }}('{{ params.id }}')"
 >
-    <div class="{{ classes.bar|join(' ')|trim }}" style="width: 0%"></div>
+    <div class="{{ classes.bar|join(' ')|trim }}" x-ref="bar"></div>
 </div>
 
+{# prettier-ignore-start #}
 {% js %}
 
     document.addEventListener('alpine:init', () => {
-        Alpine.data('scrollProgress', () => ({
-            init(id) {
+        Alpine.data('{{ component }}', (id) => ({
+            init() {
 
-                const container = document.querySelector('#' + id);
-                const progress = this.$el.firstElementChild;
+                const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
                 ScrollTrigger.create({
-                    trigger: container,
-                    scrub: true,
+                    trigger: document.getElementById(id),
                     start: 'top top',
                     end: 'bottom bottom',
                     onUpdate: self => {
-                        gsap.to(progress, {
-                            width: self.progress * 100 + '%',
-                            duration: 0.4,
-                            ease: 'power1.out'
-                        });
+                        const width = self.progress * 100 + '%';
+
+                        reducedMotion.matches
+                            ? gsap.set(this.$refs.bar, { width })
+                            : gsap.to(this.$refs.bar, { width, duration: 0.4, ease: 'power1.out', overwrite: 'auto' });
                     }
                 });
 
@@ -73,3 +74,4 @@
     })
 
 {% endjs %}
+{# prettier-ignore-end #}
