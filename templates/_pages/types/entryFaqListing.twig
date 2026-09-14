@@ -13,13 +13,114 @@
 {% set hero = entry.hero.one() %}
 {% set headerColour = hero ? headerColours[hero.type.handle]|default('creme-100') : 'creme-100' %}
 
+{# FAQ Groups #}
+
+{% set faqGroups = [] %}
+
+{% for category in craft.categories.group('faq').all() %}
+
+    {% set faqIds = [] %}
+
+    {% for faq in craft.entries.section('faq').relatedTo({ targetElement: category, field: 'categoriesFaq' }).all() %}
+
+        {% if faq.text|striptags|trim|length %}
+
+            {% set faqIds = faqIds|merge([faq.id]) %}
+
+        {% endif %}
+
+    {% endfor %}
+
+    {% if faqIds|length %}
+
+        {% set faqGroups = faqGroups|merge([{
+            category: category,
+            ids: faqIds
+        }]) %}
+
+    {% endif %}
+
+{% endfor %}
+
 {% block site %}
+
+    {# Classes #}
+
+    {% set pageClasses = {
+        groups: 'space-y-16 | lg:space-y-20 | xl:space-y-24 | 2xl:space-y-32',
+        group: 'lg:grid lg:grid-cols-12 lg:items-start lg:gap-5',
+        headingColumn: [
+            'mb-10',
+            vars.class.header.top,
+            '|',
+            'lg:col-span-5 lg:mb-0 lg:sticky'
+        ],
+        heading: [
+            'font-semibold leading-0.97 tracking-tighter',
+            '|',
+            'md:text-5xl'
+        ],
+        questions: 'lg:col-span-7'
+    } %}
 
     {{ entry.hero.render({
         vars: vars
     }) }}
 
     {# FAQs Listing #}
+
+    {% if faqGroups|length %}
+
+        {% embed '_components/section' with {
+            params: {
+                paddingY: 'bottom',
+                paddingYSize: 'base'
+            }
+        } %}
+            {% block sectionContent %}
+
+                <div class="{{ pageClasses.groups }}">
+
+                    {% for group in faqGroups %}
+
+                        {% set prefix = 'faqs-' ~ entry.id ~ '-' ~ group.category.id %}
+
+                        <div class="{{ pageClasses.group }}">
+
+                            <div class="{{ pageClasses.headingColumn|join(' ')|trim }}">
+
+                                {% include '_components/headingAlternate' with {
+                                    params: {
+                                        tag: 'h2',
+                                        heading: group.category.title,
+                                        size: '4xl',
+                                        class: pageClasses.heading|join(' ')|trim
+                                    }
+                                } only %}
+
+                            </div>
+
+                            {{ sprig('_sprig/faqs', {
+                                ids: group.ids|join(','),
+                                limit: 6,
+                                prefix: prefix
+                            }, {
+                                id: prefix ~ '-sprig',
+                                class: pageClasses.questions
+                            }) }}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endblock %}
+        {% endembed %}
+
+    {% endif %}
+
+    {# Blocks #}
 
     {{ entry.blocks.render({
         vars: vars
