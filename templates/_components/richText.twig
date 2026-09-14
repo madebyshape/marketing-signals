@@ -76,7 +76,11 @@
         '2xl': 'text-xl font-medium leading-1.2 tracking-tighter | md:text-2xl',
         '3xl': 'text-2xl font-medium leading-1.2 tracking-tighter | lg:text-3xl',
         '5xl': 'text-3xl font-semibold leading-0.97 tracking-tighter | md:text-4xl | lg:text-5xl',
-        '6xl': 'text-3xl font-semibold leading-0.97 tracking-tighter | md:text-4xl | lg:text-6xl'
+        '6xl': 'text-3xl font-semibold leading-0.97 tracking-tighter | md:text-4xl | lg:text-6xl',
+        longform: 'text-base leading-1.33'
+    },
+    h2: {
+        longform: 'text-3xl font-semibold leading-0.97 tracking-tighter !mb-6.25 | md:text-4xl | lg:text-5xl'
     },
     list: {
         base: {
@@ -147,7 +151,7 @@
 	{{ params.content|retcon([
         ['attr', ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'], { class: classes.heading|join(' ')|trim }, false],
         ['attr', 'h1', { class: 'text-5xl' }, false],
-        ['attr', 'h2', { class: 'text-4xl' }, false],
+        ['attr', 'h2', { class: options.h2[params.size] ?? 'text-4xl' }, false],
         ['attr', 'h3', { class: 'text-3xl' }, false],
         ['attr', 'h4', { class: 'text-2xl' }, false],
         ['attr', 'h5', { class: 'text-xl' }, false],

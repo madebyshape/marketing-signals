@@ -11,10 +11,14 @@
         }
     } only %}
 
-    {# Longform Career Post #}
+    {# Longform #}
 
-    {# The Apply Button's target, clear of the fixed header (ADR-0001). #}
-
-    <div id="career-content" class="scroll-mt-20 | xl:scroll-mt-[123px]" tabindex="-1"></div>
+    {% include '_components/longform' with {
+        params: {
+            entry: entry,
+            vars: vars,
+            shareLabel: 'Share this career'
+        }
+    } only %}
 
 {% endblock %}

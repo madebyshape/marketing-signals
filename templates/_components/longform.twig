@@ -1,0 +1,137 @@
+{% set component = 'longform' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    vars: null,
+    shareLabel: 'Share this article',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{# Named apart from `params` and `classes`, which the section embed shadows #}
+
+{% set longform = params.entry.longform ?? [] %}
+{% set scrollMargin = params.vars ? params.vars.class.header.scrollMargin : 'scroll-mt-20 | xl:scroll-mt-[123px]' %}
+
+{# Classes #}
+
+{% set longformClasses = {
+    section: [
+        scrollMargin,
+        params.class
+    ],
+    grid: [
+        'grid max-w-[750px] grid-cols-1 gap-x-5',
+        '|',
+        'xl:max-w-none xl:grid-cols-12'
+    ],
+    left: [
+        'xl:col-span-3'
+    ],
+    body: [
+        'xl:col-span-6 xl:col-start-4'
+    ],
+    right: [
+        'xl:col-span-3 xl:col-start-10'
+    ],
+    sticky: [
+        'xl:sticky xl:top-[143px]'
+    ],
+    heading: [
+        scrollMargin
+    ],
+    headingSpaced: [
+        'mt-25',
+        scrollMargin
+    ]
+} %}
+
+{# Heading Anchors #}
+
+{# Each H2 gains a server-rendered slug id so section links work without JavaScript. #}
+
+{% set slugs = [] %}
+{% set bodies = [] %}
+
+{% for chunk in longform %}
+
+    {% if chunk.type == 'markup' %}
+
+        {% set parts = chunk.html|split('<h2') %}
+        {% set html = parts|first %}
+
+        {% for part in parts|slice(1) %}
+
+            {% set slug = part|split('</h2>')|first|split('>', 2)|last|striptags|replace('/&[^;\\s]+;/', ' ')|kebab ?: 'section' %}
+            {% set repeats = slugs|filter(s => s == slug)|length %}
+            {% set id = repeats ? slug ~ '-' ~ (repeats + 1) : slug %}
+            {% set headingClass = slugs|length ? longformClasses.headingSpaced : longformClasses.heading %}
+            {% set html = html ~ '<h2 id="' ~ id ~ '" class="' ~ headingClass|join(' ')|trim ~ '"' ~ part %}
+            {% set slugs = slugs|merge([slug]) %}
+
+        {% endfor %}
+
+        {% set bodies = bodies|merge([html]) %}
+
+    {% endif %}
+
+{% endfor %}
+
+{# Output #}
+
+{% if bodies|join|striptags|trim|length %}
+
+    {% embed '_components/section'
+        with {
+            params: {
+                class: longformClasses.section|join(' ')|trim,
+                attributes: 'id="career-content" tabindex="-1"',
+                paddingY: 'bottom'
+            }
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ longformClasses.grid|join(' ')|trim }}">
+
+                <div class="{{ longformClasses.left|join(' ')|trim }}">
+
+                    <div class="{{ longformClasses.sticky|join(' ')|trim }}"></div>
+
+                </div>
+
+                <div class="{{ longformClasses.body|join(' ')|trim }}">
+
+                    {% for body in bodies %}
+
+                        {% include '_components/richText' with {
+                            params: {
+                                content: body,
+                                colour: 'black',
+                                size: 'longform'
+                            }
+                        } only %}
+
+                    {% endfor %}
+
+                </div>
+
+                <div class="{{ longformClasses.right|join(' ')|trim }}">
+
+                    <div class="{{ longformClasses.sticky|join(' ')|trim }}"></div>
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
