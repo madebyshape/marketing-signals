@@ -23,6 +23,7 @@
 {% set hasCta = cta and cta.sidebarCta and cta.heading|striptags|trim|length %}
 {% set avatars = hasCta ? cta.avatars.limit(3).all() : [] %}
 {% set ctaButton = hasCta ? cta.button : null %}
+{% set shareLabel = params.shareLabel %}
 
 {# Classes #}
 
@@ -75,6 +76,12 @@
     ],
     ctaButton: [
         'mt-5 w-full justify-center'
+    ],
+    share: [
+        'w-full max-w-[305px]',
+        hasCta ? 'mt-12.5' : 'mt-10',
+        '|',
+        hasCta ? 'xl:ml-auto' : 'xl:mt-0 xl:ml-auto'
     ],
     heading: [
         scrollMargin
@@ -239,6 +246,14 @@
                             </div>
 
                         {% endif %}
+
+                        {% include '_components/socialShare' with {
+                            params: {
+                                links: ['linkedin', 'facebook', 'x', 'copy'],
+                                heading: shareLabel,
+                                class: longformClasses.share|join(' ')|trim
+                            }
+                        } only %}
 
                     </div>
 
