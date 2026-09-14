@@ -1,4 +1,4 @@
-dateModified: 1789374698
+dateModified: 1789378729
 elementSources:
   craft\elements\Entry:
     -
@@ -161,6 +161,7 @@ meta:
     2fdcc5f0-cba6-486c-a080-20852b3bf4bd: 'Entry - Client' # Entry - Client
     3b91633f-b9c4-42be-9f00-36cc322385c1: 'Categories - Playbook' # Categories - Playbook
     4cca2129-e042-4a21-9fa8-29d23e75875d: 'Categories - Case Study' # Categories - Case Study
+    5c1a8b44-0d19-4629-ba18-840e13044b4e: FAQ # FAQ
     5cbe08b7-b4bd-4a6b-be41-de9647b5eb19: Images # Images
     5e0a0379-473d-48fa-b3f0-4230ddc449a6: 'Lightswitch - Off' # Lightswitch - Off
     5e4babbb-3468-4302-9765-12fa4e367fe4: 'Longform Image Columns' # Longform Image Columns
@@ -205,6 +206,7 @@ meta:
     42eea3c2-2f84-43d8-a495-647d4994a8d5: 'Text - Multiline' # Text - Multiline
     43da3acd-b36b-47e5-b95c-d22e2c6454de: 'Video - Only' # Video - Only
     45cc8008-35a7-450e-afb4-5756ca2222d9: 'Dropdown - Background Colour' # Dropdown - Background Colour
+    50d32309-811e-492a-8505-8ba3afa640de: 'Categories - FAQ' # Categories - FAQ
     51c3a6b5-5c57-4afa-a5de-df5099aaee17: Bars # Bars
     68e3deec-735b-4dca-b597-68e68e8777f0: Accordions # Accordions
     72cd3ad5-6f02-4c3b-b431-be5e96bda8e9: 'Entry - Playbook' # Entry - Playbook

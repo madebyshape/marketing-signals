@@ -1,0 +1,22 @@
+columnSuffix: null
+handle: categoriesFaq
+instructions: null
+name: 'Categories - FAQ'
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  selectionLabel: null
+  showSearchInput: true
+  showSiteMenu: false
+  source: 'group:5c1a8b44-0d19-4629-ba18-840e13044b4e' # FAQ
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list-inline
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Categories
