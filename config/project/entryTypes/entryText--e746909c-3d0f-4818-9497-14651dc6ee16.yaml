@@ -74,7 +74,7 @@ fieldLayouts:
             elementCondition: null
             elementEditCondition: null
             fieldUid: 7da91603-5ded-43ca-b8c9-692b445e049e # Rich Text - Longform
-            handle: null
+            handle: longform
             instructions: null
             label: Longform
             required: false
