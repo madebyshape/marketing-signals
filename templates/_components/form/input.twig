@@ -12,6 +12,7 @@
     type: 'text',
     icon: null,
     attributes: null,
+    labelAttributes: null,
     colour: 'base',
     size: 'base',
     class: null
@@ -104,7 +105,8 @@
             label: params.label,
             colour: options.colour[params.colour].label,
             size: options.size[params.size].label,
-            required: params.required
+            required: params.required,
+            attributes: params.labelAttributes
         }
     } only %}
 

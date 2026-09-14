@@ -4,6 +4,7 @@
     id: 'label-' ~ random(1000, 9999),
     label: null,
     required: false,
+    attributes: null,
     colour: 'base',
     size: 'base',
     class: null
@@ -56,7 +57,7 @@
 
 {% if params.label %}
 
-    <label class="{{ classes.label|join(' ')|trim }}" for="{{ params.id }}">
+    <label class="{{ classes.label|join(' ')|trim }}" for="{{ params.id }}" {{ params.attributes|raw }}>
         {{ params.label }}
         {% if params.required and options.colour[params.colour].required %}<span class="{{ classes.required|join(' ')|trim }}">*</span>{% endif %}
     </label>

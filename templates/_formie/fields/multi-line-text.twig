@@ -10,6 +10,7 @@
         id: textarea.attributes.id,
         name: textarea.attributes.name,
         label: field.label|t('formie'),
+        labelAttributes: 'data-field-label',
         required: field.required,
         value: value,
         placeholder: textarea.attributes.placeholder is defined ? textarea.attributes.placeholder|e : null,
