@@ -6,7 +6,7 @@
 
 {# A Team Member with no enabled Blog keeps their page but stays out of search results (ADR-0006). #}
 
-{% if not craft.entries().section('blog').relatedTo({ targetElement: entry, field: 'entryTeam' }).exists() %}
+{% if not craft.entries().section('blog').status('enabled').relatedTo({ targetElement: entry, field: 'entryTeam' }).exists() %}
     {% do seomatic.meta.robots('noindex, follow') %}
 {% endif %}
 
