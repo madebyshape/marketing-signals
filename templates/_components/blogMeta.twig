@@ -20,7 +20,13 @@
 
 {% set text = params.readTime ? params.readTime.getChunks(false)|filter(chunk => chunk.type == 'markup')|map(chunk => chunk.html)|join(' ') : null %}
 
-{% set readTime %}{% include '_components/readTime' with { params: { text: text } } only %}{% endset %}
+{% set readTime %}
+    {% include '_components/readTime' with {
+        params: {
+            text: text
+        }
+    } only %}
+{% endset %}
 
 {% set hasReadTime = readTime|trim|length %}
 

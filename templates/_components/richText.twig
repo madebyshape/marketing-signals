@@ -133,7 +133,11 @@
     ],
     bulletItem: options.list[params.list].item,
     mark: 'flex shrink-0 items-center justify-center order-first size-[19px] mt-px rounded-full bg-secondary text-[10px] text-black',
-    todoMark: 'absolute left-0 top-px flex items-center justify-center size-[19px] rounded-full border border-creme-300 text-[10px] text-transparent | group-has-checked:border-secondary group-has-checked:bg-secondary group-has-checked:text-black',
+    todoMark: [
+        'absolute left-0 top-px flex items-center justify-center size-[19px] rounded-full border border-creme-300 text-[10px] text-transparent',
+        '|',
+        'group-has-checked:border-secondary group-has-checked:bg-secondary group-has-checked:text-black'
+    ],
     blockquote: [
         'relative text-2xl text-pretty font-light rounded-lg py-10 px-7 mb-5',
         options.colour[params.colour].blockquote
@@ -152,7 +156,7 @@
 
 {# A to-do item's mark follows its checkbox, which stays for assistive technology. #}
 
-{% set todoMark %}<span class="{{ classes.todoMark }}" aria-hidden="true"><i class="fa-sharp fa-solid fa-check"></i></span>{% endset %}
+{% set todoMark %}<span class="{{ classes.todoMark|join(' ')|trim }}" aria-hidden="true"><i class="fa-sharp fa-solid fa-check"></i></span>{% endset %}
 
 {% set marks = params.list == 'longform' ? [
     ['attr', 'ul li input', { class: 'sr-only' }],
