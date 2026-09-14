@@ -47,6 +47,10 @@
 
 {% set headerColour = headerColour ?? 'creme-100' %}
 
+{# Show Footer #}
+
+{% set showFooter = showFooter ?? true %}
+
 {% block body %}
 
 	{# Global Site Header #}
@@ -60,7 +64,9 @@
 	{% endblock %}
 
 	{# Global Site Footer #}
-    {% include '_components/global/footer' %}
+    {% if showFooter %}
+        {% include '_components/global/footer' %}
+    {% endif %}
 
 	{# Global Cursor Label #}
 
