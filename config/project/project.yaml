@@ -1,4 +1,4 @@
-dateModified: 1789378729
+dateModified: 1789380475
 elementSources:
   craft\elements\Entry:
     -
@@ -340,6 +340,71 @@ plugins:
     enabled: true
     licenseKey: 31GHAV4SZ3J6SVPPKESB9XL2
     schemaVersion: 3.4.12
+    settings:
+      ajaxTimeout: 10
+      alertEmails: null
+      allowPublicVolumes: true
+      defaultDateDisplayType: calendar
+      defaultDateTime: null
+      defaultDateValueOption: ''
+      defaultEmailTemplate: ''
+      defaultExportFolder: '@storage/formie-export'
+      defaultFileUploadVolume: ''
+      defaultFormTemplate: ''
+      defaultInstructionsPosition: verbb\formie\positions\AboveInput
+      defaultLabelPosition: verbb\formie\positions\AboveInput
+      defaultPage: forms
+      disabledFields:
+        - verbb\formie\fields\Address
+        - verbb\formie\fields\Agree
+        - verbb\formie\fields\Calculations
+        - verbb\formie\fields\Categories
+        - verbb\formie\fields\Date
+        - verbb\formie\fields\Entries
+        - verbb\formie\fields\FileUpload
+        - verbb\formie\fields\Group
+        - verbb\formie\fields\Heading
+        - verbb\formie\fields\Name
+        - verbb\formie\fields\Payment
+        - verbb\formie\fields\Password
+        - verbb\formie\fields\Recipients
+        - verbb\formie\fields\Repeater
+        - verbb\formie\fields\Section
+        - verbb\formie\fields\Signature
+        - verbb\formie\fields\Summary
+        - verbb\formie\fields\Table
+        - verbb\formie\fields\Tags
+      emptyValuePlaceholder: 'No response.'
+      enableBackSubmission: true
+      enableCsrfValidationForGuests: true
+      enableLargeFieldStorage: false
+      enableUnloadWarning: true
+      filterIntegrationMapping: true
+      includeDraftElementUsage: false
+      includeRevisionElementUsage: false
+      maxIncompleteSubmissionAge: 30
+      maxSentNotificationsAge: 30
+      outputConsoleMessages: true
+      pdfPaperOrientation: portrait
+      pdfPaperSize: letter
+      pluginName: Forms
+      queuePriority: null
+      redirectUri: null
+      saveSpam: true
+      sendEmailAlerts: false
+      sentNotifications: true
+      setOnlyCurrentPagePayload: false
+      spamBehaviour: showSuccess
+      spamBehaviourMessage: ''
+      spamEmailNotifications: false
+      spamKeywords: ''
+      spamLimit: 500
+      submissionSidebarFormOrder: dateCreatedDesc
+      submissionsBehaviour: all
+      useCssLayers: false
+      useQueueForIntegrations: true
+      useQueueForNotifications: true
+      validateCustomTemplates: true
   imager-x:
     edition: lite
     enabled: true

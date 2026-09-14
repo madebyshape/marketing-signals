@@ -16,7 +16,6 @@ return [
             'verbb\formie\fields\Name',
             'verbb\formie\fields\Payment',
             'verbb\formie\fields\Password',
-            'verbb\formie\fields\Phone',
             'verbb\formie\fields\Repeater',
             'verbb\formie\fields\Recipients',
             'verbb\formie\fields\Section',
