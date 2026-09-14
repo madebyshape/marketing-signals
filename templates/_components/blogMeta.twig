@@ -5,6 +5,7 @@
 {% set defaultParams = {
     date: null,
     colour: 'black',
+    orientation: 'row',
     class: null
 } %}
 
@@ -24,6 +25,16 @@
             text: 'text-white',
             divider: 'border-white'
         }
+    },
+    orientation: {
+        row: {
+            wrapper: 'flex-row flex-wrap items-center gap-x-3.75 gap-y-2',
+            date: 'border-r pr-3.75'
+        },
+        column: {
+            wrapper: 'flex-col items-start gap-y-4.5',
+            date: null
+        }
     }
 } %}
 
@@ -31,7 +42,8 @@
 
 {% set classes = {
     wrapper: [
-        'flex flex-row flex-wrap items-center gap-x-3.75 gap-y-2 text-base font-normal leading-1.33',
+        'flex text-base font-normal leading-1.33',
+        options.orientation[params.orientation].wrapper,
         options.colour[params.colour].text,
         params.class
     ],
@@ -39,7 +51,7 @@
         'inline-flex flex-row items-center gap-x-2 whitespace-nowrap'
     ],
     date: [
-        'border-r pr-3.75',
+        options.orientation[params.orientation].date,
         options.colour[params.colour].divider
     ],
     icon: [

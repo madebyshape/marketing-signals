@@ -1,0 +1,150 @@
+{% set component = 'heroBlog' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    vars: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{# Named apart from `params` and `classes`, which the section embed shadows #}
+
+{% set blog = params.entry %}
+{% set heading = blog.heroHeading|striptags|trim|length ? blog.heroHeading : blog.title %}
+{% set image = blog.heroImage.one() %}
+{% set author = blog.author.one() %}
+
+{# Classes #}
+
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
+
+{% set heroClasses = {
+    panel: [
+        'w-full',
+        params.vars ? params.vars.class.siteMargin.x : 'px-10',
+        params.vars ? params.vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        params.class
+    ],
+    grid: [
+        'mt-15 grid grid-cols-12 gap-x-5',
+        '|',
+        'lg:mt-[90px] xl:mt-[130px]'
+    ],
+    content: [
+        'col-span-12',
+        '|',
+        'lg:col-span-9'
+    ],
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'md:text-6xl lg:text-7xl'
+    ],
+    meta: [
+        'col-span-12 mt-10 flex flex-col items-start',
+        '|',
+        'lg:col-span-2 lg:col-start-11 lg:mt-0'
+    ],
+    user: [
+        'mt-17.5'
+    ],
+    image: [
+        'mt-10 aspect-4/3 w-full overflow-hidden rounded-[20px]',
+        '|',
+        'lg:mt-17.5 lg:aspect-[1520/705]'
+    ]
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: {
+            paddingY: 'bottom',
+            paddingX: 'none'
+        }
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ heroClasses.panel|join(' ')|trim }}">
+
+            {% include '_components/breadcrumb' with {
+                params: {
+                    entry: blog
+                }
+            } only %}
+
+            <div class="{{ heroClasses.grid|join(' ')|trim }}">
+
+                <div class="{{ heroClasses.content|join(' ')|trim }}">
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h1',
+                            heading: heading,
+                            size: '5xl',
+                            class: heroClasses.heading|join(' ')|trim
+                        }
+                    } only %}
+
+                </div>
+
+                <div class="{{ heroClasses.meta|join(' ')|trim }}">
+
+                    {% include '_components/blogMeta' with {
+                        params: {
+                            date: blog.postDate,
+                            orientation: 'column'
+                        }
+                    } only %}
+
+                    {% if author %}
+
+                        {% include '_components/user' with {
+                            params: {
+                                image: author.image.one(),
+                                preHeading: 'Written by',
+                                heading: author.title,
+                                size: 'sm',
+                                class: heroClasses.user|join(' ')|trim
+                            }
+                        } only %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% if image %}
+
+                <div class="{{ heroClasses.image|join(' ')|trim }}">
+
+                    {% include '_components/picture' with {
+                        params: {
+                            image: image,
+                            alt: '',
+                            transform: '2x1',
+                            ratio: false,
+                            focalPoint: true,
+                            lazy: false,
+                            sizes: '(min-width: 1600px) 1520px, calc(100vw - 80px)'
+                        }
+                    } only %}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    {% endblock %}
+{% endembed %}
