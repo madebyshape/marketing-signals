@@ -44,6 +44,16 @@
     sticky: [
         'xl:sticky xl:top-[143px]'
     ],
+    progress: [
+        'hidden',
+        '|',
+        'xl:block'
+    ],
+    readTime: [
+        'max-w-[257px] mb-10',
+        '|',
+        'xl:justify-center xl:mt-5 xl:mb-0'
+    ],
     heading: [
         scrollMargin
     ],
@@ -115,6 +125,21 @@
                             } only %}
 
                         {% endif %}
+
+                        {% include '_components/scrollProgress' with {
+                            params: {
+                                id: 'career-content',
+                                class: longformClasses.progress|join(' ')|trim
+                            }
+                        } only %}
+
+                        {% include '_components/readTime' with {
+                            params: {
+                                text: bodies|join(' '),
+                                icon: 'fa-sharp fa-regular fa-clock',
+                                class: longformClasses.readTime|join(' ')|trim
+                            }
+                        } only %}
 
                     </div>
 
