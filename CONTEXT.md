@@ -649,7 +649,7 @@ A Block of a heading with the Highlight beside a list of Questions, one per FAQ 
 _Avoid_: FAQ block, FAQs, accordion block, questions section
 
 **Question**:
-One row in a FAQ Accordion: the FAQ's question with a toggle at its right. Opening one closes any other.
+One row in a FAQ Accordion or a FAQ Group: the FAQ's question with a toggle at its right. Opening one closes any other in the same list.
 _Avoid_: Accordion item, row, panel, FAQ item
 
 **Answer**:
@@ -657,11 +657,11 @@ The text an open Question reveals, with the FAQ's Button Group beneath it when o
 _Avoid_: Content, body, description, response
 
 **Load More**:
-The button beneath a list that brings in more of it without leaving the page, shown only while some are not yet on the page: beneath the Questions it loads every remaining Question in one click; beneath the Team Grid it adds the next twelve Team Tiles; beneath the Playbook Grid it adds the next nine Playbook Cards, keeping the Category Filter's choice.
+The button beneath a list that brings in more of it without leaving the page, shown only while some are not yet on the page: beneath the Questions of a FAQ Accordion or a FAQ Group it loads every remaining Question in one click; beneath the Team Grid it adds the next twelve Team Tiles; beneath the Playbook Grid it adds the next nine Playbook Cards, keeping the Category Filter's choice.
 _Avoid_: Show more, pagination, view all, expand
 
 **Follow**:
-The behaviour of a FAQ Accordion's heading from the desktop breakpoint: it holds still below the Header while the Questions scroll past it. Unlike the Sink it never dims. Below the desktop breakpoint the heading is in flow.
+The behaviour of a FAQ Accordion's or a FAQ Group's heading from the desktop breakpoint: it holds still below the Header while its Questions scroll past it. Unlike the Sink it never dims. Below the desktop breakpoint the heading is in flow.
 _Avoid_: Sticky, pin, sink, parallax
 
 ### Blog Carousel
@@ -963,6 +963,20 @@ _Avoid_: Sidebar CTA, CTA, apply card, sticky CTA
 **Share Buttons**:
 The row of round buttons beside a Longform, under "Share this career" on a Career or "Share this article" on a Blog, that share the page to LinkedIn, Facebook or X or copy its link.
 _Avoid_: Social share, share links, social icons, socials
+
+### FAQ Listing
+
+**FAQ Category**:
+A category editors make and order to sort FAQs into groups on the FAQ Listing page. An FAQ may belong to more than one, or to none.
+_Avoid_: FAQ section, topic, FAQ filter, Category Filter
+
+**FAQ Listing page**:
+The Page whose entry type is FAQ Listing, holding the Hero, one FAQ Group per FAQ Category and the Blocks. FAQs pull through on their own; an FAQ with no FAQ Category is not shown.
+_Avoid_: FAQs page, help centre, FAQ index, support page
+
+**FAQ Group**:
+One FAQ Category on the FAQ Listing page: its title as a heading beside its Questions, six at first with Load More beneath when there are more. From the desktop breakpoint the heading Follows; below it the heading sits above the Questions. A FAQ Category with no Questions to show has no FAQ Group.
+_Avoid_: FAQ section, category row, FAQ Accordion, accordion group
 
 ### Playbook Listing
 
