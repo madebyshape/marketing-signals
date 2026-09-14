@@ -24,6 +24,29 @@
         ],
         heading: [
             'mt-7.5'
+        ],
+        divider: [
+            'mt-7.5 border-creme-300'
+        ],
+        highlight: [
+            'mt-7.5'
+        ],
+        list: [
+            'mt-7.5 flex flex-col gap-y-6 text-md leading-1.33 text-black'
+        ],
+        item: [
+            'flex items-start gap-2.25'
+        ],
+        icon: [
+            'flex h-6 w-3.5 shrink-0 items-center justify-center text-[14px] text-primary'
+        ],
+        link: [
+            'font-medium underline-offset-2',
+            '|',
+            'hover:underline focus-visible:underline'
+        ],
+        location: [
+            '[&_strong]:mb-0.75 [&_strong]:block [&_strong]:font-medium [&_strong+br]:hidden'
         ]
     } %}
 
@@ -59,6 +82,64 @@
                                 class: contactClasses.heading|join(' ')|trim
                             }
                         } only %}
+
+                        <hr class="{{ contactClasses.divider|join(' ')|trim }}">
+
+                        {% if entry.heading %}
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: entry.heading,
+                                    colour: 'black',
+                                    size: '3xl',
+                                    class: contactClasses.highlight|join(' ')|trim
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% if entry.email or entry.phone or entry.location %}
+
+                            <ul class="{{ contactClasses.list|join(' ')|trim }}">
+
+                                {% if entry.email %}
+
+                                    <li class="{{ contactClasses.item|join(' ')|trim }}">
+                                        <span class="{{ contactClasses.icon|join(' ')|trim }}" aria-hidden="true"><i class="fa-sharp fa-solid fa-paper-plane"></i></span>
+                                        <a href="{{ entry.email.value }}" class="{{ contactClasses.link|join(' ')|trim }}">{{ entry.email.label }}</a>
+                                    </li>
+
+                                {% endif %}
+
+                                {% if entry.phone %}
+
+                                    <li class="{{ contactClasses.item|join(' ')|trim }}">
+                                        <span class="{{ contactClasses.icon|join(' ')|trim }}" aria-hidden="true"><i class="fa-sharp fa-solid fa-phone"></i></span>
+                                        <a href="{{ entry.phone.value }}" class="{{ contactClasses.link|join(' ')|trim }}">{{ entry.phone.label }}</a>
+                                    </li>
+
+                                {% endif %}
+
+                                {% if entry.location %}
+
+                                    <li class="{{ contactClasses.item|join(' ')|trim }}">
+                                        <span class="{{ contactClasses.icon|join(' ')|trim }}" aria-hidden="true"><i class="fa-sharp fa-solid fa-location-dot"></i></span>
+
+                                        {% include '_components/richText' with {
+                                            params: {
+                                                content: entry.location,
+                                                colour: 'black',
+                                                size: 'md',
+                                                class: contactClasses.location|join(' ')|trim
+                                            }
+                                        } only %}
+                                    </li>
+
+                                {% endif %}
+
+                            </ul>
+
+                        {% endif %}
 
                     </div>
 
