@@ -3,6 +3,7 @@
 {% set defaultParams = {
 	image: null,
 	name: null,
+	alt: null,
 	colour: 'base',
 	size: 'base',
 	class: null
@@ -67,6 +68,7 @@
 		{% include '_components/picture' with {
 			params: {
 				image: params.image,
+				alt: params.alt,
 				transform: '1x1',
 				ratio: false,
 				imgClass: params.image

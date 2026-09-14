@@ -1,0 +1,141 @@
+{% set component = 'authorSignOff' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{% set author = params.entry.author.one() ?? null %}
+{% set description = author and author.authorDescription|striptags|trim|length ? author.authorDescription : null %}
+
+{# The Contact Page is found by entry type (ADR-0003). #}
+
+{% set contact = craft.entries().section('page').type('entryContact').one() %}
+
+{% set buttons = author ? [{
+    button: {
+        value: author.url,
+        label: 'Meet ' ~ author.title|split(' ')|first
+    }
+}] : [] %}
+
+{% set buttons = author and contact ? buttons|merge([{
+    button: {
+        value: contact.url,
+        label: "Let's work together"
+    }
+}]) : buttons %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'mt-25 border-t border-creme-300 pt-12.5',
+        params.class
+    ],
+    row: [
+        'flex items-start gap-2.5'
+    ],
+    text: [
+        'flex min-w-0 flex-col gap-2 font-medium leading-1.33 text-black'
+    ],
+    writtenBy: [
+        'text-base'
+    ],
+    label: [
+        'text-creme-500'
+    ],
+    updated: [
+        'text-sm tracking-tight'
+    ],
+    date: [
+        'inline'
+    ],
+    description: [
+        'mt-6.25 font-medium',
+        '|',
+        'md:pl-[52px]'
+    ],
+    buttons: [
+        'mt-5',
+        '|',
+        'md:pl-[52px]'
+    ]
+} %}
+
+{# Output #}
+
+{% if author %}
+
+    <aside class="{{ classes.wrapper|join(' ')|trim }}" aria-label="About the author">
+
+        <div class="{{ classes.row|join(' ')|trim }}">
+
+            <div aria-hidden="true">
+
+                {% include '_components/avatar' with {
+                    params: {
+                        image: author.image.one(),
+                        name: author.title,
+                        alt: '',
+                        size: 'sm'
+                    }
+                } only %}
+
+            </div>
+
+            <div class="{{ classes.text|join(' ')|trim }}">
+
+                <p class="{{ classes.writtenBy|join(' ')|trim }}">
+                    <span class="{{ classes.label|join(' ')|trim }}">Written by</span> {{ author.title }}
+                </p>
+
+                <div class="{{ classes.updated|join(' ')|trim }}">
+                    Last updated
+
+                    {% include '_components/date' with {
+                        params: {
+                            date: params.entry.dateUpdated,
+                            relative: true,
+                            format: 'j F Y',
+                            class: classes.date|join(' ')|trim
+                        }
+                    } only %}
+                </div>
+
+            </div>
+
+        </div>
+
+        {% if description %}
+
+            {% include '_components/richText' with {
+                params: {
+                    content: description,
+                    colour: 'black',
+                    size: 'base',
+                    class: classes.description|join(' ')|trim
+                }
+            } only %}
+
+        {% endif %}
+
+        {% include '_components/buttonGroup' with {
+            params: {
+                buttons: buttons,
+                colours: ['secondary', 'creme-300-outline'],
+                class: classes.buttons|join(' ')|trim
+            }
+        } only %}
+
+    </aside>
+
+{% endif %}
