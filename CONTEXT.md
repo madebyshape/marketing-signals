@@ -1016,6 +1016,28 @@ _Avoid_: Reading time, duration, time to read, minutes
 The gradient over the top of a Playbook Card's Thumbnail that keeps the badge and the Playbook Number legible on a light photograph. Decoration: never a link, never read out.
 _Avoid_: Overlay, shade, shadow, gradient, bottom shadow
 
+### Contact Page
+
+**Contact Page**:
+The page an enquirer reaches to get in touch: an Eyebrow over a heading with Inline Images, a Divider, a heading with the Highlight and the Contact Details on one side, the Contact Form on the other, and the page's Blocks beneath.
+_Avoid_: Contact block, contact section, contact template
+
+**Inline Images**:
+The row of tilted, overlapping photo tiles set inside a heading after a chosen number of its words. Each tile is one still image.
+_Avoid_: Heading images, avatar row, image cycle, Scattered Tiles
+
+**Image Position**:
+How many words of a heading come before its Inline Images. Counted from the heading's words alone, so a Highlight never shifts it; none puts the images first, and more than the heading holds puts them last.
+_Avoid_: Word Count, offset, image index
+
+**Contact Details**:
+The email, phone and location lines on the Contact Page, each behind its own Primary icon; the email and phone are links.
+_Avoid_: Contact info, address block, Contact Column
+
+**Contact Form**:
+The form on the Contact Page that sends an enquiry, with its privacy statement beside the send button.
+_Avoid_: Enquiry form, Gate, lead form
+
 ### Seeding
 
 **Seed**:
