@@ -1,0 +1,30 @@
+{# Formie's submitButton tag supplies the type and data-submit-action its JS reads. #}
+
+{% set statements = statements ?? [] %}
+{% set submitButton = form.renderHtmlTag('submitButton', { page: page }) %}
+
+{% hook 'formie.buttons.before' %}
+
+{% formtag 'buttonWrapper' %}
+    {% hook 'formie.buttons.start' %}
+
+    {% for field in statements %}
+        {{ craft.formie.renderField(form, field, renderOptions) }}
+    {% endfor %}
+
+    {% include '_components/button' with {
+        params: {
+            type: 'button',
+            button: {
+                label: page.settings.submitButtonLabel|t('formie')
+            },
+            colour: 'secondary',
+            class: submitButton.attributes.class|default([])|join(' ') ~ ' justify-center w-full | md:w-auto',
+            attributes: attr(submitButton.attributes|withoutKey(['class']))
+        }
+    } only %}
+
+    {% hook 'formie.buttons.end' %}
+{% endformtag %}
+
+{% hook 'formie.buttons.after' %}
