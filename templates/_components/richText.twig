@@ -88,6 +88,16 @@
     strong: {
         longform: 'font-medium'
     },
+    table: {
+        longform: {
+            figure: 'w-full overflow-x-auto mt-10 mb-5 rounded-[10px] focus:outline-none focus-visible:ring-3 focus-visible:ring-primary/50',
+            table: 'w-full min-w-[600px] table-fixed border-separate border-spacing-0',
+            cell: 'p-5 align-top bg-creme-100 border-r border-b border-creme-300 leading-1.33 tracking-tight text-black',
+            th: 'text-xs font-medium text-center',
+            td: 'text-2xs font-normal text-left',
+            paragraph: 'mb-0.75 last:mb-0'
+        }
+    },
     list: {
         base: {
             list: 'list-outside leading-relaxed pl-4 mb-5',
@@ -169,6 +179,29 @@
     ['inject', 'ul li input + span', todoMark|trim]
 ] : marks %}
 
+{# Tables #}
+
+{# The figure's own `table` class is overwritten last, as Tailwind reads it as `display: table`. #}
+
+{% set table = options.table[params.size] ?? null %}
+{% set firstRow = ['figure.table thead > tr:first-child', 'figure.table :not(thead) + tbody > tr:first-child', 'figure.table tbody:first-child > tr:first-child'] %}
+{% set lastRow = 'figure.table tbody:last-child > tr:last-child' %}
+
+{% set tables = table ? [
+    ['attr', 'figure.table table', { class: table.table }],
+    ['attr', ['figure.table th', 'figure.table td'], { class: table.cell }, false],
+    ['attr', 'figure.table th', { class: table.th }, false],
+    ['attr', 'figure.table td', { class: table.td }, false],
+    ['attr', ['figure.table th p', 'figure.table td p'], { class: table.paragraph }],
+    ['attr', 'figure.table tr > :first-child', { class: 'border-l' }, false],
+    ['attr', firstRow|map(row => row ~ ' > *')|join(', '), { class: 'border-t' }, false],
+    ['attr', firstRow|map(row => row ~ ' > :first-child')|join(', '), { class: 'rounded-tl-[10px]' }, false],
+    ['attr', firstRow|map(row => row ~ ' > :last-child')|join(', '), { class: 'rounded-tr-[10px]' }, false],
+    ['attr', lastRow ~ ' > :first-child', { class: 'rounded-bl-[10px]' }, false],
+    ['attr', lastRow ~ ' > :last-child', { class: 'rounded-br-[10px]' }, false],
+    ['attr', 'figure.table', { class: table.figure, tabindex: '0', role: 'region', 'aria-label': 'Table' }]
+] : [] %}
+
 {# Output #}
 
 <div class="{{ classes.wrapper|join(' ')|trim }}">
@@ -191,6 +224,6 @@
         ['attr', ['em', 'i'], { class: classes.italic }],
         ['attr', 'img', { class: 'w-full h-auto rounded-lg mb-5', loading: 'lazy' }],
         ['attr', 'blockquote', { class: classes.blockquote|join(' ')|trim }]
-    ]|merge(marks)) }}
+    ]|merge(marks)|merge(tables)) }}
 </div>
 
