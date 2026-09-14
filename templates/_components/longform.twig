@@ -73,7 +73,7 @@
             {% set repeats = slugs|filter(s => s == slug)|length %}
             {% set id = repeats ? slug ~ '-' ~ (repeats + 1) : slug %}
             {% set headingClass = slugs|length ? longformClasses.headingSpaced : longformClasses.heading %}
-            {% set html = html ~ '<h2 id="' ~ id ~ '" class="' ~ headingClass|join(' ')|trim ~ '"' ~ part %}
+            {% set html = html ~ '<h2 id="' ~ id ~ '" tabindex="-1" class="' ~ headingClass|join(' ')|trim ~ '"' ~ part %}
             {% set slugs = slugs|merge([slug]) %}
 
         {% endfor %}
@@ -99,11 +99,24 @@
     %}
         {% block sectionContent %}
 
-            <div class="{{ longformClasses.grid|join(' ')|trim }}">
+            <div class="{{ longformClasses.grid|join(' ')|trim }}" x-data="{{ component }}">
 
                 <div class="{{ longformClasses.left|join(' ')|trim }}">
 
-                    <div class="{{ longformClasses.sticky|join(' ')|trim }}"></div>
+                    <div class="{{ longformClasses.sticky|join(' ')|trim }}">
+
+                        {% if slugs|length %}
+
+                            {% include '_components/tableOfContents' with {
+                                params: {
+                                    id: 'career-content',
+                                    class: 'mb-10'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
 
                 </div>
 
@@ -135,3 +148,32 @@
     {% endembed %}
 
 {% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+            scrollToHash(hash) {
+
+                const target = document.querySelector(hash);
+
+                if (!target) {
+                    return;
+                }
+
+                history.pushState(null, '', hash);
+
+                // Lenis subtracts the target's scroll margin, which clears the fixed header.
+                window.lenis.scrollTo(target, {
+                    immediate: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                });
+
+                target.focus({ preventScroll: true });
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
