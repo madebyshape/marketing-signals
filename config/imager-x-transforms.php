@@ -31,14 +31,15 @@ return [
             'ratio' => 1/1
         ]
     ],
-    // The Blog Large Card is 750px wide at the 1600 frame, so the widths run to twice that for
-    // a retina screen. 2x1 is the common ratio nearest the design's 740 by 343.
+    // The Blog Large Card is 750px and the Blog Hero image 1520px wide at the 1600 frame, so the
+    // widths run to twice those for a retina screen. 2x1 is the common ratio nearest both designs.
     '2x1' => [
         'transforms' => [
             ['width' => 400],
             ['width' => 800],
             ['width' => 1200],
-            ['width' => 1500]
+            ['width' => 1500],
+            ['width' => 3040]
         ],
         'defaults' => [
             'ratio' => 2/1
