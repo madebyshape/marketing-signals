@@ -6,6 +6,7 @@
 @source '../../templates/**/*.css';
 
 @import "link.css";
+@import "phone-country.css";
 
 @theme {
 
