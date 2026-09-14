@@ -1,0 +1,25 @@
+{# Formie's input tag supplies the name, id, data-fui-* and aria attributes its JS reads. #}
+
+{% set input = field.renderHtmlTag('fieldInput', {
+    form: form,
+    errors: errors
+}) %}
+
+{% include '_components/form/input' with {
+    params: {
+        type: input.attributes.type,
+        id: input.attributes.id,
+        name: input.attributes.name,
+        label: field.label|t('formie'),
+        required: field.required,
+        value: value ? value|e : null,
+        placeholder: input.attributes.placeholder is defined ? input.attributes.placeholder|e : null,
+        attributes: attr(input.attributes|withoutKey(['type', 'id', 'name', 'class', 'placeholder', 'required'])|merge({
+            'aria-required': field.required ? 'true' : false,
+            'aria-invalid': errors ? 'true' : false
+        })),
+        colour: 'creme',
+        size: 'contact',
+        class: input.attributes.class|default([])|join(' ')
+    }
+} only %}

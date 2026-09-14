@@ -1,0 +1,24 @@
+{# Formie's textarea tag supplies the name, id, data-fui-* and aria attributes its JS reads. #}
+
+{% set textarea = field.renderHtmlTag('fieldInput', {
+    form: form,
+    errors: errors
+}) %}
+
+{% include '_components/form/textarea' with {
+    params: {
+        id: textarea.attributes.id,
+        name: textarea.attributes.name,
+        label: field.label|t('formie'),
+        required: field.required,
+        value: value,
+        placeholder: textarea.attributes.placeholder is defined ? textarea.attributes.placeholder|e : null,
+        attributes: attr(textarea.attributes|withoutKey(['id', 'name', 'class', 'placeholder', 'required'])|merge({
+            'aria-required': field.required ? 'true' : false,
+            'aria-invalid': errors ? 'true' : false
+        })),
+        colour: 'creme',
+        size: 'contact',
+        class: textarea.attributes.class|default([])|join(' ')
+    }
+} only %}

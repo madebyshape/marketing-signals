@@ -47,10 +47,39 @@
         ],
         location: [
             '[&_strong]:mb-0.75 [&_strong]:block [&_strong]:font-medium [&_strong+br]:hidden'
+        ],
+        form: [
+            'col-span-12 mt-10',
+            '|',
+            'lg:col-span-6 lg:mt-0 lg:pt-14'
         ]
     } %}
 
+    {# Formie theme config: rows as the grid, errors in Primary, and no Formie label where a component draws one #}
+
+    {% set contactFormConfig = {
+        pageContainer: {
+            attributes: { class: 'grid gap-y-7.5' }
+        },
+        row: {
+            attributes: { class: 'grid gap-5 md:auto-cols-fr md:grid-flow-col' }
+        },
+        fieldError: {
+            attributes: { class: 'mt-2 text-xs text-primary' }
+        },
+        singleLineText: {
+            fieldLabel: false
+        },
+        emailAddress: {
+            fieldLabel: false
+        },
+        multiLineText: {
+            fieldLabel: false
+        }
+    } %}
+
     {% set inlineImages = entry.headingInlineImages %}
+    {% set contactForm = entry.form.one() %}
 
     {% embed '_components/section' with {
         params: {
@@ -142,6 +171,19 @@
                         {% endif %}
 
                     </div>
+
+                    {% if contactForm %}
+
+                        {# The site Form Template is set here, so the control panel's choice doesn't matter #}
+                        {% do contactForm.setTemplate(craft.formie.plugin.formTemplates.getTemplateByHandle('site')) %}
+
+                        <div class="{{ contactClasses.form|join(' ')|trim }}">
+                            {{ craft.formie.renderForm(contactForm, {
+                                themeConfig: contactFormConfig
+                            }) }}
+                        </div>
+
+                    {% endif %}
 
                 </div>
 

@@ -1,0 +1,11 @@
+handle: site
+name: Site
+outputCssLayout: false
+outputCssLocation: page-header
+outputCssTheme: false
+outputJsBase: true
+outputJsLocation: page-footer
+outputJsTheme: true
+sortOrder: 1
+template: _formie
+useCustomTemplates: true
