@@ -273,6 +273,13 @@
 
             init() {
 
+                if (this.dismissed()) return;
+
+                // Formie fires this before it redirects, so the flag is saved in time.
+                this.$el.addEventListener('onAfterFormieSubmit', event => {
+                    if (!event.detail?.nextPageId) this.dismiss();
+                });
+
                 this.onScroll = () => this.check();
 
                 window.addEventListener('scroll', this.onScroll, { passive: true });
@@ -313,8 +320,28 @@
                 this.visible = false;
                 document.body.classList.remove('overflow-hidden');
                 window.lenis?.start();
+                this.dismiss();
 
                 if (this.opener?.isConnected && this.opener.tabIndex > -1) this.opener.focus({ preventScroll: true });
+
+            },
+
+            // Storage can be unavailable, so the modal falls back to opening once per page load.
+            dismissed() {
+
+                try {
+                    return sessionStorage.getItem('leadModalDismissed') === '1';
+                } catch {
+                    return false;
+                }
+
+            },
+
+            dismiss() {
+
+                try {
+                    sessionStorage.setItem('leadModalDismissed', '1');
+                } catch {}
 
             }
 
