@@ -52,7 +52,10 @@
     image: 'mt-7.5 | md:mt-10',
     imageInner: 'h-auto w-full rounded-[20px]',
     icons: 'grid grid-cols-4 justify-items-center gap-y-10 | md:gap-y-15',
-    icon: 'fa-sharp-duotone fa-light text-[40px] text-primary [--fa-secondary-opacity:0.2] | md:text-[50px]',
+    icon: {
+        custom: 'fa-sharp-duotone fa-light',
+        base: 'text-[40px] text-primary [--fa-secondary-opacity:0.2] | md:text-[50px]'
+    },
     afterPart: 'mt-10 | md:mt-15'
 } %}
 
@@ -144,7 +147,7 @@
                                 {% for icon in icons %}
 
                                     <i
-                                        class="{{ [blockClasses.icon, 'fa-' ~ icon]|join(' ') }}"
+                                        class="{{ [blockClasses.icon.custom, 'fa-' ~ icon, '|', blockClasses.icon.base]|join(' ') }}"
                                         aria-hidden="true"
                                     ></i>
 
