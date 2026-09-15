@@ -141,12 +141,20 @@ The top of a page, always rendered before the Blocks. On a page it is the single
 _Avoid_: Hero block, banner, page header, masthead
 
 **Hero Layout**:
-One entry type the Hero field offers an editor. Hero Simple, Hero Home, Hero Full Screen and Hero Team are the four; Hero Template is the scaffold developers copy and is not offered to editors. The Hero Layout on a page decides its Header Colour.
+One entry type the Hero field offers an editor. Hero Simple, Hero Home, Hero Full Screen and Hero Team are the four; Hero Template is the scaffold developers copy and is not offered to editors. The Hero on a page decides its Header Colour: its Hero Layout, and on a Hero Simple its Hero Background.
 _Avoid_: Hero type, hero variant, hero block
 
 **Hero Simple**:
-The Hero Layout of a Breadcrumb over a large heading with the Highlight, and a short text beside it.
+The Hero Layout of a Breadcrumb over an optional Eyebrow, a large heading with the Highlight, a short text and an optional Button Group of up to two Buttons, set out by its Hero Alignment and coloured by its Hero Background. The editor can switch its Breadcrumb off.
 _Avoid_: Simple hero, text hero, default hero
+
+**Hero Alignment**:
+The editor's choice of how a Hero Simple sets out its content: Left, the heading on the left with the text and buttons beside it, or Centred, everything in one centred column. The Breadcrumb stays on the left either way.
+_Avoid_: Layout, Hero Layout, position, variant
+
+**Hero Background**:
+The editor's choice of a Hero Simple's colour: Creme, on the page colour, or Black, a black panel with light text and a rounded bottom edge. A Black Hero Simple gives the page a Black Header Colour.
+_Avoid_: Theme, colour scheme, dark mode, variant, Background Colour
 
 **Hero Home**:
 The full-screen black Hero Layout of a very large heading with the Highlight, a short text beneath it, a Button Group, and a Work Marquee along its bottom edge, with the Scroll Cue over it. Made for the Home page, offered on any page.
@@ -225,7 +233,7 @@ The Video field of a Service Hero, filling the right of the panel, or of a Hero 
 _Avoid_: Hero image, hero media, side video
 
 **Breadcrumb**:
-The trail of Crumbs at the top of a Hero: Home, then the page's parents in order, then the page itself. Derived from the page, never set by editors.
+The trail of Crumbs at the top of a Hero: Home, then the page's parents in order, then the page itself. Derived from the page, never set by editors, though an editor can switch it off on a Hero Simple.
 _Avoid_: Breadcrumbs, trail, crumb trail, path
 
 **Crumb**:
