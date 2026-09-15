@@ -45,7 +45,16 @@
 
 {# Header Colour #}
 
-{% set headerColour = headerColour ?? 'creme-100' %}
+{# The Header follows the page's Hero (ADR-0007) unless the page template sets it. #}
+
+{% if headerColour is not defined %}
+
+	{% set headerHero = (entry.hero ?? null) ? entry.hero.one() : null %}
+	{% set darkHeroes = ['heroHome', 'heroFullScreen', 'heroTeam'] %}
+	{% set isDarkHero = headerHero and (headerHero.type.handle in darkHeroes or (headerHero.type.handle == 'heroSimple' and headerHero.backgroundColour.value == 'black')) %}
+	{% set headerColour = isDarkHero ? 'black' : 'creme-100' %}
+
+{% endif %}
 
 {# Show Footer #}
 

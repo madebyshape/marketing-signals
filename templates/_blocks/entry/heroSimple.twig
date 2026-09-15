@@ -9,14 +9,101 @@
 
 {% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
 
+{# Content #}
+
+{% set buttons = entry.buttonGroup.all() %}
+
+{% set hasBreadcrumbs = entry.breadcrumbs is not same as(false) %}
+{% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+{% set hasButtons = buttons|length > 0 %}
+
+{# Options #}
+
+{# A Left hero's geometry switches on whether it has Buttons. #}
+
+{% set blockOptions = {
+    alignment: {
+        left: {
+            text: {
+                items: 'lg:items-end',
+                eyebrow: 'col-span-12 | lg:col-span-7',
+                heading: 'col-span-12 | md:text-7xl lg:col-span-7 lg:text-9xl xl:text-11xl',
+                column: null,
+                text: 'col-span-12 | lg:col-span-3 lg:col-start-10',
+                buttonAlign: 'start'
+            },
+            buttons: {
+                items: 'lg:items-start',
+                eyebrow: 'col-span-12 | lg:col-span-8',
+                heading: 'col-span-12 | md:text-7xl lg:col-span-8 lg:text-9xl xl:text-10xl',
+                column: 'col-span-12 | lg:col-span-4 lg:col-start-9',
+                text: null,
+                buttonAlign: 'start'
+            }
+        },
+        center: {
+            items: 'lg:items-start',
+            eyebrow: 'col-span-12 text-center',
+            heading: 'col-span-12 text-center | md:text-7xl lg:col-span-8 lg:col-start-3 lg:text-9xl xl:text-10xl',
+            column: 'col-span-12 flex flex-col items-center text-center',
+            text: 'max-w-[750px]',
+            buttonAlign: 'center'
+        }
+    },
+    backgroundColour: {
+        creme: {
+            panel: null,
+            eyebrow: 'black',
+            heading: 'base',
+            highlight: 'base',
+            text: 'black',
+            breadcrumb: 'base',
+            buttons: ['secondary', 'creme-300-outline']
+        },
+        black: {
+            panel: 'rounded-b-[30px] bg-black pb-15 | xl:pb-[125px]',
+            eyebrow: 'white',
+            heading: 'creme-100',
+            highlight: 'secondary',
+            text: 'white',
+            breadcrumb: 'white',
+            buttons: ['secondary', 'white-30-outline']
+        }
+    }
+} %}
+
+{% set setOut = (entry.alignment.value ?? 'left') == 'center'
+    ? blockOptions.alignment.center
+    : blockOptions.alignment.left[hasButtons ? 'buttons' : 'text'] %}
+
+{% set background = blockOptions.backgroundColour[entry.backgroundColour.value ?? 'creme'] ?? blockOptions.backgroundColour.creme %}
+
 {# Classes #}
 
-{# The header is fixed (ADR-0001), so the section's top padding is the header height #}
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
 
 {% set blockClasses = {
-    grid: 'grid grid-cols-12 gap-x-5 gap-y-7.5 mt-15 | lg:items-end xl:mt-[130px]',
-    heading: 'col-span-12 font-semibold leading-0.97 tracking-tighter | md:text-7xl lg:col-span-7 lg:text-9xl xl:text-11xl',
-    text: 'col-span-12 | lg:col-span-3 lg:col-start-10'
+    panel: [
+        'w-full',
+        vars is defined ? vars.class.siteMargin.x : 'px-10',
+        vars is defined ? vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        background.panel
+    ],
+    grid: [
+        'grid grid-cols-12 gap-x-5 gap-y-7.5 mt-15',
+        '|',
+        setOut.items,
+        hasBreadcrumbs ? 'xl:mt-[130px]' : 'xl:mt-[90px]'
+    ],
+    eyebrow: setOut.eyebrow,
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        setOut.heading
+    ],
+    column: setOut.column,
+    text: setOut.text,
+    buttons: hasText ? 'mt-7.5' : null
 } %}
 
 {# Output #}
@@ -25,36 +112,90 @@
     with {
         params: params|merge({
             paddingY: params.padding,
-            class: vars is defined ? vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+            paddingX: 'none'
         })
     }
 %}
     {% block sectionContent %}
 
-        {% include '_components/breadcrumb' with {
-            params: {
-                entry: entry.owner
-            }
-        } only %}
+        <div class="{{ blockClasses.panel|join(' ')|trim }}">
 
-        <div class="{{ blockClasses.grid }}">
+            {% if hasBreadcrumbs %}
 
-            {% include '_components/headingAlternate' with {
-                params: {
-                    tag: 'h1',
-                    heading: entry.heading,
-                    size: '5xl',
-                    class: blockClasses.heading
-                }
-            } only %}
+                {% include '_components/breadcrumb' with {
+                    params: {
+                        entry: entry.owner,
+                        colour: background.breadcrumb
+                    }
+                } only %}
 
-            {% include '_components/richText' with {
-                params: {
-                    content: entry.text,
-                    colour: 'black',
-                    class: blockClasses.text
-                }
-            } only %}
+            {% endif %}
+
+            <div class="{{ blockClasses.grid|join(' ')|trim }}">
+
+                {% if hasEyebrow %}
+
+                    {% include '_components/eyebrow' with {
+                        params: {
+                            text: entry.eyebrow,
+                            colour: background.eyebrow,
+                            class: blockClasses.eyebrow
+                        }
+                    } only %}
+
+                {% endif %}
+
+                {% include '_components/headingAlternate' with {
+                    params: {
+                        tag: 'h1',
+                        heading: entry.heading,
+                        colour: background.heading,
+                        size: '5xl',
+                        alternateStyle: background.highlight,
+                        class: blockClasses.heading|join(' ')|trim
+                    }
+                } only %}
+
+                {% if blockClasses.column and (hasText or hasButtons) %}
+
+                    <div class="{{ blockClasses.column }}">
+
+                        {% if hasText %}
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: entry.text,
+                                    colour: background.text,
+                                    class: blockClasses.text
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% include '_components/buttonGroup' with {
+                            params: {
+                                buttons: buttons,
+                                colours: background.buttons,
+                                align: setOut.buttonAlign,
+                                class: blockClasses.buttons
+                            }
+                        } only %}
+
+                    </div>
+
+                {% elseif hasText %}
+
+                    {% include '_components/richText' with {
+                        params: {
+                            content: entry.text,
+                            colour: background.text,
+                            class: blockClasses.text
+                        }
+                    } only %}
+
+                {% endif %}
+
+            </div>
 
         </div>
 
