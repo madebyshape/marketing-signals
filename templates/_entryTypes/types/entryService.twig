@@ -22,4 +22,16 @@
         vars: vars
     }) }}
 
+    {# Lead Modal #}
+
+    {% if entry.leadGenerationPopup %}
+
+        {% include '_components/leadModal' with {
+            params: {
+                content: craft.entries.section('site').one().leadGenerationPopup ?? null
+            }
+        } only %}
+
+    {% endif %}
+
 {% endblock %}
