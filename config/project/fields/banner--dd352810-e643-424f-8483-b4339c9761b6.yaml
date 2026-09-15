@@ -1,0 +1,93 @@
+columnSuffix: null
+handle: banner
+instructions: null
+name: Banner
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - 47e759ab-d710-4ae0-bf82-a31134374198
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    0:
+                      - name
+                      - Content
+                    1:
+                      - uid
+                      - e0a00592-5017-42c0-bbd6-fd35742c1462
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-15T12:00:00+00:00'
+                            9:
+                              - uid
+                              - 6a1aeffa-8528-4e69-9b36-3099e7475a0f
+                            12:
+                              - fieldUid
+                              - bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-15T12:00:00+00:00'
+                            9:
+                              - uid
+                              - 84cc4038-2c70-4b79-8ac1-96b5dda75fa7
+                            12:
+                              - fieldUid
+                              - d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-15T12:00:00+00:00'
+                            9:
+                              - uid
+                              - 618a6a64-6bb4-4366-bc64-8d0efba1d2f7
+                            12:
+                              - fieldUid
+                              - 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            4:
+              - cardThumbAlignment
+              - end
+  viewMode: grouped
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock

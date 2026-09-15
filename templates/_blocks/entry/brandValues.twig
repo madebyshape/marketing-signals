@@ -1,0 +1,119 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set banner = entry.banner %}
+{% set hasBanner = banner.heading|striptags|trim|length > 0 %}
+{% set bannerImage = banner.image.one() %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    parts: 'flex flex-col gap-5',
+    banner: 'relative isolate flow-root rounded-[20px] bg-black',
+    cutout: [
+        '-mt-15 ml-6.25 max-w-[min(60%,393px)]',
+        '|',
+        'md:ml-10',
+        '|',
+        'xl:-mt-25',
+        '|',
+        '2xl:absolute 2xl:-top-35.5 2xl:bottom-0 2xl:left-241.25 2xl:m-0 2xl:aspect-auto 2xl:w-[393px] 2xl:max-w-none'
+    ],
+    content: [
+        'box-content flex flex-col items-start gap-7.5 p-6.25',
+        bannerImage ? 'max-w-[832px]',
+        '|',
+        'md:p-10',
+        '|',
+        '2xl:py-30'
+    ],
+    heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl | 2xl:text-8xl'
+} %}
+
+{# Output #}
+
+{% if hasBanner %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.parts }}">
+
+                    {% if hasBanner %}
+
+                        <div class="{{ blockClasses.banner }}">
+
+                            {% if bannerImage %}
+
+                                {% include '_components/picture' with {
+                                    params: {
+                                        image: bannerImage,
+                                        alt: '',
+                                        transform: '3x5',
+                                        position: 'top-center',
+                                        sizes: '(min-width: 768px) 393px, 60vw',
+                                        wrapperClass: blockClasses.cutout|join(' ')|trim,
+                                        imgClass: 'w-full h-full object-cover object-top'
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                            <div class="{{ blockClasses.content|filter(c => c)|join(' ')|trim }}">
+
+                                {% if banner.eyebrow|length %}
+
+                                    {% include '_components/eyebrow' with {
+                                        params: {
+                                            text: banner.eyebrow,
+                                            colour: 'white'
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                                {% include '_components/headingAlternate' with {
+                                    params: {
+                                        tag: 'h2',
+                                        heading: banner.heading,
+                                        colour: 'creme-100',
+                                        size: '5xl',
+                                        alternateStyle: 'fluro',
+                                        class: blockClasses.heading
+                                    }
+                                } only %}
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

@@ -1,0 +1,58 @@
+allowLineBreaksInTitles: false
+color: purple
+description: null
+fieldLayouts:
+  1e0e8a71-b29e-4dc2-8adf-196c7870bc68:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: cd7212e6-ad91-4092-bb01-6c07cf9cfe0b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 76869356-03a6-4a5b-9d9c-69eea0a59ebf # List Items
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 10d828bd-c6d2-468b-b4c6-ca2c43f7cbf3
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: be95879b-329c-45a2-8ffe-5fef2f6b5bb1
+        userCondition: null
+    thumbFieldKey: null
+handle: listCard
+hasTitleField: false
+icon: rectangle-list
+name: 'List Card'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{eyebrow}'
