@@ -65,7 +65,7 @@ Two side-by-side vertical stacks of images that scroll continuously in opposite 
 _Avoid_: Image marquee, photo columns, image ticker
 
 **Avatar Group**:
-A person's avatar image with their name beside it, under either a label or their Job Role.
+A person's avatar image with their name beside it, under a label, their Job Role or their company.
 _Avoid_: Author, profile, person card
 
 **Footer Columns**:
@@ -1001,6 +1001,10 @@ _Avoid_: Sidebar CTA, CTA, apply card, sticky CTA
 **Share Buttons**:
 The row of round buttons beside a Longform, under "Share this career" on a Career or "Share this article" on a Blog, that share the page to LinkedIn, Facebook or X or copy its link.
 _Avoid_: Social share, share links, social icons, socials
+
+**Longform Quote**:
+A quote an editor places inside a Longform, in a Fluro panel, with the person's Avatar Group beneath it. An empty quote shows nothing.
+_Avoid_: Pull quote, blockquote, testimonial, quote block
 
 ### FAQ Listing
 
