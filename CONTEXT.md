@@ -271,8 +271,12 @@ A Block of a centred heading over a two-column grid of Tiles.
 _Avoid_: Image grid, photo grid, two-up, gallery
 
 **Tile**:
-One image in a grid or column, rounded and cropped to its block's ratio. The word Image Columns already uses.
-_Avoid_: Card, thumbnail, cell, slot
+One image in a grid or column, rounded and cropped to its block's ratio, optionally with an Eyebrow and Rule laid over its top. The word Image Columns already uses.
+_Avoid_: Card, thumbnail, cell, slot, panel
+
+**Eyebrow Image Grid**:
+A Block of a centred heading over a grid of Tiles in a fixed rhythm of full, tall and short sizes, each Tile optionally carrying an Eyebrow in white or black, with an optional Button Group beneath.
+_Avoid_: Brand grid, bento grid, logo grid, masonry
 
 **Highlight**:
 Words an editor marks italic in a heading or text, rendered in the accent colour rather than slanted.
@@ -449,7 +453,7 @@ The one or more images an editor adds to a Stacking Card, shown one at a time in
 _Avoid_: Gallery, slideshow, image carousel, thumbnails
 
 **Card Scheme**:
-The colour a card takes from its position, in the sequence its block defines, repeating past the end. Never chosen by editors. A Stacking Card also takes its tilt from it: white, black, secondary and fluro in turn. A Service Card runs white, black, secondary, fluro and creme-200. A Scrolling Card takes its tilt from it too: white, black and secondary in turn.
+The colour a card takes from its position, in the sequence its block defines, repeating past the end. Never chosen by editors. A Stacking Card also takes its tilt from it: white, black, secondary and fluro in turn. A Service Card runs white, black, secondary, fluro and creme-200. A Scrolling Card takes its tilt from it too: white, black and secondary in turn. A List Card runs white and fluro, with no tilt.
 _Avoid_: Theme, variant, colour option, style
 
 **Stack**:
@@ -947,7 +951,7 @@ The small line under a Chart Card's Bars qualifying what they show, such as "Sam
 _Avoid_: Caption, disclaimer, small print, note, legend
 
 **Ticked Item**:
-One line of a bullet list in a text field, rendered with a Secondary circle and a black tick in place of the bullet. In the Audit CTA the Ticked Items are one column; in a Content Row they are two from the tablet breakpoint. In a Longform's to-do list only the items the editor ticked are Ticked Items; the rest show an empty circle.
+One line of a bullet list in a text field, rendered with a tick in a circle in place of the bullet. The circle's colour follows where it sits: Secondary with a black tick in the Audit CTA, a Content Row and a Longform; Primary with a white tick in a List Panel. A List Item with no Icon shows a black circle with a white tick in the same place. In the Audit CTA the Ticked Items are one column; in a Content Row they are two from the tablet breakpoint; in a List Panel they are two from the tablet breakpoint once a list has more than four. In a Longform's to-do list only the items the editor ticked are Ticked Items; the rest show an empty circle.
 _Avoid_: Checklist item, bullet, feature, USP, check row
 
 ### Career List
@@ -1017,6 +1021,32 @@ _Avoid_: Career form, job application, apply form, Contact Form
 **File Upload**:
 The bordered box in a form where a visitor attaches a file, by clicking or dropping it onto the box, showing the chosen file's name once picked.
 _Avoid_: CV upload, dropzone, attachment field, file input
+
+### Brand Values
+
+**Brand Values**:
+A Block of up to three parts, each shown only when it has content: the Brand Banner, a row of List Cards, and the List Panel.
+_Avoid_: Values block, mission block, brand block, guidelines block
+
+**Brand Banner**:
+The black panel at the top of a Brand Values Block: an Eyebrow over a large heading with the Highlight, with a Cutout standing on the panel's bottom edge.
+_Avoid_: Mission banner, Banner CTA, hero, intro panel
+
+**List Card**:
+One rounded card in a Brand Values Block: an Eyebrow with a Rule over its List Items. Up to two sit side by side, coloured by their Card Scheme: white, then Fluro.
+_Avoid_: Values card, column, list column, Icon Card
+
+**List Item**:
+One row in a List Card: its Icon, or a Ticked Item's circle when it has no Icon, beside a heading and a short text.
+_Avoid_: Value, bullet, feature, Icon Card, row
+
+**List Panel**:
+The Creme 200 panel at the bottom of a Brand Values Block: a photograph on one side and, on the other, headings each over a bullet list. The lists take turns: the first is Ticked Items, the next Crossed Items, and so on.
+_Avoid_: Do and don't panel, image and text, Content Row, split panel
+
+**Crossed Item**:
+One line of a bullet list in a List Panel, rendered with a red circle and a white cross in place of the bullet, for something the brand is not.
+_Avoid_: Cross item, don't, negative item, X item
 
 ### FAQ Listing
 
