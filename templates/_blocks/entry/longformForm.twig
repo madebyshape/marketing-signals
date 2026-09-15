@@ -1,0 +1,52 @@
+{% set form = entry.form.one() %}
+{% set scrollMargin = vars.class.header.scrollMargin ?? 'scroll-mt-20 | xl:scroll-mt-[123px]' %}
+
+{# Classes #}
+
+{% set formConfig = {
+    pageContainer: {
+        attributes: { class: 'grid gap-y-7.5' }
+    },
+    row: {
+        attributes: { class: 'grid gap-5 | md:auto-cols-fr md:grid-flow-col' }
+    },
+    alertError: {
+        attributes: { class: 'mb-7.5 text-base leading-1.33 text-primary' }
+    },
+    fieldError: {
+        attributes: { class: 'mt-2 text-xs text-primary' }
+    },
+    buttonWrapper: {
+        attributes: { class: 'mt-7.5 flex flex-col gap-5 | md:flex-row md:items-center md:justify-between' }
+    },
+    singleLineText: {
+        fieldLabel: false
+    },
+    emailAddress: {
+        fieldLabel: false
+    },
+    phoneNumber: {
+        fieldLabel: false
+    },
+    multiLineText: {
+        fieldLabel: false
+    },
+    fileUpload: {
+        fieldLabel: false
+    }
+} %}
+
+{# Output #}
+
+{% if form %}
+
+    {# The site Form Template is set here, so the control panel's choice doesn't matter #}
+    {% do form.setTemplate(craft.formie.plugin.formTemplates.getTemplateByHandle('site')) %}
+
+    <div id="{{ form.handle }}-form" tabindex="-1" class="{{ scrollMargin }}">
+        {{ craft.formie.renderForm(form, {
+            themeConfig: formConfig
+        }) }}
+    </div>
+
+{% endif %}

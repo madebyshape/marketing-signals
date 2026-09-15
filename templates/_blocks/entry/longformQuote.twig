@@ -1,0 +1,65 @@
+{% set hasQuote = entry.quote|striptags|trim|length %}
+
+{% set avatar = hasQuote ? entry.avatar.one() : null %}
+{% set hasCaption = hasQuote and (entry.quoteName|length or avatar) %}
+
+{# Classes #}
+
+{% set classes = {
+    panel: [
+        'rounded-[20px] bg-fluro p-7.5',
+        '|',
+        'md:px-10 md:pt-15 md:pb-10'
+    ],
+    blockquote: [
+        '[&>div>p:first-of-type]:indent-7.5',
+        '|',
+        'md:[&>div>p:first-of-type]:indent-12.5'
+    ],
+    caption: [
+        'mt-7.5',
+        '|',
+        'md:mt-12.5'
+    ]
+} %}
+
+{# Output #}
+
+{% if hasQuote %}
+
+    <figure class="{{ classes.panel|join(' ')|trim }}">
+
+        <blockquote class="{{ classes.blockquote|join(' ')|trim }}">
+
+            {% include '_components/richText' with {
+                params: {
+                    content: entry.quote,
+                    colour: 'black',
+                    size: 'xl'
+                }
+            } only %}
+
+        </blockquote>
+
+        {% if hasCaption %}
+
+            <figcaption class="{{ classes.caption|join(' ')|trim }}">
+
+                {% include '_components/user' with {
+                    params: {
+                        image: avatar,
+                        alt: '',
+                        heading: entry.quoteName,
+                        subHeading: entry.quoteCompany,
+                        colour: 'base',
+                        size: 'md'
+                    }
+                } only %}
+
+            </figcaption>
+
+        {% endif %}
+
+    </figure>
+
+{% endif %}
