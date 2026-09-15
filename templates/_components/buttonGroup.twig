@@ -7,6 +7,7 @@
     colours: ['secondary'],
     size: 'base',
     iconStyle: 'inline',
+    iconStyles: null,
     align: 'start',
     class: null
 } %}
@@ -41,7 +42,7 @@
 
     <div class="{{ classes.wrapper|join(' ')|trim }}">
 
-        {# Colours match the buttons by index and the last colour repeats. #}
+        {# Colours and icon styles match the buttons by index and the last one repeats. #}
 
         {% for button in params.buttons %}
 
@@ -50,7 +51,7 @@
                     button: button.button,
                     colour: params.colours[loop.index0] ?? params.colours|last,
                     size: params.size,
-                    iconStyle: params.iconStyle
+                    iconStyle: params.iconStyles ? (params.iconStyles[loop.index0] ?? params.iconStyles|last) : params.iconStyle
                 }
             } only %}
 

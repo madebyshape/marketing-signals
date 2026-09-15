@@ -1,0 +1,241 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set buttons = entry.buttonGroup.all() %}
+{% set typographyButtons = entry.typographyButtons.all() %}
+
+{% set hasHeading = entry.heading|striptags|trim|length > 0 %}
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+{% set hasTypographyHeading = entry.typographyHeading|striptags|trim|length > 0 %}
+
+{% set specimenRows = [
+    [
+        {
+            use: 'Headers',
+            weight: 'Noi Grotesk Semi Bold',
+            sample: 'Performance Driven<br>Digital Marketing',
+            class: 'text-5xl font-semibold leading-0.97 tracking-tighter | md:text-8xl | lg:col-span-10 | xl:text-11xl'
+        }
+    ],
+    [
+        {
+            use: 'Sub Headers',
+            weight: 'Noi Grotesk Medium',
+            sample: 'Built Around Search. Measured on Revenue.',
+            class: 'text-2xl font-medium leading-1.2 tracking-tighter | lg:col-span-4 lg:text-4xl'
+        },
+        {
+            use: 'Body Copy',
+            weight: 'Noi Grotesk Regular',
+            sample: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            class: 'text-base font-normal leading-1.33 | lg:col-span-4'
+        }
+    ]
+] %}
+
+{# The Swatches sit on a 24-column grid so Creme 200 and White can halve three of the 12 columns. #}
+
+{% set swatches = [
+    { label: '#0E0A10', class: 'col-span-2 h-50 bg-black text-white | lg:col-span-6 lg:row-span-3 lg:h-auto' },
+    { label: '#F3F0E8', class: 'col-span-2 h-50 bg-creme-100 text-black | lg:col-span-6 lg:row-span-3 lg:h-auto' },
+    { label: '#E9E6DE', class: 'h-50 bg-creme-200 text-black | lg:col-span-3 lg:row-span-3 lg:h-auto' },
+    { label: '#FFFFFF', class: 'h-50 bg-white border border-black text-black | lg:col-span-3 lg:row-span-3 lg:h-auto' },
+    { label: '#745CF6', class: 'col-span-2 h-29.75 bg-primary text-white | lg:col-span-6 lg:col-start-19 lg:row-start-1 lg:h-auto' },
+    { label: '#AFAFFF', class: 'col-span-2 h-29.75 bg-secondary text-black | lg:col-span-6 lg:col-start-19 lg:row-start-2 lg:h-auto' },
+    { label: '#DBFE87', class: 'col-span-2 h-29.75 bg-fluro text-black | lg:col-span-6 lg:col-start-19 lg:row-start-3 lg:h-auto' }
+] %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    panels: 'flex flex-col gap-5',
+    panel: 'rounded-[20px] bg-white p-7.5 | md:px-10 | lg:pt-18.5 lg:pb-19',
+    header: [
+        'grid grid-cols-1 gap-x-5',
+        '|',
+        'lg:grid-cols-12 lg:items-end'
+    ],
+    heading: [
+        'col-span-full font-semibold leading-0.97 tracking-tighter',
+        '|',
+        'lg:col-start-1 lg:col-span-7 lg:row-start-1 lg:text-7xl'
+    ],
+    text: [
+        'col-span-full font-medium',
+        hasHeading ? 'mt-7.5',
+        '|',
+        'lg:col-start-9 lg:col-span-4 lg:row-start-1',
+        hasHeading ? 'lg:mt-0'
+    ],
+    swatches: [
+        'grid grid-cols-2 gap-5',
+        hasHeading or hasText ? 'mt-10',
+        '|',
+        'lg:grid-cols-24 lg:grid-rows-3 lg:h-99.25',
+        hasHeading or hasText ? 'lg:mt-12.5'
+    ],
+    swatch: 'flex items-end rounded-[20px] p-5 text-base font-medium leading-1.33 uppercase',
+    specimenPanel: 'rounded-[20px] bg-white p-7.5 | md:px-10 | lg:pt-17.5 lg:pb-25',
+    typographyHeading: 'font-semibold leading-0.97 tracking-tighter | lg:text-7xl',
+    rule: [
+        'border-creme-300',
+        hasTypographyHeading ? 'mt-7.5'
+    ],
+    specimenRow: 'flex flex-col gap-10 mt-10 | lg:grid lg:grid-cols-12 lg:gap-x-5 lg:gap-y-0',
+    specimenRowSpacing: ['lg:mt-12', 'lg:mt-12', 'lg:mt-17.5'],
+    specimen: 'flex flex-col gap-3.75 text-black | lg:contents',
+    label: 'text-base leading-1.33 | lg:col-span-2',
+    labelUse: 'block font-medium',
+    labelWeight: 'block font-normal',
+    specimenButtons: 'lg:col-span-10',
+    buttons: 'mt-7.5'
+} %}
+
+{# Output #}
+
+{% embed '_components/section'
+    with {
+        params: params|merge({
+            paddingY: params.padding,
+        })
+    }
+%}
+    {% block sectionContent %}
+
+        <div class="{{ blockClasses.panels }}">
+
+            <div class="{{ blockClasses.panel }}">
+
+                {% if hasHeading or hasText %}
+
+                    <div class="{{ blockClasses.header|join(' ')|trim }}">
+
+                        {% include '_components/headingAlternate' with {
+                            params: {
+                                tag: 'h2',
+                                heading: entry.heading,
+                                size: '5xl',
+                                class: blockClasses.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                        {% if hasText %}
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: entry.text,
+                                    colour: 'black',
+                                    size: 'sm',
+                                    class: blockClasses.text|join(' ')|trim
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+                <ul class="{{ blockClasses.swatches|join(' ')|trim }}">
+
+                    {% for swatch in swatches %}
+
+                        <li class="{{ blockClasses.swatch }} {{ swatch.class }}">{{ swatch.label }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            <div class="{{ blockClasses.specimenPanel }}">
+
+                {% if hasTypographyHeading %}
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h2',
+                            heading: entry.typographyHeading,
+                            size: '5xl',
+                            class: blockClasses.typographyHeading
+                        }
+                    } only %}
+
+                {% endif %}
+
+                <hr class="{{ blockClasses.rule|join(' ')|trim }}">
+
+                {% for row in specimenRows %}
+
+                    <div class="{{ blockClasses.specimenRow }} {{ blockClasses.specimenRowSpacing[loop.index0] }}">
+
+                        {% for specimen in row %}
+
+                            <div class="{{ blockClasses.specimen }}">
+
+                                <p class="{{ blockClasses.label }}">
+                                    <span class="{{ blockClasses.labelUse }}">{{ specimen.use }}</span>
+                                    <span class="{{ blockClasses.labelWeight }}">{{ specimen.weight }}</span>
+                                </p>
+
+                                <p class="{{ specimen.class }}">{{ specimen.sample|raw }}</p>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endfor %}
+
+                {% if typographyButtons|length %}
+
+                    <div class="{{ blockClasses.specimenRow }} {{ blockClasses.specimenRowSpacing|last }}">
+
+                        <div class="{{ blockClasses.specimen }}">
+
+                            <p class="{{ blockClasses.label }}">
+                                <span class="{{ blockClasses.labelUse }}">Buttons</span>
+                                <span class="{{ blockClasses.labelWeight }}">Noi Grotesk Medium</span>
+                            </p>
+
+                            {% include '_components/buttonGroup' with {
+                                params: {
+                                    buttons: typographyButtons,
+                                    colours: ['secondary', 'creme-100'],
+                                    iconStyles: ['inline', 'circle'],
+                                    class: blockClasses.specimenButtons
+                                }
+                            } only %}
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% include '_components/buttonGroup' with {
+            params: {
+                buttons: buttons,
+                colours: ['secondary', 'white'],
+                align: 'center',
+                class: blockClasses.buttons
+            }
+        } only %}
+
+    {% endblock %}
+{% endembed %}

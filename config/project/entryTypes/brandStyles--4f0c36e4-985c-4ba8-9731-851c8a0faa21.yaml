@@ -1,0 +1,149 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  0fb225a7-2b34-4308-bdec-1582ead0ff44:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: a6142e21-0f39-4dcf-b3b6-4e23871fcbe3
+            userCondition: null
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: 'Make words italic to highlight them.'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f2bcbbca-b8fa-4072-9cb6-603ee58e0b9f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7f0dd947-99d8-4456-93f3-4ce4f6162a3f # Rich Text - Simple
+            handle: text
+            instructions: null
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: bdc3b972-5ecd-4233-806a-93742aa768e1
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 7558bac0-056f-4b23-b402-e5e8218df67d
+            userCondition: null
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: typographyHeading
+            instructions: 'Make words italic to highlight them.'
+            label: 'Typography Heading'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 79a1b01c-9788-44e3-8068-4061df9ee2e0
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 17e2f019-d6ee-4f54-83a2-a32091caa96d # Button Group (Unlimited)
+            handle: typographyButtons
+            instructions: null
+            label: 'Typography Buttons'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5d7b8685-4914-428c-ba09-8a8655016322
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 7264a38b-4a3d-442e-bec6-4e13a1df4fc0
+            userCondition: null
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 298fa7b6-abc0-4c80-a004-8fa35a30bf35 # Button Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ac50a9eb-524d-4dc3-9956-8acaa532ee33
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 296cfb37-11be-431a-b559-363085eb1948
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0c09efd3-0852-4225-8c22-6f9183247350
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 377a41c4-1a49-430b-b109-c1edc500f209
+        userCondition: null
+    thumbFieldKey: null
+handle: brandStyles
+hasTitleField: false
+icon: palette
+name: 'Brand Styles'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
