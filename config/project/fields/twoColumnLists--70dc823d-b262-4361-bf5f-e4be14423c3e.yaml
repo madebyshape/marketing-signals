@@ -1,0 +1,29 @@
+columnSuffix: null
+handle: twoColumnLists
+instructions: null
+name: 'Two Column Lists'
+searchable: false
+settings:
+  createButtonLabel: 'New List Card'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - b3f84549-f9f4-4055-bb67-10fd9f705bda # List Card
+        -
+          - group
+          - General
+  includeTableView: false
+  maxEntries: 2
+  minEntries: 1
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

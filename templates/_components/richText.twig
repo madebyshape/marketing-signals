@@ -77,13 +77,16 @@
         '3xl': 'text-2xl font-medium leading-1.2 tracking-tighter | lg:text-3xl',
         '5xl': 'text-3xl font-semibold leading-0.97 tracking-tighter | md:text-4xl | lg:text-5xl',
         '6xl': 'text-3xl font-semibold leading-0.97 tracking-tighter | md:text-4xl | lg:text-6xl',
-        longform: 'text-base leading-1.33'
+        longform: 'text-base leading-1.33',
+        listPanel: 'text-base leading-1.33'
     },
     h2: {
-        longform: 'text-3xl font-semibold leading-0.97 tracking-tighter !mb-6.25 | md:text-4xl | lg:text-5xl'
+        longform: 'text-3xl font-semibold leading-0.97 tracking-tighter !mb-6.25 | md:text-4xl | lg:text-5xl',
+        listPanel: 'text-4xl !font-medium leading-1.2 tracking-tighter !mb-3.75'
     },
     h3: {
-        longform: 'text-2xl !font-medium leading-1.2 tracking-tighter mt-10 !mb-7.5'
+        longform: 'text-2xl !font-medium leading-1.2 tracking-tighter mt-10 !mb-7.5',
+        listPanel: 'text-4xl !font-medium leading-1.2 tracking-tighter !mb-3.75'
     },
     strong: {
         longform: 'font-medium'
@@ -115,8 +118,20 @@
             list: 'grid grid-cols-1 gap-y-5 mb-5 text-base leading-1.33',
             item: 'group relative pl-3 | before:absolute before:left-0 before:top-2 before:size-[5px] before:rounded-full before:bg-black has-[input]:pl-[26px] has-[input]:before:hidden'
         }
+    },
+    alternate: {
+        listPanel: {
+            list: 'grid grid-cols-1 gap-y-3.25 mb-12.5 text-base leading-1.33 | last:mb-0 | md:gap-x-5 md:has-[>li:nth-child(5)]:grid-cols-2',
+            item: 'flex items-start gap-[7px]',
+            markers: [
+                { mark: 'bg-primary', icon: 'fa-check', highlight: 'text-primary' },
+                { mark: 'bg-red', icon: 'fa-xmark', highlight: 'text-red' }
+            ]
+        }
     }
 } %}
+
+{% set alternate = options.alternate[params.size] ?? null %}
 
 {# Classes #} 
 
@@ -144,11 +159,12 @@
         options.colour[params.colour].list
     ],
     bulletList: [
-        options.list[params.list].list,
+        alternate.list ?? options.list[params.list].list,
         options.colour[params.colour].list
     ],
-    bulletItem: options.list[params.list].item,
+    bulletItem: alternate.item ?? options.list[params.list].item,
     mark: 'flex shrink-0 items-center justify-center order-first size-[19px] mt-px rounded-full bg-secondary text-[10px] text-black',
+    alternateMark: 'flex shrink-0 items-center justify-center order-first size-[19px] mt-px rounded-full text-[10px] text-white',
     todoMark: [
         'absolute left-0 top-px flex items-center justify-center size-[19px] rounded-full border border-creme-300 text-[10px] text-transparent',
         '|',
@@ -178,6 +194,28 @@
     ['attr', 'ul li input', { class: 'sr-only' }],
     ['inject', 'ul li input + span', todoMark|trim]
 ] : marks %}
+
+{# Bullet lists take turns between the markers, and a heading's Highlight takes the next list's colour. #}
+
+{% set alternates = [] %}
+
+{% if alternate %}
+    {% set headings = ['h2 em', 'h2 i', 'h3 em', 'h3 i'] %}
+    {% set lists = (params.content ~ '')|split('<ul')|length - 1 %}
+    {% set alternates = [['attr', headings|map(heading => 'body > ' ~ heading), { class: 'not-italic ' ~ (alternate.markers|first).highlight }]] %}
+
+    {% for n in lists ? 1..lists : [] %}
+        {% set marker = cycle(alternate.markers, loop.index0) %}
+        {% set next = loop.last ? alternate.markers|first : cycle(alternate.markers, loop.index) %}
+        {% set list = 'body > ul:nth-of-type(' ~ n ~ ')' %}
+        {% set alternateMark %}<span class="{{ classes.alternateMark }} {{ marker.mark }}" aria-hidden="true"><i class="fa-sharp fa-solid {{ marker.icon }}"></i></span>{% endset %}
+
+        {% set alternates = alternates|merge([
+            ['inject', list ~ ' > li', alternateMark|trim],
+            ['attr', headings|map(heading => list ~ ' ~ ' ~ heading), { class: 'not-italic ' ~ next.highlight }]
+        ]) %}
+    {% endfor %}
+{% endif %}
 
 {# Tables #}
 
@@ -224,6 +262,6 @@
         ['attr', ['em', 'i'], { class: classes.italic }],
         ['attr', 'img', { class: 'w-full h-auto rounded-lg mb-5', loading: 'lazy' }],
         ['attr', 'blockquote', { class: classes.blockquote|join(' ')|trim }]
-    ]|merge(marks)|merge(tables)) }}
+    ]|merge(marks)|merge(alternates)|merge(tables)) }}
 </div>
 

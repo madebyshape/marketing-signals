@@ -1,0 +1,296 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set banner = entry.banner %}
+{% set hasBanner = banner.heading|striptags|trim|length > 0 %}
+{% set bannerImage = banner.image.one() %}
+
+{% set cards = [] %}
+
+{% for card in entry.twoColumnLists.all() %}
+    {% set items = card.listItems.all()|filter(item => item.heading|trim|length) %}
+
+    {% if items|length %}
+        {% set cards = cards|merge([{ eyebrow: card.eyebrow, items: items }]) %}
+    {% endif %}
+{% endfor %}
+
+{% set hasCards = cards|length > 0 %}
+
+{% set panelImage = entry.image.one() %}
+{% set hasPanelText = entry.text|striptags|trim|length > 0 %}
+{% set hasPanel = panelImage or hasPanelText %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    margin: vars is defined ? vars.class.siteMargin.x : 'px-10',
+    parts: 'flex flex-col gap-5',
+    banner: 'relative isolate flow-root rounded-[20px] bg-black',
+    cutout: [
+        '-mt-15 ml-6.25 max-w-[min(60%,393px)]',
+        '|',
+        'md:ml-10',
+        '|',
+        'xl:-mt-25',
+        '|',
+        '2xl:absolute 2xl:-top-35.5 2xl:bottom-0 2xl:left-241.25 2xl:m-0 2xl:aspect-auto 2xl:w-[393px] 2xl:max-w-none'
+    ],
+    content: [
+        'box-content flex flex-col items-start gap-7.5 p-6.25',
+        bannerImage ? 'max-w-[832px]',
+        '|',
+        'md:p-10',
+        '|',
+        '2xl:py-30'
+    ],
+    heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl | 2xl:text-8xl',
+    cards: 'grid grid-cols-1 gap-5 | lg:grid-cols-12',
+    card: 'rounded-[20px] p-7.5',
+    cardResponsive: 'md:p-10 | lg:col-span-6',
+    eyebrow: 'mb-8.75',
+    items: 'flex flex-col gap-7.5',
+    item: 'flex items-start gap-2.5',
+    marker: 'flex h-[25px] w-6.75 shrink-0 items-center justify-center',
+    icon: 'fa-sharp-duotone fa-light',
+    iconStyle: 'text-lg text-primary [--fa-secondary-opacity:0.2]',
+    tick: 'flex size-5.5 items-center justify-center rounded-full bg-black text-[11px] text-white',
+    itemHeading: 'font-medium leading-1.2 tracking-tighter',
+    itemText: 'mt-1.25',
+    panel: [
+        'grid grid-cols-1 rounded-[20px] bg-creme-200',
+        panelImage and hasPanelText ? '| lg:grid-cols-2 lg:gap-5'
+    ],
+    photo: [
+        'p-2.5',
+        hasPanelText ? 'pb-0 | lg:pr-0 lg:pb-2.5'
+    ],
+    photoPicture: [
+        'rounded-[20px]',
+        hasPanelText ? '| lg:h-full'
+    ],
+    panelText: [
+        'p-7.5 | md:p-10',
+        panelImage ? '| lg:self-center lg:pl-5 | 2xl:py-32.5 2xl:pl-30.5'
+    ]
+} %}
+
+{# Card Scheme #}
+
+{% set schemes = [
+    { card: 'bg-white', rule: 'creme-400', text: 'opacity-60' },
+    { card: 'bg-fluro', rule: 'black', text: '' }
+] %}
+
+{# Output #}
+
+{% if hasBanner or hasCards or hasPanel %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+                paddingX: 'none'
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.margin }}">
+
+                <div class="{{ blockClasses.parts }}">
+
+                    {% if hasBanner %}
+
+                        <div class="{{ blockClasses.banner }}">
+
+                            {% if bannerImage %}
+
+                                {% include '_components/picture' with {
+                                    params: {
+                                        image: bannerImage,
+                                        alt: '',
+                                        transform: '3x5',
+                                        position: 'top-center',
+                                        sizes: '(min-width: 768px) 393px, 60vw',
+                                        wrapperClass: blockClasses.cutout|join(' ')|trim,
+                                        imgClass: 'w-full h-full object-cover object-top'
+                                    }
+                                } only %}
+
+                            {% endif %}
+
+                            <div class="{{ blockClasses.content|filter(c => c)|join(' ')|trim }}">
+
+                                {% if banner.eyebrow|length %}
+
+                                    {% include '_components/eyebrow' with {
+                                        params: {
+                                            text: banner.eyebrow,
+                                            colour: 'white'
+                                        }
+                                    } only %}
+
+                                {% endif %}
+
+                                {% include '_components/headingAlternate' with {
+                                    params: {
+                                        tag: 'h2',
+                                        heading: banner.heading,
+                                        colour: 'creme-100',
+                                        size: '5xl',
+                                        alternateStyle: 'fluro',
+                                        class: blockClasses.heading
+                                    }
+                                } only %}
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if hasCards %}
+
+                        <div class="{{ blockClasses.cards }}">
+
+                            {% for card in cards %}
+
+                                {% set scheme = cycle(schemes, loop.index0) %}
+
+                                <div class="{{ blockClasses.card }} {{ scheme.card }} | {{ blockClasses.cardResponsive }}">
+
+                                    {% if card.eyebrow|length %}
+
+                                        {% include '_components/eyebrow' with {
+                                            params: {
+                                                text: card.eyebrow,
+                                                rule: true,
+                                                ruleColour: scheme.rule,
+                                                class: blockClasses.eyebrow
+                                            }
+                                        } only %}
+
+                                    {% endif %}
+
+                                    <ul class="{{ blockClasses.items }}">
+
+                                        {% for item in card.items %}
+
+                                            {# The last word with any `fa-` prefix dropped, as the Icon Card reads it. #}
+                                            {% set icon = item.icon|trim|split(' ')|last|trim %}
+                                            {% set icon = icon starts with 'fa-' ? icon|slice(3) : icon %}
+
+                                            <li class="{{ blockClasses.item }}">
+
+                                                <span class="{{ blockClasses.marker }}" aria-hidden="true">
+
+                                                    {% if icon|length %}
+                                                        <i class="{{ blockClasses.icon }} fa-{{ icon }} | {{ blockClasses.iconStyle }}"></i>
+                                                    {% else %}
+                                                        <span class="{{ blockClasses.tick }}"><i class="fa-sharp fa-solid fa-check"></i></span>
+                                                    {% endif %}
+
+                                                </span>
+
+                                                <div>
+
+                                                    {% include '_components/heading' with {
+                                                        params: {
+                                                            tag: 'h3',
+                                                            heading: item.heading,
+                                                            size: 'lg',
+                                                            class: blockClasses.itemHeading
+                                                        }
+                                                    } only %}
+
+                                                    {% if item.text|striptags|trim|length %}
+
+                                                        {% include '_components/richText' with {
+                                                            params: {
+                                                                content: item.text,
+                                                                colour: 'black',
+                                                                size: 'sm',
+                                                                class: [blockClasses.itemText, scheme.text]|filter(c => c)|join(' ')
+                                                            }
+                                                        } only %}
+
+                                                    {% endif %}
+
+                                                </div>
+
+                                            </li>
+
+                                        {% endfor %}
+
+                                    </ul>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if hasPanel %}
+
+                        <div class="{{ blockClasses.panel|filter(c => c)|join(' ')|trim }}">
+
+                            {% if panelImage %}
+
+                                <div class="{{ blockClasses.photo|filter(c => c)|join(' ')|trim }}">
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: panelImage,
+                                            alt: panelImage.title,
+                                            transform: '4x3',
+                                            sizes: hasPanelText ? '(min-width: 1024px) 50vw, 100vw' : '100vw',
+                                            wrapperClass: blockClasses.photoPicture|filter(c => c)|join(' ')|trim,
+                                            imgClass: 'w-full h-full object-cover'
+                                        }
+                                    } only %}
+
+                                </div>
+
+                            {% endif %}
+
+                            {% if hasPanelText %}
+
+                                <div class="{{ blockClasses.panelText|filter(c => c)|join(' ')|trim }}">
+
+                                    {% include '_components/richText' with {
+                                        params: {
+                                            content: entry.text,
+                                            size: 'listPanel',
+                                            colour: 'black'
+                                        }
+                                    } only %}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

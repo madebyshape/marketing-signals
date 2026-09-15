@@ -141,6 +141,7 @@ fs:
     url: 'https://cdn2.assets-servd.host/'
 meta:
   __names__:
+    0ab10d66-71d5-42dc-862d-83bb9341edb5: 'List Item' # List Item
     0acf1fd0-9723-4b0b-905b-b873b17bfdf7: 'Eyebrow, Heading & Text' # Eyebrow, Heading & Text
     0b4c11ad-51c9-43b6-a7cd-47a988cc8821: 'Contact Column' # Contact Column
     0b199c11-0b79-4e4b-b931-f9c85e23a667: Button # Button
@@ -210,6 +211,7 @@ meta:
     50d32309-811e-492a-8505-8ba3afa640de: 'Categories - FAQ' # Categories - FAQ
     51c3a6b5-5c57-4afa-a5de-df5099aaee17: Bars # Bars
     68e3deec-735b-4dca-b597-68e68e8777f0: Accordions # Accordions
+    70dc823d-b262-4361-bf5f-e4be14423c3e: 'Two Column Lists' # Two Column Lists
     72cd3ad5-6f02-4c3b-b431-be5e96bda8e9: 'Entry - Playbook' # Entry - Playbook
     74eb57f4-3401-46b7-a35b-e2a75fee9c63: Button # Button
     75b9e023-7720-4105-a4af-520f42961eb7: Service # Service
@@ -247,6 +249,7 @@ meta:
     05236f38-ec1c-4446-93a8-43c0b72e45ac: 'Banner - CTA' # Banner - CTA
     6708a79d-c929-45c4-82f1-b440db7d759d: 'Dropdown - Video Type' # Dropdown - Video Type
     7754a8a1-7a07-4f58-903a-10ae9e993341: 'Categories - Blog' # Categories - Blog
+    8470beb7-d032-4be4-91f7-2da03b1ba412: 'Brand Values' # Brand Values
     8921f4cc-6d1a-4c1f-bf13-bcdf8b992806: Links # Links
     10683f8c-560b-4240-a234-fdfce2fd1bbd: 'Audit - CTA' # Audit - CTA
     13116ff7-bb9e-4f5b-989d-48a287e4b53c: 'Text - Code' # Text - Code
@@ -266,6 +269,7 @@ meta:
     50116844-aee8-4cad-ae6f-cb59132a4d62: 'Entries - Team' # Entries - Team
     68293925-f277-46d8-9b61-62002ff9583e: 'Grid - Blog' # Grid - Blog
     76599613-117c-4ce5-b344-172d2aff2194: 'Entries - Case Study' # Entries - Case Study
+    76869356-03a6-4a5b-9d9c-69eea0a59ebf: 'List Items' # List Items
     a5b03fa9-9f1f-47a5-ba3e-9a3c61f706d5: 'Case Study' # Case Study
     a644e662-8b0e-44bd-bbac-da76b709e24f: Statistics # Statistics
     ab58b4e1-b348-4682-afd2-a65f40c197c5: 'Marquee - Icon Cards' # Marquee - Icon Cards
@@ -274,6 +278,7 @@ meta:
     acbe31d2-326d-4dca-b857-3ccf50f3efdc: 'Hero - Home' # Hero - Home
     ad0a9432-2ee6-4f06-bd72-f71adca36bef: Chart # Chart
     af21bfea-8fd9-454d-aebe-0a21a6be6d5b: 'Video - CTA' # Video - CTA
+    b3f84549-f9f4-4055-bb67-10fd9f705bda: 'List Card' # List Card
     b5e534eb-67ec-42d5-9bb4-93f6f235bc2b: 'Entry - Blog' # Entry - Blog
     b6d2560f-cae8-458b-9d36-e66efde2f247: 'Entries - Blog' # Entries - Blog
     b9ac68e1-d9f1-4007-843f-fde1e9f4921b: Files # Files
@@ -306,6 +311,7 @@ meta:
     da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21: Form # Form
     db56c11b-226d-42e6-9b9b-b449f0ac99df: 'Entry - Testimonial' # Entry - Testimonial
     dd193fca-6353-485f-a383-668951cbb602: Blog # Blog
+    dd352810-e643-424f-8483-b4339c9761b6: Banner # Banner
     e09df1c8-18b1-4598-ad75-812ac48e1b9c: 'Dropdown - Media Type' # Dropdown - Media Type
     e3078af5-a566-4561-af12-e529edd7980f: 'Entry - Team' # Entry - Team
     e746909c-3d0f-4818-9497-14651dc6ee16: 'Entry - Text' # Entry - Text

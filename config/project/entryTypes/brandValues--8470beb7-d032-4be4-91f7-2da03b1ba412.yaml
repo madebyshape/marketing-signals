@@ -1,0 +1,112 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  69a79049-1603-4f0e-a8b1-ab6f69a91475:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: dd352810-e643-424f-8483-b4339c9761b6 # Banner
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 94be21b5-02a4-458e-8021-dd7cc5b9c5a7
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 70dc823d-b262-4361-bf5f-e4be14423c3e # Two Column Lists
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: be737714-4904-488f-aff8-b209b80dd8e4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 52255d33-c4ba-4cef-bf8a-8bbe3838aeb0
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 13285537-5457-4f1f-ad8c-66fd187f8f09 # Rich Text - Full
+            handle: text
+            instructions: 'Headings over bulleted lists. Lists alternate between ticks and crosses.'
+            label: Text
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d153b72b-27ce-469c-bbc5-7ea70e0230a5
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 2653f859-f681-4e94-8277-b5ed4ce625d4
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 36f3f915-aed5-48fc-82ba-34dd3daea3c4
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: f29d309a-ae24-4878-8a21-b2226db6515d
+        userCondition: null
+    thumbFieldKey: null
+handle: brandValues
+hasTitleField: false
+icon: list-check
+name: 'Brand Values'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
