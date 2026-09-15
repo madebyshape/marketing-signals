@@ -19,7 +19,7 @@
                 label: page.settings.submitButtonLabel|t('formie')
             },
             colour: 'secondary',
-            class: submitButton.attributes.class|default([])|join(' ') ~ ' justify-center w-full | md:w-auto',
+            class: submitButton.attributes.class|default([])|join(' ') ~ ' justify-center w-full' ~ ((renderOptions.submitFullWidth ?? false) ? '' : ' | md:w-auto'),
             attributes: attr(submitButton.attributes|withoutKey(['class']))
         }
     } only %}

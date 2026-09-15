@@ -39,6 +39,32 @@
         form: [
             { ref: 'close', colour: 'black-outline', class: 'absolute top-5 right-5 z-10' }
         ]
+    },
+    formConfig: {
+        pageContainer: {
+            attributes: { class: 'grid gap-y-7.5' }
+        },
+        row: {
+            attributes: { class: 'grid gap-5' }
+        },
+        alertError: {
+            attributes: { class: 'mb-7.5 text-base leading-1.33 text-primary' }
+        },
+        fieldError: {
+            attributes: { class: 'mt-2 text-xs text-primary' }
+        },
+        buttonWrapper: {
+            attributes: { class: 'mt-7.5 flex flex-col gap-7.5' }
+        },
+        singleLineText: {
+            fieldLabel: false
+        },
+        emailAddress: {
+            fieldLabel: false
+        },
+        phoneNumber: {
+            fieldLabel: false
+        }
     }
 } %}
 
@@ -218,7 +244,10 @@
                         } only %}
 
                         <div class="{{ classes.form|join(' ')|trim }}">
-                            {{ craft.formie.renderForm(form) }}
+                            {{ craft.formie.renderForm(form, {
+                                themeConfig: options.formConfig,
+                                submitFullWidth: true
+                            }) }}
                         </div>
 
                     </div>
