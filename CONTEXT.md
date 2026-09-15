@@ -1082,6 +1082,20 @@ _Avoid_: Contact Details, Contact Column, contact pills
 The Twitter / X, Facebook and LinkedIn text links, read from the SEO settings rather than set by editors, each shown only when it has a URL. Shown in the Footer's Social Column and on the Form Success Page.
 _Avoid_: Social icons, socials, share links, Share Buttons
 
+### Lead Modal
+
+**Lead Modal**:
+The overlay that opens by itself once a visitor has scrolled halfway down a Service page whose editor switched it on: the image with its Image Caption on the left, and an Eyebrow over a heading with Inline Images and the Lead Form on the right. Its content is set once on the Site entry. Closed by its close button, its backdrop or Escape, and not shown again in that browser session once closed or sent.
+_Avoid_: Popup, lead generation popup, lightbox, dialog
+
+**Lead Form**:
+The short form in the Lead Modal that books a strategy call: name, email and phone, with its privacy statement above the send button.
+_Avoid_: Contact Form, lead generation form, callback form
+
+**Image Caption**:
+The name and role written over the bottom left of the Lead Modal's image.
+_Avoid_: Avatar Group, caption, credit
+
 ### Seeding
 
 **Seed**:
