@@ -1,0 +1,26 @@
+columnSuffix: null
+handle: icons
+instructions: null
+name: Icons
+searchable: false
+settings:
+  createButtonLabel: 'New Icon'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - deef1d25-93fa-4ded-bb4b-d91d7695285f # Branding Icon
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

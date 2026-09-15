@@ -11,7 +11,13 @@
 
 {# Branding Columns #}
 
-{% set columns = entry.columns.all()|filter(column => column.eyebrow|trim|length or column.text|striptags|trim|length) %}
+{% set columns = entry.columns.all()|filter(column =>
+    column.eyebrow|trim|length
+    or column.text|striptags|trim|length
+    or column.image.one()
+    or column.icons.all()|filter(item => item.icon|trim|split(' ')|last|trim not in ['', 'fa-'])|length
+    or column.buttonGroup.all()|length
+) %}
 
 {# Options #}
 
@@ -21,13 +27,15 @@
             panel: 'bg-black',
             eyebrow: 'white',
             rule: 'white-30',
-            text: 'creme-400'
+            text: 'creme-400',
+            buttons: ['secondary', 'white-30-outline']
         },
         {
             panel: 'bg-white',
             eyebrow: 'black',
             rule: 'creme-400',
-            text: 'black'
+            text: 'black',
+            buttons: ['secondary', 'creme-300-outline']
         }
     ]
 } %}
@@ -40,7 +48,12 @@
         base: 'col-span-12 flex flex-col rounded-[20px] p-7.5',
         responsive: 'md:p-10 lg:col-span-6'
     },
-    text: 'mt-5 | md:mt-7.5'
+    text: 'mt-5 | md:mt-7.5',
+    image: 'mt-7.5 | md:mt-10',
+    imageInner: 'h-auto w-full rounded-[20px]',
+    icons: 'grid grid-cols-4 justify-items-center gap-y-10 | md:gap-y-15',
+    icon: 'fa-sharp-duotone fa-light text-[40px] text-primary [--fa-secondary-opacity:0.2] | md:text-[50px]',
+    afterPart: 'mt-10 | md:mt-15'
 } %}
 
 {# Output #}
@@ -62,6 +75,19 @@
 
                     {% set scheme = cycle(blockOptions.scheme, loop.index0) %}
                     {% set hasEyebrow = column.eyebrow|trim|length > 0 %}
+                    {% set hasText = column.text|striptags|trim|length > 0 %}
+                    {% set image = column.image.one() %}
+                    {% set icons = [] %}
+
+                    {# The last word with any `fa-` prefix dropped, as the Icon Card reads it. #}
+
+                    {% for item in column.icons.all() %}
+                        {% set icon = item.icon|trim|split(' ')|last|trim %}
+                        {% set icon = icon starts with 'fa-' ? icon|slice(3) : icon %}
+                        {% set icons = icon|length ? icons|merge([icon]) : icons %}
+                    {% endfor %}
+
+                    {% set buttons = column.buttonGroup.all() %}
 
                     <div class="{{ [blockClasses.column.base, scheme.panel, '|', blockClasses.column.responsive]|join(' ')|trim }}">
 
@@ -79,7 +105,7 @@
 
                         {% endif %}
 
-                        {% if column.text|striptags|trim|length %}
+                        {% if hasText %}
 
                             {% include '_components/richText' with {
                                 params: {
@@ -91,6 +117,51 @@
                             } only %}
 
                         {% endif %}
+
+                        {% if image %}
+
+                            <div class="{{ (hasEyebrow or hasText) ? blockClasses.image }}">
+
+                                {% include '_components/picture' with {
+                                    params: {
+                                        image: image,
+                                        alt: image.alt,
+                                        transform: 'noRatio',
+                                        ratio: false,
+                                        sizes: '(min-width: 1024px) 50vw, 100vw',
+                                        imgClass: blockClasses.imageInner
+                                    }
+                                } only %}
+
+                            </div>
+
+                        {% endif %}
+
+                        {% if icons|length %}
+
+                            <div class="{{ [blockClasses.icons, (hasEyebrow or hasText or image) ? blockClasses.afterPart]|join(' ')|trim }}">
+
+                                {% for icon in icons %}
+
+                                    <i
+                                        class="{{ [blockClasses.icon, 'fa-' ~ icon]|join(' ') }}"
+                                        aria-hidden="true"
+                                    ></i>
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                        {% include '_components/buttonGroup' with {
+                            params: {
+                                buttons: buttons,
+                                colours: scheme.buttons,
+                                align: 'center',
+                                class: (hasEyebrow or hasText or image or icons|length) ? blockClasses.afterPart
+                            }
+                        } only %}
 
                     </div>
 
