@@ -1,0 +1,38 @@
+{% set hasQuote = entry.quote|striptags|trim|length %}
+
+{# Classes #}
+
+{% set classes = {
+    panel: [
+        'rounded-[20px] bg-fluro p-7.5',
+        '|',
+        'md:px-10 md:pt-15 md:pb-10'
+    ],
+    blockquote: [
+        '[&>div>p:first-of-type]:indent-7.5',
+        '|',
+        'md:[&>div>p:first-of-type]:indent-12.5'
+    ]
+} %}
+
+{# Output #}
+
+{% if hasQuote %}
+
+    <figure class="{{ classes.panel|join(' ')|trim }}">
+
+        <blockquote class="{{ classes.blockquote|join(' ')|trim }}">
+
+            {% include '_components/richText' with {
+                params: {
+                    content: entry.quote,
+                    colour: 'black',
+                    size: 'xl'
+                }
+            } only %}
+
+        </blockquote>
+
+    </figure>
+
+{% endif %}
