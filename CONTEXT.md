@@ -131,7 +131,7 @@ The motion of Scattered Tiles: following the pointer on fine-pointer devices and
 _Avoid_: Parallax, mouse follow, float, hover effect
 
 **Button Group**:
-A row of Buttons, each coloured by its position in the row. A reusable component; the Error Links are its first use.
+A row of Buttons, each coloured, and its arrow set inline or circled, by its position in the row. A reusable component; the Error Links are its first use.
 _Avoid_: Button row, CTA group, actions
 
 ### Heroes
