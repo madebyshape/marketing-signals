@@ -205,39 +205,23 @@ There is no test suite. Evidence replaces tests: screenshots from the running DD
 - the Primary ticks, the red crosses in two columns, and headings whose Highlights match their lists
 - the stacked layouts on narrow screens
 
-Before is `main` at the commit the branch forked from, where the page shows only the Hero.
+**Evidence plan.** Three widths, resting state: desktop 1600, tablet 768, mobile 390. Everything else is checked in the browser and reported, not captured.
 
-**Evidence plan.**
-
-1. Seed output, dry run then real run, saved as text. Proves the Block and its images were written by command.
-2. Brand Guidelines at 1600, full page. Compare with `10071-25085`:
+1. Brand Guidelines at 1600, full page. Compare with `10071-25085`:
    - **Banner:** a 1520 black panel; "Our Mission" and the 70px heading with "with best in class optimisation" in Fluro; the Cutout rising 142px above the panel with its left edge at x 1005.
    - **Cards:** two 750px cards 20px below the banner, white then Fluro, with Creme 400 and black Rules. Six Icon rows (muted text) and six black tick rows.
    - **List Panel:** a Creme 200 panel 20px below, with the 740 by 636 photograph inset 10px. "What We Are" (Primary Highlight) over four Primary ticks in one column, and "What We Aren't" (red Highlight) over eight red crosses in two columns.
 
    Proves the desktop Block.
-3. Brand Guidelines at 1600, viewport capture of the List Cards. Proves the Icon size and slot, the tick circle, the Rule and the row spacing up close.
-4. Brand Guidelines at 1600, viewport capture of the List Panel. Proves the list markers, the Highlight colours and the two-column split.
-5. Brand Guidelines at 768, full page. Proves the `md` padding, the Cutout above the banner content, the cards stacked, the photograph above the lists at 4:3, and the Crossed list still in two columns.
-6. Brand Guidelines at 390, full page. Proves the phone layout: every part in one column, 30px card padding, the Crossed list in one column.
-7. Brand Guidelines at 1024, full page. Proves the `lg` step: cards side by side and the photograph beside the lists.
-8. Served HTML of the page:
-   - one `section`
-   - the banner heading an `h2`, List Item headings `h3`, and List Items in a `ul`
-   - Icons, circles and crosses with `aria-hidden`
-   - the Cutout with empty alt and the photograph with its title as alt
-   - no inline styles and no `script` added for the Block
+2. Brand Guidelines at 768, full page. Proves the `md` padding, the Cutout above the banner content, the cards stacked, the photograph above the lists at 4:3, and the Crossed list still in two columns.
+3. Brand Guidelines at 390, full page. Proves the phone layout: every part in one column, 30px card padding, the Crossed list in one column.
 
-   Proves the markup.
-9. Throwaway Seed, with each case reported:
-   - a Block with only a banner and no image: the banner content full width
-   - a single List Card: half width at 1600
-   - a List Item with no heading: skipped
-   - a List Panel with only text: full width
-   - a Block with nothing filled: no section rendered
+**Checked in the browser and reported.**
 
-   Removed afterwards. Proves the visibility rules.
-10. An existing caller of the rich text component's check lists, a Content Row and the Audit CTA, and of the Eyebrow's Rule, unchanged from before. Proves the component changes touch no other caller.
+- At 1024: the `lg` step, with the cards side by side and the photograph beside the lists.
+- Markup: one `section`; the banner heading an `h2`, List Item headings `h3`, and List Items in a `ul`; Icons, circles and crosses with `aria-hidden`; the Cutout with empty alt and the photograph with its title as alt; no inline styles and no `script` added for the Block.
+- Visibility, with a throwaway Seed removed afterwards: a banner with no image shows its content full width; a single List Card keeps half width at 1600; a List Item with no heading is skipped; a List Panel with only text is full width; a Block with nothing filled renders no section.
+- Existing callers unchanged: the rich text component's check lists in a Content Row and the Audit CTA, and the Eyebrow's Rule elsewhere.
 
 ## Out of Scope
 
