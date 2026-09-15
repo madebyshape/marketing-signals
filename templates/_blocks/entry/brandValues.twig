@@ -15,6 +15,18 @@
 {% set hasBanner = banner.heading|striptags|trim|length > 0 %}
 {% set bannerImage = banner.image.one() %}
 
+{% set cards = [] %}
+
+{% for card in entry.twoColumnLists.all() %}
+    {% set items = card.listItems.all()|filter(item => item.heading|trim|length) %}
+
+    {% if items|length %}
+        {% set cards = cards|merge([{ eyebrow: card.eyebrow, items: items }]) %}
+    {% endif %}
+{% endfor %}
+
+{% set hasCards = cards|length > 0 %}
+
 {# Classes #}
 
 {% set blockClasses = {
@@ -38,12 +50,29 @@
         '|',
         '2xl:py-30'
     ],
-    heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl | 2xl:text-8xl'
+    heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl | 2xl:text-8xl',
+    cards: 'grid grid-cols-1 gap-5 | lg:grid-cols-12',
+    card: 'rounded-[20px] p-7.5 | md:p-10 | lg:col-span-6',
+    eyebrow: 'mb-8.75',
+    items: 'flex flex-col gap-7.5',
+    item: 'flex items-start gap-2.5',
+    marker: 'flex h-[25px] w-6.75 shrink-0 items-center justify-center',
+    icon: 'fa-sharp-duotone fa-light text-lg text-primary [--fa-secondary-opacity:0.2]',
+    tick: 'flex size-5.5 items-center justify-center rounded-full bg-black text-[11px] text-white',
+    itemHeading: 'font-medium leading-1.2 tracking-tighter',
+    itemText: 'mt-1.25'
 } %}
+
+{# Card Scheme #}
+
+{% set schemes = [
+    { card: 'bg-white', rule: 'creme-400', text: 'opacity-60' },
+    { card: 'bg-fluro', rule: 'black', text: '' }
+] %}
 
 {# Output #}
 
-{% if hasBanner %}
+{% if hasBanner or hasCards %}
 
     {% embed '_components/section'
         with {
@@ -104,6 +133,89 @@
                                 } only %}
 
                             </div>
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if hasCards %}
+
+                        <div class="{{ blockClasses.cards }}">
+
+                            {% for card in cards %}
+
+                                {% set scheme = schemes[loop.index0 % schemes|length] %}
+
+                                <div class="{{ blockClasses.card }} {{ scheme.card }}">
+
+                                    {% if card.eyebrow|length %}
+
+                                        {% include '_components/eyebrow' with {
+                                            params: {
+                                                text: card.eyebrow,
+                                                rule: true,
+                                                ruleColour: scheme.rule,
+                                                class: blockClasses.eyebrow
+                                            }
+                                        } only %}
+
+                                    {% endif %}
+
+                                    <ul class="{{ blockClasses.items }}">
+
+                                        {% for item in card.items %}
+
+                                            {# The last word with any `fa-` prefix dropped, as the Icon Card reads it. #}
+                                            {% set icon = item.icon|trim|split(' ')|last|trim %}
+                                            {% set icon = icon starts with 'fa-' ? icon|slice(3) : icon %}
+
+                                            <li class="{{ blockClasses.item }}">
+
+                                                <span class="{{ blockClasses.marker }}" aria-hidden="true">
+
+                                                    {% if icon|length %}
+                                                        <i class="{{ blockClasses.icon }} fa-{{ icon }}"></i>
+                                                    {% else %}
+                                                        <span class="{{ blockClasses.tick }}"><i class="fa-sharp fa-solid fa-check"></i></span>
+                                                    {% endif %}
+
+                                                </span>
+
+                                                <div>
+
+                                                    {% include '_components/heading' with {
+                                                        params: {
+                                                            tag: 'h3',
+                                                            heading: item.heading,
+                                                            size: 'lg',
+                                                            class: blockClasses.itemHeading
+                                                        }
+                                                    } only %}
+
+                                                    {% if item.text|striptags|trim|length %}
+
+                                                        {% include '_components/richText' with {
+                                                            params: {
+                                                                content: item.text,
+                                                                colour: 'black',
+                                                                size: 'sm',
+                                                                class: [blockClasses.itemText, scheme.text]|filter(c => c)|join(' ')
+                                                            }
+                                                        } only %}
+
+                                                    {% endif %}
+
+                                                </div>
+
+                                            </li>
+
+                                        {% endfor %}
+
+                                    </ul>
+
+                                </div>
+
+                            {% endfor %}
 
                         </div>
 
