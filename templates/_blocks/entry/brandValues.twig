@@ -27,6 +27,10 @@
 
 {% set hasCards = cards|length > 0 %}
 
+{% set panelImage = entry.image.one() %}
+{% set hasPanelText = entry.text|striptags|trim|length > 0 %}
+{% set hasPanel = panelImage or hasPanelText %}
+
 {# Classes #}
 
 {% set blockClasses = {
@@ -60,7 +64,23 @@
     icon: 'fa-sharp-duotone fa-light text-lg text-primary [--fa-secondary-opacity:0.2]',
     tick: 'flex size-5.5 items-center justify-center rounded-full bg-black text-[11px] text-white',
     itemHeading: 'font-medium leading-1.2 tracking-tighter',
-    itemText: 'mt-1.25'
+    itemText: 'mt-1.25',
+    panel: [
+        'grid grid-cols-1 rounded-[20px] bg-creme-200',
+        panelImage and hasPanelText ? '| lg:grid-cols-2 lg:gap-5'
+    ],
+    photo: [
+        'p-2.5',
+        hasPanelText ? 'pb-0 | lg:pr-0 lg:pb-2.5'
+    ],
+    photoPicture: [
+        'rounded-[20px]',
+        hasPanelText ? '| lg:h-full'
+    ],
+    panelText: [
+        'p-7.5 | md:p-10',
+        panelImage ? '| lg:self-center lg:pl-5 | 2xl:py-32.5 2xl:pl-30.5'
+    ]
 } %}
 
 {# Card Scheme #}
@@ -72,7 +92,7 @@
 
 {# Output #}
 
-{% if hasBanner or hasCards %}
+{% if hasBanner or hasCards or hasPanel %}
 
     {% embed '_components/section'
         with {
@@ -216,6 +236,49 @@
                                 </div>
 
                             {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if hasPanel %}
+
+                        <div class="{{ blockClasses.panel|filter(c => c)|join(' ')|trim }}">
+
+                            {% if panelImage %}
+
+                                <div class="{{ blockClasses.photo|filter(c => c)|join(' ')|trim }}">
+
+                                    {% include '_components/picture' with {
+                                        params: {
+                                            image: panelImage,
+                                            alt: panelImage.title,
+                                            transform: '4x3',
+                                            sizes: hasPanelText ? '(min-width: 1024px) 50vw, 100vw' : '100vw',
+                                            wrapperClass: blockClasses.photoPicture|filter(c => c)|join(' ')|trim,
+                                            imgClass: 'w-full h-full object-cover'
+                                        }
+                                    } only %}
+
+                                </div>
+
+                            {% endif %}
+
+                            {% if hasPanelText %}
+
+                                <div class="{{ blockClasses.panelText|filter(c => c)|join(' ')|trim }}">
+
+                                    {% include '_components/richText' with {
+                                        params: {
+                                            content: entry.text,
+                                            size: 'listPanel',
+                                            colour: 'black'
+                                        }
+                                    } only %}
+
+                                </div>
+
+                            {% endif %}
 
                         </div>
 
