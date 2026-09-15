@@ -121,9 +121,9 @@ fieldLayouts:
             elementCondition: null
             elementEditCondition: null
             fieldUid: cf9f3773-3ba1-41d3-b95f-5467d0b9227a # Dropdown - Alignment
-            handle: layout
+            handle: alignment
             instructions: null
-            label: Layout
+            label: Alignment
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

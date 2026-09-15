@@ -13,6 +13,7 @@
 
 {% set buttons = entry.buttonGroup.all() %}
 
+{% set isCentred = (entry.alignment.value ?? 'left') == 'center' %}
 {% set hasBreadcrumbs = entry.breadcrumbs is not same as(false) %}
 {% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
 {% set hasText = entry.text|striptags|trim|length > 0 %}
@@ -26,15 +27,17 @@
     grid: [
         'grid grid-cols-12 gap-x-5 gap-y-7.5 mt-15',
         '|',
-        hasButtons ? 'lg:items-start' : 'lg:items-end',
+        hasButtons or isCentred ? 'lg:items-start' : 'lg:items-end',
         hasBreadcrumbs ? 'xl:mt-[130px]' : 'xl:mt-[90px]'
     ],
-    eyebrow: hasButtons ? 'col-span-12 | lg:col-span-8' : 'col-span-12 | lg:col-span-7',
-    heading: hasButtons
-        ? 'col-span-12 font-semibold leading-0.97 tracking-tighter | md:text-7xl lg:col-span-8 lg:text-9xl xl:text-10xl'
-        : 'col-span-12 font-semibold leading-0.97 tracking-tighter | md:text-7xl lg:col-span-7 lg:text-9xl xl:text-11xl',
-    text: 'col-span-12 | lg:col-span-3 lg:col-start-10',
-    textColumn: 'col-span-12 | lg:col-span-4 lg:col-start-9',
+    eyebrow: isCentred ? 'col-span-12 text-center' : (hasButtons ? 'col-span-12 | lg:col-span-8' : 'col-span-12 | lg:col-span-7'),
+    heading: isCentred
+        ? 'col-span-12 text-center font-semibold leading-0.97 tracking-tighter | md:text-7xl lg:col-span-8 lg:col-start-3 lg:text-9xl xl:text-10xl'
+        : (hasButtons
+            ? 'col-span-12 font-semibold leading-0.97 tracking-tighter | md:text-7xl lg:col-span-8 lg:text-9xl xl:text-10xl'
+            : 'col-span-12 font-semibold leading-0.97 tracking-tighter | md:text-7xl lg:col-span-7 lg:text-9xl xl:text-11xl'),
+    text: isCentred ? 'max-w-[750px]' : 'col-span-12 | lg:col-span-3 lg:col-start-10',
+    textColumn: isCentred ? 'col-span-12 flex flex-col items-center text-center' : 'col-span-12 | lg:col-span-4 lg:col-start-9',
     buttons: 'mt-7.5'
 } %}
 
@@ -83,7 +86,7 @@
                 }
             } only %}
 
-            {% if hasButtons %}
+            {% if hasButtons or isCentred %}
 
                 <div class="{{ blockClasses.textColumn }}">
 
@@ -92,7 +95,8 @@
                         {% include '_components/richText' with {
                             params: {
                                 content: entry.text,
-                                colour: 'black'
+                                colour: 'black',
+                                class: isCentred ? blockClasses.text
                             }
                         } only %}
 
@@ -102,6 +106,7 @@
                         params: {
                             buttons: buttons,
                             colours: ['secondary', 'creme-300-outline'],
+                            align: isCentred ? 'center' : 'start',
                             class: hasText ? blockClasses.buttons
                         }
                     } only %}
