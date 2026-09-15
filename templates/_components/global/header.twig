@@ -76,7 +76,10 @@
     ],
     panelIcon: 'block text-[10px] leading-none motion-safe:transition-transform motion-safe:duration-300',
     panelDropdown: 'motion-reduce:duration-0!',
-    panelList: 'flex flex-col gap-y-3 pb-5',
+    panelList: [
+        'flex flex-col gap-y-3',
+        vars.class.gutter.b
+    ],
     panelLink: 'link | inline-block text-lg leading-1.2 tracking-tighter'
 } %}
 
@@ -294,7 +297,7 @@
                                     x-collapse.duration.300
                                     x-cloak
                                 >
-                                    <ul class="{{ classes.panelList }}">
+                                    <ul class="{{ classes.panelList|join(' ')|trim }}">
 
                                         {% for dropdownLink in item.dropdownLinks.all() %}
 
