@@ -1,0 +1,124 @@
+{% set component = 'dropdown' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    item: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'fixed left-1/2 z-40 hidden -translate-x-1/2 motion-safe:transition motion-safe:duration-300',
+        vars.class.header.top,
+        vars.class.gutter.t,
+        'xl:block',
+        params.class
+    ],
+    card: 'flex rounded-3xl bg-white text-black',
+    list: 'flex flex-col justify-center gap-y-3 px-12 py-10',
+    link: 'link | inline-block text-2xl leading-1.2 tracking-tighter whitespace-nowrap',
+    imageColumn: 'w-72 shrink-0 p-3',
+    frame: 'relative aspect-square overflow-hidden rounded-2xl',
+    image: 'absolute inset-0 motion-safe:transition motion-safe:duration-500'
+} %}
+
+{# Output #}
+
+{% set id = params.item.id %}
+{% set currentElement = craft.app.urlManager.matchedElement %}
+{% set links = params.item.dropdownLinks.all() %}
+{% set imageLinks = links|filter(link => link.image.one()) %}
+{% set open = "dropdown === '" ~ id ~ "'" %}
+
+<div
+    id="{{ component }}-{{ id }}"
+    class="{{ classes.wrapper|join(' ')|trim }}"
+    x-ref="{{ component }}{{ id }}"
+    x-cloak
+    x-bind:class="{
+        'opacity-0 translate-y-2 pointer-events-none': !({{ open|raw }}),
+        'opacity-100 pointer-events-auto': {{ open|raw }}
+    }"
+    x-bind:inert="!({{ open|raw }})"
+    x-bind:aria-hidden="!({{ open|raw }})"
+    x-on:mouseenter="cancelDropdownClose()"
+    x-on:mouseleave="scheduleDropdownClose()"
+>
+
+    <div
+        class="{{ classes.card }}"
+        x-data="{ image: {{ imageLinks|length ? "'" ~ (imageLinks|first).id ~ "'" : 'null' }} }"
+    >
+
+        <ul class="{{ classes.list }}">
+
+            {% for dropdownLink in links %}
+
+                {% set link = dropdownLink.linksTo %}
+                {% set hasImage = dropdownLink.image.one() is not null %}
+                {% set active = currentElement and link.type == 'entry' and link.element and link.element.id == currentElement.id %}
+
+                <li>
+                    <a
+                        href="{{ link.value }}"
+                        {% if link.target %}
+                            target="{{ link.target }}"
+                            {% if link.target == '_blank' %}
+                                rel="noopener noreferrer"
+                            {% endif %}
+                        {% endif %}
+                        {% if active %}
+                            aria-current="page"
+                        {% endif %}
+                        class="{{ classes.link }}{{ active ? ' link--active' : '' }}"
+                        {% if hasImage %}
+                            x-on:mouseenter="image = '{{ dropdownLink.id }}'"
+                            x-on:focus="image = '{{ dropdownLink.id }}'"
+                        {% endif %}
+                    >{{ link.label }}</a>
+                </li>
+
+            {% endfor %}
+
+        </ul>
+
+        {% if imageLinks|length %}
+
+            <div class="{{ classes.imageColumn }}" aria-hidden="true">
+
+                <div class="{{ classes.frame }}">
+
+                    {% for dropdownLink in imageLinks %}
+
+                        <div
+                            class="{{ classes.image }}"
+                            x-bind:class="image === '{{ dropdownLink.id }}' ? 'opacity-100' : 'opacity-0 blur-lg scale-105'"
+                        >
+                            {% include '_components/picture' with {
+                                params: {
+                                    image: dropdownLink.image.one(),
+                                    alt: '',
+                                    transform: '1x1',
+                                    sizes: '264px'
+                                }
+                            } only %}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>

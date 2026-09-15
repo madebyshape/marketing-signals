@@ -49,6 +49,10 @@
         'flex items-center',
         vars.class.gap.x.lg
     ],
+    dropdownItem: 'flex items-center gap-1.5',
+    dropdownButton: 'inline-flex size-5 items-center justify-center rounded-full cursor-pointer | focus:outline-none focus:ring-3 focus:ring-current/20',
+    dropdownIcon: 'block text-xs leading-none motion-safe:transition-transform motion-safe:duration-300',
+    overlay: 'fixed inset-0 z-30 hidden motion-safe:transition motion-safe:duration-500 | xl:block',
     button: 'hidden | xl:block',
     burger: 'inline-flex flex-shrink-0 items-center justify-center size-10 -mr-2 rounded-full cursor-pointer | focus:outline-none focus:ring-3 focus:ring-current/20 | xl:hidden',
     burgerBars: 'relative flex flex-col justify-between w-6 h-2',
@@ -64,17 +68,32 @@
     panelItem: [
         'border-b | first:border-t',
         options.colour[params.colour].divider
-    ]
+    ],
+    panelRow: 'flex items-center justify-between gap-5',
+    panelButton: [
+        'flex size-6.25 shrink-0 items-center justify-center rounded-full border cursor-pointer | focus:outline-none focus:ring-3 focus:ring-current/20',
+        options.colour[params.colour].divider
+    ],
+    panelIcon: 'block text-[10px] leading-none motion-safe:transition-transform motion-safe:duration-300',
+    panelDropdown: 'motion-reduce:duration-0!',
+    panelList: [
+        'flex flex-col gap-y-3',
+        vars.class.gutter.b
+    ],
+    panelLink: 'link | inline-block text-lg leading-1.2 tracking-tighter'
 } %}
 
 {# Output #}
 
 {% set menuItems = site.mainMenu.all() %}
 {% set currentElement = craft.app.urlManager.matchedElement %}
+{% set dropdownItems = menuItems|filter(item => item.type.handle == 'menuDropdownItem' and item.dropdownLinks.exists()) %}
+{% set dropdownIds = dropdownItems|map(item => item.id) %}
+{% set activeDropdownIds = currentElement ? dropdownItems|filter(item => item.dropdownLinks.all()|filter(dropdownLink => dropdownLink.linksTo.type == 'entry' and dropdownLink.linksTo.element and dropdownLink.linksTo.element.id == currentElement.id)|length)|map(item => item.id) : [] %}
 
 <div
     x-data="{{ component }}"
-    x-on:keydown.escape.window="mobileMenu = false"
+    x-on:keydown.escape.window="mobileMenu = false; closeDropdown(true)"
 >
 
     {# js-modal while the Mobile Menu is open so Lenis leaves scrolling to the browser. #}
@@ -82,10 +101,12 @@
     <header
         class="{{ classes.wrapper|join(' ')|trim }}"
         x-bind:class="{
-            '-translate-y-full': !isVisible && !mobileMenu,
-            '{{ options.colour[params.colour].background }}': hasBackground || mobileMenu,
+            '-translate-y-full': !isVisible && !mobileMenu && !dropdown,
+            '{{ options.colour[params.colour].background }}': hasBackground || mobileMenu || dropdown,
             'js-modal': mobileMenu
         }"
+        x-on:mouseenter="cancelDropdownClose()"
+        x-on:mouseleave="scheduleDropdownClose()"
     >
 
         <a href="{{ siteUrl }}" class="{{ classes.logoLink }}" aria-label="{{ siteName }}">
@@ -106,8 +127,18 @@
 
                         {% set link = item.linksTo %}
                         {% set active = currentElement and link.type == 'entry' and link.element and link.element.id == currentElement.id %}
+                        {% set hasDropdown = item.id in dropdownIds %}
+                        {% set parentActive = item.id in activeDropdownIds %}
+                        {% set open = "dropdown === '" ~ item.id ~ "'" %}
 
-                        <li>
+                        <li
+                            {% if hasDropdown %}
+                                class="{{ classes.dropdownItem }}"
+                                x-on:mouseenter="hoverDropdown('{{ item.id }}')"
+                            {% else %}
+                                x-on:mouseenter="closeDropdown()"
+                            {% endif %}
+                        >
                             <a
                                 href="{{ link.value }}"
                                 {% if link.target %}
@@ -119,8 +150,33 @@
                                 {% if active %}
                                     aria-current="page"
                                 {% endif %}
-                                class="link{{ active ? ' link--active' : '' }} | block text-xs leading-1.33 tracking-tight"
+                                class="link{{ active or parentActive ? ' link--active' : '' }} | block text-xs leading-1.33 tracking-tight"
                             >{{ link.label }}</a>
+
+                            {% if hasDropdown %}
+
+                                <button
+                                    type="button"
+                                    class="{{ classes.dropdownButton }}"
+                                    aria-controls="dropdown-{{ item.id }}"
+                                    aria-label="Show {{ link.label }} links"
+                                    x-ref="dropdownButton{{ item.id }}"
+                                    x-bind:aria-expanded="{{ open|raw }}"
+                                    x-on:click="toggleDropdown('{{ item.id }}')"
+                                    x-on:keydown.tab="focusDropdown($event, '{{ item.id }}')"
+                                >
+                                    {# The kit swaps each icon for an SVG, so the rotation is bound on the span around it. #}
+
+                                    <span
+                                        class="{{ classes.dropdownIcon }}"
+                                        x-bind:class="{ 'rotate-45': {{ open|raw }} }"
+                                        aria-hidden="true"
+                                    >
+                                        <i class="fa-sharp fa-regular fa-plus"></i>
+                                    </span>
+                                </button>
+
+                            {% endif %}
                         </li>
 
                     {% endfor %}
@@ -181,7 +237,7 @@
 
         {% if menuItems|length %}
 
-            <nav aria-label="Mobile Menu">
+            <nav aria-label="Mobile Menu" x-data="{ row: null }">
 
                 <ul>
 
@@ -189,8 +245,16 @@
 
                         {% set link = item.linksTo %}
                         {% set active = currentElement and link.type == 'entry' and link.element and link.element.id == currentElement.id %}
+                        {% set hasDropdown = item.id in dropdownIds %}
+                        {% set parentActive = item.id in activeDropdownIds %}
+                        {% set open = "row === '" ~ item.id ~ "'" %}
 
                         <li class="{{ classes.panelItem|join(' ')|trim }}">
+
+                            {% if hasDropdown %}
+                                <div class="{{ classes.panelRow }}">
+                            {% endif %}
+
                             <a
                                 href="{{ link.value }}"
                                 {% if link.target %}
@@ -202,8 +266,67 @@
                                 {% if active %}
                                     aria-current="page"
                                 {% endif %}
-                                class="link{{ active ? ' link--active' : '' }} | inline-block py-4 text-2xl leading-1.2 tracking-tighter"
+                                class="link{{ active or parentActive ? ' link--active' : '' }} | inline-block py-4 text-2xl leading-1.2 tracking-tighter"
                             >{{ link.label }}</a>
+
+                            {% if hasDropdown %}
+
+                                    <button
+                                        type="button"
+                                        class="{{ classes.panelButton|join(' ')|trim }}"
+                                        aria-controls="mobile-dropdown-{{ item.id }}"
+                                        aria-label="Show {{ link.label }} links"
+                                        x-bind:aria-expanded="{{ open|raw }} ? 'true' : 'false'"
+                                        x-on:click="row = {{ open|raw }} ? null : '{{ item.id }}'"
+                                    >
+                                        <span
+                                            class="{{ classes.panelIcon }}"
+                                            x-bind:class="{ 'rotate-180': {{ open|raw }} }"
+                                            aria-hidden="true"
+                                        >
+                                            <i class="fa-sharp fa-regular fa-chevron-down"></i>
+                                        </span>
+                                    </button>
+
+                                </div>
+
+                                <div
+                                    id="mobile-dropdown-{{ item.id }}"
+                                    class="{{ classes.panelDropdown }}"
+                                    x-show="{{ open|raw }}"
+                                    x-collapse.duration.300
+                                    x-cloak
+                                >
+                                    <ul class="{{ classes.panelList|join(' ')|trim }}">
+
+                                        {% for dropdownLink in item.dropdownLinks.all() %}
+
+                                            {% set dropdownLinksTo = dropdownLink.linksTo %}
+                                            {% set dropdownActive = currentElement and dropdownLinksTo.type == 'entry' and dropdownLinksTo.element and dropdownLinksTo.element.id == currentElement.id %}
+
+                                            <li>
+                                                <a
+                                                    href="{{ dropdownLinksTo.value }}"
+                                                    {% if dropdownLinksTo.target %}
+                                                        target="{{ dropdownLinksTo.target }}"
+                                                        {% if dropdownLinksTo.target == '_blank' %}
+                                                            rel="noopener noreferrer"
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    {% if dropdownActive %}
+                                                        aria-current="page"
+                                                    {% endif %}
+                                                    class="{{ classes.panelLink }}{{ dropdownActive ? ' link--active' : '' }}"
+                                                >{{ dropdownLinksTo.label }}</a>
+                                            </li>
+
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+
+                            {% endif %}
+
                         </li>
 
                     {% endfor %}
@@ -226,6 +349,26 @@
 
     </div>
 
+    <div
+        class="{{ classes.overlay }}"
+        aria-hidden="true"
+        x-cloak
+        x-bind:class="{
+            'backdrop-blur-lg pointer-events-auto': dropdown,
+            'pointer-events-none': !dropdown
+        }"
+        x-on:mouseenter="scheduleDropdownClose()"
+        x-on:click="closeDropdown()"
+    ></div>
+
+    {% for item in dropdownItems %}
+        {% include '_components/global/dropdown' with {
+            params: {
+                item: item
+            }
+        } %}
+    {% endfor %}
+
 </div>
 
 {% js %}
@@ -239,6 +382,59 @@
             isVisible: true,
             hasBackground: false,
             mobileMenu: false,
+            dropdown: null,
+            dropdownTimer: null,
+            openDropdown(id) {
+                clearTimeout(this.dropdownTimer);
+                this.dropdown = id;
+            },
+            hoverDropdown(id) {
+                if (window.matchMedia('(pointer: fine)').matches) {
+                    this.openDropdown(id);
+                }
+            },
+            toggleDropdown(id) {
+                this.dropdown === id ? this.closeDropdown() : this.openDropdown(id);
+            },
+            closeDropdown(returnFocus = false) {
+
+                clearTimeout(this.dropdownTimer);
+
+                if (returnFocus && this.dropdown) {
+                    this.$refs['dropdownButton' + this.dropdown]?.focus();
+                }
+
+                this.dropdown = null;
+
+            },
+            scheduleDropdownClose() {
+
+                if (!this.dropdown) {
+                    return;
+                }
+
+                clearTimeout(this.dropdownTimer);
+                this.dropdownTimer = setTimeout(() => this.closeDropdown(), 150);
+
+            },
+            cancelDropdownClose() {
+                clearTimeout(this.dropdownTimer);
+            },
+            focusDropdown(event, id) {
+
+                if (this.dropdown !== id || event.shiftKey) {
+                    return;
+                }
+
+                // The Dropdown sits after the header in the DOM, so Tab from its "+" is sent straight to it.
+                const link = this.$refs['dropdown' + id]?.querySelector('a');
+
+                if (link) {
+                    event.preventDefault();
+                    link.focus();
+                }
+
+            },
             init() {
 
                 this.scrollPosition = window.scrollY;
@@ -249,6 +445,10 @@
                 window.addEventListener('scroll', () => {
 
                     const position = window.scrollY;
+
+                    if (this.dropdown) {
+                        this.closeDropdown();
+                    }
 
                     this.direction = position > this.scrollPosition ? 'down' : 'up';
                     this.scrollPosition = position;
@@ -288,11 +488,20 @@
 
                 });
 
+                this.$watch('dropdown', (value) => {
+
+                    if (value) {
+                        this.isVisible = true;
+                    }
+
+                });
+
                 // The xl breakpoint, matching --breakpoint-xl in src/css/index.css.
                 const desktop = window.matchMedia('(min-width: 1280px)');
 
                 desktop.addEventListener('change', () => {
                     this.mobileMenu = false;
+                    this.closeDropdown();
                 });
 
             }
