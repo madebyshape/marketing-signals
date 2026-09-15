@@ -1048,6 +1048,28 @@ _Avoid_: Do and don't panel, image and text, Content Row, split panel
 One line of a bullet list in a List Panel, rendered with a red circle and a white cross in place of the bullet, for something the brand is not.
 _Avoid_: Cross item, don't, negative item, X item
 
+### Brand Styles
+
+**Brand Styles**:
+A Block of two white panels, the Colour Palette over the Type Specimen, with an optional centred Button Group beneath them. Made for the Brand Guidelines page, but available to any page with Blocks.
+_Avoid_: Branding, Branding Columns, style guide block, brand block, guidelines block
+
+**Colour Palette**:
+The first panel of Brand Styles: a heading with the Highlight beside a short text, over the brand's seven Swatches. The Swatches are fixed; editors set only the heading and text.
+_Avoid_: Colour panel, colours, swatch grid, palette block
+
+**Swatch**:
+One brand colour in the Colour Palette, a rounded block of that colour with its hex value written in its bottom corner.
+_Avoid_: Colour chip, colour card, tile, Tile
+
+**Type Specimen**:
+The second panel of Brand Styles: a heading with the Highlight over a Rule, then the Specimen Rows. The rows are fixed; editors set only the heading and the Buttons row's Buttons.
+_Avoid_: Typography panel, type scale, fonts block
+
+**Specimen Row**:
+One row of the Type Specimen: a label naming the use and its Noi Grotesk weight, beside a sample of that use. The rows are Headers, Sub Headers beside Body Copy, and Buttons; the Buttons row shows only when the editor has set Buttons. The samples show type, so they are never headings themselves.
+_Avoid_: Type row, font row, sample, specimen
+
 ### FAQ Listing
 
 **FAQ Category**:
