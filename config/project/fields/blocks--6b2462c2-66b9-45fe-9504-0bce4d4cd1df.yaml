@@ -148,6 +148,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 8bf1543e-9567-44b1-878e-315eaa820bcb # Eyebrow & Image Grid
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - ee7c6ba5-113d-47b8-aac7-4d8e6018f645 # Heading Reveal
         -
           - group

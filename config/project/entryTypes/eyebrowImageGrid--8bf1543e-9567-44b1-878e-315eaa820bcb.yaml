@@ -1,0 +1,117 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  3170f399-ba1d-4367-92b9-c0ef426ac378:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Header'
+            type: craft\fieldlayoutelements\Heading
+            uid: 71f0eaac-af1c-46ab-a771-16e337d3de7f
+            userCondition: null
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5189384-3a6a-441f-9f4b-cb171f279337 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 75fb1d82-21a9-4ee0-a0fa-d8cac14c48e1
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 72c791ed-3fce-4ff6-84e2-b9f44879bd25
+            userCondition: null
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d4285909-50eb-419a-a385-79e247d4648f # Eyebrow & Images
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 38e27a0e-576a-4fff-9fab-db82bdb5f803
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Footer'
+            type: craft\fieldlayoutelements\Heading
+            uid: 2905d15a-f50d-4f01-b362-0094339cdd1b
+            userCondition: null
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 298fa7b6-abc0-4c80-a004-8fa35a30bf35 # Button Group
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5498216f-8bc6-43bc-9203-10f0822b857f
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 10a55a9f-9c52-40ac-b3de-33bae5bb69b7
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a391fe49-c4a6-48b7-aa5e-2065620729ba
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 1293094e-da84-4d36-b0ff-b631ae01163e
+        userCondition: null
+    thumbFieldKey: null
+handle: eyebrowImageGrid
+hasTitleField: false
+icon: grid-2
+name: 'Eyebrow & Image Grid'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

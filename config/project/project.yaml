@@ -184,6 +184,7 @@ meta:
     7fbdabfa-25d4-4019-acca-997cce421316: Timeline # Timeline
     8a84de3a-19bd-4528-a47b-1d207eda9858: Heading # Heading
     8b233bdd-f329-4553-af8e-2f8f4156f8cf: 'Menu Column' # Menu Column
+    8bf1543e-9567-44b1-878e-315eaa820bcb: 'Eyebrow & Image Grid' # Eyebrow & Image Grid
     08c386f4-5a41-4c9f-8282-f6785af06bfc: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
     8dec68ee-43b1-4ee4-adaf-09353f5bfab8: 'Entry - Testimonial' # Entry - Testimonial
     8f9810d5-d889-43cf-a304-d47480f17506: 'Hero - Team' # Hero - Team
@@ -258,6 +259,7 @@ meta:
     49088c3c-18ad-4a72-8038-a2015573bda7: 'Marquee - Images' # Marquee - Images
     95724d2a-e278-4525-aac3-1f88dcf163ee: Video # Video
     401508ab-1703-4248-86c6-2adf4ccc7ea9: 'Links To' # Links To
+    462975f0-24c7-4894-8436-2a7ffbb451a3: 'Eyebrow & Image' # Eyebrow & Image
     716706e7-230b-4ae4-ad62-ba31b432c578: Site # Site
     757798ef-4636-48d7-92ab-a4f0de5f9340: 'Carousel - Featured Team' # Carousel - Featured Team
     868256be-34c2-4060-9427-94a7d25d97a2: 'Entry - Service Listing' # Entry - Service Listing
@@ -282,6 +284,7 @@ meta:
     b5e534eb-67ec-42d5-9bb4-93f6f235bc2b: 'Entry - Blog' # Entry - Blog
     b6d2560f-cae8-458b-9d36-e66efde2f247: 'Entries - Blog' # Entries - Blog
     b9ac68e1-d9f1-4007-843f-fde1e9f4921b: Files # Files
+    bb1b3df0-df2e-482f-9678-0a6d3dd226bc: 'Dropdown - Text Colour' # Dropdown - Text Colour
     bb417d14-872a-4288-9f03-8a735011cb7e: Eyebrow # Eyebrow
     bcef1181-692a-4647-9320-f85c0285fbf9: Testimonial # Testimonial
     bd5792c0-8d1f-4b0d-8340-8ae589fec77d: 'Longform - Quote' # Longform - Quote
@@ -306,6 +309,7 @@ meta:
     d35d937a-07ca-4c88-bd62-1f65c807aa15: Statistics # Statistics
     d59f6856-5fd4-442b-8be6-1c9ebd106977: 'Dropdown Links' # Dropdown Links
     d99bf7af-1eb1-4b77-814e-624eeec1a0e3: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
+    d4285909-50eb-419a-a385-79e247d4648f: 'Eyebrow & Images' # Eyebrow & Images
     d5189384-3a6a-441f-9f4b-cb171f279337: Heading # Heading
     d8925826-0e82-41f9-91e8-bb798d884868: 'Carousel - Blog' # Carousel - Blog
     da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21: Form # Form
