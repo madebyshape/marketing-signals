@@ -79,7 +79,7 @@ A Service page with the lightswitch off never shows it, and it never renders wit
 
 ## Implementation Decisions
 
-**Prerequisite, control panel.** The Lead Generation form's Submit Method is switched to Ajax in Formie, keeping its "Entry" submit action, pointed at the Form Success Page (`/thank-you`). Formie keeps forms in the database, so this is not part of the branch. The redirect entry must be confirmed before evidence is taken.
+**Prerequisite, control panel (done).** The Lead Generation form's Submit Method is Ajax in Formie, with its "Entry" submit action pointed at the Form Success Page (`/thank-you`). Formie keeps forms in the database, so this is not part of the branch.
 
 **Service entry template.** When the Service's `leadGenerationPopup` lightswitch is on, it includes the Lead Modal component after the Blocks, handing it the Site entry's `leadGenerationPopup` content. It is placed at the top level of the page, outside every Block, so no ancestor's stacking context traps its fixed backdrop and Formie's script finds the form in the document at load; it is not teleported. The global layout is unchanged.
 
@@ -172,5 +172,5 @@ States checked on the site and reported:
 - The node's tiles have a white border; the component's black colour uses Creme 100, which is kept, as the difference on a white card is negligible.
 - The node's text layers are Noi Grotesk Semibold, which this project builds as `font-medium` for body text, as every other Semibold layer on the site.
 - The Site entry's field is a Content Block named "Lead Generation Popup" on a "Popup" tab, and the Service's lightswitch shares that name with a tip pointing to it; the handles stay as they are, and "Lead Modal" is the domain name.
-- The Lead Generation form's Submit Method was "page-reload" and its submit action "Entry" when this spec was written; the selected entry could not be read from the database settings and must be checked in Formie.
+- The Lead Generation form's Submit Method was switched from "page-reload" to "ajax" after the grilling session; its submit action stays "Entry", set to the Form Success Page.
 - Only the AI-focused SEO Service has the lightswitch on locally.
