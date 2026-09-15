@@ -2,6 +2,7 @@
 
 {% set defaultParams = {
 	image: null,
+	alt: null,
 	preHeading: null,
 	heading: null,
 	subHeading: null,
@@ -43,6 +44,12 @@
 			heading: 'text-base',
 			subHeading: 'text-xs',
 			avatar: 'sm'
+		},
+		md: {
+			preHeading: 'text-xs',
+			heading: 'text-base',
+			subHeading: 'text-xs',
+			avatar: 'md'
 		},
 		lg: {
 			preHeading: 'text-sm',
@@ -91,6 +98,7 @@
 		params: {
 			image: params.image,
 			name: params.heading,
+			alt: params.alt,
 			size: options.size[params.size].avatar,
 			colour: options.colour[params.colour].avatar
 		}
