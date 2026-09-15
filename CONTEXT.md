@@ -1002,6 +1002,18 @@ _Avoid_: Sidebar CTA, CTA, apply card, sticky CTA
 The row of round buttons beside a Longform, under "Share this career" on a Career or "Share this article" on a Blog, that share the page to LinkedIn, Facebook or X or copy its link.
 _Avoid_: Social share, share links, social icons, socials
 
+**Longform Form**:
+A form an editor places inside a Longform, shown in the Longform's column. A Longform Form with no form shows nothing.
+_Avoid_: Form block, embedded form, inline form
+
+**Application Form**:
+The form on a Career for applying to the role: name, phone, email, a File Upload for the CV and a message, with its privacy statement beside the send button.
+_Avoid_: Career form, job application, apply form, Contact Form
+
+**File Upload**:
+The bordered box in a form where a visitor attaches a file, by clicking or dropping it onto the box, showing the chosen file's name once picked.
+_Avoid_: CV upload, dropzone, attachment field, file input
+
 **Longform Quote**:
 A quote an editor places inside a Longform, in a Fluro panel, with the person's Avatar Group beneath it. An empty quote shows nothing.
 _Avoid_: Pull quote, blockquote, testimonial, quote block
