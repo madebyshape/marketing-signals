@@ -13,7 +13,6 @@
 
 {% set buttons = entry.buttonGroup.all() %}
 
-{% set isCentred = (entry.alignment.value ?? 'left') == 'center' %}
 {% set hasBreadcrumbs = entry.breadcrumbs is not same as(false) %}
 {% set hasEyebrow = entry.eyebrow|trim|length > 0 %}
 {% set hasText = entry.text|striptags|trim|length > 0 %}
@@ -21,7 +20,37 @@
 
 {# Options #}
 
+{# A Left hero's geometry switches on whether it has Buttons. #}
+
 {% set blockOptions = {
+    alignment: {
+        left: {
+            text: {
+                items: 'lg:items-end',
+                eyebrow: 'col-span-12 | lg:col-span-7',
+                heading: 'col-span-12 | md:text-7xl lg:col-span-7 lg:text-9xl xl:text-11xl',
+                column: null,
+                text: 'col-span-12 | lg:col-span-3 lg:col-start-10',
+                buttonAlign: 'start'
+            },
+            buttons: {
+                items: 'lg:items-start',
+                eyebrow: 'col-span-12 | lg:col-span-8',
+                heading: 'col-span-12 | md:text-7xl lg:col-span-8 lg:text-9xl xl:text-10xl',
+                column: 'col-span-12 | lg:col-span-4 lg:col-start-9',
+                text: null,
+                buttonAlign: 'start'
+            }
+        },
+        center: {
+            items: 'lg:items-start',
+            eyebrow: 'col-span-12 text-center',
+            heading: 'col-span-12 text-center | md:text-7xl lg:col-span-8 lg:col-start-3 lg:text-9xl xl:text-10xl',
+            column: 'col-span-12 flex flex-col items-center text-center',
+            text: 'max-w-[750px]',
+            buttonAlign: 'center'
+        }
+    },
     backgroundColour: {
         creme: {
             panel: null,
@@ -44,6 +73,10 @@
     }
 } %}
 
+{% set setOut = (entry.alignment.value ?? 'left') == 'center'
+    ? blockOptions.alignment.center
+    : blockOptions.alignment.left[hasButtons ? 'buttons' : 'text'] %}
+
 {% set background = blockOptions.backgroundColour[entry.backgroundColour.value ?? 'creme'] ?? blockOptions.backgroundColour.creme %}
 
 {# Classes #}
@@ -60,18 +93,17 @@
     grid: [
         'grid grid-cols-12 gap-x-5 gap-y-7.5 mt-15',
         '|',
-        hasButtons or isCentred ? 'lg:items-start' : 'lg:items-end',
+        setOut.items,
         hasBreadcrumbs ? 'xl:mt-[130px]' : 'xl:mt-[90px]'
     ],
-    eyebrow: isCentred ? 'col-span-12 text-center' : (hasButtons ? 'col-span-12 | lg:col-span-8' : 'col-span-12 | lg:col-span-7'),
-    heading: isCentred
-        ? 'col-span-12 text-center font-semibold leading-0.97 tracking-tighter | md:text-7xl lg:col-span-8 lg:col-start-3 lg:text-9xl xl:text-10xl'
-        : (hasButtons
-            ? 'col-span-12 font-semibold leading-0.97 tracking-tighter | md:text-7xl lg:col-span-8 lg:text-9xl xl:text-10xl'
-            : 'col-span-12 font-semibold leading-0.97 tracking-tighter | md:text-7xl lg:col-span-7 lg:text-9xl xl:text-11xl'),
-    text: isCentred ? 'max-w-[750px]' : 'col-span-12 | lg:col-span-3 lg:col-start-10',
-    textColumn: isCentred ? 'col-span-12 flex flex-col items-center text-center' : 'col-span-12 | lg:col-span-4 lg:col-start-9',
-    buttons: 'mt-7.5'
+    eyebrow: setOut.eyebrow,
+    heading: [
+        'font-semibold leading-0.97 tracking-tighter',
+        setOut.heading
+    ],
+    column: setOut.column,
+    text: setOut.text,
+    buttons: hasText ? 'mt-7.5' : null
 } %}
 
 {# Output #}
@@ -120,13 +152,13 @@
                         colour: background.heading,
                         size: '5xl',
                         alternateStyle: background.highlight,
-                        class: blockClasses.heading
+                        class: blockClasses.heading|join(' ')|trim
                     }
                 } only %}
 
-                {% if hasButtons or isCentred %}
+                {% if blockClasses.column and (hasText or hasButtons) %}
 
-                    <div class="{{ blockClasses.textColumn }}">
+                    <div class="{{ blockClasses.column }}">
 
                         {% if hasText %}
 
@@ -134,7 +166,7 @@
                                 params: {
                                     content: entry.text,
                                     colour: background.text,
-                                    class: isCentred ? blockClasses.text
+                                    class: blockClasses.text
                                 }
                             } only %}
 
@@ -144,14 +176,14 @@
                             params: {
                                 buttons: buttons,
                                 colours: background.buttons,
-                                align: isCentred ? 'center' : 'start',
-                                class: hasText ? blockClasses.buttons
+                                align: setOut.buttonAlign,
+                                class: blockClasses.buttons
                             }
                         } only %}
 
                     </div>
 
-                {% else %}
+                {% elseif hasText %}
 
                     {% include '_components/richText' with {
                         params: {
