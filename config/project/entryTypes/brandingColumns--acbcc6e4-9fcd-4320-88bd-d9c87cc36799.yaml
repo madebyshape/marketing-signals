@@ -1,0 +1,71 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  cad876d6-adf7-404c-87de-c78ea166b56b:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            elementCondition: null
+            heading: 'Section Content'
+            type: craft\fieldlayoutelements\Heading
+            uid: 53a91fdd-a6bd-4c81-b7bf-ee8d257bbc40
+            userCondition: null
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 16cba89c-b09f-49d8-8646-1e6461e2b1c2 # Columns
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: dfddfcf3-68d7-4907-a1e7-bd8586bbeb65
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 2854dd57-3d8f-4f72-a727-5d9cc1a3f436
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 420c1dd5-5db2-4556-bde2-bcb839bc1445
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: ead07e21-6500-4421-85c7-b73573fa2428
+        userCondition: null
+    thumbFieldKey: null
+handle: brandingColumns
+hasTitleField: false
+icon: table-columns
+name: 'Branding Columns'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

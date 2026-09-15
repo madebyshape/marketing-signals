@@ -1,0 +1,104 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Branding Columns #}
+
+{% set columns = entry.columns.all()|filter(column => column.eyebrow|trim|length or column.text|striptags|trim|length) %}
+
+{# Options #}
+
+{% set blockOptions = {
+    scheme: [
+        {
+            panel: 'bg-black',
+            eyebrow: 'white',
+            rule: 'white-30',
+            text: 'creme-400'
+        },
+        {
+            panel: 'bg-white',
+            eyebrow: 'black',
+            rule: 'creme-400',
+            text: 'black'
+        }
+    ]
+} %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    grid: 'grid grid-cols-12 gap-5',
+    column: {
+        base: 'col-span-12 flex flex-col rounded-[20px] p-7.5',
+        responsive: 'md:p-10 lg:col-span-6'
+    },
+    text: 'mt-5 | md:mt-7.5'
+} %}
+
+{# Output #}
+
+{% if columns|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.grid }}">
+
+                {% for column in columns %}
+
+                    {% set scheme = cycle(blockOptions.scheme, loop.index0) %}
+                    {% set hasEyebrow = column.eyebrow|trim|length > 0 %}
+
+                    <div class="{{ [blockClasses.column.base, scheme.panel, '|', blockClasses.column.responsive]|join(' ')|trim }}">
+
+                        {% if hasEyebrow %}
+
+                            {% include '_components/eyebrow' with {
+                                params: {
+                                    text: column.eyebrow,
+                                    tag: 'h2',
+                                    colour: scheme.eyebrow,
+                                    rule: true,
+                                    ruleColour: scheme.rule
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% if column.text|striptags|trim|length %}
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: column.text,
+                                    colour: scheme.text,
+                                    size: 'sm',
+                                    class: hasEyebrow ? blockClasses.text
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}

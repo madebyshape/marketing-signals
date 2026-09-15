@@ -1,0 +1,26 @@
+columnSuffix: null
+handle: columns
+instructions: 'Coloured by position among the columns that show: black, white, then round again.'
+name: Columns
+searchable: false
+settings:
+  createButtonLabel: 'New Branding Column'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 42198a63-1391-407b-a9d8-00f791a98112 # Branding Column
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix
