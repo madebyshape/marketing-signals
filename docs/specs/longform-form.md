@@ -156,8 +156,9 @@ There is no test suite. Evidence replaces tests: screenshots from the running DD
 Screenshots, USA Focused Senior Digital PR Manager, scrolled to the form:
 
 1. 1600, the form in the Longform's column, resting: two fields per row for name and for phone and email, the File Upload box with "Upload your CV" centred, Message, then the privacy statement left and Apply Now right. Compared against the Figma node. Proves the desktop layout.
-2. 390, the form, resting: every field full width, the File Upload at full height with the pill centred, the privacy statement above a full-width Apply Now. Proves the mobile layout.
-3. 1600, the File Upload with `jane-doe-cv.pdf` chosen: the pill reads the file name and the border is Black. Proves the chosen state.
+2. 768, the form, resting: name and phone/email rows two columns, the privacy statement beside Apply Now, all within the stacked Longform's 750px. Proves the `md` layout.
+3. 390, the form, resting: every field full width, the File Upload at full height with the pill centred, the privacy statement above a full-width Apply Now. Proves the mobile layout.
+4. 1600, the File Upload with `jane-doe-cv.pdf` chosen: the pill reads the file name and the border is Black. Proves the chosen state.
 4. 1600, the form sent empty: the form error alert above the fields in Primary, the required fields' borders Primary with their messages beneath. Proves the error layout.
 
 States checked on the site and reported:
