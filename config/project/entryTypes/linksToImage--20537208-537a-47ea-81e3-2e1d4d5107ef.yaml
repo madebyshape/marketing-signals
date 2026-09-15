@@ -1,0 +1,58 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  968b9833-d479-482e-af13-e8280a53481d:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-14T20:29:59+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c803bdbf-5bdd-43e8-94e2-c7cde210fe37 # Links To
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9816951e-e50e-4596-aa10-bc9b808724fc
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-14T20:29:59+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e5a2c6d1-cffb-4a1e-bd7e-46f933a9b9a3
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 7d24a98c-f5ef-4621-b019-b0b9e17a7af7
+        userCondition: null
+    thumbFieldKey: null
+handle: linksToImage
+hasTitleField: false
+icon: link
+name: 'Links To & Image'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

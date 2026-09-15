@@ -1,0 +1,64 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  a60eb573-5137-4aec-aef4-4ff3a418d5ec:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-14T20:14:04+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21 # Form
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 04271be0-509d-45c1-b699-35be64589062
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: d153058d-d6a2-4101-aff3-2993b8fbed11
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-14T20:14:04+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 16631682-b6d8-4020-a2a1-9d2d7bcff2de
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 3854c5a5-0721-4f0d-aa39-2b0c313bbfc4
+        userCondition: null
+    thumbFieldKey: null
+handle: longformForm
+hasTitleField: false
+icon: envelope
+name: 'Longform Form'
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

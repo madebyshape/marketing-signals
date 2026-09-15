@@ -171,6 +171,28 @@ fieldLayouts:
         name: '404'
         uid: e7b0b8ae-de4b-470c-a628-f96fb6383738
         userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-14T20:16:49+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4f511e94-b6bc-48f7-9338-7028526804a5 # Lead Generation Popup
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5c3c6ce4-9c17-4268-ba09-74974c2fc21e
+            userCondition: null
+            warning: null
+            width: 100
+        name: Popup
+        uid: ecc9eb8e-53a9-4fe7-a6aa-ac419708f616
+        userCondition: null
     thumbFieldKey: null
 handle: entrySite
 hasTitleField: false

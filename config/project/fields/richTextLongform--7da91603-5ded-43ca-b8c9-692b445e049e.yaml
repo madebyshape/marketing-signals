@@ -67,8 +67,16 @@ settings:
           - name
           - Quote
         -
-          - handle
-          - quote
+          - expanded
+          - false
+    -
+      __assoc__:
+        -
+          - uid
+          - 574f8319-60b4-4157-ad36-62611372675a # Longform Form
+        -
+          - name
+          - Form
         -
           - expanded
           - false

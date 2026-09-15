@@ -1,10 +1,10 @@
 columnSuffix: null
-handle: mainMenu
+handle: dropdownLinks
 instructions: null
-name: 'Main Menu'
+name: 'Dropdown Links'
 searchable: false
 settings:
-  createButtonLabel: 'New Menu Item'
+  createButtonLabel: 'New Dropdown'
   defaultIndexViewMode: cards
   enableVersioning: false
   entryTypes:
@@ -12,15 +12,7 @@ settings:
       __assoc__:
         -
           - uid
-          - 5200f937-8d03-490c-bebc-4fb1e0c06c4a # Menu Item
-        -
-          - group
-          - General
-    -
-      __assoc__:
-        -
-          - uid
-          - f703b20c-f9bf-47ff-afa5-82da1ace5cf9 # Menu Dropdown Item
+          - 20537208-537a-47ea-81e3-2e1d4d5107ef # Links To & Image
         -
           - group
           - General

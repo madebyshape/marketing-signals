@@ -1,0 +1,162 @@
+columnSuffix: null
+handle: leadGenerationPopup
+instructions: null
+name: 'Lead Generation Popup'
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - b5b3b1e6-7fdc-43fd-9871-d849748adced
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    1:
+                      - uid
+                      - f161ea21-eb8c-477c-8a5d-334c299509ab
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-14T20:16:45+00:00'
+                            9:
+                              - uid
+                              - 5950a4cf-8b99-42d1-a8e3-4a76afc84de3
+                            12:
+                              - fieldUid
+                              - bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-14T20:16:45+00:00'
+                            9:
+                              - uid
+                              - c45769e2-39b5-46bb-bd79-76ec33b993e1
+                            12:
+                              - fieldUid
+                              - 01475e1b-7d73-4ffa-868e-7dbcb87d00a9 # Heading - Inline Images
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-14T20:16:45+00:00'
+                            9:
+                              - uid
+                              - 5d3ae9a6-9341-4fd6-8e1c-19c30f854706
+                            12:
+                              - fieldUid
+                              - da9f3d8e-5ba9-4eb9-a423-6ea09ddaed21 # Form
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 100
+                            8:
+                              - dateAdded
+                              - '2026-09-14T20:16:45+00:00'
+                            9:
+                              - uid
+                              - 3daed7ea-a165-48ec-9a43-e00c7f68635c
+                            12:
+                              - fieldUid
+                              - 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - imageCaptionHeading
+                            2:
+                              - label
+                              - 'Image Caption Heading'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 50
+                            8:
+                              - dateAdded
+                              - '2026-09-14T20:16:45+00:00'
+                            9:
+                              - uid
+                              - 8851306a-a154-415e-ac1a-533c68a046d9
+                            12:
+                              - fieldUid
+                              - f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            1:
+                              - handle
+                              - imageCaptionText
+                            2:
+                              - label
+                              - 'Image Caption Text'
+                            6:
+                              - required
+                              - false
+                            7:
+                              - width
+                              - 50
+                            8:
+                              - dateAdded
+                              - '2026-09-14T20:16:45+00:00'
+                            9:
+                              - uid
+                              - 38665f11-8f1b-490e-a071-0501879727ed
+                            12:
+                              - fieldUid
+                              - f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            4:
+              - cardThumbAlignment
+              - end
+  viewMode: grouped
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock

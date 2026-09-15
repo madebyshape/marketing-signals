@@ -84,6 +84,41 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-14T20:19:20+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5e0a0379-473d-48fa-b3f0-4230ddc449a6 # Lightswitch - Off
+            handle: leadGenerationPopup
+            instructions: null
+            label: 'Lead Generation Popup'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 95b04a42-2a21-4e4f-81a2-8d1934e81998
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-14T20:19:20+00:00'
+            dismissible: false
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\LightswitchFieldConditionRule
+                  fieldUid: 5e0a0379-473d-48fa-b3f0-4230ddc449a6 # Lightswitch - Off
+                  layoutElementUid: 95b04a42-2a21-4e4f-81a2-8d1934e81998
+                  uid: d4d51a9c-957d-4a8f-b148-d9b3e487aa81
+                  value: true
+              elementType: craft\elements\Entry
+              fieldContext: global
+            style: tip
+            tip: 'Lead Generation form popup shows from Globals - Site - Popup'
+            type: craft\fieldlayoutelements\Tip
+            uid: 91f57aab-9e8b-4218-97a2-698d392e37f9
+            userCondition: null
         name: 'Overview Content'
         uid: 2c15df9d-c8e3-45e6-8eda-7ff23d9d47f3
         userCondition: null

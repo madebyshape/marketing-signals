@@ -10,7 +10,6 @@ return [
             'verbb\formie\fields\Categories',
             'verbb\formie\fields\Date',
             'verbb\formie\fields\Entries',
-            'verbb\formie\fields\FileUpload',
             'verbb\formie\fields\Group',
             'verbb\formie\fields\Heading',
             'verbb\formie\fields\Name',

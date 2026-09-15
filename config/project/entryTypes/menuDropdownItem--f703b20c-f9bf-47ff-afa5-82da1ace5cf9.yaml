@@ -1,0 +1,58 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  edd35be3-f0be-4087-8f64-48eb2f72c32f:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-14T20:30:23+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c803bdbf-5bdd-43e8-94e2-c7cde210fe37 # Links To
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8cd50565-a734-4fbd-9d02-791dd0ec51d4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-14T20:30:23+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d59f6856-5fd4-442b-8be6-1c9ebd106977 # Dropdown Links
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 227c8f76-1b7a-4dd0-b395-d81049155fb0
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 204f94ce-207e-4a9e-816b-72782b4b2461
+        userCondition: null
+    thumbFieldKey: null
+handle: menuDropdownItem
+hasTitleField: false
+icon: list-dropdown
+name: 'Menu Dropdown Item'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'
