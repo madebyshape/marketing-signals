@@ -41,8 +41,16 @@
         tiles|length ? 'mb-12.5'
     ],
     heading: 'col-span-12 text-center font-semibold leading-0.97 tracking-tighter | md:col-start-3 md:col-span-8 md:text-7xl lg:text-8xl',
-    grid: 'grid grid-cols-1 gap-5',
+    grid: 'grid gap-5',
+    group: 'grid gap-5 | md:grid-cols-2',
     tile: 'relative overflow-hidden rounded-[20px] aspect-16/10',
+    tileShape: {
+        full: 'md:col-span-2 md:aspect-1520/820',
+        short: 'md:aspect-750/442',
+        shortLeft: 'md:col-start-1 md:aspect-750/442',
+        tall: 'md:row-span-2 md:aspect-auto',
+        tallRight: 'md:col-start-2 md:row-start-1 md:row-span-2 md:aspect-auto'
+    },
     eyebrow: 'absolute z-10 top-5 inset-x-5 | lg:top-10 lg:inset-x-10',
     buttons: (hasHeading or tiles|length) ? 'mt-10'
 } %}
@@ -80,40 +88,61 @@
 
                 <div class="{{ blockClasses.grid }}">
 
-                    {# Tiles run in sevens; the first of each run is the full Tile. #}
+                    {# Each run of seven is a full Tile, a tall-left group and a tall-right group. #}
 
                     {% for run in tiles|batch(7) %}
 
-                        {% for tile in run %}
+                        {% set groups = [
+                            { tiles: run|slice(0, 1), tallLast: false },
+                            { tiles: run|slice(1, 3), tallLast: false },
+                            { tiles: run|slice(4, 3), tallLast: true }
+                        ] %}
 
-                            {% set size = loop.first ? 'full' : 'part' %}
-                            {% set textColour = tile.dropdownTextColour.value ?: 'black' %}
+                        {% for group in groups|filter(group => group.tiles|length) %}
 
-                            <div class="{{ blockClasses.tile }}">
+                            <div class="{{ blockClasses.group }}">
 
-                                {% include '_components/picture' with {
-                                    params: {
-                                        image: tile.image.one(),
-                                        transform: blockOptions.transform[size],
-                                        ratio: false,
-                                        focalPoint: true,
-                                        sizes: blockOptions.sizes[size]
-                                    }
-                                } only %}
+                                {% for tile in group.tiles %}
 
-                                {% if tile.eyebrow|trim|length %}
+                                    {# Unfinished groups skip the tall layout. #}
 
-                                    {% include '_components/eyebrow' with {
-                                        params: {
-                                            text: tile.eyebrow,
-                                            colour: textColour,
-                                            rule: true,
-                                            ruleColour: blockOptions.ruleColour[textColour],
-                                            class: blockClasses.eyebrow
-                                        }
-                                    } only %}
+                                    {% set shape = group.tiles|length == 1 ? 'full'
+                                        : group.tiles|length == 2 ? 'short'
+                                        : group.tallLast ? (loop.last ? 'tallRight' : 'shortLeft')
+                                        : (loop.first ? 'tall' : 'short') %}
 
-                                {% endif %}
+                                    {% set size = shape == 'full' ? 'full' : 'part' %}
+                                    {% set textColour = tile.dropdownTextColour.value ?: 'black' %}
+
+                                    <div class="{{ blockClasses.tile }} | {{ blockClasses.tileShape[shape] }}">
+
+                                        {% include '_components/picture' with {
+                                            params: {
+                                                image: tile.image.one(),
+                                                transform: blockOptions.transform[size],
+                                                ratio: false,
+                                                focalPoint: true,
+                                                sizes: blockOptions.sizes[size]
+                                            }
+                                        } only %}
+
+                                        {% if tile.eyebrow|trim|length %}
+
+                                            {% include '_components/eyebrow' with {
+                                                params: {
+                                                    text: tile.eyebrow,
+                                                    colour: textColour,
+                                                    rule: true,
+                                                    ruleColour: blockOptions.ruleColour[textColour],
+                                                    class: blockClasses.eyebrow
+                                                }
+                                            } only %}
+
+                                        {% endif %}
+
+                                    </div>
+
+                                {% endfor %}
 
                             </div>
 
