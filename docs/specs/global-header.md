@@ -99,7 +99,7 @@ Temporary tall content and the temporary colour switch are removed before the wo
 
 ## Out of Scope
 
-- Dropdowns, mega menus or any child links under a Menu Item. The "Services +" glyph in Figma is not built.
+- Dropdowns and Dropdown Links under a Menu Item: now specified in the Main Menu Dropdown spec.
 - Any CMS field for Header Colour, and any hero- or entry-type-driven colour rules. The layout variable is the hook for that later work.
 - A transparent Header Colour over hero imagery.
 - Section-aware or URL-based current-page matching.

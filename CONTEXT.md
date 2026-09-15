@@ -19,8 +19,20 @@ The editor-ordered list of Menu Items shown in the Header.
 _Avoid_: Header menu, primary nav, navigation
 
 **Menu Item**:
-One entry in the Main Menu: a label and the thing it links to. Menu Items have no children.
-_Avoid_: Nav link, menu link, dropdown
+One entry in the Main Menu: a label and the thing it links to, optionally with Dropdown Links beneath it. A Menu Item with Dropdown Links shows a "+" beside its label.
+_Avoid_: Nav link, menu link, dropdown item
+
+**Dropdown**:
+The panel that opens under the Header on desktop for a Menu Item with Dropdown Links, listing them beside the Dropdown Image.
+_Avoid_: Mega menu, submenu, flyout
+
+**Dropdown Link**:
+One child link of a Menu Item, set by editors with its own image. Shown in the Dropdown on desktop, and beneath its Menu Item in the Mobile Menu without the image.
+_Avoid_: Sub-link, child item, submenu item
+
+**Dropdown Image**:
+The image in the Dropdown that changes to match whichever Dropdown Link the visitor hovers.
+_Avoid_: Preview, thumbnail
 
 **Header Button**:
 The single call-to-action pill on the right of the Header, set by editors on the Site entry.
