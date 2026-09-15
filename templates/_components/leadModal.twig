@@ -1,0 +1,351 @@
+{% set component = 'leadModal' %}
+
+{# Default Params #}
+
+{# content: the Site entry's Lead Generation Popup Content Block. #}
+
+{% set defaultParams = {
+    id: component,
+    content: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Content #}
+
+{% set content = params.content %}
+{% set form = content ? content.form.one() : null %}
+{% set inlineImages = content ? content.headingInlineImages : null %}
+{% set image = content ? content.image.one() : null %}
+{% set hasEyebrow = content and content.eyebrow|trim|length %}
+{% set hasCaption = content and content.imageCaptionHeading|trim|length %}
+{% set layout = image ? 'portrait' : 'form' %}
+
+{# Options #}
+
+{% set options = {
+    card: {
+        portrait: 'lg:max-w-[1006px]',
+        form: 'lg:max-w-[641px]'
+    },
+    close: {
+        portrait: [
+            { ref: 'close', colour: 'black-outline', class: 'absolute top-5 right-5 z-10 | lg:hidden' },
+            { ref: 'closeLarge', colour: 'white-outline', class: 'absolute top-7.5 left-7.5 z-10 hidden | lg:block' }
+        ],
+        form: [
+            { ref: 'close', colour: 'black-outline', class: 'absolute top-5 right-5 z-10' }
+        ]
+    },
+    formConfig: {
+        pageContainer: {
+            attributes: { class: 'grid gap-y-7.5' }
+        },
+        row: {
+            attributes: { class: 'grid gap-5' }
+        },
+        alertError: {
+            attributes: { class: 'mb-7.5 text-base leading-1.33 text-primary' }
+        },
+        fieldError: {
+            attributes: { class: 'mt-2 text-xs text-primary' }
+        },
+        buttonWrapper: {
+            attributes: { class: 'mt-7.5 flex flex-col gap-7.5' }
+        },
+        singleLineText: {
+            fieldLabel: false
+        },
+        emailAddress: {
+            fieldLabel: false
+        },
+        phoneNumber: {
+            fieldLabel: false
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    backdrop: [
+        'fixed inset-0 z-100 flex items-center justify-center bg-black/70 backdrop-blur-sm',
+        params.class
+    ],
+    card: [
+        'relative max-h-[90dvh] w-[calc(100%-40px)] overflow-y-auto overscroll-contain rounded-[20px] bg-white px-5 pt-7.5 pb-5',
+        '|',
+        'lg:flex lg:w-full lg:overflow-hidden lg:p-0',
+        options.card[layout]
+    ],
+    portrait: [
+        'relative hidden overflow-hidden',
+        '|',
+        'lg:block lg:w-[365px] lg:shrink-0 lg:rounded-l-[20px]'
+    ],
+    image: [
+        'absolute inset-0 size-full object-cover'
+    ],
+    fadeTop: [
+        'pointer-events-none absolute inset-x-0 top-0 h-[125px] bg-linear-to-b from-black to-transparent'
+    ],
+    fadeBottom: [
+        'pointer-events-none absolute inset-x-0 bottom-0 h-[230px] bg-linear-to-t from-black to-transparent'
+    ],
+    caption: [
+        'absolute right-7.5 bottom-7.5 left-7.5 text-white'
+    ],
+    captionHeading: [
+        'text-2xl font-medium leading-1.2 tracking-tighter'
+    ],
+    captionText: [
+        'text-base leading-1.33'
+    ],
+    column: [
+        'lg:min-w-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain lg:p-17.5'
+    ],
+    content: [
+        'lg:max-w-[501px]'
+    ],
+    heading: [
+        hasEyebrow ? 'mt-5'
+    ],
+    form: [
+        'mt-10'
+    ]
+} %}
+
+{# Output #}
+
+{% if form and inlineImages and inlineImages.heading|striptags|trim|length %}
+
+    {# The site Form Template is set here, so the control panel's choice doesn't matter #}
+    {% do form.setTemplate(craft.formie.plugin.formTemplates.getTemplateByHandle('site')) %}
+
+    <div x-data="{{ component }}">
+
+        <div
+            class="{{ classes.backdrop|join(' ')|trim }}"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="{{ params.id }}Heading"
+            x-cloak
+            x-show="visible"
+            x-transition:enter="motion-safe:transition-opacity motion-safe:ease-out motion-safe:duration-200"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="motion-safe:transition-opacity motion-safe:ease-in motion-safe:duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            x-on:click.self="close()"
+            x-on:keydown.escape.window="close()"
+        >
+
+            <div
+                class="{{ classes.card|join(' ')|trim }}"
+                x-show="visible"
+                x-transition:enter="motion-safe:transition motion-safe:ease-out motion-safe:duration-200"
+                x-transition:enter-start="motion-safe:translate-y-5"
+                x-transition:enter-end="translate-y-0"
+                x-transition:leave="motion-safe:transition motion-safe:ease-in motion-safe:duration-150"
+                x-transition:leave-start="translate-y-0"
+                x-transition:leave-end="motion-safe:translate-y-5"
+            >
+
+                {% for close in options.close[layout] %}
+
+                    <div class="{{ close.class }}">
+
+                        {% include '_components/buttonShape' with {
+                            params: {
+                                type: 'button',
+                                button: { value: '#' },
+                                colour: close.colour,
+                                size: 'md',
+                                icon: 'fa-sharp fa-regular fa-xmark',
+                                attributes: 'aria-label="Close" x-ref="' ~ close.ref ~ '" x-on:click="close()"'
+                            }
+                        } only %}
+
+                    </div>
+
+                {% endfor %}
+
+                {% if image %}
+
+                    <div class="{{ classes.portrait|join(' ')|trim }}">
+
+                        {% include '_components/picture' with {
+                            params: {
+                                image: image,
+                                alt: '',
+                                transform: '3x5',
+                                sizes: '365px',
+                                lazy: false,
+                                ratio: false,
+                                imgClass: classes.image|join(' ')|trim
+                            }
+                        } only %}
+
+                        <div class="{{ classes.fadeTop|join(' ')|trim }}" aria-hidden="true"></div>
+
+                        {% if hasCaption %}
+
+                            <div class="{{ classes.fadeBottom|join(' ')|trim }}" aria-hidden="true"></div>
+
+                            <div class="{{ classes.caption|join(' ')|trim }}">
+
+                                <p class="{{ classes.captionHeading|join(' ')|trim }}">{{ content.imageCaptionHeading }}</p>
+
+                                {% if content.imageCaptionText|trim|length %}
+
+                                    <p class="{{ classes.captionText|join(' ')|trim }}">{{ content.imageCaptionText }}</p>
+
+                                {% endif %}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endif %}
+
+                <div class="{{ classes.column|join(' ')|trim }}">
+
+                    <div class="{{ classes.content|join(' ')|trim }}">
+
+                        {% if hasEyebrow %}
+
+                            {% include '_components/eyebrow' with {
+                                params: {
+                                    text: content.eyebrow,
+                                    colour: 'black'
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% include '_components/headingInlineImages' with {
+                            params: {
+                                id: params.id ~ 'Heading',
+                                tag: 'h2',
+                                heading: inlineImages.heading,
+                                imagePosition: inlineImages.wordCount,
+                                images: inlineImages.images.all(),
+                                colour: 'black',
+                                size: '6xl',
+                                class: classes.heading|join(' ')|trim
+                            }
+                        } only %}
+
+                        <div class="{{ classes.form|join(' ')|trim }}">
+                            {{ craft.formie.renderForm(form, {
+                                themeConfig: options.formConfig,
+                                submitFullWidth: true
+                            }) }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endif %}
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', () => ({
+
+            visible: false,
+            opener: null,
+
+            init() {
+
+                if (this.dismissed()) return;
+
+                // Formie fires this before it redirects, so the flag is saved in time.
+                this.$el.addEventListener('onAfterFormieSubmit', event => {
+                    if (!event.detail?.nextPageId) this.dismiss();
+                });
+
+                this.onScroll = () => this.check();
+
+                window.addEventListener('scroll', this.onScroll, { passive: true });
+
+                this.check();
+
+            },
+
+            // Opens once the visitor reaches half the page's scrollable distance.
+            check() {
+
+                const distance = document.documentElement.scrollHeight - window.innerHeight;
+
+                if (distance <= 0 || window.scrollY < distance / 2) return;
+
+                window.removeEventListener('scroll', this.onScroll);
+
+                this.open();
+
+            },
+
+            open() {
+
+                this.opener = document.activeElement;
+                this.visible = true;
+                document.body.classList.add('overflow-hidden');
+                window.lenis?.stop();
+
+                // Only one close button is shown per breakpoint, so focus the visible one.
+                this.$nextTick(() => [this.$refs.closeLarge, this.$refs.close].find(button => button?.checkVisibility())?.focus());
+
+            },
+
+            close() {
+
+                if (!this.visible) return;
+
+                this.visible = false;
+                document.body.classList.remove('overflow-hidden');
+                window.lenis?.start();
+                this.dismiss();
+
+                if (this.opener?.isConnected && this.opener.tabIndex > -1) this.opener.focus({ preventScroll: true });
+
+            },
+
+            // Storage can be unavailable, so the modal falls back to opening once per page load.
+            dismissed() {
+
+                try {
+                    return sessionStorage.getItem('leadModalDismissed') === '1';
+                } catch {
+                    return false;
+                }
+
+            },
+
+            dismiss() {
+
+                try {
+                    sessionStorage.setItem('leadModalDismissed', '1');
+                } catch {}
+
+            }
+
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}

@@ -3,6 +3,7 @@
 {# Default Params #}
 
 {% set defaultParams = {
+    id: null,
     tag: 'h2',
     heading: null,
     imagePosition: null,
@@ -34,6 +35,7 @@
         }
     },
     size: {
+        '6xl': 'text-4xl | md:text-5xl | lg:text-6xl',
         '10xl': 'text-5xl | md:text-7xl | lg:text-9xl | xl:text-10xl'
     },
     placement: {
@@ -179,7 +181,7 @@
 
 {% if words|length %}
 
-    <{{ params.tag }} class="{{ classes.heading|join(' ')|trim }}">
+    <{{ params.tag }} {% if params.id %}id="{{ params.id }}" {% endif %}class="{{ classes.heading|join(' ')|trim }}">
         {{- placement == 'start' ? group|raw -}}
         {{- output|raw -}}
         {{- placement == 'end' ? group|raw -}}
