@@ -56,12 +56,14 @@
     ],
     heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl | 2xl:text-8xl',
     cards: 'grid grid-cols-1 gap-5 | lg:grid-cols-12',
-    card: 'rounded-[20px] p-7.5 | md:p-10 | lg:col-span-6',
+    card: 'rounded-[20px] p-7.5',
+    cardResponsive: 'md:p-10 | lg:col-span-6',
     eyebrow: 'mb-8.75',
     items: 'flex flex-col gap-7.5',
     item: 'flex items-start gap-2.5',
     marker: 'flex h-[25px] w-6.75 shrink-0 items-center justify-center',
-    icon: 'fa-sharp-duotone fa-light text-lg text-primary [--fa-secondary-opacity:0.2]',
+    icon: 'fa-sharp-duotone fa-light',
+    iconStyle: 'text-lg text-primary [--fa-secondary-opacity:0.2]',
     tick: 'flex size-5.5 items-center justify-center rounded-full bg-black text-[11px] text-white',
     itemHeading: 'font-medium leading-1.2 tracking-tighter',
     itemText: 'mt-1.25',
@@ -164,9 +166,9 @@
 
                             {% for card in cards %}
 
-                                {% set scheme = schemes[loop.index0 % schemes|length] %}
+                                {% set scheme = cycle(schemes, loop.index0) %}
 
-                                <div class="{{ blockClasses.card }} {{ scheme.card }}">
+                                <div class="{{ blockClasses.card }} {{ scheme.card }} | {{ blockClasses.cardResponsive }}">
 
                                     {% if card.eyebrow|length %}
 
@@ -194,7 +196,7 @@
                                                 <span class="{{ blockClasses.marker }}" aria-hidden="true">
 
                                                     {% if icon|length %}
-                                                        <i class="{{ blockClasses.icon }} fa-{{ icon }}"></i>
+                                                        <i class="{{ blockClasses.icon }} fa-{{ icon }} | {{ blockClasses.iconStyle }}"></i>
                                                     {% else %}
                                                         <span class="{{ blockClasses.tick }}"><i class="fa-sharp fa-solid fa-check"></i></span>
                                                     {% endif %}
