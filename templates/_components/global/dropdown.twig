@@ -31,6 +31,7 @@
 {# Output #}
 
 {% set id = params.item.id %}
+{% set currentElement = craft.app.urlManager.matchedElement %}
 {% set links = params.item.dropdownLinks.all() %}
 {% set imageLinks = links|filter(link => link.image.one()) %}
 {% set open = "dropdown === '" ~ id ~ "'" %}
@@ -61,6 +62,7 @@
 
                 {% set link = dropdownLink.linksTo %}
                 {% set hasImage = dropdownLink.image.one() is not null %}
+                {% set active = currentElement and link.type == 'entry' and link.element and link.element.id == currentElement.id %}
 
                 <li>
                     <a
@@ -71,7 +73,10 @@
                                 rel="noopener noreferrer"
                             {% endif %}
                         {% endif %}
-                        class="{{ classes.link }}"
+                        {% if active %}
+                            aria-current="page"
+                        {% endif %}
+                        class="{{ classes.link }}{{ active ? ' link--active' : '' }}"
                         {% if hasImage %}
                             x-on:mouseenter="image = '{{ dropdownLink.id }}'"
                             x-on:focus="image = '{{ dropdownLink.id }}'"

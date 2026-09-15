@@ -86,6 +86,7 @@
 {% set currentElement = craft.app.urlManager.matchedElement %}
 {% set dropdownItems = menuItems|filter(item => item.type.handle == 'menuDropdownItem' and item.dropdownLinks.exists()) %}
 {% set dropdownIds = dropdownItems|map(item => item.id) %}
+{% set activeDropdownIds = currentElement ? dropdownItems|filter(item => item.dropdownLinks.all()|filter(dropdownLink => dropdownLink.linksTo.type == 'entry' and dropdownLink.linksTo.element and dropdownLink.linksTo.element.id == currentElement.id)|length)|map(item => item.id) : [] %}
 
 <div
     x-data="{{ component }}"
@@ -124,6 +125,7 @@
                         {% set link = item.linksTo %}
                         {% set active = currentElement and link.type == 'entry' and link.element and link.element.id == currentElement.id %}
                         {% set hasDropdown = item.id in dropdownIds %}
+                        {% set parentActive = item.id in activeDropdownIds %}
                         {% set open = "dropdown === '" ~ item.id ~ "'" %}
 
                         <li
@@ -145,7 +147,7 @@
                                 {% if active %}
                                     aria-current="page"
                                 {% endif %}
-                                class="link{{ active ? ' link--active' : '' }} | block text-xs leading-1.33 tracking-tight"
+                                class="link{{ active or parentActive ? ' link--active' : '' }} | block text-xs leading-1.33 tracking-tight"
                             >{{ link.label }}</a>
 
                             {% if hasDropdown %}
@@ -241,6 +243,7 @@
                         {% set link = item.linksTo %}
                         {% set active = currentElement and link.type == 'entry' and link.element and link.element.id == currentElement.id %}
                         {% set hasDropdown = item.id in dropdownIds %}
+                        {% set parentActive = item.id in activeDropdownIds %}
                         {% set open = "row === '" ~ item.id ~ "'" %}
 
                         <li class="{{ classes.panelItem|join(' ')|trim }}">
@@ -260,7 +263,7 @@
                                 {% if active %}
                                     aria-current="page"
                                 {% endif %}
-                                class="link{{ active ? ' link--active' : '' }} | inline-block py-4 text-2xl leading-1.2 tracking-tighter"
+                                class="link{{ active or parentActive ? ' link--active' : '' }} | inline-block py-4 text-2xl leading-1.2 tracking-tighter"
                             >{{ link.label }}</a>
 
                             {% if hasDropdown %}
@@ -296,6 +299,7 @@
                                         {% for dropdownLink in item.dropdownLinks.all() %}
 
                                             {% set dropdownLinksTo = dropdownLink.linksTo %}
+                                            {% set dropdownActive = currentElement and dropdownLinksTo.type == 'entry' and dropdownLinksTo.element and dropdownLinksTo.element.id == currentElement.id %}
 
                                             <li>
                                                 <a
@@ -306,7 +310,10 @@
                                                             rel="noopener noreferrer"
                                                         {% endif %}
                                                     {% endif %}
-                                                    class="{{ classes.panelLink }}"
+                                                    {% if dropdownActive %}
+                                                        aria-current="page"
+                                                    {% endif %}
+                                                    class="{{ classes.panelLink }}{{ dropdownActive ? ' link--active' : '' }}"
                                                 >{{ dropdownLinksTo.label }}</a>
                                             </li>
 
