@@ -1,0 +1,74 @@
+allowLineBreaksInTitles: false
+color: purple
+description: null
+fieldLayouts:
+  18513ec2-1b30-4c1b-9f22-1073112f416c:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: null
+            instructions: null
+            label: Image
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 988102aa-4bf2-4973-931c-7fd63f0fafdd
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb417d14-872a-4288-9f03-8a735011cb7e # Eyebrow
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 49129808-8a6c-49a6-98e9-f855993285c1
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb1b3df0-df2e-482f-9678-0a6d3dd226bc # Dropdown - Text Colour
+            handle: null
+            instructions: null
+            label: 'Text Colour'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e1da433b-040c-4d2a-8052-7b94ca763c1a
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 489c77ca-7cb0-4eb9-bff7-ad2358395cfd
+        userCondition: null
+    thumbFieldKey: null
+handle: eyebrowImage
+hasTitleField: false
+icon: image
+name: 'Eyebrow & Image'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: "{{ object.eyebrow ?: (object.image.one().title ?? '') }}"

@@ -1,0 +1,26 @@
+columnSuffix: null
+handle: eyebrowImages
+instructions: 'Tiles follow a run of seven: 1 full width; 2 tall with 3 and 4 short beside it; 5 and 6 short with 7 tall beside them. An unfinished run sits two per row.'
+name: 'Eyebrow & Images'
+searchable: false
+settings:
+  createButtonLabel: 'New Eyebrow & Image'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 462975f0-24c7-4894-8436-2a7ffbb451a3 # Eyebrow & Image
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix
