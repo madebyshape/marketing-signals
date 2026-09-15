@@ -2,6 +2,7 @@
 
 {% set defaultParams = {
     text: null,
+    tag: 'div',
     colour: 'black',
     rule: false,
     ruleColour: 'creme-300',
@@ -31,7 +32,8 @@
         'creme-400': 'border-creme-400',
         white:'border-white',
         'white-30': 'border-white/30',
-        black: 'border-black'
+        black: 'border-black',
+        'creme-400': 'border-creme-400'
     },
     aside: 'flex flex-row items-baseline justify-between gap-x-5',
     margin: {
@@ -63,7 +65,7 @@
 {# Output #}
 
 <div class="{{ classes.wrapper|join(' ')|trim }}">
-    <div class="{{ classes.eyebrow|join(' ')|trim }}">{{ params.text }}</div>
+    <{{ params.tag }} class="{{ classes.eyebrow|join(' ')|trim }}">{{ params.text }}</{{ params.tag }}>
 
     {% if params.aside|length %}
 

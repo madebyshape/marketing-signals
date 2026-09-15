@@ -199,6 +199,7 @@ meta:
     14b863fa-7e62-48cf-b281-df8ec7901fd6: 'Call To Action' # Call To Action
     15a9b54f-c692-49c5-9368-7a85274cd550: Career # Career
     15e52e57-510c-4224-9b47-16c703f5270c: Images # Images
+    16cba89c-b09f-49d8-8646-1e6461e2b1c2: Columns # Columns
     17c07940-d39d-4d93-801d-5a752b9c40ec: 'Entry - Career' # Entry - Career
     17e2f019-d6ee-4f54-83a2-a32091caa96d: 'Button Group (Unlimited)' # Button Group (Unlimited)
     19d6d897-1cde-4d59-914a-2bf8a23e7916: 'Public Schema' # Public Schema
@@ -254,7 +255,9 @@ meta:
     8921f4cc-6d1a-4c1f-bf13-bcdf8b992806: Links # Links
     10683f8c-560b-4240-a234-fdfce2fd1bbd: 'Audit - CTA' # Audit - CTA
     13116ff7-bb9e-4f5b-989d-48a287e4b53c: 'Text - Code' # Text - Code
+    36605e31-77f3-4ffb-88f5-1adefcdf2625: Icons # Icons
     41118d3a-a4e2-4b8e-8d11-b0a93f26deeb: 'Lightswitch - On' # Lightswitch - On
+    42198a63-1391-407b-a9d8-00f791a98112: 'Branding Column' # Branding Column
     42537cb1-23aa-402e-a410-ffed07a3685b: Statistic # Statistic
     49088c3c-18ad-4a72-8038-a2015573bda7: 'Marquee - Images' # Marquee - Images
     95724d2a-e278-4525-aac3-1f88dcf163ee: Video # Video
@@ -277,6 +280,7 @@ meta:
     ab58b4e1-b348-4682-afd2-a65f40c197c5: 'Marquee - Icon Cards' # Marquee - Icon Cards
     ab69447c-351f-4a22-900f-98c08751b333: 'Grid - Icon Cards' # Grid - Icon Cards
     ab214509-2da1-4b0b-b7a3-33dac1c86ce9: Hero # Hero
+    acbcc6e4-9fcd-4320-88bd-d9c87cc36799: 'Branding Columns' # Branding Columns
     acbe31d2-326d-4dca-b857-3ccf50f3efdc: 'Hero - Home' # Hero - Home
     ad0a9432-2ee6-4f06-bd72-f71adca36bef: Chart # Chart
     af21bfea-8fd9-454d-aebe-0a21a6be6d5b: 'Video - CTA' # Video - CTA
@@ -316,6 +320,7 @@ meta:
     db56c11b-226d-42e6-9b9b-b449f0ac99df: 'Entry - Testimonial' # Entry - Testimonial
     dd193fca-6353-485f-a383-668951cbb602: Blog # Blog
     dd352810-e643-424f-8483-b4339c9761b6: Banner # Banner
+    deef1d25-93fa-4ded-bb4b-d91d7695285f: 'Branding Icon' # Branding Icon
     e09df1c8-18b1-4598-ad75-812ac48e1b9c: 'Dropdown - Media Type' # Dropdown - Media Type
     e3078af5-a566-4561-af12-e529edd7980f: 'Entry - Team' # Entry - Team
     e746909c-3d0f-4818-9497-14651dc6ee16: 'Entry - Text' # Entry - Text

@@ -288,6 +288,14 @@ settings:
         -
           - group
           - General
+    -
+      __assoc__:
+        -
+          - uid
+          - acbcc6e4-9fcd-4320-88bd-d9c87cc36799 # Branding Columns
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: null
   minEntries: null

@@ -1,0 +1,42 @@
+allowLineBreaksInTitles: false
+color: purple
+description: null
+fieldLayouts:
+  d66c8f02-5783-45a0-9fc1-965b1b2eff81:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-09-15T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: icon
+            instructions: 'The Font Awesome icon name, e.g. bullseye-arrow. Always shown in the Sharp Duotone Light style.'
+            label: Icon
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9b203aef-6b9f-4313-ac24-87e3b36d5e70
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: f220f04b-0ec4-41ec-b192-2eccc0641e8c
+        userCondition: null
+    thumbFieldKey: null
+handle: brandingIcon
+hasTitleField: false
+icon: icons
+name: 'Branding Icon'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{icon}'
