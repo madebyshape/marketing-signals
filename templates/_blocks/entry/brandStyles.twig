@@ -12,9 +12,36 @@
 {# Content #}
 
 {% set buttons = entry.buttonGroup.all() %}
+{% set typographyButtons = entry.typographyButtons.all() %}
 
 {% set hasHeading = entry.heading|striptags|trim|length > 0 %}
 {% set hasText = entry.text|striptags|trim|length > 0 %}
+{% set hasTypographyHeading = entry.typographyHeading|striptags|trim|length > 0 %}
+
+{% set specimenRows = [
+    [
+        {
+            use: 'Headers',
+            weight: 'Noi Grotesk Semi Bold',
+            sample: 'Performance Driven<br>Digital Marketing',
+            class: 'text-5xl font-semibold leading-0.97 tracking-tighter | md:text-8xl | lg:col-span-10 | xl:text-11xl'
+        }
+    ],
+    [
+        {
+            use: 'Sub Headers',
+            weight: 'Noi Grotesk Medium',
+            sample: 'Built Around Search. Measured on Revenue.',
+            class: 'text-2xl font-medium leading-1.2 tracking-tighter | lg:col-span-4 lg:text-4xl'
+        },
+        {
+            use: 'Body Copy',
+            weight: 'Noi Grotesk Regular',
+            sample: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            class: 'text-base font-normal leading-1.33 | lg:col-span-4'
+        }
+    ]
+] %}
 
 {# The Swatches sit on a 24-column grid so Creme 200 and White can halve three of the 12 columns. #}
 
@@ -58,6 +85,19 @@
         hasHeading or hasText ? 'lg:mt-12.5'
     ],
     swatch: 'flex items-end rounded-[20px] p-5 text-base font-medium leading-1.33 uppercase',
+    specimenPanel: 'rounded-[20px] bg-white p-7.5 | md:px-10 | lg:pt-17.5 lg:pb-25',
+    typographyHeading: 'font-semibold leading-0.97 tracking-tighter | lg:text-7xl',
+    rule: [
+        'border-creme-300',
+        hasTypographyHeading ? 'mt-7.5'
+    ],
+    specimenRow: 'flex flex-col gap-10 mt-10 | lg:grid lg:grid-cols-12 lg:gap-x-5 lg:gap-y-0',
+    specimenRowSpacing: ['lg:mt-12', 'lg:mt-12', 'lg:mt-17.5'],
+    specimen: 'flex flex-col gap-3.75 text-black | lg:contents',
+    label: 'text-base leading-1.33 | lg:col-span-2',
+    labelUse: 'block font-medium',
+    labelWeight: 'block font-normal',
+    specimenButtons: 'lg:col-span-10',
     buttons: 'mt-7.5'
 } %}
 
@@ -115,6 +155,74 @@
                     {% endfor %}
 
                 </ul>
+
+            </div>
+
+            <div class="{{ blockClasses.specimenPanel }}">
+
+                {% if hasTypographyHeading %}
+
+                    {% include '_components/headingAlternate' with {
+                        params: {
+                            tag: 'h2',
+                            heading: entry.typographyHeading,
+                            size: '5xl',
+                            class: blockClasses.typographyHeading
+                        }
+                    } only %}
+
+                {% endif %}
+
+                <hr class="{{ blockClasses.rule|join(' ')|trim }}">
+
+                {% for row in specimenRows %}
+
+                    <div class="{{ blockClasses.specimenRow }} {{ blockClasses.specimenRowSpacing[loop.index0] }}">
+
+                        {% for specimen in row %}
+
+                            <div class="{{ blockClasses.specimen }}">
+
+                                <p class="{{ blockClasses.label }}">
+                                    <span class="{{ blockClasses.labelUse }}">{{ specimen.use }}</span>
+                                    <span class="{{ blockClasses.labelWeight }}">{{ specimen.weight }}</span>
+                                </p>
+
+                                <p class="{{ specimen.class }}">{{ specimen.sample|raw }}</p>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endfor %}
+
+                {% if typographyButtons|length %}
+
+                    <div class="{{ blockClasses.specimenRow }} {{ blockClasses.specimenRowSpacing|last }}">
+
+                        <div class="{{ blockClasses.specimen }}">
+
+                            <p class="{{ blockClasses.label }}">
+                                <span class="{{ blockClasses.labelUse }}">Buttons</span>
+                                <span class="{{ blockClasses.labelWeight }}">Noi Grotesk Medium</span>
+                            </p>
+
+                            {% include '_components/buttonGroup' with {
+                                params: {
+                                    buttons: typographyButtons,
+                                    colours: ['secondary', 'creme-100'],
+                                    iconStyles: ['inline', 'circle'],
+                                    class: blockClasses.specimenButtons
+                                }
+                            } only %}
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
 
             </div>
 

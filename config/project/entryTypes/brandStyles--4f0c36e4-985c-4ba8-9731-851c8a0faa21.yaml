@@ -75,7 +75,7 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 298fa7b6-abc0-4c80-a004-8fa35a30bf35 # Button Group
+            fieldUid: 17e2f019-d6ee-4f54-83a2-a32091caa96d # Button Group (Unlimited)
             handle: typographyButtons
             instructions: null
             label: 'Typography Buttons'
