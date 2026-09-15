@@ -272,6 +272,14 @@ settings:
         -
           - group
           - General
+    -
+      __assoc__:
+        -
+          - uid
+          - 4f0c36e4-985c-4ba8-9731-851c8a0faa21 # Brand Styles
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: null
   minEntries: null
