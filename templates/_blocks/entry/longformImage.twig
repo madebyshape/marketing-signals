@@ -1,0 +1,16 @@
+{% set aspectRatio = entry.aspectRatio.value ?? 'noRatio' %}
+
+<div class="flex">
+
+        <div class="flex-1 rounded-2xl overflow-hidden">
+
+            {% include '_components/picture' with { params: {
+                image: entry.image.one(),
+                transform: aspectRatio,
+                ratio: false,
+                imgClass: 'w-full h-full object-cover'
+            } } %}
+
+        </div>
+
+</div>

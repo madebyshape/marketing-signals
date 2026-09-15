@@ -31,6 +31,7 @@
 {% set ctaButton = hasCta ? cta.button : null %}
 {% set shareLabel = params.shareLabel %}
 {% set sectionId = params.id %}
+{% set vars = params.vars %}
 {% set ctaHashLink = (ctaButton.value ?? '') starts with '#' %}
 {% set readingProgress = params.readingProgress %}
 {% set readTime = params.readTime %}
@@ -99,7 +100,7 @@
         scrollMargin
     ],
     headingSpaced: [
-        'mt-25',
+        'mt-10',
         scrollMargin
     ]
 } %}
@@ -110,6 +111,7 @@
 
 {% set slugs = [] %}
 {% set bodies = [] %}
+{% set bodyChunks = [] %}
 
 {% for chunk in longform %}
 
@@ -129,7 +131,13 @@
 
         {% endfor %}
 
-        {% set bodies = bodies|merge([html|replace({ '<h3': '<h3 class="' ~ longformClasses.heading|join(' ')|trim ~ '"' })]) %}
+        {% set html = html|replace({ '<h3': '<h3 class="' ~ longformClasses.heading|join(' ')|trim ~ '"' }) %}
+        {% set bodies = bodies|merge([html]) %}
+        {% set bodyChunks = bodyChunks|merge([{ type: 'markup', html: html }]) %}
+
+    {% else %}
+
+        {% set bodyChunks = bodyChunks|merge([chunk]) %}
 
     {% endif %}
 
@@ -204,18 +212,16 @@
 
                 <div class="{{ longformClasses.body|join(' ')|trim }}">
 
-                    {% for body in bodies %}
-
-                        {% include '_components/richText' with {
-                            params: {
-                                content: body,
-                                colour: 'black',
-                                size: 'longform',
-                                list: 'longform'
-                            }
-                        } only %}
-
-                    {% endfor %}
+                    {% include '_components/chunks' with {
+                        params: {
+                            richText: bodyChunks,
+                            gap: 'lg',
+                            vars: vars,
+                            size: 'longform',
+                            colour: 'black',
+                            list: 'longform'
+                        }
+                    } only %}
 
                     {{ closing }}
 

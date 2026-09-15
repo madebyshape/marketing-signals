@@ -1,11 +1,15 @@
+{% set component = 'chunks' %}
+
 {# Default Params #}
 
 {% set defaultParams = {
-	richText: null,
-	balance: false,
-	headingStyle: 'sans',
-	gap: 'md',
-	size: 'lg',
+    richText: null,
+    gap: 'md',
+    size: 'md',
+    colour: 'base',
+    list: 'base',
+    vars: null,
+    class: null
 } %}
 
 {# Merge Params #}
@@ -15,41 +19,52 @@
 {# Options #}
 
 {% set options = {
-	gap: {
-		sm: vars.class.gap.y.sm,
-		base: vars.class.gap.y.base,
-		md: vars.class.gap.y.md,
-		lg: vars.class.gap.y.lg,
-		xl: vars.class.gap.y.xl,
-		xxl: vars.class.gap.y.xxl,
-	}
+    gap: {
+        sm: params.vars.class.gap.y.sm,
+        base: params.vars.class.gap.y.base,
+        md: params.vars.class.gap.y.md,
+        lg: params.vars.class.gap.y.lg,
+        xl: params.vars.class.gap.y.xl,
+        xxl: params.vars.class.gap.y.xxl,
+    }
 } %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'grid',
+        '|',
+        options.gap[params.gap],
+        params.class
+    ]
+} %}
+
 {# Output #}
 
-<div class="grid | {{ options.gap[params.gap] }}">
+<div class="{{ classes.wrapper|join(' ')|trim }}">
 
-	{% for chunk in params.richText %}
+    {% for chunk in params.richText ?? [] %}
 
-		{% if chunk.type == 'markup' %}
+        {% if chunk.type == 'markup' %}
 
-			{% include '_components/richText' with {
-				params: {
-					richText: chunk,
-					headingStyle: params.headingStyle,
-					size: params.size,
-				}
-			} %}
+            {% include '_components/richText' with {
+                params: {
+                    content: chunk.html,
+                    colour: params.colour,
+                    size: params.size,
+                    list: params.list
+                }
+            } only %}
 
-		{% else %}
+        {% elseif chunk.entry ?? false %}
 
-			{{
-				chunk.entry.render({
-					vars: vars,
-				})
-			}}
+            {{ chunk.entry.render({
+                vars: params.vars
+            }) }}
 
-		{% endif %}
+        {% endif %}
 
-	{% endfor %}
+    {% endfor %}
 
 </div>

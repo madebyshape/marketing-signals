@@ -13,7 +13,7 @@ settings:
           - '16:9'
         -
           - value
-          - '169'
+          - 16x9
         -
           - icon
           - ''
@@ -30,7 +30,7 @@ settings:
           - '4:3'
         -
           - value
-          - '43'
+          - 4x3
         -
           - icon
           - ''

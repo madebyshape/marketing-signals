@@ -118,7 +118,7 @@
                         aria-label="{{ link.title }}"
                         @click="copy"
                     >
-                        <span x-show="!copied"><i class="{{ link.icon }}" aria-hidden="true"></i></span>
+                        <span class="size-full flex items-center justify-center" x-show="!copied"><i class="{{ link.icon }}" aria-hidden="true"></i></span>
                         <span x-show="copied" x-cloak><i class="{{ link.copiedIcon }}" aria-hidden="true"></i></span>
                     </button>
 
