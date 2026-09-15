@@ -148,11 +148,7 @@ The heading and the grid are 50px apart.
 | 6 | Short      | Black fill `9716:10808` with the white logomark `9716:10811`                             | Logomark (Dark background)       | White       |
 | 7 | Tall right | the tote bag photograph `9716:10806`                                                    | none                             | Black       |
 
-- **Building the images.** In Figma the fills, logos and labels are loose sibling layers, so there is no single node to export. Each image is composed at twice the Figma size:
-  1. Download the fill or photograph and the logo SVG from the node.
-  2. Place them at their Figma offsets in a local HTML page, leaving out the eyebrow text and Rule.
-  3. Screenshot the page with agent-browser at the Tile's size.
-  4. Save the result beside the Seed.
+- **The images are already built.** They are saved in `.scratch/seeds/eyebrow-image-grid/` as `eyebrow-image-grid-1-primary-logo.jpg`, `-2-primary-logo-dark.png`, `-3-primary-logo-light.png`, `-4-browser-mockup.png`, `-5-logomark-light.png`, `-6-logomark-dark.png` and `-7-tote-bag.jpg`, in Tile order, at twice the Figma size. Use them as they are; no Figma access is needed. In Figma the fills, logos and labels are loose sibling layers, so each image was composed from the fill or photograph and the logo SVG at their Figma offsets, without the eyebrow text or Rule. The sources and the compose page are in that folder's `src/`, so they can be rebuilt.
 - **Not committed:** the Seed and the images.
 
 **Docs.** `CONTEXT.md` gained Eyebrow Image Grid, and Tile was widened to carry an Eyebrow and Rule. No new ADR: none of the decisions is hard to reverse.
