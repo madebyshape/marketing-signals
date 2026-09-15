@@ -54,27 +54,6 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2026-08-28T12:04:14+00:00'
-            elementCondition: null
-            type: craft\fieldlayoutelements\HorizontalRule
-            uid: 5090f491-34c5-4bd8-be48-d9bc10dc5355
-            userCondition: null
-          -
-            dateAdded: '2026-08-28T12:04:14+00:00'
-            dismissible: false
-            elementCondition: null
-            style: tip
-            tip: 'Brand Guidelines will automatically pull through here'
-            type: craft\fieldlayoutelements\Tip
-            uid: 00b3e2e6-58f3-42f4-a8f8-83776adb9a52
-            userCondition: null
-          -
-            dateAdded: '2026-08-28T12:04:14+00:00'
-            elementCondition: null
-            type: craft\fieldlayoutelements\HorizontalRule
-            uid: 53c85704-a51e-483e-bb6e-947a8ad98edc
-            userCondition: null
-          -
-            dateAdded: '2026-08-28T12:04:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
