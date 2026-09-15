@@ -835,12 +835,22 @@ How large an Icon Card is drawn: large, the Icon Grid's and the Card Group's, or
 _Avoid_: Size, variant, compact, small card, modifier
 
 **Icon**:
-The large primary-coloured mark at the top of an Icon Card, chosen by its Icon Type. Decoration: the heading names the card.
+A primary-coloured Font Awesome mark: the large one at the top of an Icon Card, chosen by its Icon Type, or one in a Branding Column's row of Icons, always Sharp Duotone Light. Decoration: a heading or Eyebrow names what it sits in.
 _Avoid_: Glyph, symbol, pictogram, illustration
 
 **Icon Type**:
 Which of the two sources an Icon comes from: a Font Awesome icon named by the editor and always shown in the Sharp Duotone Light style, or an Image the editor uploads.
 _Avoid_: Icon style, icon source, media type
+
+### Branding Columns
+
+**Branding Columns**:
+A Block of rounded Branding Columns, two across on a desktop and stacked below it, alternating Black and White by position. Made for the Brand Guidelines page, but available to any page with Blocks.
+_Avoid_: Brand guidelines block, guideline cards, two-column block, split panels
+
+**Branding Column**:
+One rounded panel in Branding Columns: an Eyebrow with a Rule, a short text, and optionally an image, a row of Icons and a centred Button Group, in that order. Its colour comes from its position, never from the editor.
+_Avoid_: Card, panel, tile, guideline, column block
 
 ### Icon Card Grid
 
