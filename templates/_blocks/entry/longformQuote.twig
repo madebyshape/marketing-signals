@@ -1,5 +1,8 @@
 {% set hasQuote = entry.quote|striptags|trim|length %}
 
+{% set avatar = hasQuote ? entry.avatar.one() : null %}
+{% set hasCaption = hasQuote and (entry.quoteName|length or avatar) %}
+
 {# Classes #}
 
 {% set classes = {
@@ -12,6 +15,11 @@
         '[&>div>p:first-of-type]:indent-7.5',
         '|',
         'md:[&>div>p:first-of-type]:indent-12.5'
+    ],
+    caption: [
+        'mt-7.5',
+        '|',
+        'md:mt-12.5'
     ]
 } %}
 
@@ -32,6 +40,25 @@
             } only %}
 
         </blockquote>
+
+        {% if hasCaption %}
+
+            <figcaption class="{{ classes.caption|join(' ')|trim }}">
+
+                {% include '_components/user' with {
+                    params: {
+                        image: avatar,
+                        alt: '',
+                        heading: entry.quoteName,
+                        subHeading: entry.quoteCompany,
+                        colour: 'base',
+                        size: 'md'
+                    }
+                } only %}
+
+            </figcaption>
+
+        {% endif %}
 
     </figure>
 
