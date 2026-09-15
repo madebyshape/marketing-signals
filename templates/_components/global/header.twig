@@ -68,7 +68,16 @@
     panelItem: [
         'border-b | first:border-t',
         options.colour[params.colour].divider
-    ]
+    ],
+    panelRow: 'flex items-center justify-between gap-5',
+    panelButton: [
+        'flex size-6.25 shrink-0 items-center justify-center rounded-full border cursor-pointer | focus:outline-none focus:ring-3 focus:ring-current/20',
+        options.colour[params.colour].divider
+    ],
+    panelIcon: 'block text-[10px] leading-none motion-safe:transition-transform motion-safe:duration-300',
+    panelDropdown: 'motion-reduce:duration-0!',
+    panelList: 'flex flex-col gap-y-3 pb-5',
+    panelLink: 'link | inline-block text-lg leading-1.2 tracking-tighter'
 } %}
 
 {# Output #}
@@ -223,7 +232,7 @@
 
         {% if menuItems|length %}
 
-            <nav aria-label="Mobile Menu">
+            <nav aria-label="Mobile Menu" x-data="{ row: null }">
 
                 <ul>
 
@@ -231,8 +240,15 @@
 
                         {% set link = item.linksTo %}
                         {% set active = currentElement and link.type == 'entry' and link.element and link.element.id == currentElement.id %}
+                        {% set hasDropdown = item.id in dropdownIds %}
+                        {% set open = "row === '" ~ item.id ~ "'" %}
 
                         <li class="{{ classes.panelItem|join(' ')|trim }}">
+
+                            {% if hasDropdown %}
+                                <div class="{{ classes.panelRow }}">
+                            {% endif %}
+
                             <a
                                 href="{{ link.value }}"
                                 {% if link.target %}
@@ -246,6 +262,61 @@
                                 {% endif %}
                                 class="link{{ active ? ' link--active' : '' }} | inline-block py-4 text-2xl leading-1.2 tracking-tighter"
                             >{{ link.label }}</a>
+
+                            {% if hasDropdown %}
+
+                                    <button
+                                        type="button"
+                                        class="{{ classes.panelButton|join(' ')|trim }}"
+                                        aria-controls="mobile-dropdown-{{ item.id }}"
+                                        aria-label="Show {{ link.label }} links"
+                                        x-bind:aria-expanded="{{ open|raw }} ? 'true' : 'false'"
+                                        x-on:click="row = {{ open|raw }} ? null : '{{ item.id }}'"
+                                    >
+                                        <span
+                                            class="{{ classes.panelIcon }}"
+                                            x-bind:class="{ 'rotate-180': {{ open|raw }} }"
+                                            aria-hidden="true"
+                                        >
+                                            <i class="fa-sharp fa-regular fa-chevron-down"></i>
+                                        </span>
+                                    </button>
+
+                                </div>
+
+                                <div
+                                    id="mobile-dropdown-{{ item.id }}"
+                                    class="{{ classes.panelDropdown }}"
+                                    x-show="{{ open|raw }}"
+                                    x-collapse.duration.300
+                                    x-cloak
+                                >
+                                    <ul class="{{ classes.panelList }}">
+
+                                        {% for dropdownLink in item.dropdownLinks.all() %}
+
+                                            {% set dropdownLinksTo = dropdownLink.linksTo %}
+
+                                            <li>
+                                                <a
+                                                    href="{{ dropdownLinksTo.value }}"
+                                                    {% if dropdownLinksTo.target %}
+                                                        target="{{ dropdownLinksTo.target }}"
+                                                        {% if dropdownLinksTo.target == '_blank' %}
+                                                            rel="noopener noreferrer"
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    class="{{ classes.panelLink }}"
+                                                >{{ dropdownLinksTo.label }}</a>
+                                            </li>
+
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+
+                            {% endif %}
+
                         </li>
 
                     {% endfor %}
