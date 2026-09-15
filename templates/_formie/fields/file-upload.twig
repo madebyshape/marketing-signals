@@ -1,0 +1,35 @@
+{# Formie's input tag supplies the name, id, data-fui-*, size and file limit attributes its JS reads. #}
+
+{% set input = field.renderHtmlTag('fieldInput', {
+    form: form,
+    errors: errors
+}) %}
+
+{# A file input can't be refilled, so a field with uploaded files isn't required again. #}
+{% set required = value and value.all() ? false : field.required %}
+
+<input type="hidden" name="{{ field.getHtmlName() }}" value="">
+
+{% for element in value ? value.all() : [] %}
+    <input type="hidden" name="{{ field.getHtmlName('[]') }}" value="{{ element.id }}">
+{% endfor %}
+
+{% include '_components/form/fileUpload' with {
+    params: {
+        id: input.attributes.id,
+        name: input.attributes.name,
+        label: field.label|t('formie'),
+        labelAttributes: 'data-field-label',
+        required: required,
+        accept: input.attributes.accept ?? null,
+        multiple: input.attributes.multiple ?? false,
+        buttonLabel: 'Upload your CV',
+        attributes: attr(input.attributes|withoutKey(['type', 'id', 'name', 'class', 'accept', 'multiple', 'required'])|merge({
+            'aria-required': required ? 'true' : false,
+            'aria-invalid': errors ? 'true' : false
+        })),
+        colour: 'creme',
+        size: 'contact',
+        class: input.attributes.class|default([])|join(' ')
+    }
+} only %}

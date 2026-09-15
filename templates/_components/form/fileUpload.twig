@@ -1,0 +1,147 @@
+{% set component = 'fileUpload' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    id: 'file-upload-' ~ random(1000, 9999),
+    name: null,
+    label: null,
+    required: false,
+    accept: null,
+    multiple: false,
+    buttonLabel: 'Upload a file',
+    instructions: null,
+    attributes: null,
+    labelAttributes: null,
+    colour: 'creme',
+    size: 'contact',
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Options #}
+
+{% set options = {
+    colour: {
+        creme: {
+            box: 'border-creme-400 has-focus:border-black data-chosen:not-has-aria-invalid:border-black has-aria-invalid:border-primary',
+            button: 'secondary',
+            label: 'creme',
+            instructions: 'creme'
+        }
+    },
+    size: {
+        contact: {
+            box: 'h-[92px] rounded-[10px] px-5',
+            button: 'base',
+            label: 'contact'
+        }
+    }
+} %}
+
+{# Classes #}
+
+{% set classes = {
+    wrapper: [
+        'w-full'
+    ],
+    box: [
+        'group @container relative flex items-center justify-center border-1 motion-safe:transition',
+        options.colour[params.colour].box,
+        options.size[params.size].box
+    ],
+    field: [
+        'peer absolute inset-0 z-10 size-full cursor-pointer opacity-0 file:cursor-pointer',
+        params.class
+    ],
+    button: [
+        'max-w-full pointer-fine:group-hover:bg-primary pointer-fine:group-hover:text-white peer-focus-visible:ring-3'
+    ],
+    buttonLabel: [
+        'block max-w-[calc(100cqw-60px)] truncate'
+    ]
+} %}
+
+{# Output #}
+
+<div class="{{ classes.wrapper|join(' ')|trim }}" x-data="{{ component }}('{{ params.buttonLabel|e('js') }}')">
+
+    {% include '_components/form/label' with {
+        params: {
+            id: params.id,
+            label: params.label,
+            colour: options.colour[params.colour].label,
+            size: options.size[params.size].label,
+            required: params.required,
+            attributes: params.labelAttributes
+        }
+    } only %}
+
+    <div class="{{ classes.box|join(' ')|trim }}" x-bind:data-chosen="name !== null">
+
+        <input
+            type="file"
+            name="{{ params.name }}"
+            id="{{ params.id }}"
+            class="{{ classes.field|join(' ')|trim }}"
+            x-ref="input"
+            x-on:change="change"
+            {{ params.required ? 'required' }}
+            {{ params.multiple ? 'multiple' }}
+            {{ params.accept ? ('accept="' ~ params.accept ~ '"')|raw }}
+            {{ params.attributes|raw }}
+        >
+
+        {% set buttonLabel %}
+            <span class="{{ classes.buttonLabel|join(' ')|trim }}" x-text="name ?? buttonLabel">{{ params.buttonLabel }}</span>
+        {% endset %}
+
+        {% include '_components/button' with {
+            params: {
+                type: 'span',
+                button: {
+                    label: buttonLabel
+                },
+                colour: options.colour[params.colour].button,
+                size: options.size[params.size].button,
+                class: classes.button|join(' ')|trim,
+                attributes: 'aria-hidden="true"'
+            }
+        } only %}
+
+    </div>
+
+    {% include '_components/form/instructions' with {
+        params: {
+            instructions: params.instructions,
+            colour: options.colour[params.colour].instructions
+        }
+    } only %}
+
+</div>
+
+{# prettier-ignore-start #}
+{% js %}
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{ component }}', (buttonLabel) => ({
+            buttonLabel: buttonLabel,
+            name: null,
+            change() {
+
+                const input = this.$refs.input;
+
+                {# Formie empties the input after an Ajax upload, keeping the file as a hidden asset id. #}
+                const uploaded = Array.from(input.form?.elements ?? []).some((el) => el.type === 'hidden' && el.name === input.name && el.value);
+
+                this.name = input.files[0]?.name ?? (uploaded ? this.name : null);
+
+            }
+        }))
+    })
+
+{% endjs %}
+{# prettier-ignore-end #}
