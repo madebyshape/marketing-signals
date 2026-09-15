@@ -19,11 +19,44 @@
 {% set hasText = entry.text|striptags|trim|length > 0 %}
 {% set hasButtons = buttons|length > 0 %}
 
+{# Options #}
+
+{% set blockOptions = {
+    backgroundColour: {
+        creme: {
+            panel: null,
+            eyebrow: 'black',
+            heading: 'base',
+            highlight: 'base',
+            text: 'black',
+            breadcrumb: 'base',
+            buttons: ['secondary', 'creme-300-outline']
+        },
+        black: {
+            panel: 'rounded-b-[30px] bg-black pb-15 | xl:pb-[125px]',
+            eyebrow: 'white',
+            heading: 'creme-100',
+            highlight: 'secondary',
+            text: 'white',
+            breadcrumb: 'white',
+            buttons: ['secondary', 'white-30-outline']
+        }
+    }
+} %}
+
+{% set background = blockOptions.backgroundColour[entry.backgroundColour.value ?? 'creme'] ?? blockOptions.backgroundColour.creme %}
+
 {# Classes #}
 
-{# The header is fixed (ADR-0001), so the section's top padding is the header height #}
+{# The header is fixed (ADR-0001), so the panel's top padding is the header height #}
 
 {% set blockClasses = {
+    panel: [
+        'w-full',
+        vars is defined ? vars.class.siteMargin.x : 'px-10',
+        vars is defined ? vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        background.panel
+    ],
     grid: [
         'grid grid-cols-12 gap-x-5 gap-y-7.5 mt-15',
         '|',
@@ -47,83 +80,90 @@
     with {
         params: params|merge({
             paddingY: params.padding,
-            class: vars is defined ? vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+            paddingX: 'none'
         })
     }
 %}
     {% block sectionContent %}
 
-        {% if hasBreadcrumbs %}
+        <div class="{{ blockClasses.panel|join(' ')|trim }}">
 
-            {% include '_components/breadcrumb' with {
-                params: {
-                    entry: entry.owner
-                }
-            } only %}
+            {% if hasBreadcrumbs %}
 
-        {% endif %}
-
-        <div class="{{ blockClasses.grid|join(' ')|trim }}">
-
-            {% if hasEyebrow %}
-
-                {% include '_components/eyebrow' with {
+                {% include '_components/breadcrumb' with {
                     params: {
-                        text: entry.eyebrow,
-                        colour: 'black',
-                        class: blockClasses.eyebrow
+                        entry: entry.owner,
+                        colour: background.breadcrumb
                     }
                 } only %}
 
             {% endif %}
 
-            {% include '_components/headingAlternate' with {
-                params: {
-                    tag: 'h1',
-                    heading: entry.heading,
-                    size: '5xl',
-                    class: blockClasses.heading
-                }
-            } only %}
+            <div class="{{ blockClasses.grid|join(' ')|trim }}">
 
-            {% if hasButtons or isCentred %}
+                {% if hasEyebrow %}
 
-                <div class="{{ blockClasses.textColumn }}">
-
-                    {% if hasText %}
-
-                        {% include '_components/richText' with {
-                            params: {
-                                content: entry.text,
-                                colour: 'black',
-                                class: isCentred ? blockClasses.text
-                            }
-                        } only %}
-
-                    {% endif %}
-
-                    {% include '_components/buttonGroup' with {
+                    {% include '_components/eyebrow' with {
                         params: {
-                            buttons: buttons,
-                            colours: ['secondary', 'creme-300-outline'],
-                            align: isCentred ? 'center' : 'start',
-                            class: hasText ? blockClasses.buttons
+                            text: entry.eyebrow,
+                            colour: background.eyebrow,
+                            class: blockClasses.eyebrow
                         }
                     } only %}
 
-                </div>
+                {% endif %}
 
-            {% else %}
-
-                {% include '_components/richText' with {
+                {% include '_components/headingAlternate' with {
                     params: {
-                        content: entry.text,
-                        colour: 'black',
-                        class: blockClasses.text
+                        tag: 'h1',
+                        heading: entry.heading,
+                        colour: background.heading,
+                        size: '5xl',
+                        alternateStyle: background.highlight,
+                        class: blockClasses.heading
                     }
                 } only %}
 
-            {% endif %}
+                {% if hasButtons or isCentred %}
+
+                    <div class="{{ blockClasses.textColumn }}">
+
+                        {% if hasText %}
+
+                            {% include '_components/richText' with {
+                                params: {
+                                    content: entry.text,
+                                    colour: background.text,
+                                    class: isCentred ? blockClasses.text
+                                }
+                            } only %}
+
+                        {% endif %}
+
+                        {% include '_components/buttonGroup' with {
+                            params: {
+                                buttons: buttons,
+                                colours: background.buttons,
+                                align: isCentred ? 'center' : 'start',
+                                class: hasText ? blockClasses.buttons
+                            }
+                        } only %}
+
+                    </div>
+
+                {% else %}
+
+                    {% include '_components/richText' with {
+                        params: {
+                            content: entry.text,
+                            colour: background.text,
+                            class: blockClasses.text
+                        }
+                    } only %}
+
+                {% endif %}
+
+            </div>
 
         </div>
 

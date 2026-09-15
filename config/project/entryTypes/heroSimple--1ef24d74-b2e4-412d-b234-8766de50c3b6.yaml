@@ -136,7 +136,7 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: c009376d-a02d-4d26-bb22-1544646c7e58 # Dropdown - Background Colour (Cream)
+            fieldUid: c009376d-a02d-4d26-bb22-1544646c7e58 # Dropdown - Background Colour (Creme)
             handle: backgroundColour
             instructions: null
             label: 'Background Colour'
