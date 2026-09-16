@@ -90,7 +90,7 @@ fieldLayouts:
             elementCondition: null
             elementEditCondition: null
             fieldUid: 303a2de2-c933-4847-bd90-9a5ae858110e # Entry - Team
-            handle: author
+            handle: authorBlog
             instructions: null
             label: Author
             required: false
@@ -181,6 +181,29 @@ fieldLayouts:
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: 8ca46ddb-11c3-4802-9681-bfa85fc22244
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-09-16T07:44:18+00:00'
+            elementCondition: null
+            heading: Blocks
+            type: craft\fieldlayoutelements\Heading
+            uid: ccbdaba7-bba3-4da0-a9ae-a3c47d483899
+            userCondition: null
+          -
+            dateAdded: '2026-09-16T07:44:18+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6b2462c2-66b9-45fe-9504-0bce4d4cd1df # Blocks
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6d383c45-16bd-4d3e-9895-3d6790a61508
             userCondition: null
             warning: null
             width: 100

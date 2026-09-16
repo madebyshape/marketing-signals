@@ -22,4 +22,10 @@
         }
     } only %}
 
+    {# Blocks #}
+
+    {{ entry.blocks.render({
+        vars: vars
+    }) }}
+
 {% endblock %}

@@ -97,7 +97,7 @@
                         const delay = statistic.dataset.delay;
 
                         let goToCharacterPosition = statistic.querySelector(`.js-statistic-${id}-character[data-character='${character}']`).offsetTop;
-                        let goToCharacterWidth = statistic.querySelector(`.js-statistic-${id}-character[data-character='${character}']`).offsetWidth + 1;
+                        let goToCharacterWidth = statistic.querySelector(`.js-statistic-${id}-character[data-character='${character}']`).offsetWidth + 2;
 
                         this.animate(id, statistic, goToCharacterWidth, goToCharacterPosition);
                     });

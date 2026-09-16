@@ -12,6 +12,7 @@
     playerType: 'modal',
     label: 'Play video',
     size: 'base',
+    playButtonSize: 'md',
     shade: false,
     modalLabel: 'Video player',
     playButtonClass: 'absolute bottom-5 left-5 z-10 | lg:bottom-10 lg:left-10',
@@ -130,7 +131,7 @@
 
                 {% include '_components/videoPlayer/playButton' with {
                     params: {
-                        size: 'md',
+                        size: params.playButtonSize,
                         attributes: 'x-ref="poster" x-on:click="open()"',
                         class: params.playButtonClass
                     }

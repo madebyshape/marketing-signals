@@ -232,6 +232,29 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-09-16T07:38:49+00:00'
+            elementCondition: null
+            heading: Blocks
+            type: craft\fieldlayoutelements\Heading
+            uid: 7e10fe09-fa9d-4741-8e71-fc7f6e6d8e1f
+            userCondition: null
+          -
+            dateAdded: '2026-09-16T07:38:49+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6b2462c2-66b9-45fe-9504-0bce4d4cd1df # Blocks
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 36732000-836a-4e72-a496-35d3caf34c8f
+            userCondition: null
+            warning: null
+            width: 100
         name: 'Page Content'
         uid: 560f5e2d-72a2-4468-b39e-32616eadd5bc
         userCondition: null

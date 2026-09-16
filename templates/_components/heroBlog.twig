@@ -18,8 +18,8 @@
 
 {% set blog = params.entry %}
 {% set heading = blog.heroHeading|striptags|trim|length ? blog.heroHeading : blog.title %}
-{% set image = blog.heroImage.one() %}
-{% set author = blog.author.one() %}
+{% set image = blog.heroImage|length ? blog.heroImage.one() : null %}
+{% set author = blog.authorBlog|length ? blog.authorBlog.one() : null %}
 
 {# Classes #}
 

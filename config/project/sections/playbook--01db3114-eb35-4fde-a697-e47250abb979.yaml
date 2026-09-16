@@ -17,7 +17,7 @@ siteSettings:
   08c386f4-5a41-4c9f-8282-f6785af06bfc: # $CRAFT_SITE_NAME
     enabledByDefault: true
     hasUrls: true
-    template: playbook/_entry.twig
+    template: _entryTypes/base.twig
     uriFormat: 'playbook/{slug}'
 structure:
   maxLevels: null
