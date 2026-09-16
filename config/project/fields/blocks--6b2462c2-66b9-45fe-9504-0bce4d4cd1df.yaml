@@ -244,14 +244,6 @@ settings:
       __assoc__:
         -
           - uid
-          - d1bfe36b-4da4-4c86-a162-fa22d76b4ed8 # Template
-        -
-          - group
-          - General
-    -
-      __assoc__:
-        -
-          - uid
           - 7fbdabfa-25d4-4019-acca-997cce421316 # Timeline
         -
           - group
