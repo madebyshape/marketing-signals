@@ -56,7 +56,7 @@ class AssetResolver
                 ));
             }
 
-            $id = $this->one($field, $path);
+            $id = $this->one("Field “{$field->handle}”", $path);
 
             if ($id !== null) {
                 $ids[] = $id;
@@ -64,6 +64,16 @@ class AssetResolver
         }
 
         return $ids;
+    }
+
+    /**
+     * Uploads or reuses one image outside of any field, for content written by other means.
+     *
+     * @throws SeedException if the image cannot be found.
+     */
+    public function image(string $path): ?int
+    {
+        return $this->one('Image', $path);
     }
 
     /**
@@ -92,7 +102,7 @@ class AssetResolver
     /**
      * @throws SeedException
      */
-    private function one(FieldInterface $field, string $path): ?int
+    private function one(string $subject, string $path): ?int
     {
         $volume = $this->volume();
         $filename = basename($path);
@@ -104,7 +114,7 @@ class AssetResolver
             return $existing->id;
         }
 
-        $source = $this->source($field, $path, $filename);
+        $source = $this->source($subject, $path, $filename);
 
         if ($this->dryRun) {
             $this->outcomes[] = new SeedImageOutcome(SeedImageOutcome::UPLOADED, $filename);
@@ -121,14 +131,14 @@ class AssetResolver
      *
      * @throws SeedException
      */
-    private function source(FieldInterface $field, string $path, string $filename): string
+    private function source(string $subject, string $path, string $filename): string
     {
         $source = str_starts_with($path, '/') ? $path : $this->seedDirectory . '/' . $path;
 
         if (!is_file($source)) {
             throw new SeedException(sprintf(
-                'Field “%s”: no image named “%s” in volume “%s”, and no file at %s.',
-                $field->handle,
+                '%s: no image named “%s” in volume “%s”, and no file at %s.',
+                $subject,
                 $filename,
                 $this->volumeHandle,
                 $source,

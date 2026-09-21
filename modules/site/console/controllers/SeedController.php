@@ -4,6 +4,7 @@ namespace modules\site\console\controllers;
 
 use craft\console\Controller;
 use craft\helpers\Console;
+use modules\site\seed\AssetResolver;
 use modules\site\seed\BlockSeeder;
 use modules\site\seed\Seed;
 use modules\site\seed\SeedCategoryOutcome;
@@ -35,9 +36,16 @@ class SeedController extends Controller
      */
     public bool $dryRun = false;
 
+    /**
+     * @var string Handle of the volume images are uploaded to.
+     */
+    public string $volume = 'images';
+
     public function options($actionID): array
     {
-        return [...parent::options($actionID), 'dryRun'];
+        $options = [...parent::options($actionID), 'dryRun'];
+
+        return $actionID === 'images' ? [...$options, 'volume'] : $options;
     }
 
     /**
@@ -99,6 +107,66 @@ class SeedController extends Controller
         ));
 
         return ExitCode::OK;
+    }
+
+    /**
+     * Uploads images to a volume, reusing any it already holds under the same filename, so
+     * content written through the MCP server can name them by volume and filename.
+     *
+     * @param string ...$paths Image files, or folders of them, relative to the project root.
+     */
+    public function actionImages(string ...$paths): int
+    {
+        if ($paths === []) {
+            $this->stderr("Error: give at least one image file or folder.\n", Console::FG_RED);
+
+            return ExitCode::USAGE;
+        }
+
+        $resolver = new AssetResolver($this->volume, getcwd(), $this->dryRun);
+
+        try {
+            foreach ($paths as $path) {
+                foreach (self::files($path) as $file) {
+                    $resolver->image($file);
+                }
+            }
+        } catch (SeedException $e) {
+            $this->stderr("Error: {$e->getMessage()}\n", Console::FG_RED);
+
+            return ExitCode::UNSPECIFIED_ERROR;
+        }
+
+        $images = $resolver->outcomes();
+
+        foreach ($images as $image) {
+            $this->outputImage($image);
+        }
+
+        $this->stdout(sprintf(
+            "%d uploaded, %d reused in volume “%s”%s.\n",
+            count(array_filter($images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::UPLOADED)),
+            count(array_filter($images, static fn(SeedImageOutcome $i): bool => $i->action === SeedImageOutcome::REUSED)),
+            $this->volume,
+            $this->dryRun ? ' — dry run, nothing written' : '',
+        ));
+
+        return ExitCode::OK;
+    }
+
+    /**
+     * @return string[] the path itself, or the files directly inside it when it is a folder.
+     */
+    private static function files(string $path): array
+    {
+        if (!is_dir($path)) {
+            return [$path];
+        }
+
+        $files = array_filter(glob(rtrim($path, '/') . '/*') ?: [], 'is_file');
+        sort($files);
+
+        return $files;
     }
 
     private function outputEntry(SeedEntryOutcome $entry): void
