@@ -100,7 +100,7 @@ create() {
     sed -i '' -E "s#^PRIMARY_SITE_URL=.*#PRIMARY_SITE_URL=\"$URL\"#" "$WT/.env"
     printf 'name: %s\n' "$DDEV_NAME" > "$WT/.ddev/config.local.yaml"
     mkdir -p "$WT/.claude" "$WT/web/transforms"
-    for link in .claude/skills .agents; do
+    for link in .claude/skills .agents CLAUDE.md CONTEXT.md docs; do
         if [ -e "$MAIN/$link" ] && [ ! -e "$WT/$link" ]; then
             ln -s "$MAIN/$link" "$WT/$link"
         fi
