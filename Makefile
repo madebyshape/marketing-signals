@@ -133,14 +133,12 @@ switch-branch:
 	@$(MAKE) import-on-empty
 
 worktree:
-	@$(eval TARGET := $(filter-out worktree,$(MAKECMDGOALS)))
-	@if [ -z "$(TARGET)" ]; then echo "Usage: make worktree <slug>"; exit 1; fi
-	@NPM_INSTALL_FLAGS="$(NPM_INSTALL_FLAGS)" bin/worktree create $(TARGET)
+	@if [ -z "$(name)" ]; then echo "Usage: make worktree name=<slug>"; exit 1; fi
+	@NPM_INSTALL_FLAGS="$(NPM_INSTALL_FLAGS)" bin/worktree create $(name)
 
 worktree-remove:
-	@$(eval TARGET := $(filter-out worktree-remove,$(MAKECMDGOALS)))
-	@if [ -z "$(TARGET)" ]; then echo "Usage: make worktree-remove <slug>"; exit 1; fi
-	@bin/worktree remove $(TARGET)
+	@if [ -z "$(name)" ]; then echo "Usage: make worktree-remove name=<slug>"; exit 1; fi
+	@bin/worktree remove $(name)
 
 worktree-list:
 	@bin/worktree list

@@ -7,11 +7,14 @@
 #   bin/worktree remove <slug|path> [--force] delete the DDEV project and the worktree; keeps the branch
 #   bin/worktree path   <slug|branch>        print the worktree directory
 #   bin/worktree url    <slug|branch>        print the worktree's site URL
+#   bin/worktree remote-url <slug|branch>    print its remote URL (needs REMOTE_HOST_SUFFIX)
 #   bin/worktree list
 #
 # A plain <slug> means branch feature/<slug>; a name containing "/" is used as the branch as-is.
 # A factory branch (factory/BYB-12-slug) is named after its ticket (byb-12) so the DDEV
 # hostname stays under the 63-character limit.
+# With REMOTE_HOST_SUFFIX set (e.g. .dev.bybucko.com), a worktree is also reachable remotely
+# at https://<ddev-name><suffix>. `url` stays one line (the code factory reads all of it).
 set -euo pipefail
 
 say() { printf '\033[1m▸ %s\033[0m\n' "$*" >&2; }
@@ -26,6 +29,8 @@ HTTPS_PORT=$(awk '/^router_https_port:/{gsub(/"/,"",$2);print $2}' "$MAIN/.ddev/
 HTTPS_PORT=${HTTPS_PORT:-443}
 NPM_INSTALL_FLAGS=${NPM_INSTALL_FLAGS:---include=optional --legacy-peer-deps}
 COPY_DIRS="node_modules vendor storage web/assets web/cpresources"
+# The branch a new worktree branch starts from. The code factory passes its base_branch.
+BASE_BRANCH=${BASE_BRANCH:-main}
 
 # Sets NAME, BRANCH, WT, DDEV_NAME and URL from a slug, a branch, or a worktree path.
 resolve() {
@@ -46,12 +51,21 @@ resolve() {
             *) NAME=$(printf '%s' "${BRANCH#feature/}" | tr '/A-Z' '-a-z') ;;
         esac
         WT=$(dirname "$MAIN")/$PROJECT--$NAME
+        # An existing worktree knows its own branch: byb-12 is on factory/BYB-12-slug,
+        # not feature/byb-12.
+        if registered; then
+            BRANCH=$(git -C "$WT" symbolic-ref --short -q HEAD || printf '%s' "$BRANCH")
+        fi
     fi
     DDEV_NAME=$PROJECT-$NAME
     if [ -f "$WT/.ddev/config.local.yaml" ]; then
         DDEV_NAME=$(awk '/^name:/{print $2}' "$WT/.ddev/config.local.yaml")
     fi
     URL=https://$DDEV_NAME.ddev.site:$HTTPS_PORT
+    REMOTE_URL=
+    if [ -n "${REMOTE_HOST_SUFFIX:-}" ]; then
+        REMOTE_URL=https://$DDEV_NAME$REMOTE_HOST_SUFFIX
+    fi
 }
 
 registered() {
@@ -59,14 +73,18 @@ registered() {
 }
 
 summary() {
+    local remote=
+    if [ -n "$REMOTE_URL" ]; then
+        remote=$'\n'"  Remote:     $REMOTE_URL"
+    fi
     cat >&2 <<END
 
 Worktree ready
   Branch:     $BRANCH
   Directory:  $WT
-  Site:       $URL
+  Site:       $URL$remote
   Vite:       running in the container (restart with: make dev)
-  Remove:     make worktree-remove $NAME
+  Remove:     make worktree-remove name=$NAME
 END
 }
 
@@ -91,8 +109,8 @@ create() {
         say "Tracking origin/$BRANCH"
         git -C "$MAIN" worktree add --track -b "$BRANCH" "$WT" "origin/$BRANCH"
     else
-        say "Creating $BRANCH from origin/main"
-        git -C "$MAIN" worktree add -b "$BRANCH" "$WT" origin/main
+        say "Creating $BRANCH from origin/$BASE_BRANCH"
+        git -C "$MAIN" worktree add -b "$BRANCH" "$WT" "origin/$BASE_BRANCH"
     fi
 
     say "Copying local config and dependencies from main"
@@ -178,6 +196,10 @@ case ${1:-} in
     remove) [ -n "${2:-}" ] || die "Usage: bin/worktree remove <slug|path> [--force]"; remove "$2" "${3:-}" ;;
     path)   [ -n "${2:-}" ] || die "Usage: bin/worktree path <slug>"; resolve "$2"; printf '%s\n' "$WT" ;;
     url)    [ -n "${2:-}" ] || die "Usage: bin/worktree url <slug>"; resolve "$2"; printf '%s\n' "$URL" ;;
+    remote-url)
+            [ -n "${2:-}" ] || die "Usage: bin/worktree remote-url <slug>"; resolve "$2"
+            [ -n "$REMOTE_URL" ] || die "REMOTE_HOST_SUFFIX is not set"
+            printf '%s\n' "$REMOTE_URL" ;;
     list)   git -C "$MAIN" worktree list ;;
-    *)      sed -n '2,14p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//' >&2; exit 1 ;;
+    *)      sed -n '2,17p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//' >&2; exit 1 ;;
 esac
