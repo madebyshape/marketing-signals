@@ -104,6 +104,3 @@ skills-lock.json
 tmp/*
 tasks/
 .scratch/*
-docs/*
-CONTEXT.md
-CLAUDE.md
