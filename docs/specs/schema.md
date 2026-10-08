@@ -91,14 +91,17 @@ Editors gain two optional fields: a **LinkedIn** on a Team Member, which becomes
 **Where things live (ADR-0008).** The Organization's facts are SEOmatic Site Settings → Identity, saved in the database and entered by hand on each environment. Everything else is Twig on SEOmatic's own JSON-LD graph via `seomatic.jsonLd`, so SEOmatic still renders one `@graph` in the head. SEOmatic's Content SEO schema-type settings per section are left at their defaults; the templates override them.
 
 **Identity values.** Entered in SEOmatic Identity on local, staging and production. Values taken from the live site and the Contact entry:
-- Entity type Organization; name "Marketing Signals"; legal name "Marketing Signals Limited"; URL the site URL.
+- Entity type Organization; Entity Name "Marketing Signals"; Entity URL the site URL. Identity has no legal-name field, so `legalName` "Marketing Signals Limited" is set in the graph wiring below.
 - Description "Digital Marketing Solutions for Ambitious Brands".
 - Address: street "c/o Accountancy Extra, 33 Harrison Rd", locality "Halifax", postal code "HX1 2AF", country "GB". This is the registered office; the company is fully remote, so no LocalBusiness or premises.
-- Logo: the inline logo SVG exported to a PNG 512px wide on white, uploaded to the Images volume and chosen as Identity's logo.
+- Entity Telephone "+44 330 043 4676"; Entity Email "hello@marketingsignals.com".
+- Organization Founder "Gareth Hoyle"; Organization Founding Date 2007 ("Since 2007" on the live About page; the Limited company was incorporated later).
+- Entity Brand (the logo): the inline logo SVG in Black on white, exported as a 1200 by 300 PNG so both sides clear Google's 112px minimum, uploaded to the Images volume.
+- Contact Points left empty: the contactPoint is built in the graph wiring from the Contact page, and filling both would output two.
 - Social profiles: the three sameAs links SEOmatic already holds, unchanged (the Social Links read them).
 
 **Graph wiring, in the global layout.** One place that runs on every page, before SEOmatic renders:
-- The identity entity's id becomes `{siteUrl}#organization`. Every reference SEOmatic made to `#identity` (author, copyrightHolder, publisher) is repointed to it.
+- The identity entity's id becomes `{siteUrl}#organization`, and it gains `legalName` "Marketing Signals Limited". Every reference SEOmatic made to `#identity` (author, copyrightHolder, publisher) is repointed to it.
 - The `#creator` entity is removed, and every reference to it (WebPage `creator` and `publisher`) is repointed to `{siteUrl}#organization`.
 - The Organization gains `contactPoint`: ContactPoint, `contactType` "sales", email "hello@marketingsignals.com", telephone "+44 330 043 4676", `url` the Contact page's URL found by its entry type (ADR-0003). The email and telephone come from the Contact page's own Email and Phone fields, so a change there flows through; with no Contact page the contactPoint is left out.
 - A WebSite entity is added: id `{siteUrl}#website`, name "Marketing Signals" (the site name), URL the site URL, description as the Organization's, publisher `{siteUrl}#organization`, `inLanguage` the site language. No `potentialAction`.
