@@ -111,9 +111,13 @@
 			entry: entry ?? null
 		}
 	}, with_context = false) %}
-	{% do mainEntity.copyrightHolder(organization) %}
-	{% do mainEntity.creator(organization) %}
-	{% do mainEntity.publisher(organization) %}
+
+	{# A Service has no copyrightHolder, creator or publisher. #}
+	{% if 'publisher' in mainEntity.getSchemaPropertyNames() %}
+		{% do mainEntity.copyrightHolder(organization) %}
+		{% do mainEntity.creator(organization) %}
+		{% do mainEntity.publisher(organization) %}
+	{% endif %}
 
 	{% if 'isPartOf' in mainEntity.getSchemaPropertyNames() %}
 		{% do mainEntity.isPartOf(website) %}

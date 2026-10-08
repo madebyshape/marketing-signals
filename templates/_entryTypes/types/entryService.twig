@@ -6,6 +6,25 @@
 
 {% set headerColour = 'black' %}
 
+{# Schema #}
+
+{% set webPage = seomatic.jsonLd.get('mainEntityOfPage') %}
+
+{% do seomatic.jsonLd.create({
+    type: 'Service',
+    key: 'mainEntityOfPage',
+    name: entry.title,
+    serviceType: entry.title,
+    description: entry.description|striptags|trim ?: webPage.description ?? null,
+    image: entry.thumbnail.one().url ?? null,
+    url: entry.url,
+    provider: { id: siteUrl ~ '#organization' },
+    areaServed: {
+        type: 'Country',
+        name: 'GB'
+    }
+}) %}
+
 {% block site %}
 
     {# Hero #}
