@@ -1,0 +1,83 @@
+allowLineBreaksInTitles: false
+color: blue
+description: null
+fieldLayouts:
+  e27eefac-b025-401e-9bba-88b538449d2c:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-10-08T19:35:44+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6d792fe4-471d-48ed-bc45-5fe112ba7e46 # Image
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d689d5f5-90f0-4bc6-89a3-91d3550e44fc
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-10-08T19:35:44+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5edf3cb2-e081-444a-a9c1-bdab388c26f3 # Dropdown - Aspect Ratio
+            handle: aspectRatio
+            instructions: null
+            label: 'Aspect Ratio'
+            oldFieldUid: 5edf3cb2-e081-444a-a9c1-bdab388c26f3 # Dropdown - Aspect Ratio
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 28125882-cd37-4693-b4dc-c1ea7600462f
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: a0bec6e0-0656-4eff-988b-3800816bab5e
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-10-08T19:35:44+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 502c0610-e74d-4359-8524-5652307ada64 # Padding
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8284811d-1aa4-4b7d-81ca-99ac13143ab8
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 83ae22a9-5625-4dbb-8fec-cb0b02c4fae1
+        userCondition: null
+    thumbFieldKey: null
+handle: image
+hasTitleField: false
+icon: image-landscape
+name: Image
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

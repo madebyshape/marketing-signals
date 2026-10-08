@@ -1,0 +1,54 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set image = entry.image.one() %}
+{% set aspectRatio = entry.aspectRatio.value ?: 'noRatio' %}
+{% set hasRatio = aspectRatio != 'noRatio' %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    box: 'w-full overflow-hidden rounded-[20px]',
+    img: hasRatio ? 'size-full object-cover' : 'w-full h-auto'
+} %}
+
+{# Output #}
+
+{% if image %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.box }}">
+
+                {% include '_components/picture' with {
+                    params: {
+                        image: image,
+                        transform: hasRatio ? aspectRatio : 'noRatioLarge',
+                        ratio: hasRatio,
+                        imgClass: blockClasses.img
+                    }
+                } only %}
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
