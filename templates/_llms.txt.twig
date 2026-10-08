@@ -1,0 +1,90 @@
+{# The client's llms.txt copy, with each link resolved from its entry so the URL follows this site. #}
+{% set groups = [
+    {
+        heading: 'Services',
+        links: [
+            { uri: 'services', text: 'Services overview', description: 'Full-service digital marketing across SEO, PPC, Digital PR and GEO/LLM visibility' },
+            { uri: 'service/ai-focused-search-engine-optimisation', text: 'AI-focused Search Engine Optimisation', description: 'Organic visibility across traditional search engines and AI platforms including ChatGPT, Perplexity, Gemini and Claude' },
+            { uri: 'service/organic-search-seo', text: 'Organic Search (SEO)', description: 'Technical SEO, content and authority combined into a cohesive growth strategy' },
+            { uri: 'service/pay-per-click', text: 'Performance-Driven PPC Agency', description: 'Google Ads, Microsoft Ads, paid social and Performance Max — measured on ROAS and conversion, not clicks' },
+            { uri: 'service/integrated-search-sem', text: 'Integrated Search (SEM)', description: 'Combined organic and paid search strategy for compounding performance' },
+            { uri: 'service/digital-pr-marketing', text: 'Digital PR', description: 'Tier-one coverage and backlinks from national, local and trade publications' },
+            { uri: 'service/saas-link-building-agency', text: 'SaaS Link-Building Agency', description: 'Specialist link acquisition for SaaS brands' },
+        ],
+    },
+    {
+        heading: 'Visibility Playbooks (2026)',
+        links: [
+            { uri: 'playbooks', text: 'Playbooks hub', description: 'Twelve senior-level playbooks covering SEO and GEO by vertical for 2026' },
+            { uri: 'playbook/a-visibility-playbook-for-e-commerce', text: 'E-commerce Visibility Playbook', description: 'PDPs and PLPs as conversion assets and AI citations' },
+            { uri: 'playbook/a-visibility-playbook-for-fashion-brands', text: 'Fashion Brands Visibility Playbook', description: 'Brand experience meets specification in the AI-mediated consideration set' },
+            { uri: 'playbook/a-visibility-playbook-for-education-edtech', text: 'Education & EdTech Visibility Playbook', description: 'Credentialing, faculty entities and course pages in the AI-mediated applicant journey' },
+            { uri: 'playbook/a-visibility-playbook-for-b2b-lead-generation', text: 'B2B Lead Generation Visibility Playbook', description: 'Visibility framework for a 6–18 month sales cycle' },
+            { uri: 'playbook/a-visibility-playbook-for-travel-hospitality', text: 'Travel & Hospitality Visibility Playbook', description: 'Airlines, hotels, OTAs and tour operators in the new SERP' },
+            { uri: 'playbook/a-visibility-playbook-for-saas-websites', text: 'SaaS Visibility Playbook', description: 'Documentation as citation surface, integration pages as commercial assets' },
+            { uri: 'playbook/a-visibility-playbook-for-fintech-brands', text: 'Fintech Visibility Playbook', description: 'YMYL visibility within FCA and regulatory constraints' },
+            { uri: 'playbook/a-visibility-playbook-for-legal-service-firms', text: 'Legal Services Visibility Playbook', description: 'Lawyer profiles as entity assets, practice area architecture' },
+            { uri: 'playbook/a-visibility-playbook-for-healthcare-providers', text: 'Healthcare Providers Visibility Playbook', description: 'Clinician credentials as the unit of authority' },
+            { uri: 'playbook/a-visibility-playbook-for-marketplaces', text: 'Marketplaces Visibility Playbook', description: 'Two-sided visibility for marketplaces and aggregators' },
+            { uri: 'playbook/a-visibility-playbook-for-industrial-b2b', text: 'Industrial B2B Visibility Playbook', description: 'Spec-driven visibility for manufacturers and industrial brands' },
+            { uri: 'playbook/a-visibility-playbook-for-local-businesses', text: 'Local Businesses Visibility Playbook', description: 'Google Business Profile as an active marketing channel' },
+        ],
+    },
+    {
+        heading: 'About',
+        links: [
+            { uri: 'about-us', text: 'About Us', description: 'Senior team, partnership approach, performance focus' },
+            { uri: 'culture', text: 'Our Culture', description: 'Remote-first, four-day week, agentic AI adoption' },
+            { uri: 'careers', text: 'Careers', description: 'Open roles at a remote-first search and AI agency' },
+            { uri: 'case-studies', text: 'Our Work', description: 'Case studies across SaaS, finance, eCommerce, retail, travel and B2B' },
+        ],
+    },
+    {
+        heading: 'Audit & Insights',
+        links: [
+            { uri: 'am-i-visible', text: 'Am I Visible? AI visibility audit', description: 'Structured audit covering classical SEO and visibility across ChatGPT, Perplexity, Claude, Gemini and Google AI Mode' },
+            { uri: 'insights', text: 'Insights', description: 'Articles, research and commentary on SEO, GEO and digital marketing' },
+            { uri: 'insights/best-ppc-agency-2026-the-top-uk-pay-per-click-agencies-ranked', text: 'Best PPC Agency 2026 ranking', description: 'Annual ranked guide to UK PPC agencies' },
+        ],
+    },
+    {
+        heading: 'Contact',
+        links: [
+            { uri: 'contact-us', text: 'Contact Us', description: 'Strategy call enquiries, new business and partnerships' },
+        ],
+    },
+    {
+        heading: 'Optional',
+        links: [
+            { uri: 'brand-guidelines', text: 'Brand Guidelines' },
+            { uri: 'terms-conditions', text: 'Terms & Conditions' },
+            { uri: 'privacy-policy', text: 'Privacy Policy' },
+            { uri: 'modern-slavery-policy', text: 'Modern Slavery Policy' },
+            { uri: 'esg', text: 'ESG Policy' },
+            { url: 'https://coveragely.com', text: 'Coveragely', description: 'Sister product for tracking Digital PR coverage' },
+        ],
+    },
+] %}
+
+{%- set uris = groups|reduce((carry, group) => carry|merge(group.links|column('uri')), []) %}
+{% set entries = craft.entries.uri(uris).indexBy('uri').all() %}
+
+{#- Output #}
+{%- autoescape false %}
+# Marketing Signals
+
+> Marketing Signals is a fully remote, performance-driven UK digital marketing agency for search and AI. We integrate SEO, PPC, Digital PR and Generative Engine Optimisation (GEO) into one strategy, measured on revenue and ROI — not vanity metrics. Operating since 2007, we work with ambitious brands across SaaS, finance, eCommerce, marketplaces, automotive, consumer and travel.
+
+What sets us apart: we run SEO, PPC, Digital PR and GEO as a single compounding strategy rather than parallel silos. We're a remote-first, four-day-week agency built around senior practitioners. Our visibility work spans both classical search engines and the major generative engines — ChatGPT, Perplexity, Claude, Gemini and Google AI Mode.
+{% for group in groups %}
+
+## {{ group.heading }}
+
+{% for link in group.links %}
+{% set url = link.url ?? entries[link.uri].url ?? null %}
+{% if url %}
+- [{{ link.text }}]({{ url }}){{ link.description is defined ? ': ' ~ link.description }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endautoescape %}
