@@ -9,4 +9,7 @@
  * https://craftcms.com/docs/4.x/routing.html
  */
 
-return [];
+return [
+    'llms.txt' => ['template' => '_llms.txt'],
+    '.well-known/llms.txt' => ['template' => '_llms.txt'],
+];

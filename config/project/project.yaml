@@ -447,6 +447,7 @@ plugins:
     schemaVersion: 1.4.0
     settings:
       enableUserAgentDetection: true
+      enableLlmsTxt: false
   mailgun:
     edition: standard
     enabled: true
