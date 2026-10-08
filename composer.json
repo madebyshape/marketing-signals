@@ -11,6 +11,7 @@
     "johnfmorton/craft-llm-ready": "^1.10.0",
     "mmikkel/retcon": "^3.2.3",
     "nystudio107/craft-minify": "^5.0.0-beta.2",
+    "nystudio107/craft-retour": "^5.0",
     "nystudio107/craft-seomatic": "^5.1.22",
     "nystudio107/craft-vite": "^5.0.2",
     "putyourlightson/craft-blitz": "^5.13.4",

@@ -1,4 +1,4 @@
-dateModified: 1791451472
+dateModified: 1791473209
 elementSources:
   craft\elements\Entry:
     -
@@ -446,8 +446,8 @@ plugins:
     enabled: true
     schemaVersion: 1.4.0
     settings:
-      enableUserAgentDetection: true
       enableLlmsTxt: false
+      enableUserAgentDetection: true
   mailgun:
     edition: standard
     enabled: true
@@ -465,6 +465,11 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
+  retour:
+    edition: standard
+    enabled: true
+    licenseKey: 3OA8TKJX74Q5JTI8NOG4JB7N
+    schemaVersion: 3.0.12
   seomatic:
     edition: standard
     enabled: true
