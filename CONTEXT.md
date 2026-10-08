@@ -358,6 +358,10 @@ _Avoid_: Hover cursor, cursor follower, tooltip, CTA
 An entry in the Case Study section: one piece of client work, with a Thumbnail, a Logo, a Tag Line and a Category of its own, and a Case Study Hero at the top of its page.
 _Avoid_: Work, project, portfolio item, success story
 
+**Client Name**:
+The name of the brand a Case Study was for, typed by the editor; when empty the Case Study's title stands in. It is plain text, not a link to a Client.
+_Avoid_: Client, brand name, customer
+
 **Case Study Carousel**:
 A Block of an Eyebrow and a heading over a row of Slides, one per Case Study the editor picked, that the visitor moves with the Carousel Controls or by dragging. It sits in a black panel inside the site margins.
 _Avoid_: Work carousel, featured work, case study slider, work exterior
@@ -583,8 +587,12 @@ _Avoid_: Testimonial block, single testimonial, quote block, hero testimonial, c
 ### Team Carousel
 
 **Team Member**:
-An entry in the Team section: a person's name, Job Role, Image, Quote and Author Description, with a Video when the editor adds one. A Team Member credited on a Blog is that Blog's Author, and every Team Member has an Author Page.
+An entry in the Team section: a person's name, Job Role, Image, Quote and Author Description, with a Video and a LinkedIn when the editor adds them. A Team Member credited on a Blog is that Blog's Author, and every Team Member has an Author Page.
 _Avoid_: Staff, employee, person
+
+**LinkedIn**:
+The address of a Team Member's own LinkedIn profile. Optional.
+_Avoid_: Social link, profile URL
 
 **Team Carousel**:
 A Block of Team Slides in a black panel inside the site margins, one Slide per Team Member the editor picked, with a fixed Eyebrow and Rule above them and the Carousel Controls at the end of the Avatar Group row.
