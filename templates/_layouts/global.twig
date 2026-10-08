@@ -106,7 +106,11 @@
 
 {% if mainEntity %}
 
-	{% do mainEntity.author(organization) %}
+	{% do include('_components/schemaAuthor', {
+		params: {
+			entry: entry ?? null
+		}
+	}, with_context = false) %}
 	{% do mainEntity.copyrightHolder(organization) %}
 	{% do mainEntity.creator(organization) %}
 	{% do mainEntity.publisher(organization) %}
