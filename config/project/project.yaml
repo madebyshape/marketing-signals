@@ -1,4 +1,4 @@
-dateModified: 1791476862
+dateModified: 1791488216
 elementSources:
   craft\elements\Entry:
     -
@@ -317,6 +317,7 @@ meta:
     d59f6856-5fd4-442b-8be6-1c9ebd106977: 'Dropdown Links' # Dropdown Links
     d90e2274-f99e-4cdd-946f-9505a2caf8c9: 'Entry Global Blocks' # Entry Global Blocks
     d99bf7af-1eb1-4b77-814e-624eeec1a0e3: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
+    d465e75a-89cd-4c5e-985c-cea555b6589f: Embed # Embed
     d4285909-50eb-419a-a385-79e247d4648f: 'Eyebrow & Images' # Eyebrow & Images
     d5189384-3a6a-441f-9f4b-cb171f279337: Heading # Heading
     d8925826-0e82-41f9-91e8-bb798d884868: 'Carousel - Blog' # Carousel - Blog

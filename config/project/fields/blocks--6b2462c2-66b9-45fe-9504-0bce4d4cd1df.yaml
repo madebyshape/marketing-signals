@@ -304,6 +304,14 @@ settings:
         -
           - group
           - General
+    -
+      __assoc__:
+        -
+          - uid
+          - d465e75a-89cd-4c5e-985c-cea555b6589f # Embed
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: null
   minEntries: null

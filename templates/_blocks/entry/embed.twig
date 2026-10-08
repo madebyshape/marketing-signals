@@ -1,0 +1,42 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set embedCode = entry.embedCode is defined ? entry.embedCode|trim : '' %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    embed: 'w-full [&_iframe]:max-w-full'
+} %}
+
+{# Output #}
+
+{% if embedCode|length %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.embed }}">
+                {{ embedCode|raw }}
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
