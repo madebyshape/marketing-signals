@@ -84,7 +84,7 @@ Editors gain two optional fields: a **LinkedIn** on a Team Member, which becomes
 37. As an editor, I want a Career without an Expiry Date to still output a valid posting, so that forgetting it does not break the page.
 38. As a developer, I want per-page schema built in templates from entry fields, so that it is versioned, reviewed and the same on every environment.
 39. As a developer, I want SEOmatic's own BreadcrumbList untouched, so that the existing Breadcrumb override keeps working.
-40. As a reviewer, I want each page type's JSON-LD to pass validator.schema.org and Google's Rich Results Test, so that I can trust the markup before launch.
+40. As a reviewer, I want each page type's JSON-LD to pass validator.schema.org and Google's Rich Results Test on staging, so that I can trust the markup before launch.
 
 ## Implementation Decisions
 
@@ -147,33 +147,34 @@ Neither is rendered on the page.
 
 ## Testing Decisions
 
-There is no test suite. Evidence replaces tests, per the evidence doc. Nothing a visitor sees changes, so the evidence is the served markup, validator results and the two new fields in the control panel.
+There is no test suite. Evidence replaces tests, per the evidence doc. Nothing a visitor sees changes, so the evidence is the served markup and the two new fields in the control panel.
 
-**Seam.** One seam: the JSON-LD `@graph` in each page's served HTML on the DDEV site, one representative URL per page type, extracted with curl and parsed. Each extracted graph is pasted into validator.schema.org and Google's Rich Results Test (code mode), and a screenshot of each result is taken and attached to the PR beside the graph it checks. After deploy the same pages are rerun on staging by URL.
+**Seam.** One seam: the JSON-LD `@graph` in each page's served HTML on the DDEV site, one representative URL per page type, extracted with curl and parsed. The code tickets are checked there and nowhere else. Google's Rich Results Test and validator.schema.org are run by a person on staging after deploy, in the human-lane ticket that also fills in SEOmatic Identity, because they need a public URL and a browser session with Google.
 
-**What good evidence looks like.** A reviewer can open a graph and find the page's type, every property this spec lists for it, and every reference resolving to an entity in the same graph with an absolute id; the validators report no errors for it. Warnings for recommended properties the content cannot supply (for example a Career's `baseSalary`) are reported, not fixed.
+**What good evidence looks like.** A reviewer can open a graph and find the page's type, every property this spec lists for it, and every reference resolving to an entity in the same graph with an absolute id. Warnings the validators give for recommended properties the content cannot supply (for example a Career's `baseSalary`) are reported, not fixed.
 
-**Prior art.** The before state is already captured in this spec's Problem Statement: on `main`, `/` and `/insights` serve WebPage, `#identity` with only sameAs, an empty `#creator`, and a BreadcrumbList.
+**Prior art.** The before state is recorded in this spec's Problem Statement: on `main`, `/` and `/insights` serve WebPage, `#identity` with only sameAs, an empty `#creator`, and a BreadcrumbList. No before captures are taken.
 
-**Evidence plan.** Graphs saved as `.scratch/evidence/schema/<page>-graph.json`, validator results as `<page>-<validator>.png`.
+**Evidence plan.** Widths for the group review's resting-state screenshots: 1600, 768 and 390, of the Home page, which proves only that nothing visible changed. Every line below is checked in the served graph on DDEV and reported.
 
-1. Before: `/` and one Blog on `main`, graphs saved. Proves the starting point.
-2. Home: WebPage with `publisher` and `isPartOf` resolving; Organization at the absolute id with every Identity value; WebSite; no `#identity` or `#creator` anywhere; FAQPage of the Home page's FAQs. Both validators pass, the Rich Results Test detecting FAQ. Proves sitewide wiring and the Home page's FAQs.
-3. A Blog with an Author: BlogPosting with every listed property, `author` the Person with the Author Page URL. Validators pass, Rich Results Test detecting Article. Proves BlogPosting and Person.
-4. A Blog without an Author: `author` the Organization. Proves the fallback.
-5. The Author Page of that Author, with LinkedIn seeded: ProfilePage, Person with the same id as in 3 and `sameAs` the LinkedIn. Validators pass, Rich Results Test detecting Profile page. Proves ProfilePage and the shared Person id.
-6. Team Listing page: AboutPage, ItemList of Person references in structure order, each Person defined once. Validator passes. Proves the Team Listing.
-7. A Service: Service with provider and areaServed. Validator passes. Proves Service.
-8. FAQ Listing page: one FAQPage with every shown FAQ and no empty answers. Rich Results Test detects FAQ. Proves the FAQ Listing.
-9. A page seeded with two FAQ Accordions sharing one FAQ: one FAQPage, the shared FAQ once. Proves merging and deduplication.
-10. Blog, Playbook, Case Study, Service and Career Listing pages: each main entity CollectionPage. Validator passes. Proves CollectionPage.
-11. A Playbook: CreativeWork with author and publisher. Validator passes. Proves Playbook.
-12. A Case Study with a Client Name and one without: `about` named from the Client Name, then from the title. Validator passes. Proves Case Study and the fallback.
-13. A Career with an Expiry Date and one of each mapped Employment Type in turn: JobPosting with `validThrough`, the mapped `employmentType`, TELECOMMUTE and GB. Rich Results Test detects Job posting with no errors. Proves JobPosting.
-14. A Career with no Expiry Date: no `validThrough`, still no errors. Proves the fallback.
-15. Control panel: the Team entry shows LinkedIn and the Case Study entry shows Client Name beside the Logo; screenshots at 1600. Proves the fields.
+1. Home: WebPage with `publisher` and `isPartOf` resolving; Organization at `{siteUrl}#organization` with `legalName`, `contactPoint` and whatever Identity holds; WebSite at `{siteUrl}#website`; no `#identity` or `#creator` anywhere; FAQPage of the Home page's FAQs. Proves sitewide wiring and the Home page's FAQs.
+2. A Blog with an Author: BlogPosting with every listed property, `author` the Person with the Author Page URL. Proves BlogPosting and Person.
+3. A Blog without an Author: `author` the Organization. Proves the fallback.
+4. The Author Page of that Author, with LinkedIn seeded: ProfilePage, Person with the same id as in 2 and `sameAs` the LinkedIn. Proves ProfilePage and the shared Person id.
+5. Team Listing page: AboutPage, ItemList of Person references in structure order, each Person defined once. Proves the Team Listing.
+6. A Service: Service with provider and areaServed. Proves Service.
+7. FAQ Listing page: one FAQPage with every shown FAQ and no empty answers. Proves the FAQ Listing.
+8. A page seeded with two FAQ Accordions sharing one FAQ: one FAQPage, the shared FAQ once. Proves merging and deduplication.
+9. Blog, Playbook, Case Study, Service and Career Listing pages: each main entity CollectionPage. Proves CollectionPage.
+10. A Playbook: CreativeWork with author and publisher. Proves Playbook.
+11. A Case Study with a Client Name and one without: `about` named from the Client Name, then from the title. Proves Case Study and the fallback.
+12. A Career with an Expiry Date, and each Employment Type in turn: JobPosting with `validThrough`, the mapped `employmentType`, TELECOMMUTE and GB. Proves JobPosting.
+13. A Career with no Expiry Date: no `validThrough`. Proves the fallback.
+14. Control panel: the Team entry shows LinkedIn and the Case Study entry shows Client Name beside the Logo. Proves the fields.
 
-Content for lines 3–5, 9 and 12–14 arrives by Seed under `.scratch/seeds/schema/` (ADR-0002); temporary states are restored afterwards.
+Content for lines 2–4, 8 and 11–13 arrives by Seed under `.scratch/seeds/schema/` (ADR-0002); temporary states are restored afterwards.
+
+**After deploy, human lane.** On staging, each page type's URL is run through Google's Rich Results Test and validator.schema.org with no errors, the Rich Results Test detecting FAQ on the Home page, Article on a Blog, Profile page on an Author Page and Job posting on a Career; a screenshot of each result is kept with the handover.
 
 ## Out of Scope
 
