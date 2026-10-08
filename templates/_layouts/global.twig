@@ -125,6 +125,18 @@
 
 {% endif %}
 
+{# The FAQ Listing is already an FAQPage, so it gets no second one. #}
+
+{% if (mainEntity.type ?? null) != 'FAQPage' %}
+
+	{% do include('_components/schemaFaq', {
+		params: {
+			entry: entry ?? null
+		}
+	}, with_context = false) %}
+
+{% endif %}
+
 {% block body %}
 
 	{# Global Site Header #}

@@ -1,0 +1,51 @@
+{% set component = 'schemaFaq' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Schema #}
+
+{% set faqIds = [] %}
+{% set questions = [] %}
+
+{% for block in (params.entry.blocks ?? null) ? params.entry.blocks.type('elementsFaq').all() : [] %}
+
+    {% for faq in block.entriesFaq.all() %}
+
+        {% if faq.id not in faqIds and faq.text|striptags|trim|length %}
+
+            {% set faqIds = faqIds|merge([faq.id]) %}
+
+            {% set questions = questions|merge([{
+                type: 'Question',
+                name: faq.title,
+                acceptedAnswer: {
+                    type: 'Answer',
+                    text: faq.text|striptags|trim
+                }
+            }]) %}
+
+        {% endif %}
+
+    {% endfor %}
+
+{% endfor %}
+
+{% if questions|length %}
+
+    {% do seomatic.jsonLd.create({
+        type: 'FAQPage',
+        key: component,
+        id: params.entry.url ~ '#faq',
+        url: params.entry.url,
+        mainEntity: questions
+    }) %}
+
+{% endif %}
