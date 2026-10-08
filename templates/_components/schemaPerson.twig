@@ -1,0 +1,31 @@
+{% set component = 'schemaPerson' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Schema #}
+
+{# Keyed per Team Member, so a Person added twice is still output once; reference it as `{ id: entry.url ~ '#person' }`. #}
+
+{% if params.entry %}
+
+    {% do seomatic.jsonLd.create({
+        type: 'Person',
+        key: component ~ params.entry.id,
+        id: params.entry.url ~ '#person',
+        name: params.entry.title,
+        jobTitle: params.entry.jobRole,
+        image: params.entry.image.one().url ?? null,
+        url: params.entry.url,
+        worksFor: { id: siteUrl ~ '#organization' },
+        sameAs: params.entry.linkedin.url ?? null
+    }) %}
+
+{% endif %}

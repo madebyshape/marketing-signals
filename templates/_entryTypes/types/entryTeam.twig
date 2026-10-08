@@ -10,6 +10,28 @@
     {% do seomatic.meta.robots('noindex, follow') %}
 {% endif %}
 
+{# Schema #}
+
+{% do include('_components/schemaPerson', {
+    params: {
+        entry: entry
+    }
+}, with_context = false) %}
+
+{% set webPage = seomatic.jsonLd.get('mainEntityOfPage') %}
+
+{% do seomatic.jsonLd.create({
+    type: 'ProfilePage',
+    key: 'mainEntityOfPage',
+    name: webPage.name ?? null,
+    description: webPage.description ?? null,
+    inLanguage: webPage.inLanguage ?? null,
+    mainEntity: { id: entry.url ~ '#person' },
+    url: entry.url,
+    dateCreated: entry.dateCreated|atom,
+    dateModified: entry.dateUpdated|atom
+}) %}
+
 {% block site %}
 
     {# Author Page Header #}
