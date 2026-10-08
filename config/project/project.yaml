@@ -1,4 +1,4 @@
-dateModified: 1791369022
+dateModified: 1791451472
 elementSources:
   craft\elements\Entry:
     -
@@ -313,6 +313,7 @@ meta:
     d6ef3fab-743e-41b5-bd93-a0a4c3cf42dd: 'Accordion Item' # Accordion Item
     d35d937a-07ca-4c88-bd62-1f65c807aa15: Statistics # Statistics
     d59f6856-5fd4-442b-8be6-1c9ebd106977: 'Dropdown Links' # Dropdown Links
+    d90e2274-f99e-4cdd-946f-9505a2caf8c9: 'Entry Global Blocks' # Entry Global Blocks
     d99bf7af-1eb1-4b77-814e-624eeec1a0e3: $CRAFT_SITE_NAME # $CRAFT_SITE_NAME
     d4285909-50eb-419a-a385-79e247d4648f: 'Eyebrow & Images' # Eyebrow & Images
     d5189384-3a6a-441f-9f4b-cb171f279337: Heading # Heading
@@ -323,8 +324,10 @@ meta:
     dd352810-e643-424f-8483-b4339c9761b6: Banner # Banner
     deef1d25-93fa-4ded-bb4b-d91d7695285f: 'Branding Icon' # Branding Icon
     e09df1c8-18b1-4598-ad75-812ac48e1b9c: 'Dropdown - Media Type' # Dropdown - Media Type
+    e16c972c-9188-44ed-aa2a-39a296130312: 'Global Blocks' # Global Blocks
     e3078af5-a566-4561-af12-e529edd7980f: 'Entry - Team' # Entry - Team
     e746909c-3d0f-4818-9497-14651dc6ee16: 'Entry - Text' # Entry - Text
+    ea873b0d-1bbb-4029-bb69-70f6642245ca: 'Playbook CTA' # Playbook CTA
     ea300912-bfa1-429b-9212-ba39329d1960: 'Stacking Card' # Stacking Card
     eb5e339e-d658-4112-9895-62287412dd93: 'Image Columns (Max 2)' # Image Columns (Max 2)
     eb6e087e-6699-4170-b63e-4ffb637101be: 'Icon Grid' # Icon Grid

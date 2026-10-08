@@ -28,7 +28,7 @@
     panel: [
         'relative isolate flow-root rounded-[20px] bg-black',
         '|',
-        '2xl:grid 2xl:grid-cols-12 2xl:gap-5'
+        'lg:grid lg:grid-cols-12 lg:gap-5'
     ],
     clip: 'absolute inset-0 -z-10 overflow-hidden rounded-[20px]',
     squiggle: 'absolute right-0 bottom-0 w-[34%] translate-x-[28%] translate-y-[40%]',
@@ -37,16 +37,18 @@
         '|',
         'md:ml-10',
         '|',
-        'xl:-mt-25',
+        'lg:absolute lg:bottom-0 lg:left-10 lg:m-0 lg:h-[calc(100%+5rem)] lg:w-auto lg:max-w-[36%]',
         '|',
-        '2xl:absolute 2xl:bottom-0 2xl:left-30 2xl:m-0 2xl:w-[393px]'
+        '2xl:left-30 2xl:h-[calc(100%+7.5rem)] 2xl:max-w-[32%]'
     ],
     content: [
         'box-content flex max-w-[778px] flex-col items-start gap-7.5 p-6.25',
         '|',
         'md:p-10',
         '|',
-        image ? '2xl:col-start-6 2xl:col-end-13 2xl:px-0 2xl:py-30' : '2xl:col-span-full 2xl:px-25 2xl:py-30'
+        image ? 'lg:col-start-6 lg:col-end-13 lg:py-20 lg:pr-10 lg:pl-0' : 'lg:col-span-full lg:p-20',
+        '|',
+        image ? '2xl:py-30 2xl:pr-0' : '2xl:px-25 2xl:py-30'
     ],
     heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl | 2xl:text-9xl'
 } %}

@@ -30,6 +30,23 @@
         }
     } only %}
 
+    {# Playbook CTA #}
+
+    {% set globalBlocksEntry = globalBlocks ?? null %}
+    {% set hasPlaybookCta = globalBlocksEntry and globalBlocksEntry.fieldLayout.getFieldByHandle('playbookCta') %}
+    {% set playbookCta = hasPlaybookCta ? globalBlocksEntry.playbookCta.one() : null %}
+
+    {% if playbookCta %}
+
+        {{ playbookCta.render({
+            vars: vars,
+            params: {
+                padding: 'topBottom'
+            }
+        }) }}
+
+    {% endif %}
+
     {# Blocks #}
 
     {{ entry.blocks.render({

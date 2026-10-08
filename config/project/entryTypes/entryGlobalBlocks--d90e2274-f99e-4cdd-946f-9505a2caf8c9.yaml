@@ -1,0 +1,43 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  4b6b25f5-eaaa-4792-afac-b2391060fd7a:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-10-08T09:24:32+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ea873b0d-1bbb-4029-bb69-70f6642245ca # Playbook CTA
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 84f40b92-0a33-40b9-934e-52f9796ee16e
+            userCondition: null
+            warning: null
+            width: 100
+        name: Playbook
+        uid: 47053bcc-7d28-426c-bf59-1197620e8680
+        userCondition: null
+    thumbFieldKey: null
+handle: entryGlobalBlocks
+hasTitleField: false
+icon: file
+name: 'Entry Global Blocks'
+showSlugField: false
+showStatusField: false
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

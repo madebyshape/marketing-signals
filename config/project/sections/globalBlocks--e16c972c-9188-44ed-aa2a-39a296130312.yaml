@@ -2,11 +2,11 @@ defaultPlacement: end
 enableVersioning: true
 entryTypes:
   -
-    uid: 93bb0c13-89fe-4d68-9853-576b7d1238a6 # Entry Site
-handle: site
+    uid: d90e2274-f99e-4cdd-946f-9505a2caf8c9 # Entry Global Blocks
+handle: globalBlocks
 maxAuthors: 1
 minAuthors: 1
-name: Site
+name: 'Global Blocks'
 previewTargets:
   -
     label: 'Primary entry page'

@@ -1,0 +1,29 @@
+columnSuffix: null
+handle: playbookCta
+instructions: null
+name: 'Playbook CTA'
+searchable: false
+settings:
+  createButtonLabel: 'New CTA'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 05236f38-ec1c-4446-93a8-43c0b72e45ac # Banner - CTA
+        -
+          - group
+          - General
+  includeTableView: false
+  maxEntries: 1
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix
