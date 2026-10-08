@@ -1,7 +1,8 @@
 <?php
 return [
     '*' => [
-       'pluginName' => 'SEO'
+       'pluginName' => 'SEO',
+       'alwaysIncludeCanonicalUrls' => true,
     ],
     'dev' => [
         'environment' => 'local'
