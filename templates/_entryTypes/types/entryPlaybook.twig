@@ -1,5 +1,22 @@
 {% extends '_layouts/global' %}
 
+{# Schema #}
+
+{% set webPage = seomatic.jsonLd.get('mainEntityOfPage') %}
+{% set image = entry.thumbnail.one() ?? entry.heroImage.one() ?? null %}
+
+{% do seomatic.jsonLd.create({
+    type: 'CreativeWork',
+    key: 'mainEntityOfPage',
+    name: entry.title,
+    headline: entry.title,
+    description: entry.description|striptags|trim ?: webPage.description ?? null,
+    image: image.url ?? null,
+    datePublished: entry.postDate|atom,
+    dateModified: entry.dateUpdated|atom,
+    url: entry.url
+}) %}
+
 {% block site %}
 
     {# Blog Hero #}

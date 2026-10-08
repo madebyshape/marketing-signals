@@ -25,6 +25,27 @@
 
 {% set hasSidebar = logo or hasDescription or hasIndustry or hasYear or category %}
 
+{# Schema #}
+
+{% set webPage = seomatic.jsonLd.get('mainEntityOfPage') %}
+{% set image = entry.thumbnail.one() ?? entry.heroImage.one() ?? null %}
+
+{% do seomatic.jsonLd.create({
+    type: 'Article',
+    key: 'mainEntityOfPage',
+    headline: entry.title,
+    description: entry.description|striptags|trim ?: webPage.description ?? null,
+    image: image.url ?? null,
+    datePublished: entry.postDate|atom,
+    dateModified: entry.dateUpdated|atom,
+    url: entry.url,
+    about: {
+        type: 'Organization',
+        name: entry.clientName|trim ?: entry.title,
+        logo: logo.url ?? null
+    }
+}) %}
+
 {# Classes #}
 
 {% set pageClasses = {

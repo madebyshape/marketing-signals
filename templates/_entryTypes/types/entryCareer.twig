@@ -1,5 +1,36 @@
 {% extends '_layouts/global' %}
 
+{# Schema #}
+
+{% set employmentTypes = {
+    fullTime: 'FULL_TIME',
+    partTime: 'PART_TIME',
+    contractor: 'CONTRACTOR',
+    temporary: 'TEMPORARY',
+    maternityCover: 'TEMPORARY',
+    freelance: 'CONTRACTOR'
+} %}
+
+{# Only the Longform's markup, so nested entries aren't rendered into the head. #}
+{% set longformHtml = (entry.longform ?? [])|filter(chunk => chunk.type == 'markup')|map(chunk => chunk.html)|join %}
+
+{% do seomatic.jsonLd.create({
+    type: 'JobPosting',
+    key: 'mainEntityOfPage',
+    title: entry.title,
+    description: longformHtml|trim ?: (entry.heroText ?? '')|string|trim ?: null,
+    datePosted: entry.postDate|atom,
+    validThrough: entry.expiryDate ? entry.expiryDate|atom : null,
+    employmentType: employmentTypes[entry.employmentType.value ?? ''] ?? null,
+    hiringOrganization: { id: siteUrl ~ '#organization' },
+    jobLocationType: 'TELECOMMUTE',
+    applicantLocationRequirements: {
+        type: 'Country',
+        name: 'GB'
+    },
+    url: entry.url
+}) %}
+
 {% block site %}
 
     {# Career Hero #}

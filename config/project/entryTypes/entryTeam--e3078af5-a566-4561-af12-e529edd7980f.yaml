@@ -69,6 +69,22 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: '2026-10-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 717c30fa-674c-48a7-b725-a66875800ccf # LinkedIn
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: bbd005fc-dac5-4340-a9ad-9d9adc862f55
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2026-08-28T13:55:50+00:00'
             editCondition: null
             elementCondition: null

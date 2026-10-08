@@ -1,5 +1,44 @@
 {% extends '_layouts/global' %}
 
+{# Schema #}
+
+{% set webPage = seomatic.jsonLd.get('mainEntityOfPage') %}
+{% set teamMembers = craft.entries().section('team').status('enabled').all() %}
+{% set listItems = [] %}
+
+{% for teamMember in teamMembers %}
+
+    {% do include('_components/schemaPerson', {
+        params: {
+            entry: teamMember
+        }
+    }, with_context = false) %}
+
+    {% set listItems = listItems|merge([{
+        type: 'ListItem',
+        position: loop.index,
+        item: { id: teamMember.url ~ '#person' }
+    }]) %}
+
+{% endfor %}
+
+{% do seomatic.jsonLd.create({
+    type: 'AboutPage',
+    key: 'mainEntityOfPage',
+    name: webPage.name ?? null,
+    description: webPage.description ?? null,
+    inLanguage: webPage.inLanguage ?? null,
+    about: { id: siteUrl ~ '#organization' },
+    mainEntity: listItems ? {
+        type: 'ItemList',
+        numberOfItems: listItems|length,
+        itemListElement: listItems
+    } : null,
+    url: entry.url,
+    dateCreated: entry.dateCreated|atom,
+    dateModified: entry.dateUpdated|atom
+}) %}
+
 {% block site %}
 
     {{ entry.hero.render({

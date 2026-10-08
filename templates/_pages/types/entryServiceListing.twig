@@ -1,5 +1,9 @@
 {% extends '_layouts/global' %}
 
+{# Schema #}
+
+{% do seomatic.jsonLd.get('mainEntityOfPage').type('CollectionPage') %}
+
 {# Service List #}
 
 {% set services = craft.entries().section('service').all() %}

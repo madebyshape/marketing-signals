@@ -1,0 +1,29 @@
+{% set component = 'schemaAuthor' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null,
+    class: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Schema #}
+
+{% set mainEntity = seomatic.jsonLd.get('mainEntityOfPage') %}
+{% set author = params.entry.authorBlog.one() ?? null %}
+
+{% if author %}
+    {% do include('_components/schemaPerson', {
+        params: {
+            entry: author
+        }
+    }, with_context = false) %}
+{% endif %}
+
+{% if mainEntity and 'author' in mainEntity.getSchemaPropertyNames() %}
+    {% do mainEntity.author(author ? { id: author.url ~ '#person' } : { id: siteUrl ~ '#organization' }) %}
+{% endif %}

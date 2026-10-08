@@ -1,5 +1,9 @@
 {% extends '_layouts/global' %}
 
+{# Schema #}
+
+{% do seomatic.jsonLd.get('mainEntityOfPage').type('CollectionPage') %}
+
 {% block site %}
 
     {{ entry.hero.render({

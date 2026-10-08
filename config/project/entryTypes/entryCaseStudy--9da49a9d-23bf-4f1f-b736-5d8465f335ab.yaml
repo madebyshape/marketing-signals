@@ -69,6 +69,22 @@ fieldLayouts:
             warning: null
             width: 50
           -
+            dateAdded: '2026-10-08T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: clientName
+            instructions: "The client's name for search engines. Leave empty to use the title."
+            label: 'Client Name'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 198c58e5-9e6f-4e64-afed-fe10a78ca39c
+            userCondition: null
+            warning: null
+            width: 50
+          -
             dateAdded: '2026-09-07T14:44:03+00:00'
             editCondition: null
             elementCondition: null

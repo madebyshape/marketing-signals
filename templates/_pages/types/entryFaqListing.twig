@@ -29,6 +29,30 @@
 
 {% endfor %}
 
+{# Schema #}
+
+{% set listedFaqIds = [] %}
+{% set questions = [] %}
+
+{% for group in faqGroups %}
+    {% set listedFaqIds = listedFaqIds|merge(group.ids) %}
+{% endfor %}
+
+{% for faq in listedFaqIds ? craft.entries.section('faq').id(listedFaqIds).fixedOrder().all() : [] %}
+
+    {% set questions = questions|merge([{
+        type: 'Question',
+        name: faq.title,
+        acceptedAnswer: {
+            type: 'Answer',
+            text: faq.text|striptags|trim
+        }
+    }]) %}
+
+{% endfor %}
+
+{% do seomatic.jsonLd.get('mainEntityOfPage').type('FAQPage').mainEntity(questions) %}
+
 {% block site %}
 
     {# Classes #}

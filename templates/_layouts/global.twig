@@ -60,6 +60,83 @@
 
 {% set showFooter = showFooter ?? true %}
 
+{# Schema #}
+
+{# SEOmatic's relative #identity and #creator become one absolute Organization (ADR-0008). #}
+
+{% set organization = { id: siteUrl ~ '#organization' } %}
+{% set website = { id: siteUrl ~ '#website' } %}
+{% set identity = seomatic.jsonLd.get('identity') %}
+{% set creator = seomatic.jsonLd.get('creator') %}
+{% set mainEntity = seomatic.jsonLd.get('mainEntityOfPage') %}
+
+{% if identity %}
+
+	{% set contact = craft.entries().section('page').type('entryContact').one() %}
+
+	{% do identity.id(organization.id) %}
+	{% do identity.legalName('Marketing Signals Limited') %}
+
+	{% if contact %}
+		{% do identity.contactPoint({
+			type: 'ContactPoint',
+			contactType: 'sales',
+			email: (contact.email.value ?? '')|replace({ 'mailto:': '' }),
+			telephone: (contact.phone.value ?? '')|replace({ 'tel:': '' }),
+			url: contact.url
+		}) %}
+	{% endif %}
+
+	{% do seomatic.jsonLd.create({
+		type: 'WebSite',
+		key: 'website',
+		id: website.id,
+		name: siteName,
+		url: siteUrl,
+		description: seomatic.site.identity.genericDescription ?: 'Digital Marketing Solutions for Ambitious Brands',
+		publisher: organization,
+		inLanguage: seomatic.meta.language
+	}) %}
+
+{% endif %}
+
+{% if creator %}
+	{% do creator.include(false) %}
+{% endif %}
+
+{% if mainEntity %}
+
+	{% do include('_components/schemaAuthor', {
+		params: {
+			entry: entry ?? null
+		}
+	}, with_context = false) %}
+
+	{# A Service has no copyrightHolder, creator or publisher. #}
+	{% if 'publisher' in mainEntity.getSchemaPropertyNames() %}
+		{% do mainEntity.copyrightHolder(organization) %}
+		{% do mainEntity.creator(organization) %}
+		{% do mainEntity.publisher(organization) %}
+	{% endif %}
+
+	{% if 'isPartOf' in mainEntity.getSchemaPropertyNames() %}
+		{% do mainEntity.isPartOf(website) %}
+	{% endif %}
+
+{% endif %}
+
+{# The FAQ Listing is already an FAQPage, so it gets no second one. #}
+
+{% if (mainEntity.type ?? null) != 'FAQPage' %}
+
+	{% do include('_components/schemaFaq', {
+		params: {
+			entry: entry ?? null
+		}
+	}, with_context = false) %}
+
+{% endif %}
+
 {% block body %}
 
 	{# Global Site Header #}
