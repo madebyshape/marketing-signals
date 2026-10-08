@@ -12,4 +12,6 @@
 return [
     'llms.txt' => ['template' => '_llms.txt'],
     '.well-known/llms.txt' => ['template' => '_llms.txt'],
+    'llm-fashion-retailers-study' => ['template' => '_landing/llm-fashion-retailers-study'],
+    '<page:ai-visibility-playbook-landing|agentic-commerce-landing>.html' => ['template' => '_landing'],
 ];
