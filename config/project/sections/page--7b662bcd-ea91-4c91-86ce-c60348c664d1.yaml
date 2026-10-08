@@ -40,7 +40,7 @@ siteSettings:
     enabledByDefault: true
     hasUrls: true
     template: _pages/base.twig
-    uriFormat: '{slug}'
+    uriFormat: "{parent ? parent.uri ~ '/'}{slug}"
 structure:
   maxLevels: null
   uid: 4c0a1eed-b32a-43d6-ad31-77d4dc6ba447
