@@ -300,6 +300,14 @@ settings:
       __assoc__:
         -
           - uid
+          - 69ad53fd-c323-4702-97d3-84c26fd4c31d # Rich Text
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
           - 5b3a89d9-1852-4639-9ab0-ac158ed246b2 # Image
         -
           - group

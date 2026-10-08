@@ -1,0 +1,66 @@
+{# Block Defaults #}
+
+{% set blockDefaults = {
+    handle: entry.type.handle,
+    padding: entry.padding|length ? entry.padding.value : 'topBottom',
+} %}
+
+{# Merge Defaults #}
+
+{% set params = (params is defined and params is iterable) ? blockDefaults|merge(params) : blockDefaults %}
+
+{# Content #}
+
+{% set hasText = entry.text|striptags|trim|length > 0 %}
+
+{# Classes #}
+
+{% set blockClasses = {
+    grid: [
+        'grid max-w-[750px] grid-cols-1 gap-x-5',
+        '|',
+        'xl:max-w-none xl:grid-cols-12'
+    ],
+    body: [
+        'xl:col-span-6 xl:col-start-4'
+    ],
+    text: [
+        '[&>h2:not(:first-child)]:mt-10'
+    ]
+} %}
+
+{# Output #}
+
+{% if hasText %}
+
+    {% embed '_components/section'
+        with {
+            params: params|merge({
+                paddingY: params.padding,
+            })
+        }
+    %}
+        {% block sectionContent %}
+
+            <div class="{{ blockClasses.grid|join(' ')|trim }}">
+
+                <div class="{{ blockClasses.body|join(' ')|trim }}">
+
+                    {% include '_components/richText' with {
+                        params: {
+                            content: entry.text,
+                            colour: 'black',
+                            size: 'longform',
+                            list: 'longform',
+                            class: blockClasses.text|join(' ')|trim
+                        }
+                    } only %}
+
+                </div>
+
+            </div>
+
+        {% endblock %}
+    {% endembed %}
+
+{% endif %}
