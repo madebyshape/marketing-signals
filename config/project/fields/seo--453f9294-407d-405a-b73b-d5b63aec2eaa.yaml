@@ -5,21 +5,38 @@ name: SEO
 searchable: false
 settings:
   elementDisplayPreviewType: google
-  facebookEnabledFields: ''
-  facebookTabEnabled: ''
+  facebookEnabledFields:
+    - seoPreview
+    - ogTitle
+    - ogSiteNamePosition
+    - ogDescription
+    - ogImage
+    - ogImageDescription
+  facebookTabEnabled: '1'
   generalEnabledFields:
     - seoPreview
     - seoTitle
+    - siteNamePosition
     - seoDescription
     - seoKeywords
     - seoImage
+    - seoImageDescription
     - robots
     - canonicalUrl
   generalTabEnabled: '1'
-  sitemapEnabledFields: ''
-  sitemapTabEnabled: ''
-  twitterEnabledFields: ''
-  twitterTabEnabled: ''
+  sitemapEnabledFields:
+    - sitemapUrls
+    - sitemapChangeFreq
+    - sitemapPriority
+  sitemapTabEnabled: '1'
+  twitterEnabledFields:
+    - seoPreview
+    - twitterTitle
+    - twitterSiteNamePosition
+    - twitterDescription
+    - twitterImage
+    - twitterImageDescription
+  twitterTabEnabled: '1'
 translationKeyFormat: null
 translationMethod: none
 type: nystudio107\seomatic\fields\SeoSettings
