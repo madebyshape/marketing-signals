@@ -3,6 +3,8 @@ return [
     '*' => [
        'pluginName' => 'SEO',
        'alwaysIncludeCanonicalUrls' => true,
+       'separatorChar' => '-',
+       'maxTitleLength' => 100,
     ],
     'dev' => [
         'environment' => 'local'
