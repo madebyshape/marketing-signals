@@ -1,0 +1,43 @@
+{% set component = 'trackingScripts' %}
+
+{# Default Params #}
+
+{% set defaultParams = {
+    entry: null
+} %}
+
+{# Merge Params #}
+
+{% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
+
+{# Scripts #}
+
+{# GTM, gtag and the Meta Pixel are SEOmatic Tracking Scripts; these are the ones it has no slot for. #}
+
+{% set scripts = {
+    redditPixel: { name: 'Reddit Pixel', templatePath: '_tracking/redditPixelHead.twig' },
+    tawkTo: { name: 'Tawk.to', bodyTemplatePath: '_tracking/tawkToBody.twig', bodyPosition: constant('yii\\web\\View::POS_END') },
+    openAiPixel: { name: 'OpenAI Ads Pixel', templatePath: '_tracking/openAiPixelHead.twig' },
+    facebookLead: { name: 'Facebook Lead Event', templatePath: '_tracking/facebookLeadHead.twig' }
+} %}
+
+{% set pageScripts = {
+    'thank-you-2': ['openAiPixel'],
+    'thank-you-3': ['facebookLead'],
+    'thank-you-agentic': ['facebookLead'],
+    'thank-you-ai': ['facebookLead']
+} %}
+
+{% for handle in ['redditPixel', 'tawkTo']|merge(pageScripts[params.entry.uri ?? ''] ?? []) %}
+
+    {% do seomatic.script.create(scripts[handle]|merge({
+        key: handle,
+        include: true,
+        vars: {},
+        environment: {
+            staging: { include: false },
+            local: { include: false }
+        }
+    })) %}
+
+{% endfor %}

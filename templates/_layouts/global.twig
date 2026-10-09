@@ -137,6 +137,14 @@
 
 {% endif %}
 
+{# Tracking #}
+
+{% do include('_components/trackingScripts', {
+	params: {
+		entry: entry ?? null
+	}
+}, with_context = false) %}
+
 {% block body %}
 
 	{# Global Site Header #}
