@@ -18,7 +18,7 @@ siteSettings:
     enabledByDefault: true
     hasUrls: true
     template: _entryTypes/base.twig
-    uriFormat: 'playbook/{slug}'
+    uriFormat: 'playbooks/{slug}'
 structure:
   maxLevels: null
   uid: 4f6f4896-e708-46eb-b55d-65507e6b2ea6
