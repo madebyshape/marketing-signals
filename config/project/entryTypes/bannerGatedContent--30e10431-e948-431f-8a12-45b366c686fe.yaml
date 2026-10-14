@@ -124,6 +124,22 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-10-14T12:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: f3e544b8-88bf-4761-8df2-d767fa1502b7 # Text
+            handle: blockId
+            instructions: 'Lowercase, hyphens, no spaces, e.g. `get-the-checklist`. Link a button down to this section with `#get-the-checklist`.'
+            label: 'Block ID'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 65104ea3-e6c8-44fc-8c6b-3c3ba997e0ba
+            userCondition: null
+            warning: null
+            width: 100
         name: Settings
         uid: 8cd0eadb-0513-44f1-946c-762a14a02a7b
         userCondition: null

@@ -50,7 +50,7 @@
 
 <section
     class="{{ classes.section|join(' ')|trim }}"
-    {{ params.id|length ? 'id="' ~ params.id ~ '"' }}
+    {% if params.id|length %}id="{{ params.id }}"{% endif %}
     {{ params.attributes|raw }}
 >
 

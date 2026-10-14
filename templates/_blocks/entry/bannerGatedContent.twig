@@ -54,6 +54,8 @@
     {% embed '_components/section'
         with {
             params: params|merge({
+                id: entry.blockId|trim,
+                class: vars.class.header.scrollMargin ?? 'scroll-mt-20 | xl:scroll-mt-[123px]',
                 paddingY: params.padding,
                 paddingX: 'none'
             })
