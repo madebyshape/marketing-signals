@@ -19,10 +19,10 @@
     image: entry.thumbnail.one().url ?? null,
     url: entry.url,
     provider: { id: siteUrl ~ '#organization' },
-    areaServed: {
-        type: 'Country',
-        name: 'GB'
-    }
+    areaServed: [
+        { type: 'Country', name: 'United Kingdom' },
+        { type: 'Country', name: 'United States' }
+    ]
 }) %}
 
 {% block site %}
