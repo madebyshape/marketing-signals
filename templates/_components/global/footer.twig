@@ -43,11 +43,11 @@
     listItem: 'flex items-center h-11',
     listLink: 'link | inline-block text-lg font-medium leading-1.2 tracking-tighter',
     bottom: 'grid grid-cols-1 justify-items-start gap-10 mt-20 | lg:grid-cols-3 lg:items-center lg:gap-5 lg:mt-[200px]',
-    copyright: 'text-base font-normal leading-1.33',
+    copyright: 'text-xs font-normal leading-1.33',
     logos: 'flex flex-wrap items-center gap-10 | lg:col-start-2 lg:justify-self-stretch lg:justify-center',
     logo: 'w-auto h-auto max-h-[43px]',
-    divider: 'w-px h-5 bg-white/30',
-    credit: 'text-base font-normal leading-1.33 underline decoration-white/30 decoration-1 underline-offset-7 transition-colors | pointer-fine:hover:decoration-white | lg:col-start-3 lg:justify-self-end'
+    divider: 'hidden w-px h-5 bg-white/30 | lg:block',
+    credit: 'text-base font-normal leading-1.33      transition-colors | pointer-fine:hover:decoration-white | lg:col-start-3 lg:justify-self-end'
 } %}
 
 {# Output #}
@@ -55,6 +55,7 @@
 {% set columns = site.footerColumns.all() %}
 {% set contactColumn = columns|filter(column => column.type.handle == 'contactColumn')|first %}
 {% set menuColumns = columns|filter(column => column.type.handle == 'menuColumn')|slice(0, 2) %}
+{% set footerLegalText = site.footerLegalText|length ? site.footerLegalText : null %}
 {% set footerLogos = site.footerLogos.all() %}
 
 <footer class="{{ classes.wrapper|join(' ')|trim }}">
@@ -169,7 +170,7 @@
 
     <div class="{{ classes.bottom }}">
 
-        <p class="{{ classes.copyright }}">&copy; {{ now|date('Y') }} {{ siteName }}</p>
+        <p class="{{ classes.copyright }}">&copy; 2007 - {{ now|date('Y') }} {{ siteName }} {{ footerLegalText ? footerLegalText : '' }}</p>
 
         {% if footerLogos|length %}
 
