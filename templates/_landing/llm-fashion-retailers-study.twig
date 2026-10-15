@@ -64,7 +64,7 @@ body { padding-top: 67px; }
  min-height: 700px;
 }
 .hero-photo {
- background: url('{{ images['photo1.jpg'].url ?? '' }}') center/cover no-repeat;
+ background: url('{{ (images['photo1.jpg'].url ?? '')|raw }}') center/cover no-repeat;
  min-height: 700px;
 }
 .hero-text-side {
@@ -109,7 +109,7 @@ body { padding-top: 67px; }
 /* IMAGE-BG INTRO */
 .img-bg-section {
  position: relative;
- background: url('{{ images['photo_arcade.jpg'].url ?? '' }}') center/cover no-repeat;
+ background: url('{{ (images['photo_arcade.jpg'].url ?? '')|raw }}') center/cover no-repeat;
  padding: 60px 100px;
 }
 .img-bg-section::before {
