@@ -24,9 +24,18 @@
         span: 'motion-safe:pointer-fine:group-hover:scale-110'
     },
     size: {
-        xs: 'lg:size-15',
-        base: 'lg:size-30',
-        md: 'lg:size-25',
+        sm: {
+            circle: 'size-[42px]',
+            icon: 'text-[12px]'
+        },
+        base: {
+            circle: 'size-20 | lg:size-30',
+            icon: 'text-[24px]'
+        },
+        md: {
+            circle: 'size-20 | lg:size-25',
+            icon: 'text-[24px]'
+        }
     }
 } %}
 
@@ -34,15 +43,17 @@
 
 {% set classes = {
     circle: [
-        'flex size-20 items-center justify-center rounded-full bg-secondary text-black motion-safe:transition-transform motion-safe:duration-300',
+        'flex items-center justify-center rounded-full bg-secondary text-black motion-safe:transition-transform motion-safe:duration-300',
         '|',
         options.type[params.type],
         '|',
-        options.size[params.size],
+        options.size[params.size].circle,
         params.class
     ],
     icon: [
-        'fa-sharp fa-solid fa-play | text-[24px]'
+        'fa-sharp fa-solid fa-play',
+        '|',
+        options.size[params.size].icon
     ]
 } %}
 

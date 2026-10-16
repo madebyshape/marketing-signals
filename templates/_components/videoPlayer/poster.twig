@@ -13,21 +13,6 @@
 
 {% set params = params is defined ? defaultParams|merge(params) : defaultParams %}
 
-{# Options #}
-
-{% set options = {
-    size: {
-        base: {
-            circle: 'size-20 | lg:size-30',
-            icon: 'text-[24px]'
-        },
-        sm: {
-            circle: 'size-[42px]',
-            icon: 'text-[9px]'
-        }
-    }
-} %}
-
 {# Classes #}
 
 {% set classes = {
@@ -39,17 +24,6 @@
     ],
     play: [
         'absolute inset-0 z-10 flex items-center justify-center'
-    ],
-    circle: [
-        'flex items-center justify-center rounded-full bg-secondary text-black motion-safe:transition-transform motion-safe:duration-300',
-        '|',
-        'motion-safe:pointer-fine:group-hover:scale-110',
-        options.size[params.size].circle
-    ],
-    icon: [
-        'fa-sharp fa-solid fa-play',
-        '|',
-        options.size[params.size].icon
     ],
     image: [
         params.shade ? 'opacity-60'
@@ -84,7 +58,8 @@
     <span class="{{ classes.play|join(' ')|trim }}" aria-hidden="true">
         {% include '_components/videoPlayer/playButton' with {
             params: {
-                type: 'span'
+                type: 'span',
+                size: params.size
             }
         } only %}
     </span>
