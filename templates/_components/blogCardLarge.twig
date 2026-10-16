@@ -16,7 +16,7 @@
 
 {% set classes = {
     card: [
-        'group block w-full overflow-hidden rounded-[20px] bg-creme-200 text-black',
+        'group flex h-full w-full flex-col overflow-hidden rounded-[20px] bg-creme-200 text-black',
         params.class
     ],
     thumbnail: [
@@ -34,7 +34,7 @@
         'aspect-[2/1] rounded-[15px] bg-creme-300'
     ],
     content: [
-        'p-5',
+        'flex flex-1 flex-col p-5',
         '|',
         'lg:p-10'
     ],
@@ -42,7 +42,7 @@
         'mb-6.25'
     ],
     text: [
-        'grid gap-y-6.25',
+        'flex flex-1 flex-col gap-y-6.25',
         '|',
         'lg:max-w-[87%]'
     ],
@@ -53,6 +53,9 @@
     ],
     description: [
         'text-base leading-1.33'
+    ],
+    button: [
+        'mt-auto'
     ]
 } %}
 
@@ -115,7 +118,7 @@
 
                 {% endif %}
 
-                <div>
+                <div class="{{ classes.button|join(' ')|trim }}">
 
                     {% include '_components/button' with {
                         params: {
