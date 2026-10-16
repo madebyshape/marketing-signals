@@ -10,7 +10,8 @@
             visible: false,
             ready: false,
             playing: false,
-            muted: false,
+            // The inline player is created muted, so its Mute Button starts on unmute.
+            muted: props.inline === true,
             currentTime: 0,
             duration: 0,
             fullscreen: false,

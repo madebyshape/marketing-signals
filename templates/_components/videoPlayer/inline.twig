@@ -17,10 +17,10 @@
 {% set options = {
     size: {
         base: {
-            button: 'right-5 bottom-5 | lg:right-10 lg:bottom-10'
+            buttons: 'right-5 bottom-5 | lg:right-10 lg:bottom-10'
         },
         sm: {
-            button: 'right-5 bottom-5'
+            buttons: 'right-5 bottom-5'
         }
     }
 } %}
@@ -49,11 +49,17 @@
     posterImage: [
         params.shade ? 'opacity-60'
     ],
+    buttons: [
+        'absolute z-20 flex items-center gap-x-2.5',
+        options.size[params.size].buttons
+    ],
     button: [
-        'absolute z-20 flex size-[42px] cursor-pointer items-center justify-center text-white motion-safe:transition',
+        'relative flex size-[42px] cursor-pointer items-center justify-center text-white motion-safe:transition',
         '|',
-        'focus:outline-none focus:ring-2 focus:ring-white/60 pointer-fine:hover:opacity-70',
-        options.size[params.size].button
+        'focus:outline-none focus:ring-2 focus:ring-white/60 pointer-fine:hover:opacity-70'
+    ],
+    muteButton: [
+        'rounded-full border-2 border-white/30'
     ],
     ring: [
         'absolute inset-0 size-full'
@@ -102,38 +108,55 @@
 
     {% endif %}
 
-    <button
-        type="button"
-        class="{{ classes.button|join(' ')|trim }}"
-        x-bind:aria-label="(playing ? 'Pause video, ' : 'Play video, ') + remaining + ' left'"
-        x-bind:aria-pressed="playing"
-        x-on:click="toggleInline()"
-    >
+    <div class="{{ classes.buttons|join(' ')|trim }}">
 
-        {# The arc is drawn from twelve o'clock and its dash offset empties it clockwise. #}
+        <button
+            type="button"
+            class="{{ classes.button|merge(classes.muteButton)|join(' ')|trim }}"
+            x-bind:aria-label="muted ? 'Unmute' : 'Mute'"
+            x-bind:aria-pressed="!muted"
+            x-show="started"
+            x-cloak
+            x-on:click="toggleMute()"
+        >
+            <span class="{{ classes.glyph|join(' ')|trim }}" x-show="muted" x-cloak><i class="{{ classes.iconGlyph }} fa-volume-xmark | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
+            <span class="{{ classes.glyph|join(' ')|trim }}" x-show="!muted" x-cloak><i class="{{ classes.iconGlyph }} fa-volume-high | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
+        </button>
 
-        <svg viewBox="0 0 42 42" fill="none" class="{{ classes.ring|join(' ')|trim }}" aria-hidden="true">
+        <button
+            type="button"
+            class="{{ classes.button|join(' ')|trim }}"
+            x-bind:aria-label="(playing ? 'Pause video, ' : 'Play video, ') + remaining + ' left'"
+            x-bind:aria-pressed="playing"
+            x-on:click="toggleInline()"
+        >
 
-            <circle cx="21" cy="21" r="20" stroke-width="2" class="{{ classes.track|join(' ')|trim }}"></circle>
+            {# The arc is drawn from twelve o'clock and its dash offset empties it clockwise. #}
 
-            <circle
-                cx="21"
-                cy="21"
-                r="20"
-                stroke-width="2"
-                stroke-dasharray="{{ circumference }}"
-                transform="rotate(-90 21 21)"
-                class="{{ classes.arc|join(' ')|trim }}"
-                x-bind:stroke-dashoffset="-({{ circumference }} * progress / 100)"
-            ></circle>
+            <svg viewBox="0 0 42 42" fill="none" class="{{ classes.ring|join(' ')|trim }}" aria-hidden="true">
 
-        </svg>
+                <circle cx="21" cy="21" r="20" stroke-width="2" class="{{ classes.track|join(' ')|trim }}"></circle>
 
-        {# Both glyphs render and toggle, because the Font Awesome kit replaces the icon at load. #}
+                <circle
+                    cx="21"
+                    cy="21"
+                    r="20"
+                    stroke-width="2"
+                    stroke-dasharray="{{ circumference }}"
+                    transform="rotate(-90 21 21)"
+                    class="{{ classes.arc|join(' ')|trim }}"
+                    x-bind:stroke-dashoffset="-({{ circumference }} * progress / 100)"
+                ></circle>
 
-        <span class="{{ classes.glyph|join(' ')|trim }}" x-show="!playing" x-cloak><i class="{{ classes.iconGlyph }} fa-play | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
-        <span class="{{ classes.glyph|join(' ')|trim }}" x-show="playing" x-cloak><i class="{{ classes.iconGlyph }} fa-pause | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
+            </svg>
 
-    </button>
+            {# Both glyphs render and toggle, because the Font Awesome kit replaces the icon at load. #}
+
+            <span class="{{ classes.glyph|join(' ')|trim }}" x-show="!playing" x-cloak><i class="{{ classes.iconGlyph }} fa-play | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
+            <span class="{{ classes.glyph|join(' ')|trim }}" x-show="playing" x-cloak><i class="{{ classes.iconGlyph }} fa-pause | {{ classes.iconStyle }}" aria-hidden="true"></i></span>
+
+        </button>
+
+    </div>
 
 </div>
