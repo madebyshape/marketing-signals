@@ -435,6 +435,12 @@
                 }
 
             },
+            isPinned(position) {
+
+                // Measured off scroll position, not isActive, which may not have updated yet this scroll.
+                return (window.ScrollTrigger?.getAll() ?? []).some((trigger) => trigger.pin && position >= trigger.start && position <= trigger.end);
+
+            },
             init() {
 
                 this.scrollPosition = window.scrollY;
@@ -453,7 +459,7 @@
                     this.direction = position > this.scrollPosition ? 'down' : 'up';
                     this.scrollPosition = position;
                     this.isPastThreshold = position > this.threshold;
-                    this.isVisible = this.direction === 'up' || !this.isPastThreshold;
+                    this.isVisible = !this.isPinned(position) && (this.direction === 'up' || !this.isPastThreshold);
 
                 }, { passive: true });
 
