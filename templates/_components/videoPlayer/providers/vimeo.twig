@@ -13,8 +13,8 @@
             if (!window.Vimeo) return null;
 
             const player = new Vimeo.Player(element, {
-                id: options.videoId,
-                h: options.videoHash || undefined,
+                // player.js drops an `h` option, so an unlisted Video's hash rides in the URL.
+                url: 'https://vimeo.com/' + options.videoId + (options.videoHash ? '/' + options.videoHash : ''),
                 // Vimeo refuses a later play() on a player created unmuted, so muting is a creation option.
                 autoplay: options.muted !== true,
                 muted: options.muted === true,
