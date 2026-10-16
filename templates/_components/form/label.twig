@@ -5,6 +5,7 @@
     label: null,
     required: false,
     attributes: null,
+    srOnly: false,
     colour: 'base',
     size: 'base',
     class: null
@@ -42,7 +43,7 @@
 {# Classes #} 
 
 {% set classes = {
-    label: [
+    label: params.srOnly ? ['sr-only'] : [
         'inline-block w-full',
         options.colour[params.colour].label,
         options.size[params.size].label

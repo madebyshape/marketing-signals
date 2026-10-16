@@ -12,16 +12,23 @@
         {{ craft.formie.renderField(form, field, renderOptions) }}
     {% endfor %}
 
+    {% set buttonParams = {
+        type: 'button',
+        button: {
+            label: page.settings.submitButtonLabel|t('formie')
+        },
+        colour: 'secondary',
+        class: submitButton.attributes.class|default([])|join(' ') ~ ' justify-center w-full' ~ ((renderOptions.submitFullWidth ?? false) ? '' : ' | md:w-auto'),
+        attributes: attr(submitButton.attributes|withoutKey(['class']))
+    } %}
+
+    {# submitIcon is checked with is defined, since null removes the button's default icon. #}
+    {% if renderOptions.submitIcon is defined %}
+        {% set buttonParams = buttonParams|merge({ icon: renderOptions.submitIcon }) %}
+    {% endif %}
+
     {% include '_components/button' with {
-        params: {
-            type: 'button',
-            button: {
-                label: page.settings.submitButtonLabel|t('formie')
-            },
-            colour: 'secondary',
-            class: submitButton.attributes.class|default([])|join(' ') ~ ' justify-center w-full' ~ ((renderOptions.submitFullWidth ?? false) ? '' : ' | md:w-auto'),
-            attributes: attr(submitButton.attributes|withoutKey(['class']))
-        }
+        params: buttonParams
     } only %}
 
     {% hook 'formie.buttons.end' %}

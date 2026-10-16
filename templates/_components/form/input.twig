@@ -13,6 +13,7 @@
     icon: null,
     attributes: null,
     labelAttributes: null,
+    hideLabel: false,
     colour: 'base',
     size: 'base',
     class: null
@@ -106,7 +107,8 @@
             colour: options.colour[params.colour].label,
             size: options.size[params.size].label,
             required: params.required,
-            attributes: params.labelAttributes
+            attributes: params.labelAttributes,
+            srOnly: params.hideLabel
         }
     } only %}
 

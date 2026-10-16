@@ -15,6 +15,7 @@
 {% set hasHeading = entry.heading|striptags|trim|length > 0 %}
 {% set hasText = entry.text|striptags|trim|length > 0 %}
 {% set image = entry.image.one() %}
+{% set form = entry.form.one() %}
 
 {# Classes #}
 
@@ -40,11 +41,28 @@
         'lg:col-start-6 lg:col-end-13 lg:px-0 lg:py-20'
     ],
     heading: 'font-semibold leading-0.97 tracking-tighter | md:text-7xl | lg:text-9xl',
-    gate: [
-        'flex w-full flex-col gap-2.5',
-        '|',
-        'lg:flex-row'
-    ]
+    gate: 'w-full'
+} %}
+
+{% set formConfig = {
+    page: {
+        attributes: { class: 'flex flex-col gap-2.5 | lg:flex-row lg:items-start' }
+    },
+    pageContainer: {
+        attributes: { class: 'min-w-0 | lg:flex-1' }
+    },
+    alertError: {
+        attributes: { class: 'mb-2.5 text-base leading-1.33 text-creme-100' }
+    },
+    fieldError: {
+        attributes: { class: 'mt-2 pl-5 text-xs text-creme-100' }
+    },
+    buttonWrapper: {
+        attributes: { class: 'flex | lg:shrink-0' }
+    },
+    emailAddress: {
+        fieldLabel: false
+    }
 } %}
 
 {# Output #}
@@ -119,35 +137,26 @@
 
                         {% endif %}
 
-                        {# The Gate is markup only: no form element, so nothing can be submitted. #}
+                        {% if form %}
 
-                        <div class="{{ blockClasses.gate|join(' ')|trim }}">
+                            {# The site Form Template is set here, so the control panel's choice doesn't matter #}
+                            {% do form.setTemplate(craft.formie.plugin.formTemplates.getTemplateByHandle('site')) %}
 
-                            {% include '_components/form/input' with {
-                                params: {
-                                    type: 'email',
-                                    name: 'email',
-                                    colour: 'white-10',
-                                    size: 'pill',
-                                    icon: 'fa-sharp fa-solid fa-paper-plane',
-                                    placeholder: 'Enter Your Email Address',
-                                    attributes: 'autocomplete="email" aria-label="Enter Your Email Address"'
-                                }
-                            } only %}
+                            <div class="{{ blockClasses.gate }}">
+                                {{ craft.formie.renderForm(form, {
+                                    themeConfig: formConfig,
+                                    submitFullWidth: true,
+                                    submitIcon: null,
+                                    input: {
+                                        colour: 'white-10',
+                                        size: 'pill',
+                                        icon: 'fa-sharp fa-solid fa-paper-plane',
+                                        hideLabel: true
+                                    }
+                                }) }}
+                            </div>
 
-                            {% include '_components/button' with {
-                                params: {
-                                    type: 'button',
-                                    button: {
-                                        label: 'Get the Checklist'
-                                    },
-                                    colour: 'secondary',
-                                    icon: null,
-                                    class: 'justify-center'
-                                }
-                            } only %}
-
-                        </div>
+                        {% endif %}
 
                     </div>
 

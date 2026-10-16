@@ -5,6 +5,14 @@
     errors: errors
 }) %}
 
+{# renderOptions.input restyles the field for one form, e.g. the Gated Content banner's pill. #}
+{% set inputOptions = {
+    colour: 'creme',
+    size: 'contact',
+    icon: null,
+    hideLabel: false
+}|merge(renderOptions.input ?? {}) %}
+
 {% include '_components/form/input' with {
     params: {
         type: input.attributes.type,
@@ -12,6 +20,7 @@
         name: input.attributes.name,
         label: field.label|t('formie'),
         labelAttributes: 'data-field-label',
+        hideLabel: inputOptions.hideLabel,
         required: field.required,
         value: value ? value|e : null,
         placeholder: input.attributes.placeholder is defined ? input.attributes.placeholder|e : null,
@@ -19,8 +28,9 @@
             'aria-required': field.required ? 'true' : false,
             'aria-invalid': errors ? 'true' : false
         })),
-        colour: 'creme',
-        size: 'contact',
+        colour: inputOptions.colour,
+        size: inputOptions.size,
+        icon: inputOptions.icon,
         class: input.attributes.class|default([])|join(' ')
     }
 } only %}
