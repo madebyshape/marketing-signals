@@ -72,6 +72,13 @@ registered() {
     git -C "$MAIN" worktree list --porcelain | grep -qx "worktree $WT"
 }
 
+# Present from `git worktree add` until provisioning finishes, so a create that died
+# part way is resumed rather than mistaken for a finished worktree with no database.
+# It lives in the worktree's git dir, so it never shows in `git status`.
+unfinished_marker() {
+    printf '%s/worktree-unfinished\n' "$(git -C "$WT" rev-parse --absolute-git-dir)"
+}
+
 summary() {
     local remote=
     if [ -n "$REMOTE_URL" ]; then
@@ -93,6 +100,11 @@ create() {
     resolve "$1"
 
     if registered; then
+        if [ -e "$(unfinished_marker)" ]; then
+            say "Worktree at $WT was never finished — resuming provisioning"
+            provision
+            return
+        fi
         say "Worktree already exists at $WT — making sure DDEV is up"
         (cd "$WT" && ddev start)
         summary
@@ -112,7 +124,13 @@ create() {
         say "Creating $BRANCH from origin/$BASE_BRANCH"
         git -C "$MAIN" worktree add -b "$BRANCH" "$WT" "origin/$BASE_BRANCH"
     fi
+    touch "$(unfinished_marker)"
 
+    provision
+}
+
+# Everything after the checkout. Safe to run again on a worktree a failed create left behind.
+provision() {
     say "Copying local config and dependencies from main"
     cp "$MAIN/.env" "$WT/.env"
     sed -i '' -E "s#^PRIMARY_SITE_URL=.*#PRIMARY_SITE_URL=\"$URL\"#" "$WT/.env"
@@ -153,6 +171,7 @@ create() {
     say "Starting Vite in the container"
     ddev exec -- bash -c 'nohup npm run dev > /tmp/vite.log 2>&1 &'
 
+    rm -f "$(unfinished_marker)"
     summary
 }
 
