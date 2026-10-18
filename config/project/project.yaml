@@ -490,6 +490,7 @@ plugins:
       clearCachesOnSave: never
       disableDynamic: ''
       disableTransforms: ''
+      forceEnableStaticCachingControllers: '1'
       fsMapsEnabled: ''
       imageAutoConversion: webp
       injectCors: '1'
