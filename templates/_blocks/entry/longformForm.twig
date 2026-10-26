@@ -42,6 +42,7 @@
 
     {# The site Form Template is set here, so the control panel's choice doesn't matter #}
     {% do form.setTemplate(craft.formie.plugin.formTemplates.getTemplateByHandle('site')) %}
+    {% do craft.formie.populateFormValues(form, { jobTitle: entry.owner.title }) %}
 
     <div id="{{ form.handle }}-form" tabindex="-1" class="{{ scrollMargin }}">
         {{ craft.formie.renderForm(form, {
