@@ -1,0 +1,8 @@
+enabled: true
+handle: checklistSend
+name: 'Checklist Send'
+settings:
+  apiKey: $ACTIVE_CAMPAIGN_API_KEY
+  apiUrl: $ACTIVE_CAMPAIGN_API_URL
+sortOrder: 1
+type: verbb\formie\integrations\emailmarketing\ActiveCampaign
