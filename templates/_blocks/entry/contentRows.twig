@@ -164,9 +164,9 @@
 
                     {% set order = blockOptions.order[item.row.contentOrder.value ?? 'mediaFirst'] ?? blockOptions.order.mediaFirst %}
 
-                    {# Only a Video takes the Aspect Ratio; an empty or No Ratio one stays square. #}
+                    {# An empty or No Ratio Aspect Ratio stays square. #}
 
-                    {% set ratio = item.video ? (blockOptions.ratio[item.row.aspectRatio.value ?? ''] ?? blockOptions.ratio.square) : blockOptions.ratio.square %}
+                    {% set ratio = blockOptions.ratio[item.row.aspectRatio.value ?? ''] ?? blockOptions.ratio.square %}
 
                     <div class="{{ blockClasses.row|join(' ')|trim }}">
 
@@ -182,7 +182,7 @@
                                         params: {
                                             image: item.image,
                                             alt: '',
-                                            transform: '1x1',
+                                            transform: ratio.transform,
                                             ratio: false,
                                             focalPoint: true,
                                             sizes: blockOptions.sizes

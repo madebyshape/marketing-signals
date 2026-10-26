@@ -187,13 +187,14 @@ fieldLayouts:
                   operator: in
                   uid: 6fc32b95-de27-49fc-92ab-1fe9871eaf05
                   values:
+                    - image
                     - video
               elementType: craft\elements\Entry
               fieldContext: global
             elementEditCondition: null
             fieldUid: 5edf3cb2-e081-444a-a9c1-bdab388c26f3 # Dropdown - Aspect Ratio
             handle: aspectRatio
-            instructions: 'Shape of the Video. Left empty or No Ratio, it stays square.'
+            instructions: 'Shape of the Image or Video. Left empty or No Ratio, it stays square.'
             label: 'Aspect Ratio'
             required: false
             tip: null
