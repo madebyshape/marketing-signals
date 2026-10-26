@@ -1,4 +1,4 @@
-dateModified: 1793013685
+dateModified: 1793014683
 elementSources:
   craft\elements\Entry:
     -
@@ -102,10 +102,13 @@ email:
   replyToEmail: null
   template: _emails/system.twig
   transportSettings:
-    apiKey: $MAILGUN_API_KEY
-    domain: $MAILGUN_DOMAIN
-    endpoint: $MAILGUN_ENDPOINT
-  transportType: craft\mailgun\MailgunAdapter
+    host: $SMTP_HOST
+    password: $SMTP_PASSWORD
+    port: $SMTP_PORT
+    timeout: '10'
+    useAuthentication: '1'
+    username: $SMTP_USERNAME
+  transportType: craft\mail\transportadapters\Smtp
 fs:
   craftCloud:
     hasUrls: true
