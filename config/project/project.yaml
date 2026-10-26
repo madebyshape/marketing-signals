@@ -1,4 +1,4 @@
-dateModified: 1793014683
+dateModified: 1793015642
 elementSources:
   craft\elements\Entry:
     -
@@ -455,10 +455,6 @@ plugins:
     settings:
       enableLlmsTxt: false
       enableUserAgentDetection: true
-  mailgun:
-    edition: standard
-    enabled: true
-    schemaVersion: 1.0.0
   mcp:
     edition: pro
     enabled: true
