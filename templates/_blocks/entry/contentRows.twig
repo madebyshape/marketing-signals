@@ -76,6 +76,20 @@
             content: 'lg:col-start-1 lg:col-span-5 lg:row-start-1'
         }
     },
+    ratio: {
+        '16x9': {
+            class: 'aspect-video',
+            transform: '16x9'
+        },
+        '4x3': {
+            class: 'aspect-4/3',
+            transform: '4x3'
+        },
+        square: {
+            class: 'aspect-square',
+            transform: '1x1'
+        }
+    },
     sizes: '(min-width: 1024px) 50vw, 100vw'
 } %}
 
@@ -102,7 +116,7 @@
         '|',
         'lg:grid-cols-12 lg:items-center lg:gap-5'
     ],
-    media: 'relative aspect-square overflow-hidden rounded-[20px] bg-black',
+    media: 'relative overflow-hidden rounded-[20px] bg-black',
     contentFull: 'lg:col-span-12',
     rowHeading: [
         'font-semibold leading-0.97 tracking-tighter',
@@ -150,13 +164,17 @@
 
                     {% set order = blockOptions.order[item.row.contentOrder.value ?? 'mediaFirst'] ?? blockOptions.order.mediaFirst %}
 
+                    {# Only a Video takes the Aspect Ratio; an empty or No Ratio one stays square. #}
+
+                    {% set ratio = item.video ? (blockOptions.ratio[item.row.aspectRatio.value ?? ''] ?? blockOptions.ratio.square) : blockOptions.ratio.square %}
+
                     <div class="{{ blockClasses.row|join(' ')|trim }}">
 
                         {# The Media leads in the DOM so it is always on top below `lg`; the Content Order is column placement only. #}
 
                         {% if item.hasMedia %}
 
-                            <div class="{{ [blockClasses.media, '|', order.media]|join(' ')|trim }}">
+                            <div class="{{ [blockClasses.media, ratio.class, '|', order.media]|join(' ')|trim }}">
 
                                 {% if item.image %}
 
@@ -176,7 +194,7 @@
                                     {% include '_components/videoPlayer/base' with {
                                         params: {
                                             video: item.video,
-                                            transform: '1x1',
+                                            transform: ratio.transform,
                                             playerType: item.video.videoDisplayType.value == 'inlinePlayer' ? 'inline' : 'modal',
                                             modalLabel: 'Video player',
                                             class: 'h-full'

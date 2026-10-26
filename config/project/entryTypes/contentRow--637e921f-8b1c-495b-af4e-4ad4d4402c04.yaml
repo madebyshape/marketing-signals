@@ -174,6 +174,34 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-10-26T12:00:00+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\OptionsFieldConditionRule
+                  fieldUid: e09df1c8-18b1-4598-ad75-812ac48e1b9c # Dropdown - Media Type
+                  layoutElementUid: 634a2073-b760-462f-a4ad-4ec994be5aef
+                  operator: in
+                  uid: 6fc32b95-de27-49fc-92ab-1fe9871eaf05
+                  values:
+                    - video
+              elementType: craft\elements\Entry
+              fieldContext: global
+            elementEditCondition: null
+            fieldUid: 5edf3cb2-e081-444a-a9c1-bdab388c26f3 # Dropdown - Aspect Ratio
+            handle: aspectRatio
+            instructions: 'Shape of the Video. Left empty or No Ratio, it stays square.'
+            label: 'Aspect Ratio'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 938fbb81-cfdc-40ea-bc29-3b140eaf76ce
+            userCondition: null
+            warning: null
+            width: 100
         name: Content
         uid: a5a7d882-d308-4494-885b-792037d90de2
         userCondition: null
