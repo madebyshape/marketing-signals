@@ -1,4 +1,4 @@
-dateModified: 1793223891
+dateModified: 1793225468
 elementSources:
   craft\elements\Entry:
     -
@@ -364,7 +364,121 @@ plugins:
     licenseKey: W86FSHSR2PLIQPTHPVF1NWQF
     schemaVersion: 5.14.0
     settings:
+      apiKey: ''
+      batchInsertSize: 50
+      cacheActionRequests: false
+      cacheControlHeader: 'public, s-maxage=31536000, max-age=0'
+      cacheControlHeaderExpired: 'public, s-maxage=5, max-age=0'
+      cacheDuration: null
+      cacheGeneratorSettings:
+        __assoc__:
+          -
+            - concurrency
+            - '3'
+          -
+            - useBasicAuth
+            - ''
+          -
+            - username
+            - ''
+          -
+            - password
+            - ''
+      cacheGeneratorType: putyourlightson\blitz\drivers\generators\HttpGenerator
+      cacheNonHtmlResponses: false
+      cachePurgerType: servd\AssetStorage\Blitz\CachePurger
+      cacheStorageSettings:
+        __assoc__:
+          -
+            - folderPath
+            - '@root/cache/blitz'
+          -
+            - compressCachedValues
+            - ''
+      cacheStorageType: putyourlightson\blitz\drivers\storage\FileStorage
+      cachedIncludePathParam: p
+      cachingEnabled: false
+      debug: true
+      defaultCacheControlHeader: no-store
+      deployerType: putyourlightson\blitz\drivers\deployers\DummyDeployer
+      detectSsiEnabled: true
+      driverJobBatchSize: 100
+      driverJobPriority: 100
+      esiEnabled: false
+      excludedQueryStringParams:
+        -
+          __assoc__:
+            -
+              - enabled
+              - '1'
+            -
+              - queryStringParam
+              - gclid
+        -
+          __assoc__:
+            -
+              - enabled
+              - '1'
+            -
+              - queryStringParam
+              - fbclid
+      excludedUriPatterns:
+        -
+          __assoc__:
+            -
+              - enabled
+              - '1'
+            -
+              - uriPattern
+              - 'dynamic/.*'
+      generatePagesWithQueryStringParams: true
+      hintsEnabled: false
+      includedQueryStringParams:
+        -
+          __assoc__:
+            -
+              - enabled
+              - '1'
+            -
+              - queryStringParam
+              - '.*'
+      includedUriPatterns:
+        -
+          __assoc__:
+            -
+              - enabled
+              - '1'
+            -
+              - uriPattern
+              - '.*'
+      injectScriptEvent: DOMContentLoaded
+      injectScriptPosition: 3
+      integrations:
+        - putyourlightson\blitz\drivers\integrations\CommerceIntegration
+        - putyourlightson\blitz\drivers\integrations\DatastarIntegration
+        - putyourlightson\blitz\drivers\integrations\SeomaticIntegration
+      maxRetryAttempts: 10
+      maxUriIndexLength: 767
       maxUriLength: 2048
+      mutexTimeout: 1
+      onlyCacheLowercaseUris: false
+      outputComments: true
+      purgeAssetImagesWhenChanged: true
+      queryStringCaching: 0
+      queueJobTtr: 600
+      refreshCacheAutomaticallyForGlobals: true
+      refreshCacheEnabled: true
+      refreshCacheJobPriority: 10
+      refreshCacheWhenElementMovedInStructure: true
+      refreshCacheWhenElementSavedNotLive: false
+      refreshCacheWhenElementSavedUnchanged: false
+      refreshExpiredCacheAfterVisit: true
+      refreshMode: 3
+      sendPoweredByHeader: true
+      ssiEnabled: false
+      ssiTagFormat: '<!--#include virtual="{uri}" -->'
+      trackElementQueries: true
+      trackElements: true
   ckeditor:
     edition: standard
     enabled: true
