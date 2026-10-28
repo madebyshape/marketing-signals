@@ -1,4 +1,4 @@
-dateModified: 1793015642
+dateModified: 1793223891
 elementSources:
   craft\elements\Entry:
     -
@@ -362,7 +362,7 @@ plugins:
     edition: standard
     enabled: true
     licenseKey: W86FSHSR2PLIQPTHPVF1NWQF
-    schemaVersion: 5.13.0
+    schemaVersion: 5.14.0
     settings:
       maxUriLength: 2048
   ckeditor:
@@ -459,7 +459,7 @@ plugins:
     edition: pro
     enabled: true
     licenseKey: RZP81U9YXHO9DLCWDE48J10G
-    schemaVersion: 1.4.0
+    schemaVersion: 1.6.0
   minify:
     edition: standard
     enabled: true
