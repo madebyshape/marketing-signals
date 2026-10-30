@@ -30,6 +30,8 @@
 
 {# Classes #}
 
+{# Font Awesome glyphs sit an eighth of an em low, so the icons lift to line up with the text. #}
+
 {% set classes = {
     wrapper: [
         'flex flex-row flex-wrap items-center gap-x-3.75 gap-y-2 text-xs font-normal leading-1.33 tracking-tight',
@@ -43,7 +45,7 @@
         params.readTime ? 'border-r pr-3.75 ' ~ options.colour[params.colour].divider
     ],
     icon: [
-        'text-[10px]'
+        'text-[10px] -translate-y-[0.125em]'
     ]
 } %}
 

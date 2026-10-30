@@ -2,13 +2,9 @@
 
 {# Default Params #}
 
-{# The Word Count and Read Time are literals: the entry type has no field for either. #}
-
 {% set defaultParams = {
     playbook: null,
     number: null,
-    wordCount: '3,400 words',
-    readTime: '14 min read',
     sizes: '(min-width: 1024px) 31vw, (min-width: 768px) 46vw, 90vw',
     class: null,
     attributes: null
@@ -74,6 +70,14 @@
 
     {% set description = params.playbook.description|striptags %}
 
+    {# Markup chunks only, so nested entries are never loaded. #}
+
+    {% set text = params.playbook.longform ? params.playbook.longform.getChunks(false)|filter(chunk => chunk.type == 'markup')|map(chunk => chunk.html)|join(' ') : '' %}
+
+    {# Counted the way `readTime` counts, so the two figures agree. #}
+
+    {% set words = text|replace({ '<': ' <' })|striptags|replace('/&[^;\\s]+;|[\\s—–-]+/u', ' ')|trim|split(' ')|filter(word => word)|length %}
+
     <a href="{{ params.playbook.url }}" class="{{ classes.card|join(' ')|trim }}" {{ params.attributes|raw }}>
 
         <div class="{{ classes.thumbnail|join(' ')|trim }}">
@@ -127,8 +131,8 @@
 
             {% include '_components/playbookMeta' with {
                 params: {
-                    wordCount: params.wordCount,
-                    readTime: params.readTime,
+                    wordCount: words ? words|number_format ~ ' words' : null,
+                    readTime: words ? ceil(words / 265) ~ ' min read' : null,
                     class: classes.meta|join(' ')|trim
                 }
             } only %}
