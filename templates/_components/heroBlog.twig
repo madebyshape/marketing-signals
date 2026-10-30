@@ -30,10 +30,11 @@
         'w-full',
         params.vars ? params.vars.class.siteMargin.x : 'px-10',
         params.vars ? params.vars.class.header.paddingTop : 'pt-20 | xl:pt-[123px]',
+        'pb-10 | lg:pb-20 | xl:pb-24 | 2xl:pb-32',
         params.class
     ],
     grid: [
-        'mt-15 grid grid-cols-12 gap-x-5',
+        'mt-10 grid grid-cols-12 gap-x-5',
         '|',
         'lg:mt-[90px] xl:mt-[130px]'
     ],
@@ -48,7 +49,7 @@
         'md:text-6xl lg:text-7xl'
     ],
     meta: [
-        'col-span-12 mt-10 flex flex-col items-start',
+        'col-span-12 mt-7.5 flex flex-col items-start',
         '|',
         'lg:col-span-2 lg:col-start-11 lg:mt-0'
     ],
@@ -67,7 +68,7 @@
 {% embed '_components/section'
     with {
         params: {
-            paddingY: 'bottom',
+            paddingY: 'none',
             paddingX: 'none'
         }
     }
