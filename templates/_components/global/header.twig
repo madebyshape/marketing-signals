@@ -42,7 +42,7 @@
         vars.class.header.height,
         params.class
     ],
-    logoLink: 'block flex-shrink-0',
+    logoLink: 'group block flex-shrink-0',
     logo: 'w-40 h-auto | xl:w-[213px]',
     nav: 'absolute left-1/2 -translate-x-1/2 hidden | xl:block',
     list: [
@@ -112,6 +112,7 @@
         <a href="{{ siteUrl }}" class="{{ classes.logoLink }}" aria-label="{{ siteName }}">
             {% include '_components/logo' with {
                 params: {
+                    hover: true,
                     class: classes.logo
                 }
             } only %}
