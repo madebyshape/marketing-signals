@@ -60,12 +60,12 @@
 
 <footer class="{{ classes.wrapper|join(' ')|trim }}">
 
-    {# The Squiggle hangs off the bottom edge, so the Footer is passed as its trigger. #}
+    {# The Squiggle sits low in a tall Footer, so it starts on itself and ends with the Footer. #}
 
     {% include '_components/squiggle' with {
         params: {
             props: {
-                trigger: '.js-footer'
+                endTrigger: '.js-footer'
             },
             class: classes.squiggle
         }

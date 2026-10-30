@@ -8,7 +8,8 @@
         scrub: 1,
         start: 'top bottom',
         end: 'bottom bottom',
-        trigger: null
+        trigger: null,
+        endTrigger: null
     },
     class: null
 } %}
@@ -94,6 +95,9 @@
                 // A Squiggle hanging off its section's edge never reaches its own end, so a caller names the section.
                 const trigger = (props.trigger ? document.querySelector(props.trigger) : null) || this.$el;
 
+                // Or it starts on itself and names the section to end on, so the drawing begins once it is in view.
+                const endTrigger = (props.endTrigger ? document.querySelector(props.endTrigger) : null) || trigger;
+
                 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                     gsap.set(mask, { drawSVG: '100%' });
                     return;
@@ -109,6 +113,7 @@
                         scrollTrigger: {
                             trigger: trigger,
                             start: props.start,
+                            endTrigger: endTrigger,
                             end: props.end,
                             scrub: props.scrub
                         }
