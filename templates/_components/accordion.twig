@@ -31,7 +31,7 @@
 
 {# Classes #}
 
-{# The open item rides 1px over the line above it and drops its own, so it reads as one panel. #}
+{# The open item and the item above it drop their lines, so it reads as one panel. #}
 
 {% set classes = {
     wrapper: [
@@ -40,10 +40,11 @@
     ],
     item: [
         'w-full border-b first:border-t',
+        '[&:has(+_*_[aria-expanded=true])]:border-transparent',
         options.style[params.style].item
     ],
     itemOpen: [
-        'relative z-10 -mt-px rounded-[20px] border-transparent!',
+        'rounded-[20px] border-transparent!',
         options.style[params.style].itemOpen
     ],
     question: [
