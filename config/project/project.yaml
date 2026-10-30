@@ -1,4 +1,4 @@
-dateModified: 1793225468
+dateModified: 1793352478
 elementSources:
   craft\elements\Entry:
     -
@@ -569,11 +569,6 @@ plugins:
     settings:
       enableLlmsTxt: false
       enableUserAgentDetection: true
-  mcp:
-    edition: pro
-    enabled: true
-    licenseKey: RZP81U9YXHO9DLCWDE48J10G
-    schemaVersion: 1.6.0
   minify:
     edition: standard
     enabled: true
